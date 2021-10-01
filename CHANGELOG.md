@@ -19,7 +19,7 @@
 
 ---
 -->
-## v1.0.1 (DATE)
+## v1.0.1 (01.10.2021)
 
 #### Bug Fixes:
 - When the core of the library was built, everything was checked on arrays with integer element types. As a result, all algorithms using the swap method of the ArrayProcessing class would not work. In addition, the last two algorithms are generally sharpened only for use with an integer type. I fixed all these errors:
