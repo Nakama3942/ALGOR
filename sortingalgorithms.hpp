@@ -8,11 +8,11 @@ using namespace std;
 
 namespace SortingAlgorithms
 {
-    template <class type_arr>
+    template <typename type_array>
     class ArrayProcessing
     {
     public:
-        static void generatedArray(type_arr *Array, int array_size, type_arr left_limit, type_arr right_limit)
+        static void generatedArray(type_array *Array, int array_size, int left_limit, int right_limit)
         {
             srand(time(NULL));
             for (int i = 0; i < array_size; i++)
@@ -20,23 +20,23 @@ namespace SortingAlgorithms
                 Array[i] = left_limit + rand() % right_limit;
             }
         }
-        static void swap(type_arr &firstNumber, type_arr &secondNumber)
+        static void swap(type_array &firstNumber, type_array &secondNumber)
         {
-            type_arr *temp = new type_arr(firstNumber);
+            type_array *temp = new type_array(firstNumber);
             firstNumber = secondNumber;
             secondNumber = *temp;
             delete (temp);
         }
-        static void print(type_arr *Array, int array_size)
+        static void print(type_array *Array, int array_size)
         {
             for (int i = 0; i < array_size; i++)
             {
                 cout << Array[i] << " ";
             }
         }
-        static void getMax(type_arr *Array, int array_size, int *point_max)
+        static void getMax(type_array *Array, int array_size, type_array &point_max)
         {
-            type_arr max = Array[0];
+            type_array max = Array[0];
             for (int i = 1; i < array_size; i++)
             {
                 if (max < Array[i])
@@ -44,11 +44,11 @@ namespace SortingAlgorithms
                     max = Array[i];
                 }
             }
-            *point_max = max;
+            point_max = max;
         }
-        static void getMin(type_arr *Array, int array_size, int *point_min)
+        static void getMin(type_array *Array, int array_size, type_array &point_min)
         {
-            type_arr min = Array[0];
+            type_array min = Array[0];
             for (int i = 1; i < array_size; i++)
             {
                 if (min > Array[i])
@@ -56,27 +56,27 @@ namespace SortingAlgorithms
                     min = Array[i];
                 }
             }
-            *point_min = min;
+            point_min = min;
         }
     };
 
-    template <class type_arr>
+    template <typename type_array>
     class InsertSort
     {
     public:
-        static void insert_sort(type_arr *Array, int array_size)
+        static void insert_sort(type_array *Array, int array_size)
         {
             for (int i = 0; i < array_size; i++)
             {
                 for (int j = i; j > 0 && Array[j - 1] > Array[j]; j--)
                 {
-                    ArrayProcessing<int>::swap(Array[j - 1], Array[j]);
+                    ArrayProcessing<type_array>::swap(Array[j - 1], Array[j]);
                 }
             }
         }
     };
 
-    template <class type_arr>
+    template <typename type_arr>
     class BubbleSort
     {
     public:
@@ -88,18 +88,18 @@ namespace SortingAlgorithms
                 {
                     if (Array[j] > Array[j + 1])
                     {
-                        ArrayProcessing<int>::swap(Array[j], Array[j + 1]);
+                        ArrayProcessing<type_arr>::swap(Array[j], Array[j + 1]);
                     }
                 }
             }
         }
     };
 
-    template <class type_arr>
+    template <typename type_array>
     class CocktailShakerSort
     {
     public:
-        static void cocktail_shaker_sort(type_arr *Array, int array_size)
+        static void cocktail_shaker_sort(type_array *Array, int array_size)
         {
             int leftMark = 1, rightMark = array_size - 1;
             while (leftMark <= rightMark)
@@ -108,7 +108,7 @@ namespace SortingAlgorithms
                 {
                     if (Array[i - 1] > Array[i])
                     {
-                        ArrayProcessing<int>::swap(Array[i], Array[i - 1]);
+                        ArrayProcessing<type_array>::swap(Array[i], Array[i - 1]);
                     }
                 }
                 leftMark++;
@@ -116,7 +116,7 @@ namespace SortingAlgorithms
                 {
                     if (Array[i - 1] > Array[i])
                     {
-                        ArrayProcessing<int>::swap(Array[i], Array[i - 1]);
+                        ArrayProcessing<type_array>::swap(Array[i], Array[i - 1]);
                     }
                 }
                 rightMark--;
@@ -124,14 +124,14 @@ namespace SortingAlgorithms
         }
     };
 
-    template <class type_arr>
+    template <typename type_array>
     class MergeSort
     {
     public:
-        static void merge(type_arr *Array, int left_limit, int middle_limit, int right_limit)
+        static void merge(type_array *Array, int left_limit, int middle_limit, int right_limit)
         {
             int start = left_limit, finish = middle_limit + 1;
-            type_arr *tempArray = new type_arr[right_limit - left_limit + 1];
+            type_array *tempArray = new type_array[right_limit - left_limit + 1];
             for (int i = left_limit; i <= right_limit; i++)
             {
                 if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
@@ -151,7 +151,7 @@ namespace SortingAlgorithms
             }
             delete[] tempArray;
         }
-        static void merge_sort(type_arr *Array, int left_limit, int right_limit)
+        static void merge_sort(type_array *Array, int left_limit, int right_limit)
         {
             if (left_limit < right_limit)
             {
@@ -163,16 +163,13 @@ namespace SortingAlgorithms
         }
     };
 
-    template <class type_arr>
+    template <typename type_array>
     class HeapSort
     {
     public:
-        static void heapify(type_arr *Array, int count, int array_size)
+        static void heapify(type_array *Array, int count, int array_size)
         {
-            int large = count;
-            int left = 2 * count + 1;
-            int right = 2 * count + 2;
-
+            int left = 2 * count + 1, large = count, right = 2 * count + 2;
             if (left < array_size && Array[left] > Array[large])
             {
                 large = left;
@@ -183,11 +180,11 @@ namespace SortingAlgorithms
             }
             if (large != count)
             {
-                ArrayProcessing<int>::swap(Array[count], Array[large]);
+                ArrayProcessing<type_array>::swap(Array[count], Array[large]);
                 heapify(Array, large, array_size);
             }
         }
-        static void heap_sort(type_arr *Array, int array_size)
+        static void heap_sort(type_array *Array, int array_size)
         {
             for (int right = array_size / 2 - 1; right >= 0; right--)
             {
@@ -195,7 +192,7 @@ namespace SortingAlgorithms
             }
             for (int i = array_size - 1; i >= 0; i--)
             {
-                ArrayProcessing<int>::swap(Array[0], Array[i]);
+                ArrayProcessing<type_array>::swap(Array[0], Array[i]);
                 heapify(Array, 0, i);
             }
         }
@@ -221,7 +218,7 @@ namespace SortingAlgorithms
                 }
                 if (start <= finish)
                 {
-                    ArrayProcessing<int>::swap(Array[start], Array[finish]);
+                    ArrayProcessing<type_arr>::swap(Array[start], Array[finish]);
                     start++;
                     finish--;
                 }
@@ -237,25 +234,28 @@ namespace SortingAlgorithms
         }
     };
 
-    template <class type_arr>
     class CountingSort
     {
     public:
-        static void counting_sort(type_arr *Array, int array_size)
+        static void counting_sort(int *Array, int array_size)
         {
-            type_arr min = Array[0], max = Array[0];
+            int min = Array[0], max = Array[0];
             for (int i = 1; i < array_size; i++)
             {
                 if (min > Array[i])
+                {
                     min = Array[i];
+                }
             }
             for (int i = 1; i < array_size; i++)
             {
                 if (max < Array[i])
+                {
                     max = Array[i];
+                }
             }
-            type_arr *tempArray = new type_arr[max - min + 1];
-            for (type_arr i = 0; i < max - min + 1; i++)
+            int *tempArray = new int[max - min + 1];
+            for (int i = 0; i < max - min + 1; i++)
             {
                 tempArray[i] = 0;
             }
@@ -263,7 +263,7 @@ namespace SortingAlgorithms
             {
                 tempArray[Array[i] - min] = tempArray[Array[i] - min] + 1;
             }
-            for (type_arr i = 0, j = min; j < max + 1; j++)
+            for (int i = 0, j = min; j < max + 1; j++)
             {
                 while (tempArray[j - min] != 0)
                 {
@@ -276,15 +276,14 @@ namespace SortingAlgorithms
         }
     };
 
-    template <class type_arr>
     class RadixSort
     {
     public:
-        static void radix_sort(type_arr *Array, int array_size)
+        static void radix_sort(int *Array, int array_size)
         {
             int exp = 1, bit = 10, max;
-            ArrayProcessing<int>::getMax(Array, array_size, &max);
-            type_arr *tempArray = new type_arr[array_size], *bucket = new type_arr[bit];
+            ArrayProcessing<int>::getMax(Array, array_size, max);
+            int *tempArray = new int[array_size], *bucket = new int[bit];
             while (max / exp > 0)
             {
                 for (int i = 0; i < bit; i++)

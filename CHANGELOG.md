@@ -18,26 +18,17 @@
 - [# XXX](https : / / github . com / XXX) DESCRIPTION
 
 ---
-
-## vX.X.X (DATE)
+-->
+## v1.0.1 (DATE)
 
 #### Bug Fixes:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Invalid Fixed:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Documenting:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Duplicating:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Enhancements:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
+- When the core of the library was built, everything was checked on arrays with integer element types. As a result, all algorithms using the swap method of the ArrayProcessing class would not work. In addition, the last two algorithms are generally sharpened only for use with an integer type. I fixed all these errors:
+1. Removed template where it is not needed
+2. Fixed the passed type to the swap method of the ArrayProcessing class
+3. In general, I fixed the passed types where they were incorrectly specified
 
 ---
--->
+
 ## v1.0.0 (29.09.2021)
 
 #### Release
