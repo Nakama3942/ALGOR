@@ -1,3 +1,23 @@
+/* **************************************************************************** *
+ * ---------------------------------------------------------------------------- *
+ *                                                                              *
+ * Copyright © 2021 Kalynovsky Valentin. All rights reserved.                   *
+ *                                                                              *
+ * Licensed under the Apache License, Version 2.0 (the "License");              *
+ * you may not use this file except in compliance with the License.             *
+ * You may obtain a copy of the License at                                      *
+ *                                                                              *
+ *     http://www.apache.org/licenses/LICENSE-2.0                               *
+ *                                                                              *
+ * Unless required by applicable law or agreed to in writing, software          *
+ * distributed under the License is distributed on an "AS IS" BASIS,            *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.     *
+ * See the License for the specific language governing permissions and          *
+ * limitations under the License.                                               *
+ *                                                                              *
+ * ---------------------------------------------------------------------------- *
+ * **************************************************************************** */
+
 #ifndef SORTINGALGORITHMS_H
 #define SORTINGALGORITHMS_H
 
@@ -58,6 +78,41 @@ namespace SortingAlgorithms
             }
             point_min = min;
         }
+        static void reverse(type_array *Array, int array_size)
+        {
+            int left_limit = 0, right_limit = array_size - 1;
+            for (int i = 0; i < array_size / 2; i++)
+            {
+                swap(Array[left_limit], Array[right_limit]);
+                left_limit++;
+                right_limit--;
+            }
+        }
+        //static void moda(type_array *Array, int array_size, type_array &modaElement, int &modaCount)
+        //{
+        //    NOTE Метод неоптимизирован
+        //    modaCount = 0;
+        //    for (int i = 0; i < array_size; i++)
+        //    {
+        //        type_array currentElement = Array[i];
+        //        int currentModa = 1;
+        //        for (int j = 0; j < array_size; j++)
+        //        {
+        //            if (i != j && currentElement == Array[j])
+        //            {
+        //                currentModa++;
+        //            }
+        //        }
+        //        if (modaCount < currentModa)
+        //        {
+        //            modaCount = currentModa;
+        //            modaElement = currentElement;
+        //        }
+        //    }
+        //}
+        //static void mediana(type_array *Array, int array_size, type_array &mediana)
+        //{
+        //}
     };
 
     template <typename type_array>
@@ -76,11 +131,11 @@ namespace SortingAlgorithms
         }
     };
 
-    template <typename type_arr>
+    template <typename type_array>
     class BubbleSort
     {
     public:
-        static void bubble_sort(type_arr *Array, int array_size)
+        static void bubble_sort(type_array *Array, int array_size)
         {
             for (int i = 0; i < array_size; i++)
             {
@@ -88,7 +143,7 @@ namespace SortingAlgorithms
                 {
                     if (Array[j] > Array[j + 1])
                     {
-                        ArrayProcessing<type_arr>::swap(Array[j], Array[j + 1]);
+                        ArrayProcessing<type_array>::swap(Array[j], Array[j + 1]);
                     }
                 }
             }
@@ -198,13 +253,13 @@ namespace SortingAlgorithms
         }
     };
 
-    template <class type_arr>
+    template <typename type_array>
     class QuickSort
     {
     public:
-        static void quick_sort(type_arr *Array, int left_limit, int right_limit)
+        static void quick_sort(type_array *Array, int left_limit, int right_limit)
         {
-            type_arr middle = Array[(left_limit + right_limit) / 2];
+            type_array middle = Array[(left_limit + right_limit) / 2];
             int start = left_limit, finish = right_limit;
             do
             {
@@ -218,7 +273,7 @@ namespace SortingAlgorithms
                 }
                 if (start <= finish)
                 {
-                    ArrayProcessing<type_arr>::swap(Array[start], Array[finish]);
+                    ArrayProcessing<type_array>::swap(Array[start], Array[finish]);
                     start++;
                     finish--;
                 }
@@ -234,26 +289,16 @@ namespace SortingAlgorithms
         }
     };
 
+    // NOTE Даный алгоритм работает только с целочисельными значениями
+    //Этот алгоритм можно также использовать для сортировки char, например строк
     class CountingSort
     {
     public:
         static void counting_sort(int *Array, int array_size)
         {
-            int min = Array[0], max = Array[0];
-            for (int i = 1; i < array_size; i++)
-            {
-                if (min > Array[i])
-                {
-                    min = Array[i];
-                }
-            }
-            for (int i = 1; i < array_size; i++)
-            {
-                if (max < Array[i])
-                {
-                    max = Array[i];
-                }
-            }
+            int min, max;
+            ArrayProcessing<int>::getMin(Array, array_size, min);
+            ArrayProcessing<int>::getMax(Array, array_size, max);
             int *tempArray = new int[max - min + 1];
             for (int i = 0; i < max - min + 1; i++)
             {
@@ -276,6 +321,8 @@ namespace SortingAlgorithms
         }
     };
 
+    // NOTE Даный алгоритм работает только с целочисельными значениями
+    //Этот алгоритм можно также использовать для сортировки char, например строк
     class RadixSort
     {
     public:
