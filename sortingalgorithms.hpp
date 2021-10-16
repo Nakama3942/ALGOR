@@ -18,6 +18,12 @@
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
 
+/* **************************************************************************** *
+ * ---------------------------------------------------------------------------- *
+ *                                Version: 1.0.2                                *
+ * ---------------------------------------------------------------------------- *
+ * **************************************************************************** */
+
 #ifndef SORTINGALGORITHMS_H
 #define SORTINGALGORITHMS_H
 
@@ -47,24 +53,15 @@ namespace SortingAlgorithms
             secondNumber = *temp;
             delete (temp);
         }
-        static void print(type_array *Array, int array_size)
+        static void print(const char *representing_string, type_array *Array, int array_size)
         {
+            //Метод для консольных приложений
+            cout << representing_string;
             for (int i = 0; i < array_size; i++)
             {
-                cout << Array[i] << " ";
+                cout << Array[i] << "\t";
             }
-        }
-        static void getMax(type_array *Array, int array_size, type_array &point_max)
-        {
-            type_array max = Array[0];
-            for (int i = 1; i < array_size; i++)
-            {
-                if (max < Array[i])
-                {
-                    max = Array[i];
-                }
-            }
-            point_max = max;
+            cout << "\n";
         }
         static void getMin(type_array *Array, int array_size, type_array &point_min)
         {
@@ -78,6 +75,18 @@ namespace SortingAlgorithms
             }
             point_min = min;
         }
+        static void getMax(type_array *Array, int array_size, type_array &point_max)
+        {
+            type_array max = Array[0];
+            for (int i = 1; i < array_size; i++)
+            {
+                if (max < Array[i])
+                {
+                    max = Array[i];
+                }
+            }
+            point_max = max;
+        }
         static void reverse(type_array *Array, int array_size)
         {
             int left_limit = 0, right_limit = array_size - 1;
@@ -88,31 +97,58 @@ namespace SortingAlgorithms
                 right_limit--;
             }
         }
-        //static void moda(type_array *Array, int array_size, type_array &modaElement, int &modaCount)
-        //{
-        //    NOTE Метод неоптимизирован
-        //    modaCount = 0;
-        //    for (int i = 0; i < array_size; i++)
-        //    {
-        //        type_array currentElement = Array[i];
-        //        int currentModa = 1;
-        //        for (int j = 0; j < array_size; j++)
-        //        {
-        //            if (i != j && currentElement == Array[j])
-        //            {
-        //                currentModa++;
-        //            }
-        //        }
-        //        if (modaCount < currentModa)
-        //        {
-        //            modaCount = currentModa;
-        //            modaElement = currentElement;
-        //        }
-        //    }
-        //}
-        //static void mediana(type_array *Array, int array_size, type_array &mediana)
-        //{
-        //}
+        static void copy(type_array *new_array, type_array *old_array, int array_size)
+        {
+            for (int i = 0; i < array_size; i++)
+            {
+                new_array[i] = old_array[i];
+            }
+        }
+        static void sum(type_array *Array, int array_size, type_array &sum)
+        {
+            sum = 0;
+            for (int i = 0; i < array_size; i++)
+            {
+                sum += Array[i];
+            }
+        }
+        static void average(type_array *Array, int array_size, type_array &average)
+        {
+            type_array array_sum;
+            sum(Array, array_size, array_sum);
+            average = array_sum / array_size;
+        }
+        static void mediana(type_array *Array, int array_size, type_array &mediana)
+        {
+            if (array_size % 2 == 0)
+            {
+                mediana = (Array[array_size / 2] + Array[(array_size / 2) - 1]) / 2;
+            }
+            else
+            {
+                mediana = (Array[array_size / 2]);
+            }
+        }
+        static void moda(type_array *Array, int array_size, type_array &moda_element, int &moda_count)
+        {
+            type_array most_frequent;                         //Наиболее частый элемент
+            int highest_frequency = 0, current_frequency = 0; //Самая высокая частота и текущая частота
+            for (int i = 0; i < array_size; i++)
+            {
+                current_frequency++;
+                if (i == array_size - 1 || Array[i] != Array[i + 1])
+                {
+                    if (current_frequency > highest_frequency)
+                    {
+                        highest_frequency = current_frequency;
+                        most_frequent = Array[i];
+                    }
+                    current_frequency = 0;
+                }
+            }
+            moda_element = most_frequent;
+            moda_count = highest_frequency;
+        }
     };
 
     template <typename type_array>
@@ -289,8 +325,6 @@ namespace SortingAlgorithms
         }
     };
 
-    // NOTE Даный алгоритм работает только с целочисельными значениями
-    //Этот алгоритм можно также использовать для сортировки char, например строк
     class CountingSort
     {
     public:
@@ -321,8 +355,6 @@ namespace SortingAlgorithms
         }
     };
 
-    // NOTE Даный алгоритм работает только с целочисельными значениями
-    //Этот алгоритм можно также использовать для сортировки char, например строк
     class RadixSort
     {
     public:
