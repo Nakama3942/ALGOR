@@ -23,15 +23,15 @@
 
 #### Enhancements:
 - This update is aimed at expanding the functionality for processing arrays, and not sorting it (almost). The following is a list of what has been updated in the ArrayProcessing class:
-1. Extended the print() method
-2. Swapped the getMax() and getMin() methods
-3. Added methods
-    1. Flip backwards the array - reverse()
-    2. Copy - copy()
-    3. Finding the sum of elements - sum()
-    4. Finding the arithmetic mean - average
-    5. Finding the median - mediana()
-    6. Finding a Moda - moda()
+    1. Extended the print() method
+    2. Swapped the getMax() and getMin() methods
+    3. Added methods
+        1. Flip backwards the array - reverse()
+        2. Copy - copy()
+        3. Finding the sum of elements - sum()
+        4. Finding the arithmetic mean - average()
+        5. Finding the median - mediana()
+        6. Finding a Moda - moda()
 
 #### Bug Fixes:
 - And also additionally I:
