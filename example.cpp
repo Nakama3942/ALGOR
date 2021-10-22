@@ -5,6 +5,17 @@ using namespace std;
 
 const int g_arraySize = 1024;
 
+template <typename type_array>
+void print(const char *representing_string, type_array *Array, int array_size)
+{
+    cout << representing_string;
+    for (int i = 0; i < array_size; i++)
+    {
+        cout << Array[i] << "\t";
+    }
+    cout << "\n";
+}
+
 int main()
 {
     int *array = new int[g_arraySize];
@@ -17,7 +28,7 @@ int main()
     SortingAlgorithms::ArrayProcessing<int>::copy(array1, array, g_arraySize);
 
     //Вывожу на экран массив
-    SortingAlgorithms::ArrayProcessing<int>::print("Сгенерированный массив: ", array1, g_arraySize);
+    print<int>("Сгенерированный массив: ", array1, g_arraySize);
 
     //Сортирую массив
     SortingAlgorithms::InsertSort<int>::insert_sort(array1, g_arraySize);
@@ -30,12 +41,7 @@ int main()
     //SortingAlgorithms::RadixSort::radix_sort(array1, g_arraySize);
 
     //Вывожу на экран массив
-    SortingAlgorithms::ArrayProcessing<int>::print("Отсортированный массив: ", array1, g_arraySize);
-
-    //Нахожу сумму
-    int sum;
-    SortingAlgorithms::ArrayProcessing<int>::sum(array1, g_arraySize, sum);
-    cout << "Сумма элементов: " << sum << "\n";
+    print<int>("Отсортированный массив: ", array1, g_arraySize);
 
     //Нахожу среднее арифметическое
     int average;

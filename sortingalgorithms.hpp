@@ -20,7 +20,7 @@
 
 /* **************************************************************************** *
  * ---------------------------------------------------------------------------- *
- *                                Version: 1.0.2                                *
+ *                              Version: 1.0.3-dev                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
 
@@ -52,16 +52,6 @@ namespace SortingAlgorithms
             firstNumber = secondNumber;
             secondNumber = *temp;
             delete (temp);
-        }
-        static void print(const char *representing_string, type_array *Array, int array_size)
-        {
-            //Метод для консольных приложений
-            cout << representing_string;
-            for (int i = 0; i < array_size; i++)
-            {
-                cout << Array[i] << "\t";
-            }
-            cout << "\n";
         }
         static void getMin(type_array *Array, int array_size, type_array &point_min)
         {
@@ -104,18 +94,13 @@ namespace SortingAlgorithms
                 new_array[i] = old_array[i];
             }
         }
-        static void sum(type_array *Array, int array_size, type_array &sum)
-        {
-            sum = 0;
-            for (int i = 0; i < array_size; i++)
-            {
-                sum += Array[i];
-            }
-        }
         static void average(type_array *Array, int array_size, type_array &average)
         {
             type_array array_sum;
-            sum(Array, array_size, array_sum);
+            for (int i = 0; i < array_size; i++)
+            {
+                array_sum += Array[i];
+            }
             average = array_sum / array_size;
         }
         static void mediana(type_array *Array, int array_size, type_array &mediana)
