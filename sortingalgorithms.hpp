@@ -20,7 +20,7 @@
 
 /* **************************************************************************** *
  * ---------------------------------------------------------------------------- *
- *                              Version: 1.0.3-dev                              *
+ *                              Version: 1.1.0-dev                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
 
@@ -32,126 +32,115 @@
 #include <random>
 using namespace std;
 
-namespace SortingAlgorithms
+//class generator
+//{
+//public:
+//};
+
+template <typename type_array>
+class ArrayProcessing
 {
-    template <typename type_array>
-    class ArrayProcessing
+public:
+    static void generatedArray(type_array *Array, int array_size, int left_limit, int right_limit)
     {
-    public:
-        static void generatedArray(type_array *Array, int array_size, int left_limit, int right_limit)
+        srand(time(NULL));
+        for (int i = 0; i < array_size; i++)
         {
-            srand(time(NULL));
-            for (int i = 0; i < array_size; i++)
-            {
-                Array[i] = left_limit + rand() % right_limit;
-            }
+            Array[i] = left_limit + rand() % right_limit;
         }
-        static void swap(type_array &firstNumber, type_array &secondNumber)
-        {
-            type_array *temp = new type_array(firstNumber);
-            firstNumber = secondNumber;
-            secondNumber = *temp;
-            delete (temp);
-        }
-        static void getMin(type_array *Array, int array_size, type_array &point_min)
-        {
-            type_array min = Array[0];
-            for (int i = 1; i < array_size; i++)
-            {
-                if (min > Array[i])
-                {
-                    min = Array[i];
-                }
-            }
-            point_min = min;
-        }
-        static void getMax(type_array *Array, int array_size, type_array &point_max)
-        {
-            type_array max = Array[0];
-            for (int i = 1; i < array_size; i++)
-            {
-                if (max < Array[i])
-                {
-                    max = Array[i];
-                }
-            }
-            point_max = max;
-        }
-        static void reverse(type_array *Array, int array_size)
-        {
-            int left_limit = 0, right_limit = array_size - 1;
-            for (int i = 0; i < array_size / 2; i++)
-            {
-                swap(Array[left_limit], Array[right_limit]);
-                left_limit++;
-                right_limit--;
-            }
-        }
-        static void copy(type_array *new_array, type_array *old_array, int array_size)
-        {
-            for (int i = 0; i < array_size; i++)
-            {
-                new_array[i] = old_array[i];
-            }
-        }
-        static void average(type_array *Array, int array_size, type_array &average)
-        {
-            type_array array_sum;
-            for (int i = 0; i < array_size; i++)
-            {
-                array_sum += Array[i];
-            }
-            average = array_sum / array_size;
-        }
-        static void mediana(type_array *Array, int array_size, type_array &mediana)
-        {
-            if (array_size % 2 == 0)
-            {
-                mediana = (Array[array_size / 2] + Array[(array_size / 2) - 1]) / 2;
-            }
-            else
-            {
-                mediana = (Array[array_size / 2]);
-            }
-        }
-        static void moda(type_array *Array, int array_size, type_array &moda_element, int &moda_count)
-        {
-            type_array most_frequent;                         //Наиболее частый элемент
-            int highest_frequency = 0, current_frequency = 0; //Самая высокая частота и текущая частота
-            for (int i = 0; i < array_size; i++)
-            {
-                current_frequency++;
-                if (i == array_size - 1 || Array[i] != Array[i + 1])
-                {
-                    if (current_frequency > highest_frequency)
-                    {
-                        highest_frequency = current_frequency;
-                        most_frequent = Array[i];
-                    }
-                    current_frequency = 0;
-                }
-            }
-            moda_element = most_frequent;
-            moda_count = highest_frequency;
-        }
-    };
-
-    template <typename type_array>
-    class InsertSort
+    }
+    static void swap(type_array &firstNumber, type_array &secondNumber)
     {
-    public:
-        static void insert_sort(type_array *Array, int array_size)
+        type_array *temp = new type_array(firstNumber);
+        firstNumber = secondNumber;
+        secondNumber = *temp;
+        delete (temp);
+    }
+    static void getMin(type_array *Array, int array_size, type_array &point_min)
+    {
+        type_array min = Array[0];
+        for (int i = 1; i < array_size; i++)
         {
-            for (int i = 0; i < array_size; i++)
+            if (min > Array[i])
             {
-                for (int j = i; j > 0 && Array[j - 1] > Array[j]; j--)
-                {
-                    ArrayProcessing<type_array>::swap(Array[j - 1], Array[j]);
-                }
+                min = Array[i];
             }
         }
-    };
+        point_min = min;
+    }
+    static void getMax(type_array *Array, int array_size, type_array &point_max)
+    {
+        type_array max = Array[0];
+        for (int i = 1; i < array_size; i++)
+        {
+            if (max < Array[i])
+            {
+                max = Array[i];
+            }
+        }
+        point_max = max;
+    }
+    static void reverse(type_array *Array, int array_size)
+    {
+        int left_limit = 0, right_limit = array_size - 1;
+        for (int i = 0; i < array_size / 2; i++)
+        {
+            swap(Array[left_limit], Array[right_limit]);
+            left_limit++;
+            right_limit--;
+        }
+    }
+    static void copy(type_array *new_array, type_array *old_array, int array_size)
+    {
+        for (int i = 0; i < array_size; i++)
+        {
+            new_array[i] = old_array[i];
+        }
+    }
+    static void average(type_array *Array, int array_size, type_array &average)
+    {
+        type_array array_sum;
+        for (int i = 0; i < array_size; i++)
+        {
+            array_sum += Array[i];
+        }
+        average = array_sum / array_size;
+    }
+    static void mediana(type_array *Array, int array_size, type_array &mediana)
+    {
+        if (array_size % 2 == 0)
+        {
+            mediana = (Array[array_size / 2] + Array[(array_size / 2) - 1]) / 2;
+        }
+        else
+        {
+            mediana = (Array[array_size / 2]);
+        }
+    }
+    static void moda(type_array *Array, int array_size, type_array &moda_element, int &moda_count)
+    {
+        type_array most_frequent;                         //Наиболее частый элемент
+        int highest_frequency = 0, current_frequency = 0; //Самая высокая частота и текущая частота
+        for (int i = 0; i < array_size; i++)
+        {
+            current_frequency++;
+            if (i == array_size - 1 || Array[i] != Array[i + 1])
+            {
+                if (current_frequency > highest_frequency)
+                {
+                    highest_frequency = current_frequency;
+                    most_frequent = Array[i];
+                }
+                current_frequency = 0;
+            }
+        }
+        moda_element = most_frequent;
+        moda_count = highest_frequency;
+    }
+};
 
+namespace Exchange_Sorts
+{
     template <typename type_array>
     class BubbleSort
     {
@@ -200,6 +189,129 @@ namespace SortingAlgorithms
         }
     };
 
+    //class OddevenSort{};
+
+    //class CombSort{};
+
+    //class GnomeSort{};
+
+    template <typename type_array>
+    class QuickSort
+    {
+    public:
+        static void quick_sort(type_array *Array, int left_limit, int right_limit)
+        {
+            type_array middle = Array[(left_limit + right_limit) / 2];
+            int start = left_limit, finish = right_limit;
+            do
+            {
+                while (Array[start] < middle)
+                {
+                    start++;
+                }
+                while (Array[finish] > middle)
+                {
+                    finish--;
+                }
+                if (start <= finish)
+                {
+                    ArrayProcessing<type_array>::swap(Array[start], Array[finish]);
+                    start++;
+                    finish--;
+                }
+            } while (start < finish);
+            if (left_limit < finish)
+            {
+                quick_sort(Array, left_limit, finish);
+            }
+            if (start < right_limit)
+            {
+                quick_sort(Array, start, right_limit);
+            }
+        }
+    };
+
+    namespace Ineffective_Sorts
+    {
+        //class StoogeSort{};
+
+        //class BogoSort{};
+    }
+}
+
+namespace Selection_Sorts
+{
+    //class SelectionSort{};
+
+    template <typename type_array>
+    class HeapSort
+    {
+    public:
+        static void heapify(type_array *Array, int count, int array_size)
+        {
+            int left = 2 * count + 1, large = count, right = 2 * count + 2;
+            if (left < array_size && Array[left] > Array[large])
+            {
+                large = left;
+            }
+            if (right < array_size && Array[right] > Array[large])
+            {
+                large = right;
+            }
+            if (large != count)
+            {
+                ArrayProcessing<type_array>::swap(Array[count], Array[large]);
+                heapify(Array, large, array_size);
+            }
+        }
+        static void heap_sort(type_array *Array, int array_size)
+        {
+            for (int right = array_size / 2 - 1; right >= 0; right--)
+            {
+                heapify(Array, right, array_size);
+            }
+            for (int i = array_size - 1; i >= 0; i--)
+            {
+                ArrayProcessing<type_array>::swap(Array[0], Array[i]);
+                heapify(Array, 0, i);
+            }
+        }
+    };
+
+    //class SmoothSort{};
+}
+
+namespace Insertion_Sorts
+{
+    template <typename type_array>
+    class InsertSort
+    {
+    public:
+        static void insert_sort(type_array *Array, int array_size)
+        {
+            for (int i = 0; i < array_size; i++)
+            {
+                for (int j = i; j > 0 && Array[j - 1] > Array[j]; j--)
+                {
+                    ArrayProcessing<type_array>::swap(Array[j - 1], Array[j]);
+                }
+            }
+        }
+    };
+
+    //class ShellSort{};
+
+    //class LibrarySort{};
+
+    //class PatienceSort{};
+
+    //class TreeSort{};
+
+    //class CycleSort{};
+}
+
+namespace Merge_Sorts
+{
     template <typename type_array>
     class MergeSort
     {
@@ -239,77 +351,13 @@ namespace SortingAlgorithms
         }
     };
 
-    template <typename type_array>
-    class HeapSort
-    {
-    public:
-        static void heapify(type_array *Array, int count, int array_size)
-        {
-            int left = 2 * count + 1, large = count, right = 2 * count + 2;
-            if (left < array_size && Array[left] > Array[large])
-            {
-                large = left;
-            }
-            if (right < array_size && Array[right] > Array[large])
-            {
-                large = right;
-            }
-            if (large != count)
-            {
-                ArrayProcessing<type_array>::swap(Array[count], Array[large]);
-                heapify(Array, large, array_size);
-            }
-        }
-        static void heap_sort(type_array *Array, int array_size)
-        {
-            for (int right = array_size / 2 - 1; right >= 0; right--)
-            {
-                heapify(Array, right, array_size);
-            }
-            for (int i = array_size - 1; i >= 0; i--)
-            {
-                ArrayProcessing<type_array>::swap(Array[0], Array[i]);
-                heapify(Array, 0, i);
-            }
-        }
-    };
+    //class SlowSort{};
 
-    template <typename type_array>
-    class QuickSort
-    {
-    public:
-        static void quick_sort(type_array *Array, int left_limit, int right_limit)
-        {
-            type_array middle = Array[(left_limit + right_limit) / 2];
-            int start = left_limit, finish = right_limit;
-            do
-            {
-                while (Array[start] < middle)
-                {
-                    start++;
-                }
-                while (Array[finish] > middle)
-                {
-                    finish--;
-                }
-                if (start <= finish)
-                {
-                    ArrayProcessing<type_array>::swap(Array[start], Array[finish]);
-                    start++;
-                    finish--;
-                }
-            } while (start < finish);
-            if (left_limit < finish)
-            {
-                quick_sort(Array, left_limit, finish);
-            }
-            if (start < right_limit)
-            {
-                quick_sort(Array, start, right_limit);
-            }
-        }
-    };
+    //class StrandSort{};
+}
 
+namespace Noncomparison_Sort
+{
     class CountingSort
     {
     public:
@@ -339,6 +387,8 @@ namespace SortingAlgorithms
             delete[] tempArray;
         }
     };
+
+    //class BucketSort{};
 
     class RadixSort
     {
@@ -378,6 +428,43 @@ namespace SortingAlgorithms
             delete[] tempArray;
         }
     };
+
+    //class PigeonholeSort{};
+
+    //class BurstSort{};
+
+    //class BeadSort{};
+
+    //class PostmanSort{};
+}
+
+namespace Hybrid_Sorts
+{
+    //class TimSort{};
+
+    //class BlockSort{};
+
+    //class IntroSort{};
+
+    //class SpreadSort{};
+}
+
+namespace Other_Sorts
+{
+    //class TopologicalSort{};
+
+    //class BitonicSorter{};
+
+    //class FlashSort{};
+
+    //class PancakeSort{};
+
+    //class SpaghettiSort{};
+}
+
+namespace Unknown_Sorts
+{
+    //class SampleSort{};
 }
 
 #endif // SORTINGALGORITHMS_H
