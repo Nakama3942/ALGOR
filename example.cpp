@@ -21,41 +21,41 @@ int main()
     int *array = new int[g_arraySize];
 
     //Генерирую (заполняю) массив
-    SortingAlgorithms::ArrayProcessing<int>::generatedArray(array, g_arraySize, 1, 1000);
+    ArrayProcessing<int>::generatedArray(array, g_arraySize, 1, 1000);
 
     //Копирую массив
     int *array1 = new int[g_arraySize];
-    SortingAlgorithms::ArrayProcessing<int>::copy(array1, array, g_arraySize);
+    ArrayProcessing<int>::copy(array1, array, g_arraySize);
 
     //Вывожу на экран массив
     print<int>("Сгенерированный массив: ", array1, g_arraySize);
 
     //Сортирую массив
-    SortingAlgorithms::InsertSort<int>::insert_sort(array1, g_arraySize);
-    //SortingAlgorithms::BubbleSort<int>::bubble_sort(array1, g_arraySize);
-    //SortingAlgorithms::CocktailShakerSort<int>::cocktail_shaker_sort(array1, g_arraySize);
-    //SortingAlgorithms::MergeSort<int>::merge_sort(array1, 0, g_arraySize - 1);
-    //SortingAlgorithms::HeapSort<int>::heap_sort(array1, g_arraySize);
-    //SortingAlgorithms::QuickSort<int>::quick_sort(array1, 0, g_arraySize - 1);
-    //SortingAlgorithms::CountingSort::counting_sort(array1, g_arraySize);
-    //SortingAlgorithms::RadixSort::radix_sort(array1, g_arraySize);
+    Exchange_Sorts::BubbleSort<int>::bubble_sort(array1, g_arraySize);
+    //Exchange_Sorts::CocktailShakerSort<int>::cocktail_shaker_sort(array1, g_arraySize);
+    //Exchange_Sorts::QuickSort<int>::quick_sort(array1, 0, g_arraySize - 1);
+    //Selection_Sorts::HeapSort<int>::heap_sort(array1, g_arraySize);
+    //Insertion_Sorts::InsertSort<int>::insert_sort(array1, g_arraySize);
+    //Merge_Sorts::MergeSort<int>::merge_sort(array1, 0, g_arraySize - 1);
+    //Noncomparison_Sort::CountingSort::counting_sort(array1, g_arraySize);
+    //Noncomparison_Sort::RadixSort::radix_sort(array1, g_arraySize);
 
     //Вывожу на экран массив
     print<int>("Отсортированный массив: ", array1, g_arraySize);
 
     //Нахожу среднее арифметическое
     int average;
-    SortingAlgorithms::ArrayProcessing<int>::average(array1, g_arraySize, average);
+    ArrayProcessing<int>::average(array1, g_arraySize, average);
     cout << "Среднее арифметическое: " << average << "\n";
 
     //Нахожу медиану
     int mediana;
-    SortingAlgorithms::ArrayProcessing<int>::mediana(array1, g_arraySize, mediana);
+    ArrayProcessing<int>::mediana(array1, g_arraySize, mediana);
     cout << "Медиана: " << mediana << "\n";
 
     //Нахожу моду с количеством
     int moda, moda_count;
-    SortingAlgorithms::ArrayProcessing<int>::moda(array1, g_arraySize, moda, moda_count);
+    ArrayProcessing<int>::moda(array1, g_arraySize, moda, moda_count);
     cout << "Чаще всего встречается элемент: " << moda << ", а именно " << moda_count << " раз.\n";
 
     delete[] array1;
