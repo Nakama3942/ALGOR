@@ -41,6 +41,11 @@ template <typename type_array>
 class ArrayProcessing
 {
 public:
+    enum ArrayStatus
+    {
+        SORTED,
+        UNSORTED
+    };
     static void generatedArray(type_array *Array, int array_size, int left_limit, int right_limit)
     {
         srand(time(NULL));
@@ -56,29 +61,83 @@ public:
         secondNumber = *temp;
         delete (temp);
     }
-    static void getMin(type_array *Array, int array_size, type_array &point_min)
+    static void getMin(type_array *Array, int array_size, type_array &point_min, ArrayStatus ArrStat = UNSORTED)
     {
-        type_array min = Array[0];
-        for (int i = 1; i < array_size; i++)
+        switch (ArrStat)
         {
-            if (min > Array[i])
+        case UNSORTED:
+            point_min = Array[0];
+            for (int i = 1; i < array_size; i++)
             {
-                min = Array[i];
+                if (point_min > Array[i])
+                {
+                    point_min = Array[i];
+                }
             }
+            break;
+        case SORTED:
+            point_min = Array[0];
+            break;
         }
-        point_min = min;
     }
-    static void getMax(type_array *Array, int array_size, type_array &point_max)
+    static void getMax(type_array *Array, int array_size, type_array &point_max, ArrayStatus ArrStat = UNSORTED)
     {
-        type_array max = Array[0];
-        for (int i = 1; i < array_size; i++)
+        switch (ArrStat)
         {
-            if (max < Array[i])
+        case UNSORTED:
+            point_max = Array[0];
+            for (int i = 1; i < array_size; i++)
             {
-                max = Array[i];
+                if (point_max < Array[i])
+                {
+                    point_max = Array[i];
+                }
+            }
+            break;
+        case SORTED:
+            point_max = Array[array_size - 1];
+            break;
+        }
+    }
+    static void getElementNumber_lenear(type_array *Array, int array_size, type_array required_element, int &number_point, int &count_elements)
+    {
+        bool first_occurrence = false;
+        count_elements = 0;
+        for (int i = 0; i < array_size; i++)
+        {
+            if (required_element == Array[i])
+            {
+                if (!first_occurrence)
+                {
+                    number_point = i;
+                    first_occurrence = true;
+                }
+                count_elements++;
             }
         }
-        point_max = max;
+    }
+    static void getElementNumber_binary(type_array *Array, int left_limit, int right_limit, type_array required_element, int &number_point)
+    {
+        //! NOTE Добавить во всём классе исключения (throw)
+        //if (left_limit > right_limit)
+        //{
+        //    cout << "\nERROR!\n";
+        //    return;
+        //}
+        //! Оптимизировать метод
+        int middle = left_limit + (right_limit - left_limit) / 2;
+        if (Array[middle] == required_element)
+        {
+            number_point = middle;
+        }
+        if (Array[middle] < required_element)
+        {
+            getElementNumber_binary(Array, middle + 1, right_limit, required_element, number_point);
+        }
+        if (Array[middle] > required_element)
+        {
+            getElementNumber_binary(Array, left_limit, middle - 1, required_element, number_point);
+        }
     }
     static void reverse(type_array *Array, int array_size)
     {
