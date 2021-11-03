@@ -37,7 +37,6 @@ using namespace std;
 //public:
 //};
 
-template <typename type_array>
 class ArrayProcessing
 {
 public:
@@ -46,6 +45,7 @@ public:
         SORTED,
         UNSORTED
     };
+    template <typename type_array>
     static void generatedArray(type_array *Array, int array_size, int left_limit, int right_limit)
     {
         srand(time(NULL));
@@ -54,6 +54,7 @@ public:
             Array[i] = left_limit + rand() % right_limit;
         }
     }
+    template <typename type_array>
     static void swap(type_array &firstNumber, type_array &secondNumber)
     {
         type_array *temp = new type_array(firstNumber);
@@ -61,6 +62,7 @@ public:
         secondNumber = *temp;
         delete (temp);
     }
+    template <typename type_array>
     static void getMin(type_array *Array, int array_size, type_array &point_min, ArrayStatus ArrStat = UNSORTED)
     {
         switch (ArrStat)
@@ -80,6 +82,7 @@ public:
             break;
         }
     }
+    template <typename type_array>
     static void getMax(type_array *Array, int array_size, type_array &point_max, ArrayStatus ArrStat = UNSORTED)
     {
         switch (ArrStat)
@@ -99,6 +102,7 @@ public:
             break;
         }
     }
+    template <typename type_array>
     static void getElementNumber_lenear(type_array *Array, int array_size, type_array required_element, int &number_point, int &count_elements)
     {
         bool first_occurrence = false;
@@ -115,30 +119,80 @@ public:
                 count_elements++;
             }
         }
+        if (count_elements == 0)
+        {
+            throw -1;
+        }
     }
+    template <typename type_array>
     static void getElementNumber_binary(type_array *Array, int left_limit, int right_limit, type_array required_element, int &number_point)
     {
-        //! NOTE Добавить во всём классе исключения (throw)
-        //if (left_limit > right_limit)
-        //{
-        //    cout << "\nERROR!\n";
-        //    return;
-        //}
-        //! Оптимизировать метод
+        if (left_limit > right_limit)
+        {
+            throw -1;
+        }
         int middle = left_limit + (right_limit - left_limit) / 2;
         if (Array[middle] == required_element)
         {
             number_point = middle;
         }
-        if (Array[middle] < required_element)
-        {
-            getElementNumber_binary(Array, middle + 1, right_limit, required_element, number_point);
-        }
         if (Array[middle] > required_element)
         {
             getElementNumber_binary(Array, left_limit, middle - 1, required_element, number_point);
         }
+        if (Array[middle] < required_element)
+        {
+            getElementNumber_binary(Array, middle + 1, right_limit, required_element, number_point);
+        }
     }
+    template <typename type_array>
+    static void getOccurrencesOfSubstring(type_array *Array, int array_size, type_array *Substring, int substring_size, int *&Occurrence, int &occurrence_size)
+    {
+        occurrence_size = 0;
+        for (int i = 0; i <= array_size - substring_size; i++)
+        {
+            for (int j = 0; j < substring_size; j++)
+            {
+                if (Array[i + j] == Substring[j])
+                {
+                    if (substring_size - j == 1)
+                    {
+                        if (occurrence_size == 0)
+                        {
+                            occurrence_size++;
+                            Occurrence = new int[occurrence_size]{i};
+                        }
+                        else
+                        {
+                            addElement<int>(Occurrence, occurrence_size, i);
+                        }
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        if (occurrence_size == 0)
+        {
+            throw -1;
+        }
+    }
+    template <typename type_array>
+    static void addElement(type_array *&Array, int &array_size, type_array value)
+    {
+        type_array *temp_Array = new type_array[array_size];
+        copy(temp_Array, Array, array_size);
+        delete[] Array;
+        int limit = array_size;
+        array_size++;
+        Array = new int[array_size];
+        copy(Array, temp_Array, limit);
+        Array[limit] = value;
+        delete[] temp_Array;
+    }
+    template <typename type_array>
     static void reverse(type_array *Array, int array_size)
     {
         int left_limit = 0, right_limit = array_size - 1;
@@ -149,6 +203,7 @@ public:
             right_limit--;
         }
     }
+    template <typename type_array>
     static void copy(type_array *new_array, type_array *old_array, int array_size)
     {
         for (int i = 0; i < array_size; i++)
@@ -156,6 +211,7 @@ public:
             new_array[i] = old_array[i];
         }
     }
+    template <typename type_array>
     static void average(type_array *Array, int array_size, type_array &average)
     {
         type_array array_sum;
@@ -165,6 +221,7 @@ public:
         }
         average = array_sum / array_size;
     }
+    template <typename type_array>
     static void mediana(type_array *Array, int array_size, type_array &mediana)
     {
         if (array_size % 2 == 0)
@@ -176,6 +233,7 @@ public:
             mediana = (Array[array_size / 2]);
         }
     }
+    template <typename type_array>
     static void moda(type_array *Array, int array_size, type_array &moda_element, int &moda_count)
     {
         type_array most_frequent;                         //Наиболее частый элемент
@@ -212,7 +270,7 @@ namespace Exchange_Sorts
                 {
                     if (Array[j] > Array[j + 1])
                     {
-                        ArrayProcessing<type_array>::swap(Array[j], Array[j + 1]);
+                        ArrayProcessing::swap<type_array>(Array[j], Array[j + 1]);
                     }
                 }
             }
@@ -232,7 +290,7 @@ namespace Exchange_Sorts
                 {
                     if (Array[i - 1] > Array[i])
                     {
-                        ArrayProcessing<type_array>::swap(Array[i], Array[i - 1]);
+                        ArrayProcessing::swap<type_array>(Array[i], Array[i - 1]);
                     }
                 }
                 leftMark++;
@@ -240,7 +298,7 @@ namespace Exchange_Sorts
                 {
                     if (Array[i - 1] > Array[i])
                     {
-                        ArrayProcessing<type_array>::swap(Array[i], Array[i - 1]);
+                        ArrayProcessing::swap<type_array>(Array[i], Array[i - 1]);
                     }
                 }
                 rightMark--;
@@ -274,7 +332,7 @@ namespace Exchange_Sorts
                 }
                 if (start <= finish)
                 {
-                    ArrayProcessing<type_array>::swap(Array[start], Array[finish]);
+                    ArrayProcessing::swap<type_array>(Array[start], Array[finish]);
                     start++;
                     finish--;
                 }
@@ -319,7 +377,7 @@ namespace Selection_Sorts
             }
             if (large != count)
             {
-                ArrayProcessing<type_array>::swap(Array[count], Array[large]);
+                ArrayProcessing::swap<type_array>(Array[count], Array[large]);
                 heapify(Array, large, array_size);
             }
         }
@@ -331,7 +389,7 @@ namespace Selection_Sorts
             }
             for (int i = array_size - 1; i >= 0; i--)
             {
-                ArrayProcessing<type_array>::swap(Array[0], Array[i]);
+                ArrayProcessing::swap<type_array>(Array[0], Array[i]);
                 heapify(Array, 0, i);
             }
         }
@@ -352,7 +410,7 @@ namespace Insertion_Sorts
             {
                 for (int j = i; j > 0 && Array[j - 1] > Array[j]; j--)
                 {
-                    ArrayProcessing<type_array>::swap(Array[j - 1], Array[j]);
+                    ArrayProcessing::swap<type_array>(Array[j - 1], Array[j]);
                 }
             }
         }
@@ -423,8 +481,8 @@ namespace Noncomparison_Sort
         static void counting_sort(int *Array, int array_size)
         {
             int min, max;
-            ArrayProcessing<int>::getMin(Array, array_size, min);
-            ArrayProcessing<int>::getMax(Array, array_size, max);
+            ArrayProcessing::getMin<int>(Array, array_size, min);
+            ArrayProcessing::getMax<int>(Array, array_size, max);
             int *tempArray = new int[max - min + 1];
             for (int i = 0; i < max - min + 1; i++)
             {
@@ -455,7 +513,7 @@ namespace Noncomparison_Sort
         static void radix_sort(int *Array, int array_size)
         {
             int exp = 1, bit = 10, max;
-            ArrayProcessing<int>::getMax(Array, array_size, max);
+            ArrayProcessing::getMax<int>(Array, array_size, max);
             int *tempArray = new int[array_size], *bucket = new int[bit];
             while (max / exp > 0)
             {
