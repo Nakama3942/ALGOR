@@ -46,7 +46,7 @@ public:
         UNSORTED
     };
     template <typename type_array>
-    static void generatedArray(type_array *Array, int array_size, int left_limit, int right_limit)
+    static void generatedArray(type_array *Array, const int &array_size, const int &left_limit, const int &right_limit)
     {
         srand(time(NULL));
         for (int i = 0; i < array_size; i++)
@@ -63,7 +63,7 @@ public:
         delete (temp);
     }
     template <typename type_array>
-    static void getMin(type_array *Array, int array_size, type_array &point_min, ArrayStatus ArrStat = UNSORTED)
+    static void getMin(const type_array *Array, const int &array_size, type_array &point_min, ArrayStatus ArrStat = UNSORTED)
     {
         switch (ArrStat)
         {
@@ -83,7 +83,7 @@ public:
         }
     }
     template <typename type_array>
-    static void getMax(type_array *Array, int array_size, type_array &point_max, ArrayStatus ArrStat = UNSORTED)
+    static void getMax(const type_array *Array, const int &array_size, type_array &point_max, ArrayStatus ArrStat = UNSORTED)
     {
         switch (ArrStat)
         {
@@ -105,6 +105,8 @@ public:
     template <typename type_array>
     static void getElementNumber_lenear(type_array *Array, int array_size, type_array required_element, int &number_point, int &count_elements)
     {
+        //! Теперь можно переписать метод, чтобы он не находил первое вхождение и возвращал количество
+        //вхождений, а просто возвращал все вхождения по аналогии с поиском последовательности
         bool first_occurrence = false;
         count_elements = 0;
         for (int i = 0; i < array_size; i++)
@@ -125,7 +127,7 @@ public:
         }
     }
     template <typename type_array>
-    static void getElementNumber_binary(type_array *Array, int left_limit, int right_limit, type_array required_element, int &number_point)
+    static void getElementNumber_binary(const type_array *Array, const int &left_limit, const int &right_limit, const type_array &required_element, int &number_point)
     {
         if (left_limit > right_limit)
         {
@@ -146,7 +148,7 @@ public:
         }
     }
     template <typename type_array>
-    static void getOccurrencesOfSubstring(type_array *Array, int array_size, type_array *Substring, int substring_size, int *&Occurrence, int &occurrence_size)
+    static void getOccurrencesOfSubstring(const type_array *Array, const int &array_size, const type_array *Substring, const int &substring_size, int *&Occurrence, int &occurrence_size)
     {
         occurrence_size = 0;
         for (int i = 0; i <= array_size - substring_size; i++)
@@ -157,15 +159,7 @@ public:
                 {
                     if (substring_size - j == 1)
                     {
-                        if (occurrence_size == 0)
-                        {
-                            occurrence_size++;
-                            Occurrence = new int[occurrence_size]{i};
-                        }
-                        else
-                        {
-                            addElement<int>(Occurrence, occurrence_size, i);
-                        }
+                        addElement<int>(Occurrence, occurrence_size, i);
                     }
                 }
                 else
@@ -180,20 +174,29 @@ public:
         }
     }
     template <typename type_array>
-    static void addElement(type_array *&Array, int &array_size, type_array value)
+    static void addElement(type_array *&Array, int &array_size, const type_array &value)
     {
-        type_array *temp_Array = new type_array[array_size];
-        copy(temp_Array, Array, array_size);
-        delete[] Array;
-        int limit = array_size;
-        array_size++;
-        Array = new int[array_size];
-        copy(Array, temp_Array, limit);
-        Array[limit] = value;
-        delete[] temp_Array;
+        if (array_size == 0)
+        {
+            array_size++;
+            Array = new int[array_size]{value};
+        }
+        else
+        {
+            type_array *temp_Array = new type_array[array_size];
+            copy(temp_Array, Array, array_size);
+            delete[] Array;
+            int *limit = new int(array_size);
+            array_size++;
+            Array = new type_array[array_size];
+            copy(Array, temp_Array, limit);
+            Array[limit] = value;
+            delete (limit);
+            delete[] temp_Array;
+        }
     }
     template <typename type_array>
-    static void reverse(type_array *Array, int array_size)
+    static void reverse(type_array *Array, const int &array_size)
     {
         int left_limit = 0, right_limit = array_size - 1;
         for (int i = 0; i < array_size / 2; i++)
@@ -204,25 +207,25 @@ public:
         }
     }
     template <typename type_array>
-    static void copy(type_array *new_array, type_array *old_array, int array_size)
+    static void copy(type_array *new_array, const type_array *old_array, const int &size_new_array)
     {
-        for (int i = 0; i < array_size; i++)
+        for (int i = 0; i < size_new_array; i++)
         {
             new_array[i] = old_array[i];
         }
     }
     template <typename type_array>
-    static void average(type_array *Array, int array_size, type_array &average)
+    static void average(const type_array *Array, const int &array_size, type_array &average)
     {
-        type_array array_sum;
+        average = 0;
         for (int i = 0; i < array_size; i++)
         {
-            array_sum += Array[i];
+            average += Array[i];
         }
-        average = array_sum / array_size;
+        average = average / array_size;
     }
     template <typename type_array>
-    static void mediana(type_array *Array, int array_size, type_array &mediana)
+    static void mediana(const type_array *Array, const int &array_size, type_array &mediana)
     {
         if (array_size % 2 == 0)
         {
@@ -234,10 +237,10 @@ public:
         }
     }
     template <typename type_array>
-    static void moda(type_array *Array, int array_size, type_array &moda_element, int &moda_count)
+    static void moda(const type_array *Array, const int &array_size, type_array &most_frequent, int &highest_frequency)
     {
-        type_array most_frequent;                         //Наиболее частый элемент
-        int highest_frequency = 0, current_frequency = 0; //Самая высокая частота и текущая частота
+        highest_frequency = 0;
+        int current_frequency = 0;
         for (int i = 0; i < array_size; i++)
         {
             current_frequency++;
@@ -251,8 +254,6 @@ public:
                 current_frequency = 0;
             }
         }
-        moda_element = most_frequent;
-        moda_count = highest_frequency;
     }
 };
 
@@ -262,7 +263,7 @@ namespace Exchange_Sorts
     class BubbleSort
     {
     public:
-        static void bubble_sort(type_array *Array, int array_size)
+        static void bubble_sort(type_array *Array, const int &array_size)
         {
             for (int i = 0; i < array_size; i++)
             {
@@ -281,7 +282,7 @@ namespace Exchange_Sorts
     class CocktailShakerSort
     {
     public:
-        static void cocktail_shaker_sort(type_array *Array, int array_size)
+        static void cocktail_shaker_sort(type_array *Array, const int &array_size)
         {
             int leftMark = 1, rightMark = array_size - 1;
             while (leftMark <= rightMark)
@@ -316,7 +317,7 @@ namespace Exchange_Sorts
     class QuickSort
     {
     public:
-        static void quick_sort(type_array *Array, int left_limit, int right_limit)
+        static void quick_sort(type_array *Array, const int &left_limit, const int &right_limit)
         {
             type_array middle = Array[(left_limit + right_limit) / 2];
             int start = left_limit, finish = right_limit;
@@ -364,7 +365,7 @@ namespace Selection_Sorts
     class HeapSort
     {
     public:
-        static void heapify(type_array *Array, int count, int array_size)
+        static void heapify(type_array *Array, const int &count, const int &array_size)
         {
             int left = 2 * count + 1, large = count, right = 2 * count + 2;
             if (left < array_size && Array[left] > Array[large])
@@ -381,7 +382,7 @@ namespace Selection_Sorts
                 heapify(Array, large, array_size);
             }
         }
-        static void heap_sort(type_array *Array, int array_size)
+        static void heap_sort(type_array *Array, const int &array_size)
         {
             for (int right = array_size / 2 - 1; right >= 0; right--)
             {
@@ -404,7 +405,7 @@ namespace Insertion_Sorts
     class InsertSort
     {
     public:
-        static void insert_sort(type_array *Array, int array_size)
+        static void insert_sort(type_array *Array, const int &array_size)
         {
             for (int i = 0; i < array_size; i++)
             {
@@ -433,7 +434,7 @@ namespace Merge_Sorts
     class MergeSort
     {
     public:
-        static void merge(type_array *Array, int left_limit, int middle_limit, int right_limit)
+        static void merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
         {
             int start = left_limit, finish = middle_limit + 1;
             type_array *tempArray = new type_array[right_limit - left_limit + 1];
@@ -456,7 +457,7 @@ namespace Merge_Sorts
             }
             delete[] tempArray;
         }
-        static void merge_sort(type_array *Array, int left_limit, int right_limit)
+        static void merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
         {
             if (left_limit < right_limit)
             {
@@ -478,7 +479,7 @@ namespace Noncomparison_Sort
     class CountingSort
     {
     public:
-        static void counting_sort(int *Array, int array_size)
+        static void counting_sort(int *Array, const int &array_size)
         {
             int min, max;
             ArrayProcessing::getMin<int>(Array, array_size, min);
@@ -510,7 +511,7 @@ namespace Noncomparison_Sort
     class RadixSort
     {
     public:
-        static void radix_sort(int *Array, int array_size)
+        static void radix_sort(int *Array, const int &array_size)
         {
             int exp = 1, bit = 10, max;
             ArrayProcessing::getMax<int>(Array, array_size, max);
