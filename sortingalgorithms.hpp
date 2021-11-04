@@ -103,25 +103,17 @@ public:
         }
     }
     template <typename type_array>
-    static void getElementNumber_lenear(type_array *Array, int array_size, type_array required_element, int &number_point, int &count_elements)
+    static void getElementsNumber_lenear(const type_array *Array, const int &array_size, const type_array &required_element, int *&number_points, int &number_points_size)
     {
-        //! Теперь можно переписать метод, чтобы он не находил первое вхождение и возвращал количество
-        //вхождений, а просто возвращал все вхождения по аналогии с поиском последовательности
-        bool first_occurrence = false;
-        count_elements = 0;
+        number_points_size = 0;
         for (int i = 0; i < array_size; i++)
         {
             if (required_element == Array[i])
             {
-                if (!first_occurrence)
-                {
-                    number_point = i;
-                    first_occurrence = true;
-                }
-                count_elements++;
+                addElement<int>(number_points, number_points_size, i);
             }
         }
-        if (count_elements == 0)
+        if (number_points_size == 0)
         {
             throw -1;
         }
@@ -148,9 +140,9 @@ public:
         }
     }
     template <typename type_array>
-    static void getOccurrencesOfSubstring(const type_array *Array, const int &array_size, const type_array *Substring, const int &substring_size, int *&Occurrence, int &occurrence_size)
+    static void getOccurrencesOfSubstring(const type_array *Array, const int &array_size, const type_array *Substring, const int &substring_size, int *&Occurrences, int &occurrences_size)
     {
-        occurrence_size = 0;
+        occurrences_size = 0;
         for (int i = 0; i <= array_size - substring_size; i++)
         {
             for (int j = 0; j < substring_size; j++)
@@ -159,7 +151,7 @@ public:
                 {
                     if (substring_size - j == 1)
                     {
-                        addElement<int>(Occurrence, occurrence_size, i);
+                        addElement<int>(Occurrences, occurrences_size, i);
                     }
                 }
                 else
@@ -168,7 +160,7 @@ public:
                 }
             }
         }
-        if (occurrence_size == 0)
+        if (occurrences_size == 0)
         {
             throw -1;
         }
@@ -189,8 +181,8 @@ public:
             int *limit = new int(array_size);
             array_size++;
             Array = new type_array[array_size];
-            copy(Array, temp_Array, limit);
-            Array[limit] = value;
+            copy(Array, temp_Array, *limit);
+            Array[*limit] = value;
             delete (limit);
             delete[] temp_Array;
         }
