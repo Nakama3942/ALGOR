@@ -32,6 +32,13 @@
 #include <random>
 using namespace std;
 
+template <typename type_array>
+struct Arr
+{
+    type_array *array;
+    int array_size;
+};
+
 //class generator
 //{
 //public:
@@ -53,6 +60,12 @@ public:
         {
             Array[i] = left_limit + rand() % right_limit;
         }
+    }
+    template <typename type_array>
+    static void generatedStruct(Arr<type_array> *Array, const int &array_size)
+    {
+        Array->array_size = array_size;
+        Array->array = new type_array[array_size];
     }
     template <typename type_array>
     static void swap(type_array &firstNumber, type_array &secondNumber)
@@ -244,6 +257,34 @@ public:
                     most_frequent = Array[i];
                 }
                 current_frequency = 0;
+            }
+        }
+    }
+    template <typename type_array>
+    static void modas(const type_array *Array, const int &array_size, type_array *&most_frequents, int &most_frequent_size, int &highest_frequency)
+    {
+        type_array most_frequent;
+        most_frequent_size = 0, highest_frequency = 0;
+        int current_frequency = 0;
+        moda(Array, array_size, most_frequent, highest_frequency);
+        addElement<type_array>(most_frequents, most_frequent_size, most_frequent);
+        for (int i = 0; i < array_size; i++)
+        {
+            if (most_frequent == Array[i])
+            {
+                for (int j = i + highest_frequency; j < array_size; j++)
+                {
+                    current_frequency++;
+                    if (j == array_size - 1 || Array[j] != Array[j + 1])
+                    {
+                        if (current_frequency == highest_frequency)
+                        {
+                            addElement<type_array>(most_frequents, most_frequent_size, Array[j]);
+                        }
+                        current_frequency = 0;
+                    }
+                }
+                break;
             }
         }
     }
