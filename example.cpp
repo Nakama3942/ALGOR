@@ -3,63 +3,75 @@ using namespace std;
 
 #include "sortingalgorithms.hpp"
 
-//const int g_arraySize = 1024;
-//const int g_arraySize = 64;
+Array<int> *Massiv = new Array<int>;       //Сгенериррованный массив
+Array<int> *Massiv1 = new Array<int>;      //Скопированный массив
+Array<int> *Sequence = new Array<int>;     //Подмассив для поиска
+Array<int> *Occurrence = new Array<int>;   //Найденные вхождения подстроки
+Array<int> *NumberPoints = new Array<int>; //Найденные вхождения указанного элемента
+Array<int> *Modas = new Array<int>;        //Найденные вхождения моды
 
+//Вывод на экран массива
 template <typename type_array>
-void print(const char *representing_string, type_array *Array, int array_size)
+void print(const char *representing_string, Array<type_array> *&ARRAY)
 {
     cout << representing_string << "\n";
-    for (int i = 0; i < array_size; i++)
+    for (int i = 0; i < ARRAY->array_size; i++)
     {
-        cout << i + 1 << "->" << Array[i] << "\t";
+        //cout << i + 1 << "->" << ARRAY->array[i] << "\t";
+        cout << ARRAY->array[i] << "\t";
     }
     cout << "\n";
 }
 
-int main()
+//Генерация (заполнение) массива
+void generator()
 {
-    //Генерирую (заполняю) массив
-    Arr<int> *Array = new Arr<int>;
-    ArrayProcessing::generatedStruct(Array, 64);
-    ArrayProcessing::generatedArray<int>(Array->array, Array->array_size, 1, 50);
+    ArrayProcessing::generatedStruct(Massiv, 64);
+    ArrayProcessing::generatedArray<int>(Massiv, 1, 50);
+}
 
-    //Вывожу на экран массив
-    print<int>("Сгенерированный массив: ", Array->array, Array->array_size);
+//Копирование массива
+void copier()
+{
+    ArrayProcessing::generatedStruct(Massiv1, 64);
+    ArrayProcessing::copy<int>(Massiv1->array, Massiv->array, Massiv1->array_size);
+}
 
-    //Копирую массив
-    Arr<int> *Array1 = new Arr<int>;
-    ArrayProcessing::generatedStruct(Array1, 64);
-    ArrayProcessing::copy<int>(Array1->array, Array->array, Array1->array_size);
+//Сортировка массива
+void sorter()
+{
+    //Exchange_Sorts::BubbleSort<int>::bubble_sort(Massiv1->array, Massiv1->array_size);
+    //Exchange_Sorts::CocktailShakerSort<int>::cocktail_shaker_sort(Massiv1->array, Massiv1->array_size);
+    //Exchange_Sorts::QuickSort<int>::quick_sort(Massiv1->array, 0, Massiv1->array_size - 1);
+    //Selection_Sorts::HeapSort<int>::heap_sort(Massiv1->array, Massiv1->array_size);
+    //Insertion_Sorts::InsertSort<int>::insert_sort(Massiv1->array, Massiv1->array_size);
+    //Merge_Sorts::MergeSort<int>::merge_sort(Massiv1->array, 0, Massiv1->array_size - 1);
+    Noncomparison_Sort::CountingSort::counting_sort(Massiv1->array, Massiv1->array_size);
+    //Noncomparison_Sort::RadixSort::radix_sort(Massiv1->array, Massiv1->array_size);
+}
 
-    //Сортирую массив
-    //Exchange_Sorts::BubbleSort<int>::bubble_sort(array1, g_arraySize);
-    //Exchange_Sorts::CocktailShakerSort<int>::cocktail_shaker_sort(array1, g_arraySize);
-    //Exchange_Sorts::QuickSort<int>::quick_sort(array1, 0, g_arraySize - 1);
-    //Selection_Sorts::HeapSort<int>::heap_sort(array1, g_arraySize);
-    //Insertion_Sorts::InsertSort<int>::insert_sort(array1, g_arraySize);
-    //Merge_Sorts::MergeSort<int>::merge_sort(array1, 0, g_arraySize - 1);
-    Noncomparison_Sort::CountingSort::counting_sort(Array1->array, Array1->array_size);
-    //Noncomparison_Sort::RadixSort::radix_sort(array1, g_arraySize);
-
-    //Вывожу на экран массив
-    print<int>("Отсортированный массив: ", Array1->array, Array1->array_size);
-
-    //Нахожу максимальный и минимальный элемент
+//Нахождение максимального и минимального элемента
+void search_minmax()
+{
     int min, max;
-    ArrayProcessing::getMin<int>(Array1->array, Array1->array_size, min, ArrayProcessing::SORTED);
-    ArrayProcessing::getMax<int>(Array1->array, Array1->array_size, max, ArrayProcessing::SORTED);
+    ArrayProcessing::getMin<int>(Massiv1->array, Massiv1->array_size, min, ArrayProcessing::SORTED);
+    ArrayProcessing::getMax<int>(Massiv1->array, Massiv1->array_size, max, ArrayProcessing::SORTED);
     cout << "Минимальный элемент: " << min << "; Максимальный: " << max << "\n";
+}
 
-    //Нахожу последовательность
-    int sequence[2] = {20, 21}, *occurrence, occurrence_size;
+//Нахождение последовательности
+void search_occurrence()
+{
+    ArrayProcessing::generatedStruct<int>(Sequence, 0);
+    ArrayProcessing::addElement<int>(Sequence, 20);
+    ArrayProcessing::addElement<int>(Sequence, 21);
     try
     {
-        ArrayProcessing::getOccurrencesOfSubstring<int>(Array1->array, Array1->array_size, sequence, 2, occurrence, occurrence_size);
+        ArrayProcessing::getOccurrencesOfSubstring<int>(Massiv1, Sequence, Occurrence);
         cout << "Последовательность \"20, 21\" встречается на местах: \n";
-        for (int i = 0; i < occurrence_size; i++)
+        for (int i = 0; i < Occurrence->array_size; i++)
         {
-            cout << occurrence[i] + 1 << " ";
+            cout << Occurrence->array[i] + 1 << " ";
         }
         cout << "\n";
     }
@@ -67,16 +79,18 @@ int main()
     {
         cout << "Последовательность \"20, 21\" не найдена...\n";
     }
+}
 
-    //Нахожу определённый элемент в неотсортированном массиве
-    int *number_points, number_points_size;
+//Нахождение определённого элемента в неотсортированном массиве
+void search_numberpoints_lenear()
+{
     try
     {
-        ArrayProcessing::getElementsNumber_lenear<int>(Array1->array, Array1->array_size, 20, number_points, number_points_size);
+        ArrayProcessing::getElementsNumber_lenear<int>(Massiv, 20, NumberPoints);
         cout << "Элемент \"20\" встречается на местах: \n";
-        for (int i = 0; i < number_points_size; i++)
+        for (int i = 0; i < NumberPoints->array_size; i++)
         {
-            cout << number_points[i] + 1 << " ";
+            cout << NumberPoints->array[i] + 1 << " ";
         }
         cout << "\n";
     }
@@ -84,46 +98,82 @@ int main()
     {
         cout << "Элемент \"20\" не найден...\n";
     }
+}
 
-    //Нахожу определённый элемент в отсортированном массиве
+//Нахождение определённого элемента в отсортированном массиве
+void search_numberpoint_binary()
+{
     int number_point;
     try
     {
-        ArrayProcessing::getElementNumber_binary<int>(Array1->array, 0, Array1->array_size - 1, 23, number_point);
+        ArrayProcessing::getElementNumber_binary<int>(Massiv1->array, 0, Massiv1->array_size - 1, 23, number_point);
         cout << "Элемент \"23\" впервые встратился на месте " << number_point + 1 << "\n";
     }
     catch (int)
     {
         cout << "Элемент \"23\" не найден...\n";
     }
+}
 
-    //Нахожу среднее арифметическое
+//Нахождение среднего арифметического
+void search_average()
+{
     int average;
-    ArrayProcessing::average<int>(Array1->array, Array1->array_size, average);
+    ArrayProcessing::average<int>(Massiv1, average);
     cout << "Среднее арифметическое: " << average << "\n";
+}
 
-    //Нахожу медиану
+//Нахождение медианы
+void search_mediana()
+{
     int mediana;
-    ArrayProcessing::mediana<int>(Array1->array, Array1->array_size, mediana);
+    ArrayProcessing::mediana<int>(Massiv1, mediana);
     cout << "Медиана: " << mediana << "\n";
+}
 
-    //Нахожу моду с количеством
+//Нахождение моды с количеством
+void search_moda()
+{
     int moda, moda_count;
-    ArrayProcessing::moda<int>(Array1->array, Array1->array_size, moda, moda_count);
+    ArrayProcessing::moda<int>(Massiv1, moda, moda_count);
     cout << "Чаще всего встречается элемент: " << moda << ", а именно " << moda_count << " раз.\n";
+}
 
-    //Нахожу моды с количеством
-    int *modas, modas_size, modas_count;
-    ArrayProcessing::modas<int>(Array1->array, Array1->array_size, modas, modas_size, modas_count);
+//Нахождение мод с количеством
+void search_modas()
+{
+    int modas_count;
+    ArrayProcessing::modas<int>(Massiv1, Modas, modas_count);
     cout << "Чаще всего встречаются элементы: ";
-    for (int i = 0; i < modas_size; i++)
+    for (int i = 0; i < Modas->array_size; i++)
     {
-        cout << modas[i] << " ";
+        cout << Modas->array[i] << " ";
     }
     cout << ", а именно " << modas_count << " раз.\n";
+}
 
-    delete (Array);
-    delete (Array1);
+int main()
+{
+    generator();
+    print<int>("Сгенерированный массив: ", Massiv);
+    copier();
+    sorter();
+    print<int>("Отсортированный массив: ", Massiv1);
+    search_minmax();
+    search_occurrence();
+    search_numberpoints_lenear();
+    search_numberpoint_binary();
+    search_average();
+    search_mediana();
+    search_moda();
+    search_modas();
+
+    delete (Modas);
+    delete (NumberPoints);
+    delete (Occurrence);
+    delete (Sequence);
+    delete (Massiv1);
+    delete (Massiv);
 
     return 0;
 }
