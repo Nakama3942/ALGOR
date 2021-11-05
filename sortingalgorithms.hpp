@@ -33,7 +33,7 @@
 using namespace std;
 
 template <typename type_array>
-struct Arr
+struct Array
 {
     type_array *array;
     int array_size;
@@ -53,19 +53,19 @@ public:
         UNSORTED
     };
     template <typename type_array>
-    static void generatedArray(type_array *Array, const int &array_size, const int &left_limit, const int &right_limit)
+    static void generatedStruct(Array<type_array> *&ARRAY, const int &SIZE)
     {
-        srand(time(NULL));
-        for (int i = 0; i < array_size; i++)
-        {
-            Array[i] = left_limit + rand() % right_limit;
-        }
+        ARRAY->array_size = SIZE;
+        ARRAY->array = new type_array[SIZE];
     }
     template <typename type_array>
-    static void generatedStruct(Arr<type_array> *Array, const int &array_size)
+    static void generatedArray(Array<type_array> *&ARRAY, const int &left_limit, const int &right_limit)
     {
-        Array->array_size = array_size;
-        Array->array = new type_array[array_size];
+        srand(time(NULL));
+        for (int i = 0; i < ARRAY->array_size; i++)
+        {
+            ARRAY->array[i] = left_limit + rand() % right_limit;
+        }
     }
     template <typename type_array>
     static void swap(type_array &firstNumber, type_array &secondNumber)
@@ -116,17 +116,17 @@ public:
         }
     }
     template <typename type_array>
-    static void getElementsNumber_lenear(const type_array *Array, const int &array_size, const type_array &required_element, int *&number_points, int &number_points_size)
+    static void getElementsNumber_lenear(Array<type_array> *&ARRAY, const type_array &required_element, Array<type_array> *&NumberPoints)
     {
-        number_points_size = 0;
-        for (int i = 0; i < array_size; i++)
+        NumberPoints->array_size = 0;
+        for (int i = 0; i < ARRAY->array_size; i++)
         {
-            if (required_element == Array[i])
+            if (required_element == ARRAY->array[i])
             {
-                addElement<int>(number_points, number_points_size, i);
+                addElement<int>(NumberPoints, i);
             }
         }
-        if (number_points_size == 0)
+        if (NumberPoints->array_size == 0)
         {
             throw -1;
         }
@@ -153,18 +153,18 @@ public:
         }
     }
     template <typename type_array>
-    static void getOccurrencesOfSubstring(const type_array *Array, const int &array_size, const type_array *Substring, const int &substring_size, int *&Occurrences, int &occurrences_size)
+    static void getOccurrencesOfSubstring(Array<type_array> *&ARRAY, Array<type_array> *&SUBARRAY, Array<type_array> *&Occurrences)
     {
-        occurrences_size = 0;
-        for (int i = 0; i <= array_size - substring_size; i++)
+        Occurrences->array_size = 0;
+        for (int i = 0; i <= ARRAY->array_size - SUBARRAY->array_size; i++)
         {
-            for (int j = 0; j < substring_size; j++)
+            for (int j = 0; j < SUBARRAY->array_size; j++)
             {
-                if (Array[i + j] == Substring[j])
+                if (ARRAY->array[i + j] == SUBARRAY->array[j])
                 {
-                    if (substring_size - j == 1)
+                    if (SUBARRAY->array_size - j == 1)
                     {
-                        addElement<int>(Occurrences, occurrences_size, i);
+                        addElement<int>(Occurrences, i);
                     }
                 }
                 else
@@ -173,113 +173,106 @@ public:
                 }
             }
         }
-        if (occurrences_size == 0)
+        if (Occurrences->array_size == 0)
         {
             throw -1;
         }
     }
     template <typename type_array>
-    static void addElement(type_array *&Array, int &array_size, const type_array &value)
+    static void addElement(Array<type_array> *&ARRAY, const type_array &value)
     {
-        if (array_size == 0)
+        if (ARRAY->array_size == 0)
         {
-            array_size++;
-            Array = new int[array_size]{value};
+            ARRAY->array_size++;
+            ARRAY->array = new int[ARRAY->array_size]{value};
         }
         else
         {
-            type_array *temp_Array = new type_array[array_size];
-            copy(temp_Array, Array, array_size);
-            delete[] Array;
-            int *limit = new int(array_size);
-            array_size++;
-            Array = new type_array[array_size];
-            copy(Array, temp_Array, *limit);
-            Array[*limit] = value;
+            type_array *temp_Array = new type_array[ARRAY->array_size];
+            copy(temp_Array, ARRAY->array, ARRAY->array_size);
+            delete[] ARRAY->array;
+            int *limit = new int(ARRAY->array_size);
+            ARRAY->array_size++;
+            ARRAY->array = new type_array[ARRAY->array_size];
+            copy(ARRAY->array, temp_Array, *limit);
+            ARRAY->array[*limit] = value;
             delete (limit);
             delete[] temp_Array;
         }
     }
     template <typename type_array>
-    static void reverse(type_array *Array, const int &array_size)
+    static void reverse(Array<type_array> *&ARRAY)
     {
-        int left_limit = 0, right_limit = array_size - 1;
-        for (int i = 0; i < array_size / 2; i++)
+        int left_limit = 0, right_limit = ARRAY->array_size - 1;
+        for (int i = 0; i < ARRAY->array_size / 2; i++)
         {
-            swap(Array[left_limit], Array[right_limit]);
+            swap(ARRAY->array[left_limit], ARRAY->array[right_limit]);
             left_limit++;
             right_limit--;
         }
     }
     template <typename type_array>
-    static void copy(type_array *new_array, const type_array *old_array, const int &size_new_array)
+    static void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array = 0, int position_in_old_array = 0)
     {
-        for (int i = 0; i < size_new_array; i++)
+        for (int i = 0; i < size_of_copied; i++)
         {
-            new_array[i] = old_array[i];
+            new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
         }
     }
     template <typename type_array>
-    static void average(const type_array *Array, const int &array_size, type_array &average)
+    static void average(Array<type_array> *&ARRAY, type_array &average)
     {
         average = 0;
-        for (int i = 0; i < array_size; i++)
+        for (int i = 0; i < ARRAY->array_size; i++)
         {
-            average += Array[i];
+            average += ARRAY->array[i];
         }
-        average = average / array_size;
+        average = average / ARRAY->array_size;
     }
     template <typename type_array>
-    static void mediana(const type_array *Array, const int &array_size, type_array &mediana)
+    static void mediana(Array<type_array> *&ARRAY, type_array &mediana)
     {
-        if (array_size % 2 == 0)
-        {
-            mediana = (Array[array_size / 2] + Array[(array_size / 2) - 1]) / 2;
-        }
-        else
-        {
-            mediana = (Array[array_size / 2]);
-        }
+        ARRAY->array_size % 2 == 0 ? mediana = (ARRAY->array[ARRAY->array_size / 2] + ARRAY->array[(ARRAY->array_size / 2) - 1]) / 2 : mediana = (ARRAY->array[ARRAY->array_size / 2]);
     }
     template <typename type_array>
-    static void moda(const type_array *Array, const int &array_size, type_array &most_frequent, int &highest_frequency)
+    static void moda(Array<type_array> *&ARRAY, type_array &most_frequent, int &highest_frequency)
     {
         highest_frequency = 0;
         int current_frequency = 0;
-        for (int i = 0; i < array_size; i++)
+        for (int i = 0; i < ARRAY->array_size; i++)
         {
             current_frequency++;
-            if (i == array_size - 1 || Array[i] != Array[i + 1])
+            if (i == ARRAY->array_size - 1 || ARRAY->array[i] != ARRAY->array[i + 1])
             {
                 if (current_frequency > highest_frequency)
                 {
                     highest_frequency = current_frequency;
-                    most_frequent = Array[i];
+                    most_frequent = ARRAY->array[i];
                 }
                 current_frequency = 0;
             }
         }
     }
     template <typename type_array>
-    static void modas(const type_array *Array, const int &array_size, type_array *&most_frequents, int &most_frequent_size, int &highest_frequency)
+    static void modas(Array<type_array> *&ARRAY, Array<type_array> *&MostFrequents, int &highest_frequency)
     {
         type_array most_frequent;
-        most_frequent_size = 0, highest_frequency = 0;
+        MostFrequents->array_size = 0, highest_frequency = 0;
         int current_frequency = 0;
-        moda(Array, array_size, most_frequent, highest_frequency);
-        addElement<type_array>(most_frequents, most_frequent_size, most_frequent);
-        for (int i = 0; i < array_size; i++)
+        moda(ARRAY, most_frequent, highest_frequency);
+        addElement<type_array>(MostFrequents, most_frequent);
+        for (int i = 0; i < ARRAY->array_size; i++)
         {
-            if (most_frequent == Array[i])
+            if (most_frequent == ARRAY->array[i])
             {
-                for (int j = i + highest_frequency; j < array_size; j++)
+                for (int j = i + highest_frequency; j < ARRAY->array_size; j++)
                 {
                     current_frequency++;
-                    if (j == array_size - 1 || Array[j] != Array[j + 1])
+                    if (j == ARRAY->array_size - 1 || ARRAY->array[j] != ARRAY->array[j + 1])
                     {
                         if (current_frequency == highest_frequency)
                         {
-                            addElement<type_array>(most_frequents, most_frequent_size, Array[j]);
+                            addElement<type_array>(MostFrequents, ARRAY->array[j]);
                         }
                         current_frequency = 0;
                     }
