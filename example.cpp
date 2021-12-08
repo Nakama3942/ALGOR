@@ -9,6 +9,7 @@ Array<int> *Sequence = new Array<int>;     //Подмассив для поис�
 Array<int> *Occurrence = new Array<int>;   //Найденные вхождения подстроки
 Array<int> *NumberPoints = new Array<int>; //Найденные вхождения указанного элемента
 Array<int> *Modas = new Array<int>;        //Найденные вхождения моды
+Array<int> *Extended = new Array<int>;     //Провенрка оператора ББ
 
 //Вывод на экран массива
 template <typename type_array>
@@ -17,8 +18,8 @@ void print(const char *representing_string, Array<type_array> *&ARRAY)
     cout << representing_string << "\n";
     for (int i = 0; i < ARRAY->array_size; i++)
     {
-        //cout << i + 1 << "->" << ARRAY->array[i] << "\t";
-        cout << ARRAY->array[i] << "\t";
+        cout << i + 1 << "->" << ARRAY->array[i] << "\t";
+        //cout << ARRAY->array[i] << "\t";
     }
     cout << "\n";
 }
@@ -26,14 +27,14 @@ void print(const char *representing_string, Array<type_array> *&ARRAY)
 //Генерация (заполнение) массива
 void generator()
 {
-    ArrayProcessing::generatedStruct(Massiv, 64);
+    ArrayProcessing::createdStruct(Massiv, 64);
     ArrayProcessing::generatedArray<int>(Massiv, 1, 50);
 }
 
 //Копирование массива
 void copier()
 {
-    ArrayProcessing::generatedStruct(Massiv1, 64);
+    ArrayProcessing::createdStruct(Massiv1, 64);
     ArrayProcessing::copy<int>(Massiv1->array, Massiv->array, Massiv1->array_size);
 }
 
@@ -62,7 +63,7 @@ void search_minmax()
 //Нахождение последовательности
 void search_occurrence()
 {
-    ArrayProcessing::generatedStruct<int>(Sequence, 0);
+    ArrayProcessing::createdStruct<int>(Sequence, 0);
     ArrayProcessing::addElement<int>(Sequence, 20);
     ArrayProcessing::addElement<int>(Sequence, 21);
     try
