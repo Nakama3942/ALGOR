@@ -27,6 +27,15 @@
 #ifndef ALGORCORE_HPP
 #define ALGORCORE_HPP
 
+#include "ALGOR_global.h"
+
+template <typename type_array>
+struct Array
+{
+    type_array *array;
+    int array_size;
+};
+
 //В планах по разработке и развитию
 
 #endif //ALGORCORE_HPP
