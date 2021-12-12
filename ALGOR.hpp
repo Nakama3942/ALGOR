@@ -53,6 +53,13 @@ struct Array
     int array_size;
 };
 
+template <typename type_array> class SortingBase
+{
+public:
+    SortingBase(Array<type_array> *&Array) : ARRAY(Array) {};
+    Array<type_array> *ARRAY;
+};
+
 //ALGOR_RANDOM
 
 //class Randomizer
@@ -93,22 +100,18 @@ template <typename type_array> void modas(Array<type_array> *&ARRAY, Array<type_
 
 namespace Exchange_Sorts
 {
-    template <typename type_array> class BubbleSort
+    template <typename type_array> class BubbleSort : public SortingBase<type_array>
     {
     public:
-        BubbleSort(Array<type_array> *&Array);
+        BubbleSort(Array<type_array> *&Array) : SortingBase<type_array>(Array) {};
         void start_sort();
-    private:
-        Array<type_array> *ARRAY;
     };
 
-    template <typename type_array> class CocktailShakerSort
+    template <typename type_array> class CocktailShakerSort : public SortingBase<type_array>
     {
     public:
-        CocktailShakerSort(Array<type_array> *&Array);
+        CocktailShakerSort(Array<type_array> *&Array) : SortingBase<type_array>(Array) {};
         void start_sort();
-    private:
-        Array<type_array> *ARRAY;
     };
 
     //class OddevenSort{};
@@ -117,13 +120,12 @@ namespace Exchange_Sorts
 
     //class GnomeSort{};
 
-    template <typename type_array> class QuickSort
+    template <typename type_array> class QuickSort : public SortingBase<type_array>
     {
     public:
-        QuickSort(Array<type_array> *&Array);
+        QuickSort(Array<type_array> *&Array) : SortingBase<type_array>(Array) {};
         void start_sort();
     private:
-        Array<type_array> *ARRAY;
         void quick_sort(const int &left_limit, const int &right_limit);
     };
 
@@ -139,13 +141,12 @@ namespace Selection_Sorts
 {
     //class SelectionSort{};
 
-    template <typename type_array> class HeapSort
+    template <typename type_array> class HeapSort : public SortingBase<type_array>
     {
     public:
-        HeapSort(Array<type_array> *&Array);
+        HeapSort(Array<type_array> *&Array) : SortingBase<type_array>(Array) {};
         void start_sort();
     private:
-        Array<type_array> *ARRAY;
         void heapify(type_array *Array, const int &count, const int &array_size);
     };
 
@@ -154,13 +155,11 @@ namespace Selection_Sorts
 
 namespace Insertion_Sorts
 {
-    template <typename type_array> class InsertSort
+    template <typename type_array> class InsertSort : public SortingBase<type_array>
     {
     public:
-        InsertSort(Array<type_array> *&Array);
+        InsertSort(Array<type_array> *&Array) : SortingBase<type_array>(Array) {};
         void start_sort();
-    private:
-        Array<type_array> *ARRAY;
     };
 
     //class ShellSort{};
@@ -176,13 +175,12 @@ namespace Insertion_Sorts
 
 namespace Merge_Sorts
 {
-    template <typename type_array> class MergeSort
+    template <typename type_array> class MergeSort : public SortingBase<type_array>
     {
     public:
-        MergeSort(Array<type_array> *&Array);
+        MergeSort(Array<type_array> *&Array) : SortingBase<type_array>(Array) {};
         void start_sort();
     private:
-        Array<type_array> *ARRAY;
         void merge_sort(type_array *Array, const int &left_limit, const int &right_limit);
         void merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit);
     };
@@ -194,24 +192,20 @@ namespace Merge_Sorts
 
 namespace Noncomparison_Sort
 {
-    class CountingSort
+    class CountingSort : public SortingBase<int>
     {
     public:
-        CountingSort(Array<int> *&Array);
+        CountingSort(Array<int> *&Array) : SortingBase<int>(Array) {};
         void start_sort();
-    private:
-        Array<int> *ARRAY;
     };
 
     //class BucketSort{};
 
-    class RadixSort
+    class RadixSort : public SortingBase<int>
     {
     public:
-        RadixSort(Array<int> *&Array);
+        RadixSort(Array<int> *&Array) : SortingBase<int>(Array) {};
         void start_sort();
-    private:
-        Array<int> *ARRAY;
     };
 
     //class PigeonholeSort{};

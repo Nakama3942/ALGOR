@@ -12,14 +12,12 @@ CONFIG += build_all
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-    ALGOR_ArrayCharacteristic.cpp \
-    ALGOR_ArrayProcessing.cpp \
-    ALGOR_Sorting.cpp
-
 HEADERS += \
     ALGOR.hpp \
     ALGOR_global.h
+
+SOURCES += \
+    ALGOR.cpp
 
 # Default rules for deployment.
 unix {
