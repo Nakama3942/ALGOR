@@ -42,20 +42,28 @@
 //#include <iostream> //Иногда используется для тестов
 #include <ctime>  //Будет убран после написания рандомизатора
 #include <random> //Будет убран после написания рандомизатора
-using namespace std;
+//using namespace std;
 
 //ALGOR_CORE
+
+template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
+template <typename type_array> type_array minimum(const type_array *Array, const int &array_size);
+template <typename type_array> type_array maximum(const type_array *Array, const int &array_size);
+template <typename type_array> void addElement(const type_array *Array, const int &array_size, const type_array &value);
+template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array = 0, int position_in_old_array = 0);
 
 template <typename type_array> struct Array
 {
     type_array *array;
     int array_size;
 };
+template <typename type_array> void remove_struct(Array<type_array> *&Array);
 
 template <typename type_array> class ArrayData
 {
 public:
     ArrayData(Array<type_array> *&Array) : ARRAY(Array) {};
+    ArrayData() {};
 protected:
     Array<type_array> *ARRAY;
 };
@@ -69,37 +77,32 @@ protected:
 
 //ALGOR_ARRAY
 
-namespace ArrayProcessing
-{
-template <typename type_array> void createdStruct(Array<type_array> *&ARRAY, const int &SIZE);
-template <typename type_array> void generatedArray(Array<type_array> *&ARRAY, const int &min_limit, const int &max_limit);
-template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
-template <typename type_array> void addElement(Array<type_array> *&ARRAY, const type_array &value);
-template <typename type_array> void reverse(Array<type_array> *&ARRAY);
-template <typename type_array> void resize(Array<type_array> *&ARRAY, const int &NEW_SIZE, const type_array &setElement);
-template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array = 0, int position_in_old_array = 0);
-}
-
-namespace ArrayGetter
-{
 enum ArrayStatus { SORTED, UNSORTED };
 enum ArrayType { NUMBER, STRING };
-template <typename type_array> void getMin(const type_array *Array, const int &array_size, type_array &point_min, ArrayStatus ArrStat = UNSORTED);
-template <typename type_array> void getMax(const type_array *Array, const int &array_size, type_array &point_max, ArrayStatus ArrStat = UNSORTED);
-template <typename type_array> void getElementsNumber_lenear(Array<type_array> *&ARRAY, const type_array &required_element, Array<int> *&NumberPoints);
-template <typename type_array> void getElementNumber_binary(Array<type_array> *&ARRAY, const type_array &required_element, int &number_point);
-template <typename type_array> void getElementNumber_binary(Array<type_array> *&ARRAY, const type_array &required_element, int &number_point, int left_limit, int right_limit);
-template <typename type_array> void getOccurrencesOfSubstring(Array<type_array> *&ARRAY, Array<type_array> *&SUBARRAY, Array<int> *&Occurrences, ArrayType ArrType = NUMBER);
-}
 
-template<typename type_array> class ArrayCharacteristic : public ArrayData<type_array>
+template<typename type_array> class ArrayProcessing : public ArrayData<type_array>
 {
 public:
-    ArrayCharacteristic(Array<type_array> *&Array) : ArrayData<type_array>(Array) {};
+    ArrayProcessing(Array<type_array> *&Array);
+    ArrayProcessing();
+    void createdStruct(const int &SIZE);
+    void generatedArray(const int &min_limit, const int &max_limit);
+    type_array getMin(ArrayStatus ArrStat = UNSORTED);
+    type_array getMax(ArrayStatus ArrStat = UNSORTED);
+    void getData(Array<type_array> *&DATA);
+    Array<type_array> *getData();
+    void lenear_searcher(const type_array &required_element, Array<int> *&NumberPoints);
+    void binary_searcher(const type_array &required_element, int &number_point);
+    void searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, Array<int> *&Occurrences, ArrayType ArrType = NUMBER);
+    void reverse();
+    void resize(const int &NEW_SIZE, const type_array &setElement);
     void average(type_array &average);
     void mediana(type_array &mediana);
     void moda(type_array &most_frequent, int &highest_frequency);
     void modas(Array<type_array> *&MostFrequents, int &highest_frequency);
+    void remove();
+private:
+    void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
 
 //ALGOR_SORTING

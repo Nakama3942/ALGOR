@@ -21,86 +21,157 @@
 #include "ALGOR.hpp"
 
 template<typename type_array>
-void ArrayProcessing::createdStruct(Array<type_array> *&ARRAY, const int &SIZE)
-{
-    ARRAY->array_size = SIZE;
-    ARRAY->array = new type_array[SIZE];
-}
-template void ArrayProcessing::createdStruct<int>(Array<int> *&, const int &);
-template void ArrayProcessing::createdStruct<float>(Array<float> *&, const int &);
-template void ArrayProcessing::createdStruct<char>(Array<char> *&, const int &);
-
-template<typename type_array>
-void ArrayProcessing::generatedArray(Array<type_array> *&ARRAY, const int &min_limit, const int &max_limit)
-{
-    srand(time(NULL));
-    for (int i = 0; i < ARRAY->array_size; i++)
-    {
-        ARRAY->array[i] = min_limit + rand() % (max_limit - min_limit);
-    }
-}
-template void ArrayProcessing::generatedArray<int>(Array<int> *&, const int &, const int &);
-template void ArrayProcessing::generatedArray<float>(Array<float> *&, const int &, const int &);
-template void ArrayProcessing::generatedArray<char>(Array<char> *&, const int &, const int &);
-
-template<typename type_array>
-void ArrayProcessing::swap(type_array &firstNumber, type_array &secondNumber)
+void swap(type_array &firstNumber, type_array &secondNumber)
 {
     type_array *temp = new type_array(firstNumber);
     firstNumber = secondNumber;
     secondNumber = *temp;
     delete (temp);
 }
-template void ArrayProcessing::swap<int>(int &, int &);
-template void ArrayProcessing::swap<float>(float &, float &);
-template void ArrayProcessing::swap<char>(char &, char &);
+template void swap<int>(int &, int &);
+template void swap<float>(float &, float &);
+template void swap<char>(char &, char &);
 
 template<typename type_array>
-void ArrayProcessing::addElement(Array<type_array> *&ARRAY, const type_array &value)
+type_array minimum(const type_array *Array, const int &array_size)
 {
-    if (ARRAY->array_size == 0)
+    type_array point_min = Array[0];
+    for (int i = 1; i < array_size; i++)
     {
-        ARRAY->array_size++;
-        ARRAY->array = new type_array[ARRAY->array_size]{value};
+        if (point_min > Array[i])
+        {
+            point_min = Array[i];
+        }
+    }
+    return point_min;
+}
+template int minimum<int>(const int *, const int &);
+template float minimum<float>(const float *, const int &);
+template char minimum<char>(const char *, const int &);
+
+template<typename type_array>
+type_array maximum(const type_array *Array, const int &array_size)
+{
+    type_array point_max = Array[0];
+    for (int i = 1; i < array_size; i++)
+    {
+        if (point_max < Array[i])
+        {
+            point_max = Array[i];
+        }
+    }
+    return point_max;
+}
+template int maximum<int>(const int *, const int &);
+template float maximum<float>(const float *, const int &);
+template char maximum<char>(const char *, const int &);
+
+template<typename type_array>
+void addElement(type_array *&Array, int &array_size, const type_array &value)
+{
+    if (array_size == 0)
+    {
+        array_size++;
+        Array = new type_array[array_size]{value};
     }
     else
     {
-        type_array *temp_Array = new type_array[ARRAY->array_size];
-        copy<type_array>(temp_Array, ARRAY->array, ARRAY->array_size);
-        delete[] ARRAY->array;
-        int *limit = new int(ARRAY->array_size);
-        ARRAY->array_size++;
-        ARRAY->array = new type_array[ARRAY->array_size];
-        copy<type_array>(ARRAY->array, temp_Array, *limit);
-        ARRAY->array[*limit] = value;
-        delete (limit);
+        type_array *temp_Array = new type_array[array_size];
+        copy<type_array>(temp_Array, Array, array_size);
+        delete[] Array;
+        int limit = array_size;
+        array_size++;
+        Array = new type_array[array_size];
+        copy<type_array>(Array, temp_Array, limit);
+        Array[limit] = value;
         delete[] temp_Array;
     }
 }
-template void ArrayProcessing::addElement<int>(Array<int> *&, const int &);
-template void ArrayProcessing::addElement<float>(Array<float> *&, const float &);
-template void ArrayProcessing::addElement<char>(Array<char> *&, const char &);
+template void addElement<int>(int *&, int &, const int &);
+template void addElement<float>(float *&, int &, const float &);
+template void addElement<char>(char *&, int &, const char &);
 
 template<typename type_array>
-void ArrayProcessing::reverse(Array<type_array> *&ARRAY)
+void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array, int position_in_old_array)
 {
-    int left_limit = 0, right_limit = ARRAY->array_size - 1;
-    for (int i = 0; i < ARRAY->array_size / 2; i++)
+    for (int i = 0; i < size_of_copied; i++)
     {
-        swap<type_array>(ARRAY->array[left_limit], ARRAY->array[right_limit]);
+        new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
+    }
+}
+template void copy<int>(int *, const int *, const int &, int, int);
+template void copy<float>(float *, const float *, const int &, int, int);
+template void copy<char>(char *, const char *, const int &, int, int);
+
+template<typename type_array>
+void remove_struct(Array<type_array> *&Array)
+{
+    delete[] Array->array;
+    delete(Array);
+}
+template void remove_struct<int>(Array<int> *&);
+template void remove_struct<float>(Array<float> *&);
+template void remove_struct<char>(Array<char> *&);
+
+template<typename type_array>
+ArrayProcessing<type_array>::ArrayProcessing(Array<type_array> *&Array) : ArrayData<type_array>(Array) {}
+template ArrayProcessing<int>::ArrayProcessing(Array<int> *&);
+template ArrayProcessing<float>::ArrayProcessing(Array<float> *&);
+template ArrayProcessing<char>::ArrayProcessing(Array<char> *&);
+
+template<typename type_array>
+ArrayProcessing<type_array>::ArrayProcessing() : ArrayData<type_array>()
+{
+    this->ARRAY = new Array<type_array>;
+}
+template ArrayProcessing<int>::ArrayProcessing();
+template ArrayProcessing<float>::ArrayProcessing();
+template ArrayProcessing<char>::ArrayProcessing();
+
+template<typename type_array>
+void ArrayProcessing<type_array>::createdStruct(const int &SIZE)
+{
+    this->ARRAY->array_size = SIZE;
+    this->ARRAY->array = new type_array[SIZE];
+}
+template void ArrayProcessing<int>::createdStruct(const int &);
+template void ArrayProcessing<float>::createdStruct(const int &);
+template void ArrayProcessing<char>::createdStruct(const int &);
+
+template<typename type_array>
+void ArrayProcessing<type_array>::generatedArray(const int &min_limit, const int &max_limit)
+{
+    srand(time(NULL));
+    for (int i = 0; i < this->ARRAY->array_size; i++)
+    {
+        this->ARRAY->array[i] = min_limit + rand() % (max_limit - min_limit);
+    }
+}
+template void ArrayProcessing<int>::generatedArray(const int &, const int &);
+template void ArrayProcessing<float>::generatedArray(const int &, const int &);
+template void ArrayProcessing<char>::generatedArray(const int &, const int &);
+
+template<typename type_array>
+void ArrayProcessing<type_array>::reverse()
+{
+    int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
+    for (int i = 0; i < this->ARRAY->array_size / 2; i++)
+    {
+        swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
         left_limit++;
         right_limit--;
     }
 }
-template void ArrayProcessing::reverse<int>(Array<int> *&);
-template void ArrayProcessing::reverse<float>(Array<float> *&);
-template void ArrayProcessing::reverse<char>(Array<char> *&);
+template void ArrayProcessing<int>::reverse();
+template void ArrayProcessing<float>::reverse();
+template void ArrayProcessing<char>::reverse();
 
 template<typename type_array>
-void ArrayProcessing::resize(Array<type_array> *&ARRAY, const int &NEW_SIZE, const type_array &setElement)
+void ArrayProcessing<type_array>::resize(const int &NEW_SIZE, const type_array &setElement)
 {
-    Array<type_array> *OLD_ARRAY = ARRAY, *NEW_ARRAY = new Array<type_array>;
-    createdStruct<type_array>(NEW_ARRAY, NEW_SIZE);
+    Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = new Array<type_array>;
+    NEW_ARRAY->array_size = NEW_SIZE;
+    NEW_ARRAY->array = new type_array[NEW_SIZE];
     if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
     {
         copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
@@ -113,83 +184,73 @@ void ArrayProcessing::resize(Array<type_array> *&ARRAY, const int &NEW_SIZE, con
     {
         copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
     }
-    ARRAY = NEW_ARRAY;
+    this->ARRAY = NEW_ARRAY;
     delete[] OLD_ARRAY->array;
     delete(OLD_ARRAY);
 }
-template void ArrayProcessing::resize<int>(Array<int> *&, const int &, const int &);
-template void ArrayProcessing::resize<float>(Array<float> *&, const int &, const float &);
-template void ArrayProcessing::resize<char>(Array<char> *&, const int &, const char &);
+template void ArrayProcessing<int>::resize(const int &, const int &);
+template void ArrayProcessing<float>::resize(const int &, const float &);
+template void ArrayProcessing<char>::resize(const int &, const char &);
 
 template<typename type_array>
-void ArrayProcessing::copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array, int position_in_old_array)
-{
-    for (int i = 0; i < size_of_copied; i++)
-    {
-        new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
-    }
-}
-template void ArrayProcessing::copy<int>(int *, const int *, const int &, int, int);
-template void ArrayProcessing::copy<float>(float *, const float *, const int &, int, int);
-template void ArrayProcessing::copy<char>(char *, const char *, const int &, int, int);
-
-template<typename type_array>
-void ArrayGetter::getMin(const type_array *Array, const int &array_size, type_array &point_min, ArrayStatus ArrStat)
+type_array ArrayProcessing<type_array>::getMin(ArrayStatus ArrStat)
 {
     switch (ArrStat)
     {
     case UNSORTED:
-        point_min = Array[0];
-        for (int i = 1; i < array_size; i++)
-        {
-            if (point_min > Array[i])
-            {
-                point_min = Array[i];
-            }
-        }
-        break;
+        return minimum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
     case SORTED:
-        point_min = Array[0];
-        break;
+        return this->ARRAY->array[0];
     }
+    throw -1;
 }
-template void ArrayGetter::getMin<int>(const int *, const int &, int &, ArrayStatus);
-template void ArrayGetter::getMin<float>(const float *, const int &, float &, ArrayStatus);
-template void ArrayGetter::getMin<char>(const char *, const int &, char &, ArrayStatus);
+template int ArrayProcessing<int>::getMin(ArrayStatus);
+template float ArrayProcessing<float>::getMin(ArrayStatus);
+template char ArrayProcessing<char>::getMin(ArrayStatus);
 
 template<typename type_array>
-void ArrayGetter::getMax(const type_array *Array, const int &array_size, type_array &point_max, ArrayStatus ArrStat)
+type_array ArrayProcessing<type_array>::getMax(ArrayStatus ArrStat)
 {
     switch (ArrStat)
     {
     case UNSORTED:
-        point_max = Array[0];
-        for (int i = 1; i < array_size; i++)
-        {
-            if (point_max < Array[i])
-            {
-                point_max = Array[i];
-            }
-        }
-        break;
+        return maximum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
     case SORTED:
-        point_max = Array[array_size - 1];
-        break;
+        return this->ARRAY->array[this->ARRAY->array_size - 1];
     }
+    throw -1;
 }
-template void ArrayGetter::getMax<int>(const int *, const int &, int &, ArrayStatus);
-template void ArrayGetter::getMax<float>(const float *, const int &, float &, ArrayStatus);
-template void ArrayGetter::getMax<char>(const char *, const int &, char &, ArrayStatus);
+template int ArrayProcessing<int>::getMax(ArrayStatus);
+template float ArrayProcessing<float>::getMax(ArrayStatus);
+template char ArrayProcessing<char>::getMax(ArrayStatus);
 
 template<typename type_array>
-void ArrayGetter::getElementsNumber_lenear(Array<type_array> *&ARRAY, const type_array &required_element, Array<int> *&NumberPoints)
+void ArrayProcessing<type_array>::getData(Array<type_array> *&DATA)
+{
+    DATA = this->ARRAY;
+}
+template void ArrayProcessing<int>::getData(Array<int> *&);
+template void ArrayProcessing<float>::getData(Array<float> *&);
+template void ArrayProcessing<char>::getData(Array<char> *&);
+
+template<typename type_array>
+Array<type_array> *ArrayProcessing<type_array>::getData()
+{
+    return this->ARRAY;
+}
+template Array<int> *ArrayProcessing<int>::getData();
+template Array<float> *ArrayProcessing<float>::getData();
+template Array<char> *ArrayProcessing<char>::getData();
+
+template<typename type_array>
+void ArrayProcessing<type_array>::lenear_searcher(const type_array &required_element, Array<int> *&NumberPoints)
 {
     NumberPoints->array_size = 0;
-    for (int i = 0; i < ARRAY->array_size; i++)
+    for (int i = 0; i < this->ARRAY->array_size; i++)
     {
-        if (required_element == ARRAY->array[i])
+        if (required_element == this->ARRAY->array[i])
         {
-            ArrayProcessing::addElement<int>(NumberPoints, i);
+            addElement<int>(NumberPoints->array, NumberPoints->array_size, i);
         }
     }
     if (NumberPoints->array_size == 0)
@@ -197,66 +258,66 @@ void ArrayGetter::getElementsNumber_lenear(Array<type_array> *&ARRAY, const type
         throw -1;
     }
 }
-template void ArrayGetter::getElementsNumber_lenear<int>(Array<int> *&, const int &, Array<int> *&);
-template void ArrayGetter::getElementsNumber_lenear<float>(Array<float> *&, const float &, Array<int> *&);
-template void ArrayGetter::getElementsNumber_lenear<char>(Array<char> *&, const char &, Array<int> *&);
+template void ArrayProcessing<int>::lenear_searcher(const int &, Array<int> *&);
+template void ArrayProcessing<float>::lenear_searcher(const float &, Array<int> *&);
+template void ArrayProcessing<char>::lenear_searcher(const char &, Array<int> *&);
 
 template<typename type_array>
-void ArrayGetter::getElementNumber_binary(Array<type_array> *&ARRAY, const type_array &required_element, int &number_point)
+void ArrayProcessing<type_array>::binary_searcher(const type_array &required_element, int &number_point)
 {
-    getElementNumber_binary(ARRAY, required_element, number_point, 0, ARRAY->array_size - 1);
+    binary_searcher(required_element, number_point, 0, this->ARRAY->array_size - 1);
 }
-template void ArrayGetter::getElementNumber_binary<int>(Array<int> *&, const int &, int &);
-template void ArrayGetter::getElementNumber_binary<float>(Array<float> *&, const float &, int &);
-template void ArrayGetter::getElementNumber_binary<char>(Array<char> *&, const char &, int &);
+template void ArrayProcessing<int>::binary_searcher(const int &, int &);
+template void ArrayProcessing<float>::binary_searcher(const float &, int &);
+template void ArrayProcessing<char>::binary_searcher(const char &, int &);
 
 template<typename type_array>
-void ArrayGetter::getElementNumber_binary(Array<type_array> *&ARRAY, const type_array &required_element, int &number_point, int left_limit, int right_limit)
+void ArrayProcessing<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
 {
     if (left_limit > right_limit)
     {
         throw -1;
     }
     int middle = left_limit + (right_limit - left_limit) / 2;
-    if (ARRAY->array[middle] == required_element)
+    if (this->ARRAY->array[middle] == required_element)
     {
         number_point = middle;
     }
-    if (ARRAY->array[middle] > required_element)
+    if (this->ARRAY->array[middle] > required_element)
     {
-        getElementNumber_binary(ARRAY, required_element, number_point, left_limit, middle - 1);
+        binary_searcher(required_element, number_point, left_limit, middle - 1);
     }
-    if (ARRAY->array[middle] < required_element)
+    if (this->ARRAY->array[middle] < required_element)
     {
-        getElementNumber_binary(ARRAY, required_element, number_point, middle + 1, right_limit);
+        binary_searcher(required_element, number_point, middle + 1, right_limit);
     }
 }
-template void ArrayGetter::getElementNumber_binary<int>(Array<int> *&, const int &, int &, int, int);
-template void ArrayGetter::getElementNumber_binary<float>(Array<float> *&, const float &, int &, int, int);
-template void ArrayGetter::getElementNumber_binary<char>(Array<char> *&, const char &, int &, int, int);
+template void ArrayProcessing<int>::binary_searcher(const int &, int &, int, int);
+template void ArrayProcessing<float>::binary_searcher(const float &, int &, int, int);
+template void ArrayProcessing<char>::binary_searcher(const char &, int &, int, int);
 
 template<typename type_array>
-void ArrayGetter::getOccurrencesOfSubstring(Array<type_array> *&ARRAY, Array<type_array> *&SUBARRAY, Array<int> *&Occurrences, ArrayType ArrType)
+void ArrayProcessing<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, Array<int> *&Occurrences, ArrayType ArrType)
 {
     Occurrences->array_size = 0;
-    for (int i = 0; i <= ARRAY->array_size - SUBARRAY->array_size; i++)
+    for (int i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
     {
         for (int j = 0; j < SUBARRAY->array_size; j++)
         {
-            if (ARRAY->array[i + j] == SUBARRAY->array[j])
+            if (this->ARRAY->array[i + j] == SUBARRAY->array[j])
             {
                 switch (ArrType)
                 {
                 case NUMBER:
                     if (SUBARRAY->array_size - j == 1)
                     {
-                        ArrayProcessing::addElement<int>(Occurrences, i);
+                        addElement<int>(Occurrences->array, Occurrences->array_size, i);
                     }
                     break;
                 case STRING:
                     if (SUBARRAY->array_size - j == 2)
                     {
-                        ArrayProcessing::addElement<int>(Occurrences, i);
+                        addElement<int>(Occurrences->array, Occurrences->array_size, i);
                     }
                     break;
                 }
@@ -272,12 +333,12 @@ void ArrayGetter::getOccurrencesOfSubstring(Array<type_array> *&ARRAY, Array<typ
         throw -1;
     }
 }
-template void ArrayGetter::getOccurrencesOfSubstring<int>(Array<int> *&, Array<int> *&, Array<int> *&, ArrayType);
-template void ArrayGetter::getOccurrencesOfSubstring<float>(Array<float> *&, Array<float> *&, Array<int> *&, ArrayType);
-template void ArrayGetter::getOccurrencesOfSubstring<char>(Array<char> *&, Array<char> *&, Array<int> *&, ArrayType);
+template void ArrayProcessing<int>::searcherOccurrencesOfSubstring(Array<int> *&, Array<int> *&, ArrayType);
+template void ArrayProcessing<float>::searcherOccurrencesOfSubstring(Array<float> *&, Array<int> *&, ArrayType);
+template void ArrayProcessing<char>::searcherOccurrencesOfSubstring(Array<char> *&, Array<int> *&, ArrayType);
 
 template<typename type_array>
-void ArrayCharacteristic<type_array>::average(type_array &average)
+void ArrayProcessing<type_array>::average(type_array &average)
 {
     average = 0;
     for (int i = 0; i < this->ARRAY->array_size; i++)
@@ -286,21 +347,21 @@ void ArrayCharacteristic<type_array>::average(type_array &average)
     }
     average = average / this->ARRAY->array_size;
 }
-template void ArrayCharacteristic<int>::average(int &);
-template void ArrayCharacteristic<float>::average(float &);
-template void ArrayCharacteristic<char>::average(char &);
+template void ArrayProcessing<int>::average(int &);
+template void ArrayProcessing<float>::average(float &);
+template void ArrayProcessing<char>::average(char &);
 
 template<typename type_array>
-void ArrayCharacteristic<type_array>::mediana(type_array &mediana)
+void ArrayProcessing<type_array>::mediana(type_array &mediana)
 {
     this->ARRAY->array_size % 2 == 0 ? mediana = (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : mediana = (this->ARRAY->array[this->ARRAY->array_size / 2]);
 }
-template void ArrayCharacteristic<int>::mediana(int &);
-template void ArrayCharacteristic<float>::mediana(float &);
-template void ArrayCharacteristic<char>::mediana(char &);
+template void ArrayProcessing<int>::mediana(int &);
+template void ArrayProcessing<float>::mediana(float &);
+template void ArrayProcessing<char>::mediana(char &);
 
 template<typename type_array>
-void ArrayCharacteristic<type_array>::moda(type_array &most_frequent, int &highest_frequency)
+void ArrayProcessing<type_array>::moda(type_array &most_frequent, int &highest_frequency)
 {
     highest_frequency = 0;
     int current_frequency = 0;
@@ -318,18 +379,18 @@ void ArrayCharacteristic<type_array>::moda(type_array &most_frequent, int &highe
         }
     }
 }
-template void ArrayCharacteristic<int>::moda(int &, int &);
-template void ArrayCharacteristic<float>::moda(float &, int &);
-template void ArrayCharacteristic<char>::moda(char &, int &);
+template void ArrayProcessing<int>::moda(int &, int &);
+template void ArrayProcessing<float>::moda(float &, int &);
+template void ArrayProcessing<char>::moda(char &, int &);
 
 template<typename type_array>
-void ArrayCharacteristic<type_array>::modas(Array<type_array> *&MostFrequents, int &highest_frequency)
+void ArrayProcessing<type_array>::modas(Array<type_array> *&MostFrequents, int &highest_frequency)
 {
     type_array most_frequent;
     MostFrequents->array_size = 0, highest_frequency = 0;
     int current_frequency = 0;
     moda(most_frequent, highest_frequency);
-    ArrayProcessing::addElement<type_array>(MostFrequents, most_frequent);
+    addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent);
     for (int i = 0; i < this->ARRAY->array_size; i++)
     {
         if (most_frequent == this->ARRAY->array[i])
@@ -341,7 +402,7 @@ void ArrayCharacteristic<type_array>::modas(Array<type_array> *&MostFrequents, i
                 {
                     if (current_frequency == highest_frequency)
                     {
-                        ArrayProcessing::addElement<type_array>(MostFrequents, this->ARRAY->array[j]);
+                        addElement<type_array>(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j]);
                     }
                     current_frequency = 0;
                 }
@@ -350,9 +411,19 @@ void ArrayCharacteristic<type_array>::modas(Array<type_array> *&MostFrequents, i
         }
     }
 }
-template void ArrayCharacteristic<int>::modas(Array<int> *&, int &);
-template void ArrayCharacteristic<float>::modas(Array<float> *&, int &);
-template void ArrayCharacteristic<char>::modas(Array<char> *&, int &);
+template void ArrayProcessing<int>::modas(Array<int> *&, int &);
+template void ArrayProcessing<float>::modas(Array<float> *&, int &);
+template void ArrayProcessing<char>::modas(Array<char> *&, int &);
+
+template<typename type_array>
+void ArrayProcessing<type_array>::remove()
+{
+    delete[] this->ARRAY->array;
+    delete this->ARRAY;
+}
+template void ArrayProcessing<int>::remove();
+template void ArrayProcessing<float>::remove();
+template void ArrayProcessing<char>::remove();
 
 template<typename type_array>
 void Exchange_Sorts::BubbleSort<type_array>::start_sort()
@@ -363,7 +434,7 @@ void Exchange_Sorts::BubbleSort<type_array>::start_sort()
         {
             if (this->ARRAY->array[j] > this->ARRAY->array[j + 1])
             {
-                ArrayProcessing::swap<type_array>(this->ARRAY->array[j], this->ARRAY->array[j + 1]);
+                swap<type_array>(this->ARRAY->array[j], this->ARRAY->array[j + 1]);
             }
         }
     }
@@ -382,7 +453,7 @@ void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
         {
             if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
             {
-                ArrayProcessing::swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
+                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
             }
         }
         leftMark++;
@@ -390,7 +461,7 @@ void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
         {
             if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
             {
-                ArrayProcessing::swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
+                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
             }
         }
         rightMark--;
@@ -426,7 +497,7 @@ void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, co
         }
         if (start <= finish)
         {
-            ArrayProcessing::swap<type_array>(this->ARRAY->array[start], this->ARRAY->array[finish]);
+            swap<type_array>(this->ARRAY->array[start], this->ARRAY->array[finish]);
             start++;
             finish--;
         }
@@ -453,7 +524,7 @@ void Selection_Sorts::HeapSort<type_array>::start_sort()
     }
     for (int i = this->ARRAY->array_size - 1; i >= 0; i--)
     {
-        ArrayProcessing::swap<type_array>(this->ARRAY->array[0], this->ARRAY->array[i]);
+        swap<type_array>(this->ARRAY->array[0], this->ARRAY->array[i]);
         heapify(this->ARRAY->array, 0, i);
     }
 }
@@ -475,7 +546,7 @@ void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const int
     }
     if (large != count)
     {
-        ArrayProcessing::swap<type_array>(Array[count], Array[large]);
+        swap<type_array>(Array[count], Array[large]);
         heapify(Array, large, array_size);
     }
 }
@@ -490,7 +561,7 @@ void Insertion_Sorts::InsertSort<type_array>::start_sort()
     {
         for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
         {
-            ArrayProcessing::swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
+            swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
         }
     }
 }
@@ -552,9 +623,8 @@ template void Merge_Sorts::MergeSort<char>::merge(char *, const int &, const int
 
 void Noncomparison_Sort::CountingSort::start_sort()
 {
-    int min, max;
-    ArrayGetter::getMin<int>(ARRAY->array, ARRAY->array_size, min);
-    ArrayGetter::getMax<int>(ARRAY->array, ARRAY->array_size, max);
+    int min = minimum<int>(ARRAY->array, ARRAY->array_size),
+        max = maximum<int>(ARRAY->array, ARRAY->array_size);
     int *tempArray = new int[max - min + 1];
     for (int i = 0; i < max - min + 1; i++)
     {
@@ -578,8 +648,7 @@ void Noncomparison_Sort::CountingSort::start_sort()
 
 void Noncomparison_Sort::RadixSort::start_sort()
 {
-    int exp = 1, bit = 10, max;
-    ArrayGetter::getMax<int>(ARRAY->array, ARRAY->array_size, max);
+    int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
     int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
     while (max / exp > 0)
     {
