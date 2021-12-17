@@ -49,21 +49,18 @@
 template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
 template <typename type_array> type_array minimum(const type_array *Array, const int &array_size);
 template <typename type_array> type_array maximum(const type_array *Array, const int &array_size);
-template <typename type_array> void addElement(const type_array *Array, const int &array_size, const type_array &value);
+template <typename type_array> void addElement(type_array *&Array, int &array_size, const type_array &value);
 template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array = 0, int position_in_old_array = 0);
 
-template <typename type_array> struct Array
-{
-    type_array *array;
-    int array_size;
-};
+template <typename type_array> struct Array { type_array *array; int array_size = 0; };
+template <typename type_array> Array<type_array> *create_struct(const int &SIZE);
 template <typename type_array> void remove_struct(Array<type_array> *&Array);
 
-template <typename type_array> class ArrayData
+template <typename type_array> class ArrayBase
 {
 public:
-    ArrayData(Array<type_array> *&Array) : ARRAY(Array) {};
-    ArrayData() {};
+    ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {};
+    ArrayBase(const int &SIZE) { ARRAY = create_struct<type_array>(SIZE); };
 protected:
     Array<type_array> *ARRAY;
 };
@@ -80,27 +77,28 @@ protected:
 enum ArrayStatus { SORTED, UNSORTED };
 enum ArrayType { NUMBER, STRING };
 
-template<typename type_array> class ArrayProcessing : public ArrayData<type_array>
+template<typename type_array> class ARRAYDATA : public ArrayBase<type_array>
 {
 public:
-    ArrayProcessing(Array<type_array> *&Array);
-    ArrayProcessing();
-    void createdStruct(const int &SIZE);
-    void generatedArray(const int &min_limit, const int &max_limit);
-    type_array getMin(ArrayStatus ArrStat = UNSORTED);
-    type_array getMax(ArrayStatus ArrStat = UNSORTED);
+    ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
+    ARRAYDATA(const int &SIZE) : ArrayBase<type_array>(SIZE) {}
+    void generatedData(const int &min_limit, const int &max_limit);
+    //setData();
     void getData(Array<type_array> *&DATA);
     Array<type_array> *getData();
-    void lenear_searcher(const type_array &required_element, Array<int> *&NumberPoints);
-    void binary_searcher(const type_array &required_element, int &number_point);
-    void searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, Array<int> *&Occurrences, ArrayType ArrType = NUMBER);
-    void reverse();
+    //reset();
     void resize(const int &NEW_SIZE, const type_array &setElement);
-    void average(type_array &average);
-    void mediana(type_array &mediana);
-    void moda(type_array &most_frequent, int &highest_frequency);
-    void modas(Array<type_array> *&MostFrequents, int &highest_frequency);
+    void reverse();
     void remove();
+    type_array getMin(ArrayStatus ArrStat = UNSORTED);
+    type_array getMax(ArrayStatus ArrStat = UNSORTED);
+    Array<int> *lenear_searcher(const type_array &required_element);
+    int binary_searcher(const type_array &required_element);
+    Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = NUMBER);
+    type_array average();
+    type_array mediana();
+    type_array moda(int &highest_frequency);
+    Array<type_array> *modas(int &highest_frequency);
 private:
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
@@ -109,17 +107,17 @@ private:
 
 namespace Exchange_Sorts
 {
-    template <typename type_array> class BubbleSort : public ArrayData<type_array>
+    template <typename type_array> class BubbleSort : public ArrayBase<type_array>
     {
     public:
-        BubbleSort(Array<type_array> *&Array) : ArrayData<type_array>(Array) {};
+        BubbleSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
         void start_sort();
     };
 
-    template <typename type_array> class CocktailShakerSort : public ArrayData<type_array>
+    template <typename type_array> class CocktailShakerSort : public ArrayBase<type_array>
     {
     public:
-        CocktailShakerSort(Array<type_array> *&Array) : ArrayData<type_array>(Array) {};
+        CocktailShakerSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
         void start_sort();
     };
 
@@ -129,10 +127,10 @@ namespace Exchange_Sorts
 
     //class GnomeSort{};
 
-    template <typename type_array> class QuickSort : public ArrayData<type_array>
+    template <typename type_array> class QuickSort : public ArrayBase<type_array>
     {
     public:
-        QuickSort(Array<type_array> *&Array) : ArrayData<type_array>(Array) {};
+        QuickSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
         void start_sort();
     private:
         void quick_sort(const int &left_limit, const int &right_limit);
@@ -150,10 +148,10 @@ namespace Selection_Sorts
 {
     //class SelectionSort{};
 
-    template <typename type_array> class HeapSort : public ArrayData<type_array>
+    template <typename type_array> class HeapSort : public ArrayBase<type_array>
     {
     public:
-        HeapSort(Array<type_array> *&Array) : ArrayData<type_array>(Array) {};
+        HeapSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
         void start_sort();
     private:
         void heapify(type_array *Array, const int &count, const int &array_size);
@@ -164,10 +162,10 @@ namespace Selection_Sorts
 
 namespace Insertion_Sorts
 {
-    template <typename type_array> class InsertSort : public ArrayData<type_array>
+    template <typename type_array> class InsertSort : public ArrayBase<type_array>
     {
     public:
-        InsertSort(Array<type_array> *&Array) : ArrayData<type_array>(Array) {};
+        InsertSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
         void start_sort();
     };
 
@@ -184,10 +182,10 @@ namespace Insertion_Sorts
 
 namespace Merge_Sorts
 {
-    template <typename type_array> class MergeSort : public ArrayData<type_array>
+    template <typename type_array> class MergeSort : public ArrayBase<type_array>
     {
     public:
-        MergeSort(Array<type_array> *&Array) : ArrayData<type_array>(Array) {};
+        MergeSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
         void start_sort();
     private:
         void merge_sort(type_array *Array, const int &left_limit, const int &right_limit);
@@ -201,19 +199,19 @@ namespace Merge_Sorts
 
 namespace Noncomparison_Sort
 {
-    class CountingSort : public ArrayData<int>
+    class CountingSort : public ArrayBase<int>
     {
     public:
-        CountingSort(Array<int> *&Array) : ArrayData<int>(Array) {};
+        CountingSort(Array<int> *&Array) : ArrayBase<int>(Array) {};
         void start_sort();
     };
 
     //class BucketSort{};
 
-    class RadixSort : public ArrayData<int>
+    class RadixSort : public ArrayBase<int>
     {
     public:
-        RadixSort(Array<int> *&Array) : ArrayData<int>(Array) {};
+        RadixSort(Array<int> *&Array) : ArrayBase<int>(Array) {};
         void start_sort();
     };
 

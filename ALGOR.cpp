@@ -20,20 +20,15 @@
 
 #include "ALGOR.hpp"
 
-template<typename type_array>
-void swap(type_array &firstNumber, type_array &secondNumber)
+template<typename type_array> void swap(type_array &firstNumber, type_array &secondNumber)
 {
     type_array *temp = new type_array(firstNumber);
     firstNumber = secondNumber;
     secondNumber = *temp;
     delete (temp);
 }
-template void swap<int>(int &, int &);
-template void swap<float>(float &, float &);
-template void swap<char>(char &, char &);
 
-template<typename type_array>
-type_array minimum(const type_array *Array, const int &array_size)
+template<typename type_array> type_array minimum(const type_array *Array, const int &array_size)
 {
     type_array point_min = Array[0];
     for (int i = 1; i < array_size; i++)
@@ -45,12 +40,8 @@ type_array minimum(const type_array *Array, const int &array_size)
     }
     return point_min;
 }
-template int minimum<int>(const int *, const int &);
-template float minimum<float>(const float *, const int &);
-template char minimum<char>(const char *, const int &);
 
-template<typename type_array>
-type_array maximum(const type_array *Array, const int &array_size)
+template<typename type_array> type_array maximum(const type_array *Array, const int &array_size)
 {
     type_array point_max = Array[0];
     for (int i = 1; i < array_size; i++)
@@ -62,12 +53,8 @@ type_array maximum(const type_array *Array, const int &array_size)
     }
     return point_max;
 }
-template int maximum<int>(const int *, const int &);
-template float maximum<float>(const float *, const int &);
-template char maximum<char>(const char *, const int &);
 
-template<typename type_array>
-void addElement(type_array *&Array, int &array_size, const type_array &value)
+template<typename type_array> void addElement(type_array *&Array, int &array_size, const type_array &value)
 {
     if (array_size == 0)
     {
@@ -87,59 +74,30 @@ void addElement(type_array *&Array, int &array_size, const type_array &value)
         delete[] temp_Array;
     }
 }
-template void addElement<int>(int *&, int &, const int &);
-template void addElement<float>(float *&, int &, const float &);
-template void addElement<char>(char *&, int &, const char &);
 
-template<typename type_array>
-void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array, int position_in_old_array)
+template<typename type_array> void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array, int position_in_old_array)
 {
     for (int i = 0; i < size_of_copied; i++)
     {
         new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
     }
 }
-template void copy<int>(int *, const int *, const int &, int, int);
-template void copy<float>(float *, const float *, const int &, int, int);
-template void copy<char>(char *, const char *, const int &, int, int);
 
-template<typename type_array>
-void remove_struct(Array<type_array> *&Array)
+template<typename type_array> Array<type_array> *create_struct(const int &SIZE)
+{
+    Array<type_array> *ARRAY = new Array<type_array>;
+    ARRAY->array_size = SIZE;
+    ARRAY->array = new type_array[SIZE];
+    return ARRAY;
+}
+
+template<typename type_array> void remove_struct(Array<type_array> *&Array)
 {
     delete[] Array->array;
     delete(Array);
 }
-template void remove_struct<int>(Array<int> *&);
-template void remove_struct<float>(Array<float> *&);
-template void remove_struct<char>(Array<char> *&);
 
-template<typename type_array>
-ArrayProcessing<type_array>::ArrayProcessing(Array<type_array> *&Array) : ArrayData<type_array>(Array) {}
-template ArrayProcessing<int>::ArrayProcessing(Array<int> *&);
-template ArrayProcessing<float>::ArrayProcessing(Array<float> *&);
-template ArrayProcessing<char>::ArrayProcessing(Array<char> *&);
-
-template<typename type_array>
-ArrayProcessing<type_array>::ArrayProcessing() : ArrayData<type_array>()
-{
-    this->ARRAY = new Array<type_array>;
-}
-template ArrayProcessing<int>::ArrayProcessing();
-template ArrayProcessing<float>::ArrayProcessing();
-template ArrayProcessing<char>::ArrayProcessing();
-
-template<typename type_array>
-void ArrayProcessing<type_array>::createdStruct(const int &SIZE)
-{
-    this->ARRAY->array_size = SIZE;
-    this->ARRAY->array = new type_array[SIZE];
-}
-template void ArrayProcessing<int>::createdStruct(const int &);
-template void ArrayProcessing<float>::createdStruct(const int &);
-template void ArrayProcessing<char>::createdStruct(const int &);
-
-template<typename type_array>
-void ArrayProcessing<type_array>::generatedArray(const int &min_limit, const int &max_limit)
+template<typename type_array> void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
     srand(time(NULL));
     for (int i = 0; i < this->ARRAY->array_size; i++)
@@ -147,27 +105,22 @@ void ArrayProcessing<type_array>::generatedArray(const int &min_limit, const int
         this->ARRAY->array[i] = min_limit + rand() % (max_limit - min_limit);
     }
 }
-template void ArrayProcessing<int>::generatedArray(const int &, const int &);
-template void ArrayProcessing<float>::generatedArray(const int &, const int &);
-template void ArrayProcessing<char>::generatedArray(const int &, const int &);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::reverse()
+//setData();
+
+template<typename type_array> void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
 {
-    int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
-    for (int i = 0; i < this->ARRAY->array_size / 2; i++)
-    {
-        swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
-        left_limit++;
-        right_limit--;
-    }
+    DATA = this->ARRAY;
 }
-template void ArrayProcessing<int>::reverse();
-template void ArrayProcessing<float>::reverse();
-template void ArrayProcessing<char>::reverse();
 
-template<typename type_array>
-void ArrayProcessing<type_array>::resize(const int &NEW_SIZE, const type_array &setElement)
+template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::getData()
+{
+    return this->ARRAY;
+}
+
+//reset();
+
+template<typename type_array> void ARRAYDATA<type_array>::resize(const int &NEW_SIZE, const type_array &setElement)
 {
     Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = new Array<type_array>;
     NEW_ARRAY->array_size = NEW_SIZE;
@@ -188,12 +141,25 @@ void ArrayProcessing<type_array>::resize(const int &NEW_SIZE, const type_array &
     delete[] OLD_ARRAY->array;
     delete(OLD_ARRAY);
 }
-template void ArrayProcessing<int>::resize(const int &, const int &);
-template void ArrayProcessing<float>::resize(const int &, const float &);
-template void ArrayProcessing<char>::resize(const int &, const char &);
 
-template<typename type_array>
-type_array ArrayProcessing<type_array>::getMin(ArrayStatus ArrStat)
+template<typename type_array> void ARRAYDATA<type_array>::reverse()
+{
+    int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
+    for (int i = 0; i < this->ARRAY->array_size / 2; i++)
+    {
+        swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
+        left_limit++;
+        right_limit--;
+    }
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::remove()
+{
+    delete[] this->ARRAY->array;
+    delete this->ARRAY;
+}
+
+template<typename type_array> type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
 {
     switch (ArrStat)
     {
@@ -204,12 +170,8 @@ type_array ArrayProcessing<type_array>::getMin(ArrayStatus ArrStat)
     }
     throw -1;
 }
-template int ArrayProcessing<int>::getMin(ArrayStatus);
-template float ArrayProcessing<float>::getMin(ArrayStatus);
-template char ArrayProcessing<char>::getMin(ArrayStatus);
 
-template<typename type_array>
-type_array ArrayProcessing<type_array>::getMax(ArrayStatus ArrStat)
+template<typename type_array> type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
 {
     switch (ArrStat)
     {
@@ -220,32 +182,10 @@ type_array ArrayProcessing<type_array>::getMax(ArrayStatus ArrStat)
     }
     throw -1;
 }
-template int ArrayProcessing<int>::getMax(ArrayStatus);
-template float ArrayProcessing<float>::getMax(ArrayStatus);
-template char ArrayProcessing<char>::getMax(ArrayStatus);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::getData(Array<type_array> *&DATA)
+template<typename type_array> Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
-    DATA = this->ARRAY;
-}
-template void ArrayProcessing<int>::getData(Array<int> *&);
-template void ArrayProcessing<float>::getData(Array<float> *&);
-template void ArrayProcessing<char>::getData(Array<char> *&);
-
-template<typename type_array>
-Array<type_array> *ArrayProcessing<type_array>::getData()
-{
-    return this->ARRAY;
-}
-template Array<int> *ArrayProcessing<int>::getData();
-template Array<float> *ArrayProcessing<float>::getData();
-template Array<char> *ArrayProcessing<char>::getData();
-
-template<typename type_array>
-void ArrayProcessing<type_array>::lenear_searcher(const type_array &required_element, Array<int> *&NumberPoints)
-{
-    NumberPoints->array_size = 0;
+    Array<int> *NumberPoints = new Array<int>;
     for (int i = 0; i < this->ARRAY->array_size; i++)
     {
         if (required_element == this->ARRAY->array[i])
@@ -257,22 +197,17 @@ void ArrayProcessing<type_array>::lenear_searcher(const type_array &required_ele
     {
         throw -1;
     }
+    return NumberPoints;
 }
-template void ArrayProcessing<int>::lenear_searcher(const int &, Array<int> *&);
-template void ArrayProcessing<float>::lenear_searcher(const float &, Array<int> *&);
-template void ArrayProcessing<char>::lenear_searcher(const char &, Array<int> *&);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::binary_searcher(const type_array &required_element, int &number_point)
+template<typename type_array> int ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
-    binary_searcher(required_element, number_point, 0, this->ARRAY->array_size - 1);
+    int position = 0;
+    binary_searcher(required_element, position, 0, this->ARRAY->array_size - 1);
+    return position;
 }
-template void ArrayProcessing<int>::binary_searcher(const int &, int &);
-template void ArrayProcessing<float>::binary_searcher(const float &, int &);
-template void ArrayProcessing<char>::binary_searcher(const char &, int &);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
+template<typename type_array> void ARRAYDATA<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
 {
     if (left_limit > right_limit)
     {
@@ -292,14 +227,10 @@ void ArrayProcessing<type_array>::binary_searcher(const type_array &required_ele
         binary_searcher(required_element, number_point, middle + 1, right_limit);
     }
 }
-template void ArrayProcessing<int>::binary_searcher(const int &, int &, int, int);
-template void ArrayProcessing<float>::binary_searcher(const float &, int &, int, int);
-template void ArrayProcessing<char>::binary_searcher(const char &, int &, int, int);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, Array<int> *&Occurrences, ArrayType ArrType)
+template<typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
-    Occurrences->array_size = 0;
+    Array<int> *Occurrences = new Array<int>;
     for (int i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
     {
         for (int j = 0; j < SUBARRAY->array_size; j++)
@@ -332,37 +263,27 @@ void ArrayProcessing<type_array>::searcherOccurrencesOfSubstring(Array<type_arra
     {
         throw -1;
     }
+    return Occurrences;
 }
-template void ArrayProcessing<int>::searcherOccurrencesOfSubstring(Array<int> *&, Array<int> *&, ArrayType);
-template void ArrayProcessing<float>::searcherOccurrencesOfSubstring(Array<float> *&, Array<int> *&, ArrayType);
-template void ArrayProcessing<char>::searcherOccurrencesOfSubstring(Array<char> *&, Array<int> *&, ArrayType);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::average(type_array &average)
+template<typename type_array> type_array ARRAYDATA<type_array>::average()
 {
-    average = 0;
+    type_array average = 0;
     for (int i = 0; i < this->ARRAY->array_size; i++)
     {
         average += this->ARRAY->array[i];
     }
-    average = average / this->ARRAY->array_size;
+    return average / this->ARRAY->array_size;
 }
-template void ArrayProcessing<int>::average(int &);
-template void ArrayProcessing<float>::average(float &);
-template void ArrayProcessing<char>::average(char &);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::mediana(type_array &mediana)
+template<typename type_array> type_array ARRAYDATA<type_array>::mediana()
 {
-    this->ARRAY->array_size % 2 == 0 ? mediana = (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : mediana = (this->ARRAY->array[this->ARRAY->array_size / 2]);
+    return this->ARRAY->array_size % 2 == 0 ? (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : (this->ARRAY->array[this->ARRAY->array_size / 2]);
 }
-template void ArrayProcessing<int>::mediana(int &);
-template void ArrayProcessing<float>::mediana(float &);
-template void ArrayProcessing<char>::mediana(char &);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::moda(type_array &most_frequent, int &highest_frequency)
+template<typename type_array> type_array ARRAYDATA<type_array>::moda(int &highest_frequency)
 {
+    type_array most_frequent = 0;
     highest_frequency = 0;
     int current_frequency = 0;
     for (int i = 0; i < this->ARRAY->array_size; i++)
@@ -378,18 +299,15 @@ void ArrayProcessing<type_array>::moda(type_array &most_frequent, int &highest_f
             current_frequency = 0;
         }
     }
+    return most_frequent;
 }
-template void ArrayProcessing<int>::moda(int &, int &);
-template void ArrayProcessing<float>::moda(float &, int &);
-template void ArrayProcessing<char>::moda(char &, int &);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::modas(Array<type_array> *&MostFrequents, int &highest_frequency)
+template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 {
-    type_array most_frequent;
-    MostFrequents->array_size = 0, highest_frequency = 0;
+    Array<type_array> *MostFrequents = new Array<type_array>;
+    highest_frequency = 0;
     int current_frequency = 0;
-    moda(most_frequent, highest_frequency);
+    type_array most_frequent = moda(highest_frequency);
     addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent);
     for (int i = 0; i < this->ARRAY->array_size; i++)
     {
@@ -410,23 +328,10 @@ void ArrayProcessing<type_array>::modas(Array<type_array> *&MostFrequents, int &
             break;
         }
     }
+    return MostFrequents;
 }
-template void ArrayProcessing<int>::modas(Array<int> *&, int &);
-template void ArrayProcessing<float>::modas(Array<float> *&, int &);
-template void ArrayProcessing<char>::modas(Array<char> *&, int &);
 
-template<typename type_array>
-void ArrayProcessing<type_array>::remove()
-{
-    delete[] this->ARRAY->array;
-    delete this->ARRAY;
-}
-template void ArrayProcessing<int>::remove();
-template void ArrayProcessing<float>::remove();
-template void ArrayProcessing<char>::remove();
-
-template<typename type_array>
-void Exchange_Sorts::BubbleSort<type_array>::start_sort()
+template<typename type_array> void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 {
     for (int i = 0; i < this->ARRAY->array_size; i++)
     {
@@ -439,12 +344,8 @@ void Exchange_Sorts::BubbleSort<type_array>::start_sort()
         }
     }
 }
-template void Exchange_Sorts::BubbleSort<int>::start_sort();
-template void Exchange_Sorts::BubbleSort<float>::start_sort();
-template void Exchange_Sorts::BubbleSort<char>::start_sort();
 
-template<typename type_array>
-void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
+template<typename type_array> void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
 {
     int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
     while (leftMark <= rightMark)
@@ -467,21 +368,13 @@ void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
         rightMark--;
     }
 }
-template void Exchange_Sorts::CocktailShakerSort<int>::start_sort();
-template void Exchange_Sorts::CocktailShakerSort<float>::start_sort();
-template void Exchange_Sorts::CocktailShakerSort<char>::start_sort();
 
-template<typename type_array>
-void Exchange_Sorts::QuickSort<type_array>::start_sort()
+template<typename type_array> void Exchange_Sorts::QuickSort<type_array>::start_sort()
 {
     quick_sort(0, this->ARRAY->array_size - 1);
 }
-template void Exchange_Sorts::QuickSort<int>::start_sort();
-template void Exchange_Sorts::QuickSort<float>::start_sort();
-template void Exchange_Sorts::QuickSort<char>::start_sort();
 
-template<typename type_array>
-void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, const int &right_limit)
+template<typename type_array> void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, const int &right_limit)
 {
     type_array middle = this->ARRAY->array[(left_limit + right_limit) / 2];
     int start = left_limit, finish = right_limit;
@@ -511,12 +404,8 @@ void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, co
         quick_sort(start, right_limit);
     }
 }
-template void Exchange_Sorts::QuickSort<int>::quick_sort(const int &, const int &);
-template void Exchange_Sorts::QuickSort<float>::quick_sort(const int &, const int &);
-template void Exchange_Sorts::QuickSort<char>::quick_sort(const int &, const int &);
 
-template<typename type_array>
-void Selection_Sorts::HeapSort<type_array>::start_sort()
+template<typename type_array> void Selection_Sorts::HeapSort<type_array>::start_sort()
 {
     for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
     {
@@ -528,12 +417,8 @@ void Selection_Sorts::HeapSort<type_array>::start_sort()
         heapify(this->ARRAY->array, 0, i);
     }
 }
-template void Selection_Sorts::HeapSort<int>::start_sort();
-template void Selection_Sorts::HeapSort<float>::start_sort();
-template void Selection_Sorts::HeapSort<char>::start_sort();
 
-template<typename type_array>
-void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const int &count, const int &array_size)
+template<typename type_array> void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const int &count, const int &array_size)
 {
     int left = 2 * count + 1, large = count, right = 2 * count + 2;
     if (left < array_size && Array[left] > Array[large])
@@ -550,12 +435,8 @@ void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const int
         heapify(Array, large, array_size);
     }
 }
-template void Selection_Sorts::HeapSort<int>::heapify(int *, const int &, const int &);
-template void Selection_Sorts::HeapSort<float>::heapify(float *, const int &, const int &);
-template void Selection_Sorts::HeapSort<char>::heapify(char *, const int &, const int &);
 
-template<typename type_array>
-void Insertion_Sorts::InsertSort<type_array>::start_sort()
+template<typename type_array> void Insertion_Sorts::InsertSort<type_array>::start_sort()
 {
     for (int i = 0; i < this->ARRAY->array_size; i++)
     {
@@ -565,21 +446,13 @@ void Insertion_Sorts::InsertSort<type_array>::start_sort()
         }
     }
 }
-template void Insertion_Sorts::InsertSort<int>::start_sort();
-template void Insertion_Sorts::InsertSort<float>::start_sort();
-template void Insertion_Sorts::InsertSort<char>::start_sort();
 
-template<typename type_array>
-void Merge_Sorts::MergeSort<type_array>::start_sort()
+template<typename type_array> void Merge_Sorts::MergeSort<type_array>::start_sort()
 {
     merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
 }
-template void Merge_Sorts::MergeSort<int>::start_sort();
-template void Merge_Sorts::MergeSort<float>::start_sort();
-template void Merge_Sorts::MergeSort<char>::start_sort();
 
-template<typename type_array>
-void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
+template<typename type_array> void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
 {
     if (left_limit < right_limit)
     {
@@ -589,12 +462,8 @@ void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int
         merge(Array, left_limit, middle, right_limit);
     }
 }
-template void Merge_Sorts::MergeSort<int>::merge_sort(int *, const int &, const int &);
-template void Merge_Sorts::MergeSort<float>::merge_sort(float *, const int &, const int &);
-template void Merge_Sorts::MergeSort<char>::merge_sort(char *, const int &, const int &);
 
-template<typename type_array>
-void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
+template<typename type_array> void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
 {
     int start = left_limit, finish = middle_limit + 1;
     type_array *tempArray = new type_array[right_limit - left_limit + 1];
@@ -617,9 +486,6 @@ void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &lef
     }
     delete[] tempArray;
 }
-template void Merge_Sorts::MergeSort<int>::merge(int *, const int &, const int &, const int &);
-template void Merge_Sorts::MergeSort<float>::merge(float *, const int &, const int &, const int &);
-template void Merge_Sorts::MergeSort<char>::merge(char *, const int &, const int &, const int &);
 
 void Noncomparison_Sort::CountingSort::start_sort()
 {
@@ -679,3 +545,139 @@ void Noncomparison_Sort::RadixSort::start_sort()
     delete[] bucket;
     delete[] tempArray;
 }
+
+template void swap<int>(int &, int &);
+template void swap<float>(float &, float &);
+template void swap<char>(char &, char &);
+
+template int minimum<int>(const int *, const int &);
+template float minimum<float>(const float *, const int &);
+template char minimum<char>(const char *, const int &);
+
+template int maximum<int>(const int *, const int &);
+template float maximum<float>(const float *, const int &);
+template char maximum<char>(const char *, const int &);
+
+template void addElement<int>(int *&, int &, const int &);
+template void addElement<float>(float *&, int &, const float &);
+template void addElement<char>(char *&, int &, const char &);
+
+template void copy<int>(int *, const int *, const int &, int, int);
+template void copy<float>(float *, const float *, const int &, int, int);
+template void copy<char>(char *, const char *, const int &, int, int);
+
+template Array<int> *create_struct<int>(const int &);
+template Array<float> *create_struct<float>(const int &);
+template Array<char> *create_struct<char>(const int &);
+
+template void remove_struct<int>(Array<int> *&);
+template void remove_struct<float>(Array<float> *&);
+template void remove_struct<char>(Array<char> *&);
+
+template void ARRAYDATA<int>::generatedData(const int &, const int &);
+template void ARRAYDATA<float>::generatedData(const int &, const int &);
+template void ARRAYDATA<char>::generatedData(const int &, const int &);
+
+//setData();
+
+template void ARRAYDATA<int>::getData(Array<int> *&);
+template void ARRAYDATA<float>::getData(Array<float> *&);
+template void ARRAYDATA<char>::getData(Array<char> *&);
+
+template Array<int> *ARRAYDATA<int>::getData();
+template Array<float> *ARRAYDATA<float>::getData();
+template Array<char> *ARRAYDATA<char>::getData();
+
+//reset();
+
+template void ARRAYDATA<int>::resize(const int &, const int &);
+template void ARRAYDATA<float>::resize(const int &, const float &);
+template void ARRAYDATA<char>::resize(const int &, const char &);
+
+template void ARRAYDATA<int>::reverse();
+template void ARRAYDATA<float>::reverse();
+template void ARRAYDATA<char>::reverse();
+
+template void ARRAYDATA<int>::remove();
+template void ARRAYDATA<float>::remove();
+template void ARRAYDATA<char>::remove();
+
+template int ARRAYDATA<int>::getMin(ArrayStatus);
+template float ARRAYDATA<float>::getMin(ArrayStatus);
+template char ARRAYDATA<char>::getMin(ArrayStatus);
+
+template int ARRAYDATA<int>::getMax(ArrayStatus);
+template float ARRAYDATA<float>::getMax(ArrayStatus);
+template char ARRAYDATA<char>::getMax(ArrayStatus);
+
+template Array<int> *ARRAYDATA<int>::lenear_searcher(const int &);
+template Array<int> *ARRAYDATA<float>::lenear_searcher(const float &);
+template Array<int> *ARRAYDATA<char>::lenear_searcher(const char &);
+
+template int ARRAYDATA<int>::binary_searcher(const int &);
+template int ARRAYDATA<float>::binary_searcher(const float &);
+template int ARRAYDATA<char>::binary_searcher(const char &);
+
+template void ARRAYDATA<int>::binary_searcher(const int &, int &, int, int);
+template void ARRAYDATA<float>::binary_searcher(const float &, int &, int, int);
+template void ARRAYDATA<char>::binary_searcher(const char &, int &, int, int);
+
+template Array<int> *ARRAYDATA<int>::searcherOccurrencesOfSubstring(Array<int> *&, ArrayType);
+template Array<int> *ARRAYDATA<float>::searcherOccurrencesOfSubstring(Array<float> *&, ArrayType);
+template Array<int> *ARRAYDATA<char>::searcherOccurrencesOfSubstring(Array<char> *&, ArrayType);
+
+template int ARRAYDATA<int>::average();
+template float ARRAYDATA<float>::average();
+template char ARRAYDATA<char>::average();
+
+template int ARRAYDATA<int>::mediana();
+template float ARRAYDATA<float>::mediana();
+template char ARRAYDATA<char>::mediana();
+
+template int ARRAYDATA<int>::moda(int &);
+template float ARRAYDATA<float>::moda(int &);
+template char ARRAYDATA<char>::moda(int &);
+
+template Array<int> *ARRAYDATA<int>::modas(int &);
+template Array<float> *ARRAYDATA<float>::modas(int &);
+template Array<char> *ARRAYDATA<char>::modas(int &);
+
+template void Exchange_Sorts::BubbleSort<int>::start_sort();
+template void Exchange_Sorts::BubbleSort<float>::start_sort();
+template void Exchange_Sorts::BubbleSort<char>::start_sort();
+
+template void Exchange_Sorts::CocktailShakerSort<int>::start_sort();
+template void Exchange_Sorts::CocktailShakerSort<float>::start_sort();
+template void Exchange_Sorts::CocktailShakerSort<char>::start_sort();
+
+template void Exchange_Sorts::QuickSort<int>::start_sort();
+template void Exchange_Sorts::QuickSort<float>::start_sort();
+template void Exchange_Sorts::QuickSort<char>::start_sort();
+
+template void Exchange_Sorts::QuickSort<int>::quick_sort(const int &, const int &);
+template void Exchange_Sorts::QuickSort<float>::quick_sort(const int &, const int &);
+template void Exchange_Sorts::QuickSort<char>::quick_sort(const int &, const int &);
+
+template void Selection_Sorts::HeapSort<int>::start_sort();
+template void Selection_Sorts::HeapSort<float>::start_sort();
+template void Selection_Sorts::HeapSort<char>::start_sort();
+
+template void Selection_Sorts::HeapSort<int>::heapify(int *, const int &, const int &);
+template void Selection_Sorts::HeapSort<float>::heapify(float *, const int &, const int &);
+template void Selection_Sorts::HeapSort<char>::heapify(char *, const int &, const int &);
+
+template void Insertion_Sorts::InsertSort<int>::start_sort();
+template void Insertion_Sorts::InsertSort<float>::start_sort();
+template void Insertion_Sorts::InsertSort<char>::start_sort();
+
+template void Merge_Sorts::MergeSort<int>::start_sort();
+template void Merge_Sorts::MergeSort<float>::start_sort();
+template void Merge_Sorts::MergeSort<char>::start_sort();
+
+template void Merge_Sorts::MergeSort<int>::merge_sort(int *, const int &, const int &);
+template void Merge_Sorts::MergeSort<float>::merge_sort(float *, const int &, const int &);
+template void Merge_Sorts::MergeSort<char>::merge_sort(char *, const int &, const int &);
+
+template void Merge_Sorts::MergeSort<int>::merge(int *, const int &, const int &, const int &);
+template void Merge_Sorts::MergeSort<float>::merge(float *, const int &, const int &, const int &);
+template void Merge_Sorts::MergeSort<char>::merge(char *, const int &, const int &, const int &);
