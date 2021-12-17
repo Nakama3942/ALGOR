@@ -1,143 +1,135 @@
 #include <iostream>
-using namespace std;
+using std::cout;
 
 #include "ALGOR.hpp"
 
-int main()
+template <typename type_array>
+void printer(Array<type_array> *&ARRAY)
 {
-    cout << "Hello World!" << endl;
-
-    //Генерация (заполнение) массива
-    Array<int> *GenArray = new Array<int>;
-    ArrayProcessing::createdStruct<int>(GenArray, 64);
-    ArrayProcessing::generatedArray<int>(GenArray, 1, 50);
-
-    //Вывод на экран сгенерированного массива
-    for (int i = 0; i < 64; i++)
+    for (int i = 0; i < ARRAY->array_size; i++)
     {
-        cout << " " << GenArray->array[i];
+        cout << " " << ARRAY->array[i];
     }
     cout << "\n";
+}
+
+int main()
+{
+    //Структура для вытягивания массива из объекта
+    Array<int> *ArrayStruct;
+
+    //Генерация (заполнение) массива
+    ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
+    array->generatedData(1, 10);
+
+    //Вывод на экран неотсортированного массива
+    ArrayStruct = array->getData();
+    printer(ArrayStruct);
 
     //Копирование массива
-    Array<int> *SortArray = new Array<int>;
-    ArrayProcessing::createdStruct<int>(SortArray, 64);
-    ArrayProcessing::copy<int>(SortArray->array, GenArray->array, SortArray->array_size);
+    ARRAYDATA<int> *copy_array = new ARRAYDATA<int>(12);
+    copy<int>(copy_array->getData()->array, array->getData()->array, copy_array->getData()->array_size);
 
     //Сортировка массива
-    //Exchange_Sorts::BubbleSort<int> *sort = new Exchange_Sorts::BubbleSort<int>(SortArray);
-    //Exchange_Sorts::CocktailShakerSort<int> *sort = new Exchange_Sorts::CocktailShakerSort<int>(SortArray);
-    //Exchange_Sorts::QuickSort<int> *sort = new Exchange_Sorts::QuickSort<int>(SortArray);
-    //Selection_Sorts::HeapSort<int> *sort = new Selection_Sorts::HeapSort<int>(SortArray);
-    //Insertion_Sorts::InsertSort<int> *sort = new Insertion_Sorts::InsertSort<int>(SortArray);
-    //Merge_Sorts::MergeSort<int> *sort = new Merge_Sorts::MergeSort<int>(SortArray);
-    Noncomparison_Sort::CountingSort *sort = new Noncomparison_Sort::CountingSort(SortArray);
-    //Noncomparison_Sort::RadixSort *sort = new Noncomparison_Sort::RadixSort(SortArray);
+    ArrayStruct = copy_array->getData();
+    //Exchange_Sorts::BubbleSort<int> *sort = new Exchange_Sorts::BubbleSort<int>(ArrayStruct);
+    //Exchange_Sorts::CocktailShakerSort<int> *sort = new Exchange_Sorts::CocktailShakerSort<int>(ArrayStruct);
+    //Exchange_Sorts::QuickSort<int> *sort = new Exchange_Sorts::QuickSort<int>(ArrayStruct);
+    //Selection_Sorts::HeapSort<int> *sort = new Selection_Sorts::HeapSort<int>(ArrayStruct);
+    //Insertion_Sorts::InsertSort<int> *sort = new Insertion_Sorts::InsertSort<int>(ArrayStruct);
+    //Merge_Sorts::MergeSort<int> *sort = new Merge_Sorts::MergeSort<int>(ArrayStruct);
+    Noncomparison_Sort::CountingSort *sort = new Noncomparison_Sort::CountingSort(ArrayStruct);
+    //Noncomparison_Sort::RadixSort *sort = new Noncomparison_Sort::RadixSort(ArrayStruct);
     sort->start_sort();
     delete (sort);
 
     //Вывод на экран отсортированного массива
-    for (int i = 0; i < 64; i++)
-    {
-        cout << " " << SortArray->array[i];
-    }
-    cout << "\n";
+    printer(ArrayStruct);
+
+    //Изменение размера массива
+    array->resize(7, 1);
+    array->getData(ArrayStruct);
+    printer(ArrayStruct);
 
     //Нахождение максимального и минимального элемента
-    int min, max;
-    ArrayProcessing::getMin<int>(GenArray->array, GenArray->array_size, min);
-    ArrayProcessing::getMax<int>(SortArray->array, SortArray->array_size, max, ArrayProcessing::SORTED);
+    //int min = minimum(array->getData()->array, array->getData()->array_size), max = maximum(copy_array->getData()->array, copy_array->getData()->array_size);
+    int min = array->getMin(), max = copy_array->getMax(ArrayStatus::SORTED);
     cout << "Минимальный элемент: " << min << "; Максимальный: " << max << "\n";
 
-    //Нахождение последовательности
-    Array<int> *Sequence = new Array<int>;
-    Array<int> *Occurrence = new Array<int>;
-    ArrayProcessing::createdStruct<int>(Sequence, 0);
-    ArrayProcessing::addElement<int>(Sequence, 20);
-    ArrayProcessing::addElement<int>(Sequence, 21);
-    try
-    {
-        ArrayProcessing::getOccurrencesOfSubstring<int>(SortArray, Sequence, Occurrence);
-        cout << "Последовательность \"20, 21\" встречается на местах: \n";
-        for (int i = 0; i < Occurrence->array_size; i++)
-        {
-            cout << Occurrence->array[i] + 1 << " ";
-        }
-        cout << "\n";
-    }
-    catch (int)
-    {
-        cout << "Последовательность \"20, 21\" не найдена...\n";
-    }
-    delete[] Occurrence->array;
-    delete (Occurrence);
-    delete[] Sequence->array;
-    delete (Sequence);
-
     //Нахождение определённого элемента в неотсортированном массиве
-    Array<int> *NumberPoints = new Array<int>;
     try
     {
-        ArrayProcessing::getElementsNumber_lenear<int>(GenArray, 20, NumberPoints);
-        cout << "Элемент \"20\" встречается на местах: \n";
+        Array<int> *NumberPoints = array->lenear_searcher(5);
+        cout << "Элемент \"5\" встречается на местах: \n";
         for (int i = 0; i < NumberPoints->array_size; i++)
         {
             cout << NumberPoints->array[i] + 1 << " ";
         }
         cout << "\n";
+        remove_struct<int>(NumberPoints);
     }
     catch (int)
     {
-        cout << "Элемент \"20\" не найден...\n";
+        cout << "Элемент \"5\" не найден...\n";
     }
-    delete[] NumberPoints->array;
-    delete (NumberPoints);
 
     //Нахождение определённого элемента в отсортированном массиве
-    int number_point;
     try
     {
-        ArrayProcessing::getElementNumber_binary<int>(SortArray, 23, number_point);
-        cout << "Элемент \"23\" впервые встратился на месте " << number_point + 1 << "\n";
+        cout << "Элемент \"7\" впервые встратился на месте " << copy_array->binary_searcher(7) + 1 << "\n";
     }
     catch (int)
     {
-        cout << "Элемент \"23\" не найден...\n";
+        cout << "Элемент \"7\" не найден...\n";
     }
 
+    //Нахождение последовательности
+    Array<int> *Sequence = new Array<int>;
+    addElement<int>(Sequence->array, Sequence->array_size, 5);
+    addElement<int>(Sequence->array, Sequence->array_size, 6);
+    try
+    {
+        Array<int> *Occurrence = copy_array->searcherOccurrencesOfSubstring(Sequence);
+        cout << "Последовательность \"5, 6\" встречается на местах: \n";
+        for (int i = 0; i < Occurrence->array_size; i++)
+        {
+            cout << Occurrence->array[i] + 1 << " ";
+        }
+        cout << "\n";
+        remove_struct<int>(Occurrence);
+    }
+    catch (int)
+    {
+        cout << "Последовательность \"5, 6\" не найдена...\n";
+    }
+    remove_struct<int>(Sequence);
+
     //Нахождение среднего арифметического
-    int average;
-    ArrayCharacteristic::average<int>(SortArray, average);
-    cout << "Среднее арифметическое: " << average << "\n";
+    cout << "Среднее арифметическое: " << copy_array->average() << "\n";
 
     //Нахождение медианы
-    int mediana;
-    ArrayCharacteristic::mediana<int>(SortArray, mediana);
-    cout << "Медиана: " << mediana << "\n";
+    cout << "Медиана: " << copy_array->mediana() << "\n";
 
     //Нахождение моды с количеством
-    int moda, moda_count;
-    ArrayCharacteristic::moda<int>(SortArray, moda, moda_count);
+    int moda_count, moda = copy_array->moda(moda_count);
     cout << "Чаще всего встречается элемент: " << moda << ", а именно " << moda_count << " раз.\n";
 
     //Нахождение мод с количеством
-    Array<int> *Modas = new Array<int>;
     int modas_count;
-    ArrayCharacteristic::modas<int>(SortArray, Modas, modas_count);
+    Array<int> *Modas = copy_array->modas(modas_count);
     cout << "Чаще всего встречаются элементы: ";
     for (int i = 0; i < Modas->array_size; i++)
     {
         cout << Modas->array[i] << " ";
     }
     cout << ", а именно " << modas_count << " раз.\n";
-    delete[] Modas->array;
-    delete (Modas);
+    remove_struct<int>(Modas);
 
     //Освобождение памяти
-    delete[] SortArray->array;
-    delete (SortArray);
-    delete[] GenArray->array;
-    delete (GenArray);
+    copy_array->remove();
+    delete (copy_array);
+    array->remove();
+    delete (array);
 
     //Выход из программы
     //cin.get();
