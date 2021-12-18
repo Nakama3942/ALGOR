@@ -47,20 +47,23 @@
 //ALGOR_CORE
 
 template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
-template <typename type_array> type_array minimum(const type_array *Array, const int &array_size);
-template <typename type_array> type_array maximum(const type_array *Array, const int &array_size);
-template <typename type_array> void addElement(type_array *&Array, int &array_size, const type_array &value);
-template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array = 0, int position_in_old_array = 0);
+template <typename type_array> type_array minimum(const type_array *Array, const unsigned int &array_size);
+template <typename type_array> type_array maximum(const type_array *Array, const unsigned int &array_size);
+//Улучшить addElement()
+template <typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value);
+//replaceElement()
+//subtractElement()
+template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
 
-template <typename type_array> struct Array { type_array *array; int array_size = 0; };
-template <typename type_array> Array<type_array> *create_struct(const int &SIZE);
+template <typename type_array> struct Array { type_array *array; unsigned int array_size = 0; };
+template <typename type_array> Array<type_array> *create_struct(const unsigned int &SIZE);
 template <typename type_array> void remove_struct(Array<type_array> *&Array);
 
 template <typename type_array> class ArrayBase
 {
 public:
     ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {};
-    ArrayBase(const int &SIZE) { ARRAY = create_struct<type_array>(SIZE); };
+    ArrayBase(const unsigned int &SIZE) { ARRAY = create_struct<type_array>(SIZE); };
 protected:
     Array<type_array> *ARRAY;
 };
@@ -81,13 +84,14 @@ template<typename type_array> class ARRAYDATA : public ArrayBase<type_array>
 {
 public:
     ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
-    ARRAYDATA(const int &SIZE) : ArrayBase<type_array>(SIZE) {}
+    ARRAYDATA(const unsigned int &SIZE) : ArrayBase<type_array>(SIZE) {}
     void generatedData(const int &min_limit, const int &max_limit);
-    //setData();
+    void setNewData(Array<type_array> *&Array);
+    void setData(Array<type_array> *&Array);
     void getData(Array<type_array> *&DATA);
     Array<type_array> *getData();
-    //reset();
-    void resize(const int &NEW_SIZE, const type_array &setElement);
+    void reset();
+    void resize(const unsigned int &NEW_SIZE, const type_array &setElement);
     void reverse();
     void remove();
     type_array getMin(ArrayStatus ArrStat = UNSORTED);
@@ -99,6 +103,48 @@ public:
     type_array mediana();
     type_array moda(int &highest_frequency);
     Array<type_array> *modas(int &highest_frequency);
+    //оператор < для добавления в конец массива
+    //оператор > для удаления из конца массива
+
+    //оператор & для слияния двух массивов
+    //оператор % для влияния массива в массив
+    //    ARRAYDATA<type_array> operator& (const ARRAYDATA<type_array> *&addArray)
+    //    {
+    //        Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size + addArray->ARRAY->array_size);
+    //        copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+    //        copy<type_array>(temp->array, addArray->ARRAY->array, addArray->ARRAY->array_size, this->ARRAY->array_size);
+    //        ARRAYDATA<type_array> *tempArrayData = new ARRAYDATA<type_array>(temp);
+    //        return tempArrayData;
+    //    }
+
+    //оператор + для увеличения массива на конкретный размер
+    //оператор - для уменьшения массива на конкретный размер
+    void operator+ (const unsigned int &addSize)
+    {
+        Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+        copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+        remove();
+        this->ARRAY = create_struct<type_array>(temp->array_size + addSize);
+        copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
+        remove_struct<type_array>(temp);
+    }
+    void operator- (const unsigned int &subtractSize)
+    {
+        if (subtractSize >= this->ARRAY->array_size)
+        {
+            remove();
+            return;
+        }
+        Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+        copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+        remove();
+        this->ARRAY = create_struct<type_array>(temp->array_size - subtractSize);
+        copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+        remove_struct<type_array>(temp);
+    }
+
+    //оператор * для увеличения массива во сколько-то раз
+    //оператор / для уменьшения массива во сколько-то раз
 private:
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };

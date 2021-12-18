@@ -28,10 +28,10 @@ template<typename type_array> void swap(type_array &firstNumber, type_array &sec
     delete (temp);
 }
 
-template<typename type_array> type_array minimum(const type_array *Array, const int &array_size)
+template<typename type_array> type_array minimum(const type_array *Array, const unsigned int &array_size)
 {
     type_array point_min = Array[0];
-    for (int i = 1; i < array_size; i++)
+    for (unsigned int i = 1; i < array_size; i++)
     {
         if (point_min > Array[i])
         {
@@ -41,10 +41,10 @@ template<typename type_array> type_array minimum(const type_array *Array, const 
     return point_min;
 }
 
-template<typename type_array> type_array maximum(const type_array *Array, const int &array_size)
+template<typename type_array> type_array maximum(const type_array *Array, const unsigned int &array_size)
 {
     type_array point_max = Array[0];
-    for (int i = 1; i < array_size; i++)
+    for (unsigned int i = 1; i < array_size; i++)
     {
         if (point_max < Array[i])
         {
@@ -54,8 +54,9 @@ template<typename type_array> type_array maximum(const type_array *Array, const 
     return point_max;
 }
 
-template<typename type_array> void addElement(type_array *&Array, int &array_size, const type_array &value)
+template<typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value)
 {
+    //TODO Метод должен уметь добавлять элемент не в конец массива, а на любую позицию
     if (array_size == 0)
     {
         array_size++;
@@ -75,15 +76,24 @@ template<typename type_array> void addElement(type_array *&Array, int &array_siz
     }
 }
 
-template<typename type_array> void copy(type_array *new_array, const type_array *old_array, const int &size_of_copied, int position_in_new_array, int position_in_old_array)
+//replaceElement()
+//TODO Метод должен уметь заменять любой элемент в массиве на любой позиции
+
+//subtractElement()
+//TODO Метод должен уметь удалять любой элемент в массиве на любой позиции
+
+//NOTE Базовые функции будут работать только с одним элементом, в то время, как реализация
+// в классе будет работать как с одиночными элементами, так и с последовательностями
+
+template<typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
-    for (int i = 0; i < size_of_copied; i++)
+    for (unsigned int i = 0; i < size_of_copied; i++)
     {
         new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
     }
 }
 
-template<typename type_array> Array<type_array> *create_struct(const int &SIZE)
+template<typename type_array> Array<type_array> *create_struct(const unsigned int &SIZE)
 {
     Array<type_array> *ARRAY = new Array<type_array>;
     ARRAY->array_size = SIZE;
@@ -95,18 +105,28 @@ template<typename type_array> void remove_struct(Array<type_array> *&Array)
 {
     delete[] Array->array;
     delete(Array);
+    Array = nullptr;
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
     srand(time(NULL));
-    for (int i = 0; i < this->ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         this->ARRAY->array[i] = min_limit + rand() % (max_limit - min_limit);
     }
 }
 
-//setData();
+template<typename type_array> void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
+{
+    remove();
+    this->ARRAY = Array;
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
+{
+    this->ARRAY = Array;
+}
 
 template<typename type_array> void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
 {
@@ -118,9 +138,16 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::getData(
     return this->ARRAY;
 }
 
-//reset();
+template<typename type_array> void ARRAYDATA<type_array>::reset()
+{
+    int SIZE = this->ARRAY->array_size;
+    type_array min = getMin(), max = getMax();
+    remove();
+    this->ARRAY = create_struct<type_array>(SIZE);
+    generatedData(min, max);
+}
 
-template<typename type_array> void ARRAYDATA<type_array>::resize(const int &NEW_SIZE, const type_array &setElement)
+template<typename type_array> void ARRAYDATA<type_array>::resize(const unsigned int &NEW_SIZE, const type_array &setElement)
 {
     Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = new Array<type_array>;
     NEW_ARRAY->array_size = NEW_SIZE;
@@ -128,7 +155,7 @@ template<typename type_array> void ARRAYDATA<type_array>::resize(const int &NEW_
     if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
     {
         copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
-        for(int i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
+        for(unsigned int i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
         {
             NEW_ARRAY->array[i] = setElement;
         }
@@ -145,7 +172,7 @@ template<typename type_array> void ARRAYDATA<type_array>::resize(const int &NEW_
 template<typename type_array> void ARRAYDATA<type_array>::reverse()
 {
     int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
-    for (int i = 0; i < this->ARRAY->array_size / 2; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size / 2; i++)
     {
         swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
         left_limit++;
@@ -155,8 +182,7 @@ template<typename type_array> void ARRAYDATA<type_array>::reverse()
 
 template<typename type_array> void ARRAYDATA<type_array>::remove()
 {
-    delete[] this->ARRAY->array;
-    delete this->ARRAY;
+    remove_struct<type_array>(this->ARRAY);
 }
 
 template<typename type_array> type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
@@ -186,7 +212,7 @@ template<typename type_array> type_array ARRAYDATA<type_array>::getMax(ArrayStat
 template<typename type_array> Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
     Array<int> *NumberPoints = new Array<int>;
-    for (int i = 0; i < this->ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         if (required_element == this->ARRAY->array[i])
         {
@@ -231,9 +257,9 @@ template<typename type_array> void ARRAYDATA<type_array>::binary_searcher(const 
 template<typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
     Array<int> *Occurrences = new Array<int>;
-    for (int i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
+    for (unsigned int i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
     {
-        for (int j = 0; j < SUBARRAY->array_size; j++)
+        for (unsigned int j = 0; j < SUBARRAY->array_size; j++)
         {
             if (this->ARRAY->array[i + j] == SUBARRAY->array[j])
             {
@@ -269,11 +295,11 @@ template<typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurre
 template<typename type_array> type_array ARRAYDATA<type_array>::average()
 {
     type_array average = 0;
-    for (int i = 0; i < this->ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         average += this->ARRAY->array[i];
     }
-    return average / this->ARRAY->array_size;
+    return average / (int)this->ARRAY->array_size;
 }
 
 template<typename type_array> type_array ARRAYDATA<type_array>::mediana()
@@ -286,7 +312,7 @@ template<typename type_array> type_array ARRAYDATA<type_array>::moda(int &highes
     type_array most_frequent = 0;
     highest_frequency = 0;
     int current_frequency = 0;
-    for (int i = 0; i < this->ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         current_frequency++;
         if (i == this->ARRAY->array_size - 1 || this->ARRAY->array[i] != this->ARRAY->array[i + 1])
@@ -309,11 +335,11 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(in
     int current_frequency = 0;
     type_array most_frequent = moda(highest_frequency);
     addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent);
-    for (int i = 0; i < this->ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         if (most_frequent == this->ARRAY->array[i])
         {
-            for (int j = i + highest_frequency; j < this->ARRAY->array_size; j++)
+            for (unsigned int j = i + highest_frequency; j < this->ARRAY->array_size; j++)
             {
                 current_frequency++;
                 if (j == this->ARRAY->array_size - 1 || this->ARRAY->array[j] != this->ARRAY->array[j + 1])
@@ -331,11 +357,17 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(in
     return MostFrequents;
 }
 
+//
+//
+//TODO Операторы
+//
+//
+
 template<typename type_array> void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 {
-    for (int i = 0; i < this->ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
-        for (int j = 0; j < this->ARRAY->array_size - 1; j++)
+        for (unsigned int j = 0; j < this->ARRAY->array_size - 1; j++)
         {
             if (this->ARRAY->array[j] > this->ARRAY->array[j + 1])
             {
@@ -438,7 +470,7 @@ template<typename type_array> void Selection_Sorts::HeapSort<type_array>::heapif
 
 template<typename type_array> void Insertion_Sorts::InsertSort<type_array>::start_sort()
 {
-    for (int i = 0; i < this->ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
         {
@@ -496,7 +528,7 @@ void Noncomparison_Sort::CountingSort::start_sort()
     {
         tempArray[i] = 0;
     }
-    for (int i = 0; i < ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < ARRAY->array_size; i++)
     {
         tempArray[ARRAY->array[i] - min] = tempArray[ARRAY->array[i] - min] + 1;
     }
@@ -522,7 +554,7 @@ void Noncomparison_Sort::RadixSort::start_sort()
         {
             bucket[i] = 0;
         }
-        for (int i = 0; i < ARRAY->array_size; i++)
+        for (unsigned int i = 0; i < ARRAY->array_size; i++)
         {
             bucket[(ARRAY->array[i] / exp) % bit]++;
         }
@@ -536,7 +568,7 @@ void Noncomparison_Sort::RadixSort::start_sort()
             bucket[current]--;
             tempArray[bucket[current]] = ARRAY->array[i];
         }
-        for (int i = 0; i < ARRAY->array_size; i++)
+        for (unsigned int i = 0; i < ARRAY->array_size; i++)
         {
             ARRAY->array[i] = tempArray[i];
         }
@@ -550,25 +582,25 @@ template void swap<int>(int &, int &);
 template void swap<float>(float &, float &);
 template void swap<char>(char &, char &);
 
-template int minimum<int>(const int *, const int &);
-template float minimum<float>(const float *, const int &);
-template char minimum<char>(const char *, const int &);
+template int minimum<int>(const int *, const unsigned int &);
+template float minimum<float>(const float *, const unsigned int &);
+template char minimum<char>(const char *, const unsigned int &);
 
-template int maximum<int>(const int *, const int &);
-template float maximum<float>(const float *, const int &);
-template char maximum<char>(const char *, const int &);
+template int maximum<int>(const int *, const unsigned int &);
+template float maximum<float>(const float *, const unsigned int &);
+template char maximum<char>(const char *, const unsigned int &);
 
-template void addElement<int>(int *&, int &, const int &);
-template void addElement<float>(float *&, int &, const float &);
-template void addElement<char>(char *&, int &, const char &);
+template void addElement<int>(int *&, unsigned int &, const int &);
+template void addElement<float>(float *&, unsigned int &, const float &);
+template void addElement<char>(char *&, unsigned int &, const char &);
 
-template void copy<int>(int *, const int *, const int &, int, int);
-template void copy<float>(float *, const float *, const int &, int, int);
-template void copy<char>(char *, const char *, const int &, int, int);
+template void copy<int>(int *, const int *, const unsigned int &, unsigned int, unsigned int);
+template void copy<float>(float *, const float *, const unsigned int &, unsigned int, unsigned int);
+template void copy<char>(char *, const char *, const unsigned int &, unsigned int, unsigned int);
 
-template Array<int> *create_struct<int>(const int &);
-template Array<float> *create_struct<float>(const int &);
-template Array<char> *create_struct<char>(const int &);
+template Array<int> *create_struct<int>(const unsigned int &);
+template Array<float> *create_struct<float>(const unsigned int &);
+template Array<char> *create_struct<char>(const unsigned int &);
 
 template void remove_struct<int>(Array<int> *&);
 template void remove_struct<float>(Array<float> *&);
@@ -578,7 +610,13 @@ template void ARRAYDATA<int>::generatedData(const int &, const int &);
 template void ARRAYDATA<float>::generatedData(const int &, const int &);
 template void ARRAYDATA<char>::generatedData(const int &, const int &);
 
-//setData();
+template void ARRAYDATA<int>::setNewData(Array<int> *&);
+template void ARRAYDATA<float>::setNewData(Array<float> *&);
+template void ARRAYDATA<char>::setNewData(Array<char> *&);
+
+template void ARRAYDATA<int>::setData(Array<int> *&);
+template void ARRAYDATA<float>::setData(Array<float> *&);
+template void ARRAYDATA<char>::setData(Array<char> *&);
 
 template void ARRAYDATA<int>::getData(Array<int> *&);
 template void ARRAYDATA<float>::getData(Array<float> *&);
@@ -588,11 +626,13 @@ template Array<int> *ARRAYDATA<int>::getData();
 template Array<float> *ARRAYDATA<float>::getData();
 template Array<char> *ARRAYDATA<char>::getData();
 
-//reset();
+template void ARRAYDATA<int>::reset();
+template void ARRAYDATA<float>::reset();
+template void ARRAYDATA<char>::reset();
 
-template void ARRAYDATA<int>::resize(const int &, const int &);
-template void ARRAYDATA<float>::resize(const int &, const float &);
-template void ARRAYDATA<char>::resize(const int &, const char &);
+template void ARRAYDATA<int>::resize(const unsigned int &, const int &);
+template void ARRAYDATA<float>::resize(const unsigned int &, const float &);
+template void ARRAYDATA<char>::resize(const unsigned int &, const char &);
 
 template void ARRAYDATA<int>::reverse();
 template void ARRAYDATA<float>::reverse();
