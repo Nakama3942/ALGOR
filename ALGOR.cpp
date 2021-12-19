@@ -54,36 +54,70 @@ template<typename type_array> type_array maximum(const type_array *Array, const 
     return point_max;
 }
 
-template<typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value)
+template<typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value, const unsigned int position)
 {
-    //TODO Метод должен уметь добавлять элемент не в конец массива, а на любую позицию
-    if (array_size == 0)
+    array_size++;
+    if (array_size == 1)
     {
-        array_size++;
         Array = new type_array[array_size]{value};
+        return;
     }
-    else
+    type_array *temp_Array = new type_array[array_size];
+    for (unsigned int i = 0; i < array_size; i++)
     {
-        type_array *temp_Array = new type_array[array_size];
-        copy<type_array>(temp_Array, Array, array_size);
-        delete[] Array;
-        int limit = array_size;
-        array_size++;
-        Array = new type_array[array_size];
-        copy<type_array>(Array, temp_Array, limit);
-        Array[limit] = value;
-        delete[] temp_Array;
+        position > i ? temp_Array[i] = Array[i] : (position == i ? temp_Array[i] = value : temp_Array[i] = Array[i - 1]);
     }
+    delete[] Array;
+    Array = new type_array[array_size];
+    copy<type_array>(Array, temp_Array, array_size);
+    delete[] temp_Array;
 }
 
-//replaceElement()
-//TODO Метод должен уметь заменять любой элемент в массиве на любой позиции
+template<typename type_array> void subtractElement(type_array *&Array, unsigned int &array_size, const unsigned int position)
+{
+    if (array_size == 1)
+    {
+        delete[] Array;
+        return;
+    }
+    if (array_size == 0)
+    {
+        throw "Массив пустой";
+    }
+    if (position >= array_size)
+    {
+        throw "Удаляемая позиция отсутствует в массиве";
+    }
+    type_array *temp_Array = new type_array[array_size];
+    for (unsigned int i = 0; i < array_size; i++)
+    {
+        position > i ? temp_Array[i] = Array[i] : (position < i ? temp_Array[i - 1] = Array[i] : 0);
+    }
+    delete[] Array;
+    Array = new type_array[array_size--];
+    copy<type_array>(Array, temp_Array, array_size);
+    delete[] temp_Array;
+}
 
-//subtractElement()
-//TODO Метод должен уметь удалять любой элемент в массиве на любой позиции
-
-//NOTE Базовые функции будут работать только с одним элементом, в то время, как реализация
-// в классе будет работать как с одиночными элементами, так и с последовательностями
+template<typename type_array> void subtractValue(type_array *&Array, unsigned int &array_size, const type_array &value)
+{
+    int counter = 0;
+    type_array *temp_Array = new type_array[array_size];
+    for (unsigned int i = 0; i < array_size; i++)
+    {
+        Array[i] != value ? temp_Array[i - counter] = Array[i] : counter++;
+    }
+    if (counter == 0)
+    {
+        delete[] temp_Array;
+        throw "Указанный элемент отсутствует";
+    }
+    delete[] Array;
+    array_size -= counter;
+    Array = new type_array[array_size];
+    copy<type_array>(Array, temp_Array, array_size);
+    delete[] temp_Array;
+}
 
 template<typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
@@ -216,7 +250,7 @@ template<typename type_array> Array<int> *ARRAYDATA<type_array>::lenear_searcher
     {
         if (required_element == this->ARRAY->array[i])
         {
-            addElement<int>(NumberPoints->array, NumberPoints->array_size, i);
+            addElement<int>(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
         }
     }
     if (NumberPoints->array_size == 0)
@@ -268,13 +302,13 @@ template<typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurre
                 case NUMBER:
                     if (SUBARRAY->array_size - j == 1)
                     {
-                        addElement<int>(Occurrences->array, Occurrences->array_size, i);
+                        addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
                     }
                     break;
                 case STRING:
                     if (SUBARRAY->array_size - j == 2)
                     {
-                        addElement<int>(Occurrences->array, Occurrences->array_size, i);
+                        addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
                     }
                     break;
                 }
@@ -334,7 +368,7 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(in
     highest_frequency = 0;
     int current_frequency = 0;
     type_array most_frequent = moda(highest_frequency);
-    addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent);
+    addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         if (most_frequent == this->ARRAY->array[i])
@@ -346,7 +380,7 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(in
                 {
                     if (current_frequency == highest_frequency)
                     {
-                        addElement<type_array>(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j]);
+                        addElement<type_array>(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
                     }
                     current_frequency = 0;
                 }
@@ -357,11 +391,52 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(in
     return MostFrequents;
 }
 
-//
-//
 //TODO Операторы
-//
-//
+
+//оператор < для добавления в конец массива
+//оператор > для удаления из конца массива
+
+//тернарный оператор для замены указанного элемента (объект ? позиция : значение)
+//если не получится -реализовать метод replaceElement();
+
+//оператор & для слияния двух массивов
+//ARRAYDATA<type_array> operator& (const ARRAYDATA<type_array> *&addArray)
+//{
+//    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size + addArray->ARRAY->array_size);
+//    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+//    copy<type_array>(temp->array, addArray->ARRAY->array, addArray->ARRAY->array_size, this->ARRAY->array_size);
+//    ARRAYDATA<type_array> *tempArrayData = new ARRAYDATA<type_array>(temp);
+//    return tempArrayData;
+//}
+//оператор % для влияния массива в массив
+
+template<typename type_array> void ARRAYDATA<type_array>::operator+(const unsigned int &addSize)
+{
+    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+    remove();
+    this->ARRAY = create_struct<type_array>(temp->array_size + addSize);
+    copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
+    remove_struct<type_array>(temp);
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::operator-(const unsigned int &subtractSize)
+{
+    if (subtractSize >= this->ARRAY->array_size)
+    {
+        remove();
+        return;
+    }
+    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+    remove();
+    this->ARRAY = create_struct<type_array>(temp->array_size - subtractSize);
+    copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+    remove_struct<type_array>(temp);
+}
+
+//оператор * для увеличения массива во сколько-то раз
+//оператор / для уменьшения массива во сколько-то раз
 
 template<typename type_array> void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 {
@@ -590,9 +665,17 @@ template int maximum<int>(const int *, const unsigned int &);
 template float maximum<float>(const float *, const unsigned int &);
 template char maximum<char>(const char *, const unsigned int &);
 
-template void addElement<int>(int *&, unsigned int &, const int &);
-template void addElement<float>(float *&, unsigned int &, const float &);
-template void addElement<char>(char *&, unsigned int &, const char &);
+template void addElement<int>(int *&, unsigned int &, const int &, const unsigned int);
+template void addElement<float>(float *&, unsigned int &, const float &, const unsigned int);
+template void addElement<char>(char *&, unsigned int &, const char &, const unsigned int);
+
+template void subtractElement<int>(int *&, unsigned int &, const unsigned int);
+template void subtractElement<float>(float *&, unsigned int &, const unsigned int);
+template void subtractElement<char>(char *&, unsigned int &, const unsigned int);
+
+template void subtractValue<int>(int *&, unsigned int &, const int &);
+template void subtractValue<float>(float *&, unsigned int &, const float &);
+template void subtractValue<char>(char *&, unsigned int &, const char &);
 
 template void copy<int>(int *, const int *, const unsigned int &, unsigned int, unsigned int);
 template void copy<float>(float *, const float *, const unsigned int &, unsigned int, unsigned int);
@@ -681,6 +764,28 @@ template char ARRAYDATA<char>::moda(int &);
 template Array<int> *ARRAYDATA<int>::modas(int &);
 template Array<float> *ARRAYDATA<float>::modas(int &);
 template Array<char> *ARRAYDATA<char>::modas(int &);
+
+//operator<
+
+//operator>
+
+//operator?: or replaceElement()
+
+//operator&
+
+//operator%
+
+template void ARRAYDATA<int>::operator+(const unsigned int &);
+template void ARRAYDATA<float>::operator+(const unsigned int &);
+template void ARRAYDATA<char>::operator+(const unsigned int &);
+
+template void ARRAYDATA<int>::operator-(const unsigned int &);
+template void ARRAYDATA<float>::operator-(const unsigned int &);
+template void ARRAYDATA<char>::operator-(const unsigned int &);
+
+//operator*
+
+//operator/
 
 template void Exchange_Sorts::BubbleSort<int>::start_sort();
 template void Exchange_Sorts::BubbleSort<float>::start_sort();

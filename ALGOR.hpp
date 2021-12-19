@@ -25,11 +25,12 @@
  *                                                                              *
  *                              Структура проекта:                              *
  * 1. ALGOR_CORE - основные структуры и функции библиотеки                      *
- * 2. ALGOR_RANDOM - собственный генератор случайных чисел                      *
- * 3. AlGOR_ARRAY - набор функций для работы с массивами                        *
- * 4. AlGOR_SORTING - Набор методов сортировок                                  *
- * 5. AlGOR_HEAP - набор функций для работы с деревьями                         *
- * 6. AlGOR_LIST - набор функций для работы со списками                         *
+ * 2. ALGOR_EXCEPTION - класс для работы с исключениями                         *
+ * 3. ALGOR_RANDOM - собственный генератор случайных чисел                      *
+ * 4. AlGOR_ARRAY - класс для работы с массивами                                *
+ * 5. AlGOR_SORTING - Набор методов сортировок                                  *
+ * 6. AlGOR_HEAP - класс для работы с деревьями                                 *
+ * 7. AlGOR_LIST - класс для работы со списками                                 *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -49,10 +50,9 @@
 template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
 template <typename type_array> type_array minimum(const type_array *Array, const unsigned int &array_size);
 template <typename type_array> type_array maximum(const type_array *Array, const unsigned int &array_size);
-//Улучшить addElement()
-template <typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value);
-//replaceElement()
-//subtractElement()
+template <typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value, const unsigned int position = 0);
+template <typename type_array> void subtractElement(type_array *&Array, unsigned int &array_size, const unsigned int position);
+template <typename type_array> void subtractValue(type_array *&Array, unsigned int &array_size, const type_array &value);
 template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
 
 template <typename type_array> struct Array { type_array *array; unsigned int array_size = 0; };
@@ -67,6 +67,13 @@ public:
 protected:
     Array<type_array> *ARRAY;
 };
+
+//ALGOR_EXCEPTION
+
+//class Excep
+//{
+//public:
+//};
 
 //ALGOR_RANDOM
 
@@ -103,48 +110,15 @@ public:
     type_array mediana();
     type_array moda(int &highest_frequency);
     Array<type_array> *modas(int &highest_frequency);
-    //оператор < для добавления в конец массива
-    //оператор > для удаления из конца массива
-
-    //оператор & для слияния двух массивов
-    //оператор % для влияния массива в массив
-    //    ARRAYDATA<type_array> operator& (const ARRAYDATA<type_array> *&addArray)
-    //    {
-    //        Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size + addArray->ARRAY->array_size);
-    //        copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-    //        copy<type_array>(temp->array, addArray->ARRAY->array, addArray->ARRAY->array_size, this->ARRAY->array_size);
-    //        ARRAYDATA<type_array> *tempArrayData = new ARRAYDATA<type_array>(temp);
-    //        return tempArrayData;
-    //    }
-
-    //оператор + для увеличения массива на конкретный размер
-    //оператор - для уменьшения массива на конкретный размер
-    void operator+ (const unsigned int &addSize)
-    {
-        Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-        copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-        remove();
-        this->ARRAY = create_struct<type_array>(temp->array_size + addSize);
-        copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
-        remove_struct<type_array>(temp);
-    }
-    void operator- (const unsigned int &subtractSize)
-    {
-        if (subtractSize >= this->ARRAY->array_size)
-        {
-            remove();
-            return;
-        }
-        Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-        copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-        remove();
-        this->ARRAY = create_struct<type_array>(temp->array_size - subtractSize);
-        copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
-        remove_struct<type_array>(temp);
-    }
-
-    //оператор * для увеличения массива во сколько-то раз
-    //оператор / для уменьшения массива во сколько-то раз
+    //void operator< ()
+    //void operator> ()
+    //void operator?: or replaceElement()
+    //ARRAYDATA<type_array> operator& ()
+    //ARRAYDATA<type_array> operator% ()
+    void operator+ (const unsigned int &addSize); //Оператор для увеличения массива на конкретный размер
+    void operator- (const unsigned int &subtractSize); //Оператор для уменьшения массива на конкретный размер
+    //void operator* ()
+    //void operator/ ()
 private:
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
