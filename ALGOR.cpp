@@ -162,6 +162,26 @@ template<typename type_array> void ARRAYDATA<type_array>::setData(Array<type_arr
     this->ARRAY = Array;
 }
 
+template<typename type_array> void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
+{
+    if (this->ARRAY != nullptr)
+    {
+        remove();
+    }
+    this->ARRAY = create_struct<type_array>(CloningArray->array_size) ;
+    copy<type_array>(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
+{
+    if (this->ARRAY != nullptr)
+    {
+        remove();
+    }
+    this->ARRAY = create_struct<type_array>(CloningObject->getData()->array_size);
+    copy<type_array>(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
+}
+
 template<typename type_array> void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
 {
     DATA = this->ARRAY;
@@ -183,9 +203,7 @@ template<typename type_array> void ARRAYDATA<type_array>::reset()
 
 template<typename type_array> void ARRAYDATA<type_array>::resize(const unsigned int &NEW_SIZE, const type_array &setElement)
 {
-    Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = new Array<type_array>;
-    NEW_ARRAY->array_size = NEW_SIZE;
-    NEW_ARRAY->array = new type_array[NEW_SIZE];
+    Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
     if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
     {
         copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
@@ -199,8 +217,12 @@ template<typename type_array> void ARRAYDATA<type_array>::resize(const unsigned 
         copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
     }
     this->ARRAY = NEW_ARRAY;
-    delete[] OLD_ARRAY->array;
-    delete(OLD_ARRAY);
+    remove_struct<type_array>(OLD_ARRAY);
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::replace(const unsigned int &position, const type_array &value)
+{
+    this->ARRAY->array[position - 1] = value;
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::reverse()
@@ -217,6 +239,13 @@ template<typename type_array> void ARRAYDATA<type_array>::reverse()
 template<typename type_array> void ARRAYDATA<type_array>::remove()
 {
     remove_struct<type_array>(this->ARRAY);
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::respawn()
+{
+    unsigned int size = this->ARRAY->array_size;
+    remove();
+    this->ARRAY = create_struct<type_array>(size);
 }
 
 template<typename type_array> type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
@@ -391,31 +420,55 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(in
     return MostFrequents;
 }
 
-//TODO Операторы
+template<typename type_array> void ARRAYDATA<type_array>::operator&&(const type_array &value)
+{
+    addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
+}
 
-//оператор < для добавления в конец массива
-//оператор > для удаления из конца массива
+template<typename type_array> void ARRAYDATA<type_array>::operator!()
+{
+    subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
+}
 
-//тернарный оператор для замены указанного элемента (объект ? позиция : значение)
-//если не получится -реализовать метод replaceElement();
+template<typename type_array> void ARRAYDATA<type_array>::operator||(const type_array &value)
+{
+    subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
+}
 
-//оператор & для слияния двух массивов
-//ARRAYDATA<type_array> operator& (const ARRAYDATA<type_array> *&addArray)
-//{
-//    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size + addArray->ARRAY->array_size);
-//    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-//    copy<type_array>(temp->array, addArray->ARRAY->array, addArray->ARRAY->array_size, this->ARRAY->array_size);
-//    ARRAYDATA<type_array> *tempArrayData = new ARRAYDATA<type_array>(temp);
-//    return tempArrayData;
-//}
-//оператор % для влияния массива в массив
+template<typename type_array> void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
+{
+    unsigned int newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
+    Array<type_array> *temp = create_struct<type_array>(newSize);
+    for (unsigned int i = 0; i < newSize; i++)
+    {
+        i < this->ARRAY->array_size ? temp->array[i] = this->ARRAY->array[i] : temp->array[i] = appendingArray->getData()->array[i - this->ARRAY->array_size];
+    }
+    remove();
+    this->ARRAY = create_struct<type_array>(newSize);
+    copy<type_array>(this->ARRAY->array, temp->array, newSize);
+    remove_struct<type_array>(temp);
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
+{
+    unsigned int newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
+    Array<type_array> *temp = create_struct<type_array>(newSize);
+    for (unsigned int i = 0; i < newSize; i++)
+    {
+        i < appendingArray->getData()->array_size ? temp->array[i] = appendingArray->getData()->array[i] : temp->array[i] = this->ARRAY->array[i - appendingArray->getData()->array_size];
+    }
+    appendingArray->resize(newSize, 1);
+    copy<type_array>(appendingArray->getData()->array, temp->array, newSize);
+    remove_struct<type_array>(temp);
+}
+
+//TODO Оптимизировать операторы + - * /
 
 template<typename type_array> void ARRAYDATA<type_array>::operator+(const unsigned int &addSize)
 {
     Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
     copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-    remove();
-    this->ARRAY = create_struct<type_array>(temp->array_size + addSize);
+    resize(temp->array_size + addSize, 1);
     copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
     remove_struct<type_array>(temp);
 }
@@ -429,14 +482,33 @@ template<typename type_array> void ARRAYDATA<type_array>::operator-(const unsign
     }
     Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
     copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-    remove();
-    this->ARRAY = create_struct<type_array>(temp->array_size - subtractSize);
+    resize(temp->array_size - subtractSize, 1);
     copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
     remove_struct<type_array>(temp);
 }
 
-//оператор * для увеличения массива во сколько-то раз
-//оператор / для уменьшения массива во сколько-то раз
+template<typename type_array> void ARRAYDATA<type_array>::operator*(const unsigned int &multiplySize)
+{
+    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+    resize(temp->array_size * multiplySize, 1);
+    copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
+    remove_struct<type_array>(temp);
+}
+
+template<typename type_array> void ARRAYDATA<type_array>::operator/(const unsigned int &divideSize)
+{
+    if (divideSize >= this->ARRAY->array_size)
+    {
+        remove();
+        return;
+    }
+    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+    resize(temp->array_size / divideSize, 1);
+    copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+    remove_struct<type_array>(temp);
+}
 
 template<typename type_array> void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 {
@@ -701,6 +773,14 @@ template void ARRAYDATA<int>::setData(Array<int> *&);
 template void ARRAYDATA<float>::setData(Array<float> *&);
 template void ARRAYDATA<char>::setData(Array<char> *&);
 
+template void ARRAYDATA<int>::cloneData(Array<int> *&);
+template void ARRAYDATA<float>::cloneData(Array<float> *&);
+template void ARRAYDATA<char>::cloneData(Array<char> *&);
+
+template void ARRAYDATA<int>::cloneData(ARRAYDATA<int> *&);
+template void ARRAYDATA<float>::cloneData(ARRAYDATA<float> *&);
+template void ARRAYDATA<char>::cloneData(ARRAYDATA<char> *&);
+
 template void ARRAYDATA<int>::getData(Array<int> *&);
 template void ARRAYDATA<float>::getData(Array<float> *&);
 template void ARRAYDATA<char>::getData(Array<char> *&);
@@ -717,6 +797,10 @@ template void ARRAYDATA<int>::resize(const unsigned int &, const int &);
 template void ARRAYDATA<float>::resize(const unsigned int &, const float &);
 template void ARRAYDATA<char>::resize(const unsigned int &, const char &);
 
+template void ARRAYDATA<int>::replace(const unsigned int &, const int &);
+template void ARRAYDATA<float>::replace(const unsigned int &, const float &);
+template void ARRAYDATA<char>::replace(const unsigned int &, const char &);
+
 template void ARRAYDATA<int>::reverse();
 template void ARRAYDATA<float>::reverse();
 template void ARRAYDATA<char>::reverse();
@@ -724,6 +808,10 @@ template void ARRAYDATA<char>::reverse();
 template void ARRAYDATA<int>::remove();
 template void ARRAYDATA<float>::remove();
 template void ARRAYDATA<char>::remove();
+
+template void ARRAYDATA<int>::respawn();
+template void ARRAYDATA<float>::respawn();
+template void ARRAYDATA<char>::respawn();
 
 template int ARRAYDATA<int>::getMin(ArrayStatus);
 template float ARRAYDATA<float>::getMin(ArrayStatus);
@@ -765,15 +853,25 @@ template Array<int> *ARRAYDATA<int>::modas(int &);
 template Array<float> *ARRAYDATA<float>::modas(int &);
 template Array<char> *ARRAYDATA<char>::modas(int &);
 
-//operator<
+template void ARRAYDATA<int>::operator&&(const int &);
+template void ARRAYDATA<float>::operator&&(const float &);
+template void ARRAYDATA<char>::operator&&(const char &);
 
-//operator>
+template void ARRAYDATA<int>::operator!();
+template void ARRAYDATA<float>::operator!();
+template void ARRAYDATA<char>::operator!();
 
-//operator?: or replaceElement()
+template void ARRAYDATA<int>::operator||(const int &);
+template void ARRAYDATA<float>::operator||(const float &);
+template void ARRAYDATA<char>::operator||(const char &);
 
-//operator&
+template void ARRAYDATA<int>::operator<<(ARRAYDATA<int> *&);
+template void ARRAYDATA<float>::operator<<(ARRAYDATA<float> *&);
+template void ARRAYDATA<char>::operator<<(ARRAYDATA<char> *&);
 
-//operator%
+template void ARRAYDATA<int>::operator>>(ARRAYDATA<int> *&);
+template void ARRAYDATA<float>::operator>>(ARRAYDATA<float> *&);
+template void ARRAYDATA<char>::operator>>(ARRAYDATA<char> *&);
 
 template void ARRAYDATA<int>::operator+(const unsigned int &);
 template void ARRAYDATA<float>::operator+(const unsigned int &);
@@ -783,9 +881,13 @@ template void ARRAYDATA<int>::operator-(const unsigned int &);
 template void ARRAYDATA<float>::operator-(const unsigned int &);
 template void ARRAYDATA<char>::operator-(const unsigned int &);
 
-//operator*
+template void ARRAYDATA<int>::operator*(const unsigned int &);
+template void ARRAYDATA<float>::operator*(const unsigned int &);
+template void ARRAYDATA<char>::operator*(const unsigned int &);
 
-//operator/
+template void ARRAYDATA<int>::operator/(const unsigned int &);
+template void ARRAYDATA<float>::operator/(const unsigned int &);
+template void ARRAYDATA<char>::operator/(const unsigned int &);
 
 template void Exchange_Sorts::BubbleSort<int>::start_sort();
 template void Exchange_Sorts::BubbleSort<float>::start_sort();

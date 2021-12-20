@@ -62,8 +62,9 @@ template <typename type_array> void remove_struct(Array<type_array> *&Array);
 template <typename type_array> class ArrayBase
 {
 public:
-    ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {};
-    ArrayBase(const unsigned int &SIZE) { ARRAY = create_struct<type_array>(SIZE); };
+    ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
+    ArrayBase(const unsigned int &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
+    ArrayBase() { ARRAY = nullptr; }
 protected:
     Array<type_array> *ARRAY;
 };
@@ -92,33 +93,45 @@ template<typename type_array> class ARRAYDATA : public ArrayBase<type_array>
 public:
     ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
     ARRAYDATA(const unsigned int &SIZE) : ArrayBase<type_array>(SIZE) {}
+    ARRAYDATA() : ArrayBase<type_array>() {}
+
     void generatedData(const int &min_limit, const int &max_limit);
     void setNewData(Array<type_array> *&Array);
     void setData(Array<type_array> *&Array);
+    void cloneData(Array<type_array> *&CloningArray);
+    void cloneData(ARRAYDATA<type_array> *&CloningObject);
     void getData(Array<type_array> *&DATA);
     Array<type_array> *getData();
+
     void reset();
     void resize(const unsigned int &NEW_SIZE, const type_array &setElement);
+    void replace(const unsigned int &position, const type_array &value);
     void reverse();
     void remove();
+    void respawn();
+
     type_array getMin(ArrayStatus ArrStat = UNSORTED);
     type_array getMax(ArrayStatus ArrStat = UNSORTED);
+
     Array<int> *lenear_searcher(const type_array &required_element);
     int binary_searcher(const type_array &required_element);
     Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = NUMBER);
+
     type_array average();
     type_array mediana();
     type_array moda(int &highest_frequency);
     Array<type_array> *modas(int &highest_frequency);
-    //void operator< ()
-    //void operator> ()
-    //void operator?: or replaceElement()
-    //ARRAYDATA<type_array> operator& ()
-    //ARRAYDATA<type_array> operator% ()
+
+    void operator&& (const type_array &value); //Оператор для добавления в конец массива
+    void operator! (); //Оператор для удаления из конца массива
+    void operator|| (const type_array &value); //Оператор для удаления указанного значения
+    void operator<< (ARRAYDATA<type_array> *&appendingArray); //Оператор для слияния двух массивов в текущем объекте
+    void operator>> (ARRAYDATA<type_array> *&appendingArray); //Оператор для слияния двух массивов в принятом объекте
     void operator+ (const unsigned int &addSize); //Оператор для увеличения массива на конкретный размер
     void operator- (const unsigned int &subtractSize); //Оператор для уменьшения массива на конкретный размер
-    //void operator* ()
-    //void operator/ ()
+    void operator* (const unsigned int &multiplySize); //Оператор для увеличения массива во сколько-то раз
+    void operator/ (const unsigned int &divideSize); //Оператор для уменьшения массива во сколько-то раз
+
 private:
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
