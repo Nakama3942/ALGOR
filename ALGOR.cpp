@@ -144,10 +144,25 @@ template<typename type_array> void remove_struct(Array<type_array> *&Array)
 
 template<typename type_array> void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
-    srand(time(NULL));
+    //Генерирую ключ
+    char key[100];
+    //crypto_entropy(key, 100);
+    crypto_srand(key, 100);
+    int BUFSIZe = this->ARRAY->array_size;
+    char output[BUFSIZe];
+    crypto_rand(output, BUFSIZe);
+    int sum = 0;
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
-        this->ARRAY->array[i] = min_limit + rand() % (max_limit - min_limit);
+        sum += (uint8_t)output[i];
+    }
+
+    //Подставляю сгенерированный ключ
+    //CRandomMersenne RanGen(time(NULL));
+    CRandomMersenne RanGen(sum);
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+    {
+        this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit);
     }
 }
 
