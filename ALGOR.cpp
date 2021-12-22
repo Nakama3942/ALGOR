@@ -22,6 +22,7 @@
 
 template<typename type_array> void swap(type_array &firstNumber, type_array &secondNumber)
 {
+    //Swaps two elements
     type_array *temp = new type_array(firstNumber);
     firstNumber = secondNumber;
     secondNumber = *temp;
@@ -30,6 +31,7 @@ template<typename type_array> void swap(type_array &firstNumber, type_array &sec
 
 template<typename type_array> type_array minimum(const type_array *Array, const unsigned int &array_size)
 {
+    //Finds the minimum element in an array by iterating over
     type_array point_min = Array[0];
     for (unsigned int i = 1; i < array_size; i++)
     {
@@ -43,6 +45,7 @@ template<typename type_array> type_array minimum(const type_array *Array, const 
 
 template<typename type_array> type_array maximum(const type_array *Array, const unsigned int &array_size)
 {
+    //Finds the maximum element in an array by iterating over
     type_array point_max = Array[0];
     for (unsigned int i = 1; i < array_size; i++)
     {
@@ -56,6 +59,7 @@ template<typename type_array> type_array maximum(const type_array *Array, const 
 
 template<typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value, const unsigned int position)
 {
+    //Adds a specific value to an array at a specified position
     array_size++;
     if (array_size == 1)
     {
@@ -75,6 +79,7 @@ template<typename type_array> void addElement(type_array *&Array, unsigned int &
 
 template<typename type_array> void subtractElement(type_array *&Array, unsigned int &array_size, const unsigned int position)
 {
+    //Removes the specified position from the array
     if (array_size == 1)
     {
         delete[] Array;
@@ -101,6 +106,7 @@ template<typename type_array> void subtractElement(type_array *&Array, unsigned 
 
 template<typename type_array> void subtractValue(type_array *&Array, unsigned int &array_size, const type_array &value)
 {
+    //Removes a specific element from all positions in an array
     int counter = 0;
     type_array *temp_Array = new type_array[array_size];
     for (unsigned int i = 0; i < array_size; i++)
@@ -121,6 +127,7 @@ template<typename type_array> void subtractValue(type_array *&Array, unsigned in
 
 template<typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
+    //Copies an array
     for (unsigned int i = 0; i < size_of_copied; i++)
     {
         new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
@@ -129,6 +136,7 @@ template<typename type_array> void copy(type_array *new_array, const type_array 
 
 template<typename type_array> Array<type_array> *create_struct(const unsigned int &SIZE)
 {
+    //Creates a structure with a pointer to an array
     Array<type_array> *ARRAY = new Array<type_array>;
     ARRAY->array_size = SIZE;
     ARRAY->array = new type_array[SIZE];
@@ -137,29 +145,247 @@ template<typename type_array> Array<type_array> *create_struct(const unsigned in
 
 template<typename type_array> void remove_struct(Array<type_array> *&Array)
 {
+    //Removes an array and structure from heap
     delete[] Array->array;
     delete(Array);
     Array = nullptr;
 }
 
+//int RC4::crypto_entropy()
+//{
+//    //Collects entropy
+//    //WARNING Может быть реализован в Линуксе
+//    return 0;
+//}
+
+void RC4::crypto_srand(const char *key, int ksize)
+{
+    //Set up the key
+    uint8_t j = 0;
+    for (int i = 0; i < 256; i++)
+    {
+        Sbox[i] = i;
+    }
+    for (int i = 0; i < 256; i++)
+    {
+        j = j + Sbox[i] + (uint8_t)key[i % ksize];
+        swap<uint8_t>(Sbox[i], Sbox[j]);
+    }
+}
+
+void RC4::crypto_rand(char *output, int size)
+{
+    //Generates a value
+    uint8_t i = 0, j = 0, t;
+    for (int k = 0; i < size; k++)
+    {
+        i += 1;
+        j += Sbox[i];
+        swap<uint8_t>(Sbox[i], Sbox[j]);
+        t = Sbox[i] + Sbox[j];
+        output[k] = (unsigned int)Sbox[t];
+    }
+}
+
+#define MERS_N 624
+
+MersenneTwister::MersenneTwister(int seed)
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //MersenneTwister class constructor
+    RandomInit(seed);
+    LastInterval = 0;
+}
+
+void MersenneTwister::RandomInit(int seed)
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //Re-seed
+    Init0(seed);
+    for (int i = 0; i < 37; i++)
+    {
+        BRandom();
+    }
+}
+
+void MersenneTwister::RandomInitByArray(const int seeds[], int NumSeeds)
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //Seed by more than 32 bits
+    int i = 1, j = 0, k; //Counters
+    Init0(19650218);
+    if (NumSeeds <= 0)
+    {
+        return;
+    }
+    k = (MERS_N > NumSeeds ? MERS_N : NumSeeds);
+    for (; k; k--)
+    {
+        mersenne_twister[i] = (mersenne_twister[i] ^ ((mersenne_twister[i - 1] ^ (mersenne_twister[i - 1] >> 30)) * 1664525UL)) + (uint32_t)seeds[j] + j;
+        i++; j++;
+        if (i >= MERS_N)
+        {
+            mersenne_twister[0] = mersenne_twister[MERS_N - 1];
+            i = 1;
+        }
+        if (j >= NumSeeds)
+        {
+            j = 0;
+        }
+    }
+    for (k = MERS_N - 1; k; k--)
+    {
+        mersenne_twister[i] = (mersenne_twister[i] ^ ((mersenne_twister[i - 1] ^ (mersenne_twister[i - 1] >> 30)) * 1566083941UL)) - i;
+        if (++i >= MERS_N)
+        {
+            mersenne_twister[0] = mersenne_twister[MERS_N - 1];
+            i = 1;
+        }
+    }
+    mersenne_twister[0] = 0x80000000UL;
+    mersenne_twister_index = 0;
+    for (int i = 0; i <= MERS_N; i++)
+    {
+        BRandom();
+    }
+}
+
+int MersenneTwister::IRandom(int min, int max)
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //Output random integer
+    if (max <= min)
+    {
+        return max == min ? min : 0x80000000;
+    }
+    int rand_int = int((double)(uint32_t)(max - min + 1) * Random() + min);
+    if (rand_int > max)
+    {
+        rand_int = max;
+    }
+    return rand_int;
+}
+
+int MersenneTwister::IRandomX(int min, int max)
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //Output random integer, exact
+    if (max <= min)
+    {
+        return max == min ? min : 0x80000000;
+    }
+    uint32_t len_interval; //Length of interval
+    uint64_t long_rbi;     //Random bits * interval
+    uint32_t iran;         //long_rbi / 2^32
+    uint32_t remainder;    //long_rbi % 2^32
+
+    len_interval = uint32_t(max - min + 1);
+    if (len_interval != LastInterval)
+    {
+        RejectionLimit = uint32_t(((uint64_t)1 << 32) / len_interval) * len_interval - 1;
+        LastInterval = len_interval;
+    }
+    do
+    {
+        long_rbi  = (uint64_t)BRandom() * len_interval;
+        iran = (uint32_t)(long_rbi >> 32);
+        remainder = (uint32_t)long_rbi;
+    } while (remainder > RejectionLimit);
+    return (int32_t)iran + min;
+}
+
+double MersenneTwister::Random()
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //Output random float
+    return (double)BRandom() * (1./(65536.*65536.));
+}
+
+uint32_t MersenneTwister::BRandom()
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //Output random bits
+    uint32_t resulting_bit;
+    if (mersenne_twister_index >= MERS_N) {
+        const uint32_t LOWER_MASK = (1LU << 31) - 1;  //Lower bits
+        const uint32_t UPPER_MASK = 0xFFFFFFFF << 31; //Upper bits
+        static const uint32_t mask[2] = { 0, 0x9908B0DF };
+        int counter;
+        for (counter=0; counter < MERS_N - 397; counter++)
+        {
+            resulting_bit = (mersenne_twister[counter] & UPPER_MASK) | (mersenne_twister[counter + 1] & LOWER_MASK);
+            mersenne_twister[counter] = mersenne_twister[counter + 397] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
+        }
+        for (; counter < MERS_N - 1; counter++)
+        {
+            resulting_bit = (mersenne_twister[counter] & UPPER_MASK) | (mersenne_twister[counter + 1] & LOWER_MASK);
+            mersenne_twister[counter] = mersenne_twister[counter + (397 - MERS_N)] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
+        }
+        resulting_bit = (mersenne_twister[MERS_N - 1] & UPPER_MASK) | (mersenne_twister[0] & LOWER_MASK);
+        mersenne_twister[MERS_N - 1] = mersenne_twister[397 - 1] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
+        mersenne_twister_index = 0;
+    }
+    resulting_bit = mersenne_twister[mersenne_twister_index++];
+    resulting_bit ^=  resulting_bit >> 11;
+    resulting_bit ^= (resulting_bit << 7) & 0x9D2C5680;
+    resulting_bit ^= (resulting_bit << 15) & 0xEFC60000;
+    resulting_bit ^=  resulting_bit >> 18;
+    return resulting_bit;
+}
+
+void MersenneTwister::Init0(int seed)
+{
+    /* ****************************************************************** *
+     * Author:                                    Agner Fog               *
+     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
+     * ****************************************************************** */
+    //Basic initialization procedure
+    const uint32_t factor = 1812433253UL;
+    mersenne_twister[0]= seed;
+    for (mersenne_twister_index = 1; mersenne_twister_index < MERS_N; mersenne_twister_index++)
+    {
+        mersenne_twister[mersenne_twister_index] = (factor * (mersenne_twister[mersenne_twister_index - 1] ^ (mersenne_twister[mersenne_twister_index - 1] >> 30)) + mersenne_twister_index);
+    }
+}
+
+#undef MERS_N
+
 template<typename type_array> void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
-    //Генерирую ключ
+    //Generating elements for an array
+    RC4 rc4;
+    //Key generation (will be used until I come up with an analogue of time(NULL))
+    //TODO Think of an analogue time(NULL)
     char key[100];
-    //crypto_entropy(key, 100);
-    crypto_srand(key, 100);
-    int BUFSIZe = this->ARRAY->array_size;
+    //rc4.crypto_entropy(key, 100);
+    rc4.crypto_srand(key, 100);
+    int BUFSIZe = 100;
     char output[BUFSIZe];
-    crypto_rand(output, BUFSIZe);
-    int sum = 0;
-    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
-    {
-        sum += (uint8_t)output[i];
-    }
+    rc4.crypto_rand(output, BUFSIZe);
 
-    //Подставляю сгенерированный ключ
-    //CRandomMersenne RanGen(time(NULL));
-    CRandomMersenne RanGen(sum);
+    //Substitute the generated key
+    MersenneTwister RanGen((uint8_t)output[50]);
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit);
@@ -168,17 +394,20 @@ template<typename type_array> void ARRAYDATA<type_array>::generatedData(const in
 
 template<typename type_array> void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 {
+    //The old array is deleted and a pointer to the new one is saved
     remove();
     this->ARRAY = Array;
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 {
+    //The pointer to the new array is retained without deleting the old array
     this->ARRAY = Array;
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
 {
+    //The array is copied from the structure
     if (this->ARRAY != nullptr)
     {
         remove();
@@ -189,6 +418,7 @@ template<typename type_array> void ARRAYDATA<type_array>::cloneData(Array<type_a
 
 template<typename type_array> void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
 {
+    //The array is copied from the object
     if (this->ARRAY != nullptr)
     {
         remove();
@@ -199,16 +429,20 @@ template<typename type_array> void ARRAYDATA<type_array>::cloneData(ARRAYDATA<ty
 
 template<typename type_array> void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
 {
+    //The pointer to the array is copied
     DATA = this->ARRAY;
 }
 
 template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::getData()
 {
+    //A pointer to an array is returned
     return this->ARRAY;
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::reset()
 {
+    //The old array is deleted and a new one is created with the same
+    //characteristics (size, minimum and maximum limits)
     int SIZE = this->ARRAY->array_size;
     type_array min = getMin(), max = getMax();
     remove();
@@ -218,6 +452,7 @@ template<typename type_array> void ARRAYDATA<type_array>::reset()
 
 template<typename type_array> void ARRAYDATA<type_array>::resize(const unsigned int &NEW_SIZE, const type_array &setElement)
 {
+    //The array is resized
     Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
     if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
     {
@@ -237,11 +472,13 @@ template<typename type_array> void ARRAYDATA<type_array>::resize(const unsigned 
 
 template<typename type_array> void ARRAYDATA<type_array>::replace(const unsigned int &position, const type_array &value)
 {
+    //At the specified position, the value changes to a certain
     this->ARRAY->array[position - 1] = value;
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::reverse()
 {
+    //The array is flipped
     int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
     for (unsigned int i = 0; i < this->ARRAY->array_size / 2; i++)
     {
@@ -253,11 +490,14 @@ template<typename type_array> void ARRAYDATA<type_array>::reverse()
 
 template<typename type_array> void ARRAYDATA<type_array>::remove()
 {
+    //The array is removed
     remove_struct<type_array>(this->ARRAY);
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::respawn()
 {
+    //The old array is deleted and memory is allocated for a new array with
+    //the same size, but without filling it, unlike reset()
     unsigned int size = this->ARRAY->array_size;
     remove();
     this->ARRAY = create_struct<type_array>(size);
@@ -265,6 +505,7 @@ template<typename type_array> void ARRAYDATA<type_array>::respawn()
 
 template<typename type_array> type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
 {
+    //Optimized method for finding the minimum element
     switch (ArrStat)
     {
     case UNSORTED:
@@ -277,6 +518,7 @@ template<typename type_array> type_array ARRAYDATA<type_array>::getMin(ArrayStat
 
 template<typename type_array> type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
 {
+    //Optimized method for finding the maximum element
     switch (ArrStat)
     {
     case UNSORTED:
@@ -289,6 +531,7 @@ template<typename type_array> type_array ARRAYDATA<type_array>::getMax(ArrayStat
 
 template<typename type_array> Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
+    //Linear search for an element that returns all occurrences of it
     Array<int> *NumberPoints = new Array<int>;
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
@@ -306,6 +549,7 @@ template<typename type_array> Array<int> *ARRAYDATA<type_array>::lenear_searcher
 
 template<typename type_array> int ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
+    //Binary search invocation method
     int position = 0;
     binary_searcher(required_element, position, 0, this->ARRAY->array_size - 1);
     return position;
@@ -313,6 +557,7 @@ template<typename type_array> int ARRAYDATA<type_array>::binary_searcher(const t
 
 template<typename type_array> void ARRAYDATA<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
 {
+    //Binary item search (used in sorted arrays)
     if (left_limit > right_limit)
     {
         throw -1;
@@ -334,6 +579,7 @@ template<typename type_array> void ARRAYDATA<type_array>::binary_searcher(const 
 
 template<typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
+    //Sequence search method that returns all its occurrences
     Array<int> *Occurrences = new Array<int>;
     for (unsigned int i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
     {
@@ -372,21 +618,36 @@ template<typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurre
 
 template<typename type_array> type_array ARRAYDATA<type_array>::average()
 {
+    //Method that returns the arithmetic mean of an array
+    if (this->ARRAY->array_size == 0)
+    {
+        throw "Массив пустой";
+    }
     type_array average = 0;
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         average += this->ARRAY->array[i];
     }
-    return average / (int)this->ARRAY->array_size;
+    return average / (type_array)this->ARRAY->array_size;
 }
 
 template<typename type_array> type_array ARRAYDATA<type_array>::mediana()
 {
+    //Method that returns the median of an array
+    if (this->ARRAY->array_size == 0)
+    {
+        throw "Массив пустой";
+    }
     return this->ARRAY->array_size % 2 == 0 ? (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : (this->ARRAY->array[this->ARRAY->array_size / 2]);
 }
 
 template<typename type_array> type_array ARRAYDATA<type_array>::moda(int &highest_frequency)
 {
+    //Method that returns the array mode
+    if (this->ARRAY->array_size == 0)
+    {
+        throw "Массив пустой";
+    }
     type_array most_frequent = 0;
     highest_frequency = 0;
     int current_frequency = 0;
@@ -408,6 +669,11 @@ template<typename type_array> type_array ARRAYDATA<type_array>::moda(int &highes
 
 template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 {
+    //A method that returns all elements with an array mode
+    if (this->ARRAY->array_size == 0)
+    {
+        throw "Массив пустой";
+    }
     Array<type_array> *MostFrequents = new Array<type_array>;
     highest_frequency = 0;
     int current_frequency = 0;
@@ -437,21 +703,25 @@ template<typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(in
 
 template<typename type_array> void ARRAYDATA<type_array>::operator&&(const type_array &value)
 {
+    //Operator adding an element to the end of an array
     addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::operator!()
 {
+    //Operator that removes an element from the end of an array
     subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::operator||(const type_array &value)
 {
+    //An operator that removes all elements with a specified value
     subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
 }
 
 template<typename type_array> void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
 {
+    //Operator for merging two arrays in the current object
     unsigned int newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
     Array<type_array> *temp = create_struct<type_array>(newSize);
     for (unsigned int i = 0; i < newSize; i++)
@@ -466,6 +736,7 @@ template<typename type_array> void ARRAYDATA<type_array>::operator<<(ARRAYDATA<t
 
 template<typename type_array> void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
 {
+    //Operator for merging two arrays in a received object
     unsigned int newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
     Array<type_array> *temp = create_struct<type_array>(newSize);
     for (unsigned int i = 0; i < newSize; i++)
@@ -477,10 +748,11 @@ template<typename type_array> void ARRAYDATA<type_array>::operator>>(ARRAYDATA<t
     remove_struct<type_array>(temp);
 }
 
-//TODO Оптимизировать операторы + - * /
+//TODO Optimize operators + - * /
 
 template<typename type_array> void ARRAYDATA<type_array>::operator+(const unsigned int &addSize)
 {
+    //Operator for increasing an array by a specific size
     Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
     copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
     resize(temp->array_size + addSize, 1);
@@ -490,6 +762,7 @@ template<typename type_array> void ARRAYDATA<type_array>::operator+(const unsign
 
 template<typename type_array> void ARRAYDATA<type_array>::operator-(const unsigned int &subtractSize)
 {
+    //Operator for decreasing an array by a specific size
     if (subtractSize >= this->ARRAY->array_size)
     {
         remove();
@@ -504,6 +777,7 @@ template<typename type_array> void ARRAYDATA<type_array>::operator-(const unsign
 
 template<typename type_array> void ARRAYDATA<type_array>::operator*(const unsigned int &multiplySize)
 {
+    //Operator for increasing an array by several times
     Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
     copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
     resize(temp->array_size * multiplySize, 1);
@@ -513,6 +787,7 @@ template<typename type_array> void ARRAYDATA<type_array>::operator*(const unsign
 
 template<typename type_array> void ARRAYDATA<type_array>::operator/(const unsigned int &divideSize)
 {
+    //Operator for decreasing an array by some times
     if (divideSize >= this->ARRAY->array_size)
     {
         remove();

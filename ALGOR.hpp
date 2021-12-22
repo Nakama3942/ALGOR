@@ -1,4 +1,4 @@
-/* **************************************************************************** *
+/* ******************************   ALGOR.hpp   ******************************* *
  * ---------------------------------------------------------------------------- *
  *                                                                              *
  * Copyright © 2021 Kalynovsky Valentin. All rights reserved.                   *
@@ -24,13 +24,13 @@
  * ---------------------------------------------------------------------------- *
  *                                                                              *
  *                              Структура проекта:                              *
- * 1. ALGOR_CORE - основные структуры и функции библиотеки                      *
- * 2. ALGOR_EXCEPTION - класс для работы с исключениями                         *
- * 3. ALGOR_RANDOM - собственный генератор случайных чисел                      *
- * 4. AlGOR_ARRAY - класс для работы с массивами                                *
- * 5. AlGOR_SORTING - Набор методов сортировок                                  *
- * 6. AlGOR_HEAP - класс для работы с деревьями                                 *
- * 7. AlGOR_LIST - класс для работы со списками                                 *
+ * 1. ALGOR_CORE - basic structures and functions of the library                *
+ * 2. ALGOR_EXCEPTION - class for working with exceptions                       *
+ * 3. ALGOR_RANDOM - own random number generators                               *
+ * 4. AlGOR_ARRAY - class for working with arrays                               *
+ * 5. AlGOR_SORTING - set of sorting methods                                    *
+ * 6. AlGOR_HEAP - class for working with trees                                 *
+ * 7. AlGOR_LIST - class for working with lists                                 *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -39,11 +39,6 @@
 #define ALGOR_HPP
 
 #include "ALGOR_global.h"
-
-//#include <iostream> //Иногда используется для тестов
-//#include <ctime>  //Будет убран после написания рандомизатора
-//#include <random> //Будет убран после написания рандомизатора
-//using namespace std;
 
 //ALGOR_CORE
 
@@ -66,11 +61,24 @@ public:
     ArrayBase(const unsigned int &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
     ArrayBase() { ARRAY = nullptr; }
 protected:
-    Array<type_array> *ARRAY;
+    Array<type_array> *ARRAY; //Pointer to a structure storing an array
 };
+
+using int8_t = signed char;
+using int16_t = short;
+using int32_t = int;
+using int64_t = long long;
+
+using uint8_t = unsigned char;
+using uint16_t = unsigned short;
+using uint32_t = unsigned int;
+using uint64_t = unsigned long long;
+
+//TODO Come up with your own alias for unsigned int, which will be used to indicate the size of the array
 
 //ALGOR_EXCEPTION
 
+//TODO Excep class will be implemented in version 2.1.0
 //class Excep
 //{
 //public:
@@ -78,204 +86,34 @@ protected:
 
 //ALGOR_RANDOM
 
-//class Randomizer
-//{
-//public:
-//};
-
-//RC4 (взят по ссылке https://www.youtube.com/watch?v=PQlZI-QoM2A)
-#include <stdint.h>
-static uint8_t Sbox[256];
-
-void crypto_srand(const char *key, int ksize)
+class RC4
 {
-    uint8_t j = 0;
-    for (int i = 0; i < 256; i++)
-    {
-        Sbox[i] = i;
-    }
-    for (int i = 0; i < 256; i++)
-    {
-        j = j + Sbox[i] + (uint8_t)key[i % ksize];
-        swap<uint8_t>(Sbox[i], Sbox[j]);
-    }
-}
-
-void crypto_rand(char *output, int size)
-{
-    uint8_t i = 0, j = 0;
-    uint8_t t;
-    for (int k = 0; i < size; k++)
-    {
-        i += 1;
-        j += Sbox[i];
-        swap<uint8_t>(Sbox[i], Sbox[j]);
-        t = Sbox[i] + Sbox[j];
-        output[k] = (unsigned int)Sbox[t];
-    }
-}
-
-//int crypto_entropy(char *output, int size)
-//{
-//    //code
-//    return 0;
-//}
-
-/*     */
-
-//Следующий класс был взят по ссылке https://www.agner.org/random/
-// во втором загрузочном пакете ("Uniform random number generators in C++").
-//Характеристика: File name: randomc.zip, size: 471048, last modified: 2014-Jun-14
-
-class CRandomMersenne {                // Encapsulate random number generator
-#define MERS_N   624
-#define MERS_M   397
-#define MERS_R   31
-#define MERS_U   11
-#define MERS_S   7
-#define MERS_T   15
-#define MERS_L   18
-#define MERS_A   0x9908B0DF
-#define MERS_B   0x9D2C5680
-#define MERS_C   0xEFC60000
-
+//RC4 (taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A)
 public:
-   CRandomMersenne(int seed)         // Constructor
-   {
-       RandomInit(seed); LastInterval = 0;
-   }
-   void RandomInit(int seed)          // Re-seed
-   {
-       // Initialize and seed
-       Init0(seed);
-
-       // Randomize some more
-       for (int i = 0; i < 37; i++) BRandom();
-   }
-   void RandomInitByArray(int const seeds[], int NumSeeds) // Seed by more than 32 bits
-   {
-       // Seed by more than 32 bits
-       int i, j, k;
-
-       // Initialize
-       Init0(19650218);
-
-       if (NumSeeds <= 0) return;
-
-       // Randomize mt[] using whole seeds[] array
-       i = 1;  j = 0;
-       k = (MERS_N > NumSeeds ? MERS_N : NumSeeds);
-       for (; k; k--) {
-           mt[i] = (mt[i] ^ ((mt[i-1] ^ (mt[i-1] >> 30)) * 1664525UL)) + (uint32_t)seeds[j] + j;
-           i++; j++;
-           if (i >= MERS_N) {mt[0] = mt[MERS_N-1]; i=1;}
-           if (j >= NumSeeds) j=0;}
-       for (k = MERS_N-1; k; k--) {
-           mt[i] = (mt[i] ^ ((mt[i-1] ^ (mt[i-1] >> 30)) * 1566083941UL)) - i;
-           if (++i >= MERS_N) {mt[0] = mt[MERS_N-1]; i=1;}}
-       mt[0] = 0x80000000UL;  // MSB is 1; assuring non-zero initial array
-
-       // Randomize some more
-       mti = 0;
-       for (int i = 0; i <= MERS_N; i++) BRandom();
-   }
-   int IRandom (int min, int max)     // Output random integer
-   {
-       // Output random integer in the interval min <= x <= max
-       // Relative error on frequencies < 2^-32
-       if (max <= min) {
-           if (max == min) return min; else return 0x80000000;
-       }
-       // Multiply interval with random and truncate
-       int r = int((double)(uint32_t)(max - min + 1) * Random() + min);
-       if (r > max) r = max;
-       return r;
-   }
-   int IRandomX(int min, int max)     // Output random integer, exact
-   {
-       // Output random integer in the interval min <= x <= max
-       // Each output value has exactly the same probability.
-       // This is obtained by rejecting certain bit values so that the number
-       // of possible bit values is divisible by the interval length
-       if (max <= min) {
-          if (max == min) return min; else return 0x80000000;
-       }
-       // 64 bit integers available. Use multiply and shift method
-       uint32_t interval;                    // Length of interval
-       uint64_t longran;                     // Random bits * interval
-       uint32_t iran;                        // Longran / 2^32
-       uint32_t remainder;                   // Longran % 2^32
-
-       interval = uint32_t(max - min + 1);
-       if (interval != LastInterval) {
-          // Interval length has changed. Must calculate rejection limit
-          // Reject when remainder >= 2^32 / interval * interval
-          // RLimit will be 0 if interval is a power of 2. No rejection then
-          RLimit = uint32_t(((uint64_t)1 << 32) / interval) * interval - 1;
-          LastInterval = interval;
-       }
-       do { // Rejection loop
-          longran  = (uint64_t)BRandom() * interval;
-          iran = (uint32_t)(longran >> 32);
-          remainder = (uint32_t)longran;
-       } while (remainder > RLimit);
-       // Convert back to signed and return result
-       return (int32_t)iran + min;
-   }
-   double Random()                    // Output random float
-   {
-       // Output random float number in the interval 0 <= x < 1
-       // Multiply by 2^(-32)
-       return (double)BRandom() * (1./(65536.*65536.));
-   }
-   uint32_t BRandom()                 // Output random bits
-   {
-       // Generate 32 random bits
-       uint32_t y;
-
-       if (mti >= MERS_N) {
-           // Generate MERS_N words at one time
-           const uint32_t LOWER_MASK = (1LU << MERS_R) - 1;       // Lower MERS_R bits
-           const uint32_t UPPER_MASK = 0xFFFFFFFF << MERS_R;      // Upper (32 - MERS_R) bits
-           static const uint32_t mag01[2] = {0, MERS_A};
-
-           int kk;
-           for (kk=0; kk < MERS_N-MERS_M; kk++) {
-              y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
-              mt[kk] = mt[kk+MERS_M] ^ (y >> 1) ^ mag01[y & 1];}
-
-           for (; kk < MERS_N-1; kk++) {
-              y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
-              mt[kk] = mt[kk+(MERS_M-MERS_N)] ^ (y >> 1) ^ mag01[y & 1];}
-
-           y = (mt[MERS_N-1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-           mt[MERS_N-1] = mt[MERS_M-1] ^ (y >> 1) ^ mag01[y & 1];
-           mti = 0;
-       }
-       y = mt[mti++];
-
-       // Tempering (May be omitted):
-       y ^=  y >> MERS_U;
-       y ^= (y << MERS_S) & MERS_B;
-       y ^= (y << MERS_T) & MERS_C;
-       y ^=  y >> MERS_L;
-
-       return y;
-   }
+    //int crypto_entropy();
+    void crypto_srand(const char *key, int ksize);
+    void crypto_rand(char *output, int size);
 private:
-   void Init0(int seed)               // Basic initialization procedure
-   {
-       // Seed generator
-       const uint32_t factor = 1812433253UL;
-       mt[0]= seed;
-       for (mti=1; mti < MERS_N; mti++) {
-           mt[mti] = (factor * (mt[mti-1] ^ (mt[mti-1] >> 30)) + mti);
-       }
-   }
-   uint32_t mt[MERS_N];                // State vector
-   int mti;                            // Index into mt
-   uint32_t LastInterval;              // Last interval length for IRandomX
-   uint32_t RLimit;                    // Rejection limit used by IRandomX
+    uint8_t Sbox[256];
+};
+
+class MersenneTwister
+{
+//Source URL: www.agner.org/random
+public:
+    MersenneTwister(int seed);
+    void RandomInit(int seed);
+    void RandomInitByArray(int const seeds[], int NumSeeds);
+    int IRandom (int min, int max);
+    int IRandomX(int min, int max);
+    double Random();
+    uint32_t BRandom();
+private:
+    void Init0(int seed);
+    uint32_t mersenne_twister[624]; //State vector
+    int mersenne_twister_index;     //Index into mersenne_twister
+    uint32_t LastInterval;          //Last interval length for IRandomX
+    uint32_t RejectionLimit;        //Rejection limit used by IRandomX
 };
 
 //ALGOR_ARRAY
@@ -317,15 +155,15 @@ public:
     type_array moda(int &highest_frequency);
     Array<type_array> *modas(int &highest_frequency);
 
-    void operator&& (const type_array &value); //Оператор для добавления в конец массива
-    void operator! (); //Оператор для удаления из конца массива
-    void operator|| (const type_array &value); //Оператор для удаления указанного значения
-    void operator<< (ARRAYDATA<type_array> *&appendingArray); //Оператор для слияния двух массивов в текущем объекте
-    void operator>> (ARRAYDATA<type_array> *&appendingArray); //Оператор для слияния двух массивов в принятом объекте
-    void operator+ (const unsigned int &addSize); //Оператор для увеличения массива на конкретный размер
-    void operator- (const unsigned int &subtractSize); //Оператор для уменьшения массива на конкретный размер
-    void operator* (const unsigned int &multiplySize); //Оператор для увеличения массива во сколько-то раз
-    void operator/ (const unsigned int &divideSize); //Оператор для уменьшения массива во сколько-то раз
+    void operator&& (const type_array &value);
+    void operator! ();
+    void operator|| (const type_array &value);
+    void operator<< (ARRAYDATA<type_array> *&appendingArray);
+    void operator>> (ARRAYDATA<type_array> *&appendingArray);
+    void operator+ (const unsigned int &addSize);
+    void operator- (const unsigned int &subtractSize);
+    void operator* (const unsigned int &multiplySize);
+    void operator/ (const unsigned int &divideSize);
 
 private:
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
