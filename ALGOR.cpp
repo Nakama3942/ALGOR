@@ -29,7 +29,7 @@ template<typename type_array> void swap(type_array &firstNumber, type_array &sec
     delete (temp);
 }
 
-template<typename type_array> type_array minimum(const type_array *Array, const unsigned int &array_size)
+template<typename type_array> type_array minimum(const type_array *Array, const asize_t &array_size)
 {
     //Finds the minimum element in an array by iterating over
     type_array point_min = Array[0];
@@ -43,7 +43,7 @@ template<typename type_array> type_array minimum(const type_array *Array, const 
     return point_min;
 }
 
-template<typename type_array> type_array maximum(const type_array *Array, const unsigned int &array_size)
+template<typename type_array> type_array maximum(const type_array *Array, const asize_t &array_size)
 {
     //Finds the maximum element in an array by iterating over
     type_array point_max = Array[0];
@@ -57,7 +57,7 @@ template<typename type_array> type_array maximum(const type_array *Array, const 
     return point_max;
 }
 
-template<typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value, const unsigned int position)
+template<typename type_array> void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
 {
     //Adds a specific value to an array at a specified position
     array_size++;
@@ -77,7 +77,7 @@ template<typename type_array> void addElement(type_array *&Array, unsigned int &
     delete[] temp_Array;
 }
 
-template<typename type_array> void subtractElement(type_array *&Array, unsigned int &array_size, const unsigned int position)
+template<typename type_array> void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
 {
     //Removes the specified position from the array
     if (array_size == 1)
@@ -104,7 +104,7 @@ template<typename type_array> void subtractElement(type_array *&Array, unsigned 
     delete[] temp_Array;
 }
 
-template<typename type_array> void subtractValue(type_array *&Array, unsigned int &array_size, const type_array &value)
+template<typename type_array> void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
     //Removes a specific element from all positions in an array
     int counter = 0;
@@ -134,7 +134,7 @@ template<typename type_array> void copy(type_array *new_array, const type_array 
     }
 }
 
-template<typename type_array> Array<type_array> *create_struct(const unsigned int &SIZE)
+template<typename type_array> Array<type_array> *create_struct(const asize_t &SIZE)
 {
     //Creates a structure with a pointer to an array
     Array<type_array> *ARRAY = new Array<type_array>;
@@ -191,10 +191,7 @@ void RC4::crypto_rand(char *output, int size)
 
 MersenneTwister::MersenneTwister(int seed)
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //MersenneTwister class constructor
     RandomInit(seed);
     LastInterval = 0;
@@ -202,10 +199,7 @@ MersenneTwister::MersenneTwister(int seed)
 
 void MersenneTwister::RandomInit(int seed)
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //Re-seed
     Init0(seed);
     for (int i = 0; i < 37; i++)
@@ -216,10 +210,7 @@ void MersenneTwister::RandomInit(int seed)
 
 void MersenneTwister::RandomInitByArray(const int seeds[], int NumSeeds)
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //Seed by more than 32 bits
     int i = 1, j = 0, k; //Counters
     Init0(19650218);
@@ -261,10 +252,7 @@ void MersenneTwister::RandomInitByArray(const int seeds[], int NumSeeds)
 
 int MersenneTwister::IRandom(int min, int max)
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //Output random integer
     if (max <= min)
     {
@@ -280,10 +268,7 @@ int MersenneTwister::IRandom(int min, int max)
 
 int MersenneTwister::IRandomX(int min, int max)
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //Output random integer, exact
     if (max <= min)
     {
@@ -311,20 +296,14 @@ int MersenneTwister::IRandomX(int min, int max)
 
 double MersenneTwister::Random()
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //Output random float
     return (double)BRandom() * (1./(65536.*65536.));
 }
 
 uint32_t MersenneTwister::BRandom()
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //Output random bits
     uint32_t resulting_bit;
     if (mersenne_twister_index >= MERS_N) {
@@ -356,10 +335,7 @@ uint32_t MersenneTwister::BRandom()
 
 void MersenneTwister::Init0(int seed)
 {
-    /* ****************************************************************** *
-     * Author:                                    Agner Fog               *
-     * Took it as a basis, rewrote and optimized: Kalynovsky Valentin     *
-     * ****************************************************************** */
+    //Source URL: www.agner.org/random
     //Basic initialization procedure
     const uint32_t factor = 1812433253UL;
     mersenne_twister[0]= seed;
@@ -450,7 +426,7 @@ template<typename type_array> void ARRAYDATA<type_array>::reset()
     generatedData(min, max);
 }
 
-template<typename type_array> void ARRAYDATA<type_array>::resize(const unsigned int &NEW_SIZE, const type_array &setElement)
+template<typename type_array> void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
 {
     //The array is resized
     Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
@@ -750,9 +726,13 @@ template<typename type_array> void ARRAYDATA<type_array>::operator>>(ARRAYDATA<t
 
 //TODO Optimize operators + - * /
 
-template<typename type_array> void ARRAYDATA<type_array>::operator+(const unsigned int &addSize)
+template<typename type_array> void ARRAYDATA<type_array>::operator+(const asize_t &addSize)
 {
     //Operator for increasing an array by a specific size
+    if (this->ARRAY->array_size + addSize > 0xffffffff)
+    {
+        throw "Переполнение памяти";
+    }
     Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
     copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
     resize(temp->array_size + addSize, 1);
@@ -760,7 +740,7 @@ template<typename type_array> void ARRAYDATA<type_array>::operator+(const unsign
     remove_struct<type_array>(temp);
 }
 
-template<typename type_array> void ARRAYDATA<type_array>::operator-(const unsigned int &subtractSize)
+template<typename type_array> void ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
 {
     //Operator for decreasing an array by a specific size
     if (subtractSize >= this->ARRAY->array_size)
@@ -775,9 +755,13 @@ template<typename type_array> void ARRAYDATA<type_array>::operator-(const unsign
     remove_struct<type_array>(temp);
 }
 
-template<typename type_array> void ARRAYDATA<type_array>::operator*(const unsigned int &multiplySize)
+template<typename type_array> void ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
 {
     //Operator for increasing an array by several times
+    if (this->ARRAY->array_size * multiplySize > 0xffffffff)
+    {
+        throw "Переполнение памяти";
+    }
     Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
     copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
     resize(temp->array_size * multiplySize, 1);
@@ -785,7 +769,7 @@ template<typename type_array> void ARRAYDATA<type_array>::operator*(const unsign
     remove_struct<type_array>(temp);
 }
 
-template<typename type_array> void ARRAYDATA<type_array>::operator/(const unsigned int &divideSize)
+template<typename type_array> void ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
 {
     //Operator for decreasing an array by some times
     if (divideSize >= this->ARRAY->array_size)
@@ -887,9 +871,9 @@ template<typename type_array> void Selection_Sorts::HeapSort<type_array>::start_
     }
 }
 
-template<typename type_array> void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const int &count, const int &array_size)
+template<typename type_array> void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
 {
-    int left = 2 * count + 1, large = count, right = 2 * count + 2;
+    asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
     if (left < array_size && Array[left] > Array[large])
     {
         large = left;
@@ -1019,33 +1003,33 @@ template void swap<int>(int &, int &);
 template void swap<float>(float &, float &);
 template void swap<char>(char &, char &);
 
-template int minimum<int>(const int *, const unsigned int &);
-template float minimum<float>(const float *, const unsigned int &);
-template char minimum<char>(const char *, const unsigned int &);
+template int minimum<int>(const int *, const asize_t &);
+template float minimum<float>(const float *, const asize_t &);
+template char minimum<char>(const char *, const asize_t &);
 
-template int maximum<int>(const int *, const unsigned int &);
-template float maximum<float>(const float *, const unsigned int &);
-template char maximum<char>(const char *, const unsigned int &);
+template int maximum<int>(const int *, const asize_t &);
+template float maximum<float>(const float *, const asize_t &);
+template char maximum<char>(const char *, const asize_t &);
 
-template void addElement<int>(int *&, unsigned int &, const int &, const unsigned int);
-template void addElement<float>(float *&, unsigned int &, const float &, const unsigned int);
-template void addElement<char>(char *&, unsigned int &, const char &, const unsigned int);
+template void addElement<int>(int *&, asize_t &, const int &, const unsigned int);
+template void addElement<float>(float *&, asize_t &, const float &, const unsigned int);
+template void addElement<char>(char *&, asize_t &, const char &, const unsigned int);
 
-template void subtractElement<int>(int *&, unsigned int &, const unsigned int);
-template void subtractElement<float>(float *&, unsigned int &, const unsigned int);
-template void subtractElement<char>(char *&, unsigned int &, const unsigned int);
+template void subtractElement<int>(int *&, asize_t &, const unsigned int);
+template void subtractElement<float>(float *&, asize_t &, const unsigned int);
+template void subtractElement<char>(char *&, asize_t &, const unsigned int);
 
-template void subtractValue<int>(int *&, unsigned int &, const int &);
-template void subtractValue<float>(float *&, unsigned int &, const float &);
-template void subtractValue<char>(char *&, unsigned int &, const char &);
+template void subtractValue<int>(int *&, asize_t &, const int &);
+template void subtractValue<float>(float *&, asize_t &, const float &);
+template void subtractValue<char>(char *&, asize_t &, const char &);
 
 template void copy<int>(int *, const int *, const unsigned int &, unsigned int, unsigned int);
 template void copy<float>(float *, const float *, const unsigned int &, unsigned int, unsigned int);
 template void copy<char>(char *, const char *, const unsigned int &, unsigned int, unsigned int);
 
-template Array<int> *create_struct<int>(const unsigned int &);
-template Array<float> *create_struct<float>(const unsigned int &);
-template Array<char> *create_struct<char>(const unsigned int &);
+template Array<int> *create_struct<int>(const asize_t &);
+template Array<float> *create_struct<float>(const asize_t &);
+template Array<char> *create_struct<char>(const asize_t &);
 
 template void remove_struct<int>(Array<int> *&);
 template void remove_struct<float>(Array<float> *&);
@@ -1083,9 +1067,9 @@ template void ARRAYDATA<int>::reset();
 template void ARRAYDATA<float>::reset();
 template void ARRAYDATA<char>::reset();
 
-template void ARRAYDATA<int>::resize(const unsigned int &, const int &);
-template void ARRAYDATA<float>::resize(const unsigned int &, const float &);
-template void ARRAYDATA<char>::resize(const unsigned int &, const char &);
+template void ARRAYDATA<int>::resize(const asize_t &, const int &);
+template void ARRAYDATA<float>::resize(const asize_t &, const float &);
+template void ARRAYDATA<char>::resize(const asize_t &, const char &);
 
 template void ARRAYDATA<int>::replace(const unsigned int &, const int &);
 template void ARRAYDATA<float>::replace(const unsigned int &, const float &);
@@ -1163,21 +1147,21 @@ template void ARRAYDATA<int>::operator>>(ARRAYDATA<int> *&);
 template void ARRAYDATA<float>::operator>>(ARRAYDATA<float> *&);
 template void ARRAYDATA<char>::operator>>(ARRAYDATA<char> *&);
 
-template void ARRAYDATA<int>::operator+(const unsigned int &);
-template void ARRAYDATA<float>::operator+(const unsigned int &);
-template void ARRAYDATA<char>::operator+(const unsigned int &);
+template void ARRAYDATA<int>::operator+(const asize_t &);
+template void ARRAYDATA<float>::operator+(const asize_t &);
+template void ARRAYDATA<char>::operator+(const asize_t &);
 
-template void ARRAYDATA<int>::operator-(const unsigned int &);
-template void ARRAYDATA<float>::operator-(const unsigned int &);
-template void ARRAYDATA<char>::operator-(const unsigned int &);
+template void ARRAYDATA<int>::operator-(const asize_t &);
+template void ARRAYDATA<float>::operator-(const asize_t &);
+template void ARRAYDATA<char>::operator-(const asize_t &);
 
-template void ARRAYDATA<int>::operator*(const unsigned int &);
-template void ARRAYDATA<float>::operator*(const unsigned int &);
-template void ARRAYDATA<char>::operator*(const unsigned int &);
+template void ARRAYDATA<int>::operator*(const asize_t &);
+template void ARRAYDATA<float>::operator*(const asize_t &);
+template void ARRAYDATA<char>::operator*(const asize_t &);
 
-template void ARRAYDATA<int>::operator/(const unsigned int &);
-template void ARRAYDATA<float>::operator/(const unsigned int &);
-template void ARRAYDATA<char>::operator/(const unsigned int &);
+template void ARRAYDATA<int>::operator/(const asize_t &);
+template void ARRAYDATA<float>::operator/(const asize_t &);
+template void ARRAYDATA<char>::operator/(const asize_t &);
 
 template void Exchange_Sorts::BubbleSort<int>::start_sort();
 template void Exchange_Sorts::BubbleSort<float>::start_sort();
@@ -1199,9 +1183,9 @@ template void Selection_Sorts::HeapSort<int>::start_sort();
 template void Selection_Sorts::HeapSort<float>::start_sort();
 template void Selection_Sorts::HeapSort<char>::start_sort();
 
-template void Selection_Sorts::HeapSort<int>::heapify(int *, const int &, const int &);
-template void Selection_Sorts::HeapSort<float>::heapify(float *, const int &, const int &);
-template void Selection_Sorts::HeapSort<char>::heapify(char *, const int &, const int &);
+template void Selection_Sorts::HeapSort<int>::heapify(int *, const asize_t &, const asize_t &);
+template void Selection_Sorts::HeapSort<float>::heapify(float *, const asize_t &, const asize_t &);
+template void Selection_Sorts::HeapSort<char>::heapify(char *, const asize_t &, const asize_t &);
 
 template void Insertion_Sorts::InsertSort<int>::start_sort();
 template void Insertion_Sorts::InsertSort<float>::start_sort();

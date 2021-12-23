@@ -42,28 +42,6 @@
 
 //ALGOR_CORE
 
-template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
-template <typename type_array> type_array minimum(const type_array *Array, const unsigned int &array_size);
-template <typename type_array> type_array maximum(const type_array *Array, const unsigned int &array_size);
-template <typename type_array> void addElement(type_array *&Array, unsigned int &array_size, const type_array &value, const unsigned int position = 0);
-template <typename type_array> void subtractElement(type_array *&Array, unsigned int &array_size, const unsigned int position);
-template <typename type_array> void subtractValue(type_array *&Array, unsigned int &array_size, const type_array &value);
-template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
-
-template <typename type_array> struct Array { type_array *array; unsigned int array_size = 0; };
-template <typename type_array> Array<type_array> *create_struct(const unsigned int &SIZE);
-template <typename type_array> void remove_struct(Array<type_array> *&Array);
-
-template <typename type_array> class ArrayBase
-{
-public:
-    ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
-    ArrayBase(const unsigned int &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
-    ArrayBase() { ARRAY = nullptr; }
-protected:
-    Array<type_array> *ARRAY; //Pointer to a structure storing an array
-};
-
 using int8_t = signed char;
 using int16_t = short;
 using int32_t = int;
@@ -73,6 +51,30 @@ using uint8_t = unsigned char;
 using uint16_t = unsigned short;
 using uint32_t = unsigned int;
 using uint64_t = unsigned long long;
+
+using asize_t = unsigned int;
+
+template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
+template <typename type_array> type_array minimum(const type_array *Array, const asize_t &array_size);
+template <typename type_array> type_array maximum(const type_array *Array, const asize_t &array_size);
+template <typename type_array> void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
+template <typename type_array> void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
+template <typename type_array> void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
+template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
+
+template <typename type_array> struct Array { type_array *array; asize_t array_size = 0; };
+template <typename type_array> Array<type_array> *create_struct(const asize_t &SIZE);
+template <typename type_array> void remove_struct(Array<type_array> *&Array);
+
+template <typename type_array> class ArrayBase
+{
+public:
+    ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
+    ArrayBase(const asize_t &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
+    ArrayBase() { ARRAY = nullptr; }
+protected:
+    Array<type_array> *ARRAY; //Pointer to a structure storing an array
+};
 
 //TODO Come up with your own alias for unsigned int, which will be used to indicate the size of the array
 
@@ -99,7 +101,6 @@ private:
 
 class MersenneTwister
 {
-//Source URL: www.agner.org/random
 public:
     MersenneTwister(int seed);
     void RandomInit(int seed);
@@ -125,7 +126,7 @@ template<typename type_array> class ARRAYDATA : public ArrayBase<type_array>
 {
 public:
     ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
-    ARRAYDATA(const unsigned int &SIZE) : ArrayBase<type_array>(SIZE) {}
+    ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
     ARRAYDATA() : ArrayBase<type_array>() {}
 
     void generatedData(const int &min_limit, const int &max_limit);
@@ -137,7 +138,7 @@ public:
     Array<type_array> *getData();
 
     void reset();
-    void resize(const unsigned int &NEW_SIZE, const type_array &setElement);
+    void resize(const asize_t &NEW_SIZE, const type_array &setElement);
     void replace(const unsigned int &position, const type_array &value);
     void reverse();
     void remove();
@@ -160,10 +161,10 @@ public:
     void operator|| (const type_array &value);
     void operator<< (ARRAYDATA<type_array> *&appendingArray);
     void operator>> (ARRAYDATA<type_array> *&appendingArray);
-    void operator+ (const unsigned int &addSize);
-    void operator- (const unsigned int &subtractSize);
-    void operator* (const unsigned int &multiplySize);
-    void operator/ (const unsigned int &divideSize);
+    void operator+ (const asize_t &addSize);
+    void operator- (const asize_t &subtractSize);
+    void operator* (const asize_t &multiplySize);
+    void operator/ (const asize_t &divideSize);
 
 private:
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
@@ -220,7 +221,7 @@ namespace Selection_Sorts
         HeapSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
         void start_sort();
     private:
-        void heapify(type_array *Array, const int &count, const int &array_size);
+        void heapify(type_array *Array, const asize_t &count, const asize_t &array_size);
     };
 
     //class SmoothSort{};
