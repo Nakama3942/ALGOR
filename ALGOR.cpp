@@ -347,6 +347,221 @@ void MersenneTwister::Init0(int seed)
 
 #undef MERS_N
 
+template<typename type_array> void Exchange_Sorts::BubbleSort<type_array>::start_sort()
+{
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+    {
+        for (unsigned int j = 0; j < this->ARRAY->array_size - 1; j++)
+        {
+            if (this->ARRAY->array[j] > this->ARRAY->array[j + 1])
+            {
+                swap<type_array>(this->ARRAY->array[j], this->ARRAY->array[j + 1]);
+            }
+        }
+    }
+}
+
+template<typename type_array> void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
+{
+    int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
+    while (leftMark <= rightMark)
+    {
+        for (int i = rightMark; i >= leftMark; i--)
+        {
+            if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
+            {
+                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
+            }
+        }
+        leftMark++;
+        for (int i = leftMark; i <= rightMark; i++)
+        {
+            if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
+            {
+                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
+            }
+        }
+        rightMark--;
+    }
+}
+
+template<typename type_array> void Exchange_Sorts::QuickSort<type_array>::start_sort()
+{
+    quick_sort(0, this->ARRAY->array_size - 1);
+}
+
+template<typename type_array> void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, const int &right_limit)
+{
+    type_array middle = this->ARRAY->array[(left_limit + right_limit) / 2];
+    int start = left_limit, finish = right_limit;
+    do
+    {
+        while (this->ARRAY->array[start] < middle)
+        {
+            start++;
+        }
+        while (this->ARRAY->array[finish] > middle)
+        {
+            finish--;
+        }
+        if (start <= finish)
+        {
+            swap<type_array>(this->ARRAY->array[start], this->ARRAY->array[finish]);
+            start++;
+            finish--;
+        }
+    } while (start < finish);
+    if (left_limit < finish)
+    {
+        quick_sort(left_limit, finish);
+    }
+    if (start < right_limit)
+    {
+        quick_sort(start, right_limit);
+    }
+}
+
+template<typename type_array> void Selection_Sorts::HeapSort<type_array>::start_sort()
+{
+    for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
+    {
+        heapify(this->ARRAY->array, right, this->ARRAY->array_size);
+    }
+    for (int i = this->ARRAY->array_size - 1; i >= 0; i--)
+    {
+        swap<type_array>(this->ARRAY->array[0], this->ARRAY->array[i]);
+        heapify(this->ARRAY->array, 0, i);
+    }
+}
+
+template<typename type_array> void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
+{
+    asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
+    if (left < array_size && Array[left] > Array[large])
+    {
+        large = left;
+    }
+    if (right < array_size && Array[right] > Array[large])
+    {
+        large = right;
+    }
+    if (large != count)
+    {
+        swap<type_array>(Array[count], Array[large]);
+        heapify(Array, large, array_size);
+    }
+}
+
+template<typename type_array> void Insertion_Sorts::InsertSort<type_array>::start_sort()
+{
+    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+    {
+        for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
+        {
+            swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
+        }
+    }
+}
+
+template<typename type_array> void Merge_Sorts::MergeSort<type_array>::start_sort()
+{
+    merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
+}
+
+template<typename type_array> void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
+{
+    if (left_limit < right_limit)
+    {
+        int middle = left_limit + (right_limit - left_limit) / 2;
+        merge_sort(Array, left_limit, middle);
+        merge_sort(Array, middle + 1, right_limit);
+        merge(Array, left_limit, middle, right_limit);
+    }
+}
+
+template<typename type_array> void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
+{
+    int start = left_limit, finish = middle_limit + 1;
+    type_array *tempArray = new type_array[right_limit - left_limit + 1];
+    for (int i = left_limit; i <= right_limit; i++)
+    {
+        if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
+        {
+            tempArray[i - left_limit] = Array[start];
+            start++;
+        }
+        else
+        {
+            tempArray[i - left_limit] = Array[finish];
+            finish++;
+        }
+    }
+    for (int i = left_limit; i <= right_limit; i++)
+    {
+        Array[i] = tempArray[i - left_limit];
+    }
+    delete[] tempArray;
+}
+
+void Noncomparison_Sort::CountingSort::start_sort()
+{
+    int min = minimum<int>(ARRAY->array, ARRAY->array_size),
+        max = maximum<int>(ARRAY->array, ARRAY->array_size);
+    int *tempArray = new int[max - min + 1];
+    for (int i = 0; i < max - min + 1; i++)
+    {
+        tempArray[i] = 0;
+    }
+    for (unsigned int i = 0; i < ARRAY->array_size; i++)
+    {
+        tempArray[ARRAY->array[i] - min] = tempArray[ARRAY->array[i] - min] + 1;
+    }
+    for (int i = 0, j = min; j < max + 1; j++)
+    {
+        while (tempArray[j - min] != 0)
+        {
+            ARRAY->array[i] = j;
+            tempArray[j - min]--;
+            i++;
+        }
+    }
+    delete[] tempArray;
+}
+
+void Noncomparison_Sort::RadixSort::start_sort()
+{
+    int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
+    int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
+    while (max / exp > 0)
+    {
+        for (int i = 0; i < bit; i++)
+        {
+            bucket[i] = 0;
+        }
+        for (unsigned int i = 0; i < ARRAY->array_size; i++)
+        {
+            bucket[(ARRAY->array[i] / exp) % bit]++;
+        }
+        for (int i = 1; i < bit; i++)
+        {
+            bucket[i] += bucket[i - 1];
+        }
+        for (int i = ARRAY->array_size - 1; i >= 0; i--)
+        {
+            int current = (ARRAY->array[i] % (exp * bit)) / exp;
+            bucket[current]--;
+            tempArray[bucket[current]] = ARRAY->array[i];
+        }
+        for (unsigned int i = 0; i < ARRAY->array_size; i++)
+        {
+            ARRAY->array[i] = tempArray[i];
+        }
+        exp *= bit;
+    }
+    delete[] bucket;
+    delete[] tempArray;
+}
+
 template<typename type_array> void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
     //Generating elements for an array
@@ -784,221 +999,6 @@ template<typename type_array> void ARRAYDATA<type_array>::operator/(const asize_
     remove_struct<type_array>(temp);
 }
 
-template<typename type_array> void Exchange_Sorts::BubbleSort<type_array>::start_sort()
-{
-    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
-    {
-        for (unsigned int j = 0; j < this->ARRAY->array_size - 1; j++)
-        {
-            if (this->ARRAY->array[j] > this->ARRAY->array[j + 1])
-            {
-                swap<type_array>(this->ARRAY->array[j], this->ARRAY->array[j + 1]);
-            }
-        }
-    }
-}
-
-template<typename type_array> void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
-{
-    int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
-    while (leftMark <= rightMark)
-    {
-        for (int i = rightMark; i >= leftMark; i--)
-        {
-            if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
-            {
-                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
-            }
-        }
-        leftMark++;
-        for (int i = leftMark; i <= rightMark; i++)
-        {
-            if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
-            {
-                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
-            }
-        }
-        rightMark--;
-    }
-}
-
-template<typename type_array> void Exchange_Sorts::QuickSort<type_array>::start_sort()
-{
-    quick_sort(0, this->ARRAY->array_size - 1);
-}
-
-template<typename type_array> void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, const int &right_limit)
-{
-    type_array middle = this->ARRAY->array[(left_limit + right_limit) / 2];
-    int start = left_limit, finish = right_limit;
-    do
-    {
-        while (this->ARRAY->array[start] < middle)
-        {
-            start++;
-        }
-        while (this->ARRAY->array[finish] > middle)
-        {
-            finish--;
-        }
-        if (start <= finish)
-        {
-            swap<type_array>(this->ARRAY->array[start], this->ARRAY->array[finish]);
-            start++;
-            finish--;
-        }
-    } while (start < finish);
-    if (left_limit < finish)
-    {
-        quick_sort(left_limit, finish);
-    }
-    if (start < right_limit)
-    {
-        quick_sort(start, right_limit);
-    }
-}
-
-template<typename type_array> void Selection_Sorts::HeapSort<type_array>::start_sort()
-{
-    for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
-    {
-        heapify(this->ARRAY->array, right, this->ARRAY->array_size);
-    }
-    for (int i = this->ARRAY->array_size - 1; i >= 0; i--)
-    {
-        swap<type_array>(this->ARRAY->array[0], this->ARRAY->array[i]);
-        heapify(this->ARRAY->array, 0, i);
-    }
-}
-
-template<typename type_array> void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
-{
-    asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
-    if (left < array_size && Array[left] > Array[large])
-    {
-        large = left;
-    }
-    if (right < array_size && Array[right] > Array[large])
-    {
-        large = right;
-    }
-    if (large != count)
-    {
-        swap<type_array>(Array[count], Array[large]);
-        heapify(Array, large, array_size);
-    }
-}
-
-template<typename type_array> void Insertion_Sorts::InsertSort<type_array>::start_sort()
-{
-    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
-    {
-        for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
-        {
-            swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
-        }
-    }
-}
-
-template<typename type_array> void Merge_Sorts::MergeSort<type_array>::start_sort()
-{
-    merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
-}
-
-template<typename type_array> void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
-{
-    if (left_limit < right_limit)
-    {
-        int middle = left_limit + (right_limit - left_limit) / 2;
-        merge_sort(Array, left_limit, middle);
-        merge_sort(Array, middle + 1, right_limit);
-        merge(Array, left_limit, middle, right_limit);
-    }
-}
-
-template<typename type_array> void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
-{
-    int start = left_limit, finish = middle_limit + 1;
-    type_array *tempArray = new type_array[right_limit - left_limit + 1];
-    for (int i = left_limit; i <= right_limit; i++)
-    {
-        if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
-        {
-            tempArray[i - left_limit] = Array[start];
-            start++;
-        }
-        else
-        {
-            tempArray[i - left_limit] = Array[finish];
-            finish++;
-        }
-    }
-    for (int i = left_limit; i <= right_limit; i++)
-    {
-        Array[i] = tempArray[i - left_limit];
-    }
-    delete[] tempArray;
-}
-
-void Noncomparison_Sort::CountingSort::start_sort()
-{
-    int min = minimum<int>(ARRAY->array, ARRAY->array_size),
-        max = maximum<int>(ARRAY->array, ARRAY->array_size);
-    int *tempArray = new int[max - min + 1];
-    for (int i = 0; i < max - min + 1; i++)
-    {
-        tempArray[i] = 0;
-    }
-    for (unsigned int i = 0; i < ARRAY->array_size; i++)
-    {
-        tempArray[ARRAY->array[i] - min] = tempArray[ARRAY->array[i] - min] + 1;
-    }
-    for (int i = 0, j = min; j < max + 1; j++)
-    {
-        while (tempArray[j - min] != 0)
-        {
-            ARRAY->array[i] = j;
-            tempArray[j - min]--;
-            i++;
-        }
-    }
-    delete[] tempArray;
-}
-
-void Noncomparison_Sort::RadixSort::start_sort()
-{
-    int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
-    int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
-    while (max / exp > 0)
-    {
-        for (int i = 0; i < bit; i++)
-        {
-            bucket[i] = 0;
-        }
-        for (unsigned int i = 0; i < ARRAY->array_size; i++)
-        {
-            bucket[(ARRAY->array[i] / exp) % bit]++;
-        }
-        for (int i = 1; i < bit; i++)
-        {
-            bucket[i] += bucket[i - 1];
-        }
-        for (int i = ARRAY->array_size - 1; i >= 0; i--)
-        {
-            int current = (ARRAY->array[i] % (exp * bit)) / exp;
-            bucket[current]--;
-            tempArray[bucket[current]] = ARRAY->array[i];
-        }
-        for (unsigned int i = 0; i < ARRAY->array_size; i++)
-        {
-            ARRAY->array[i] = tempArray[i];
-        }
-        exp *= bit;
-    }
-    delete[] bucket;
-    delete[] tempArray;
-}
-
 template void swap<int>(int &, int &);
 template void swap<float>(float &, float &);
 template void swap<char>(char &, char &);
@@ -1034,6 +1034,46 @@ template Array<char> *create_struct<char>(const asize_t &);
 template void remove_struct<int>(Array<int> *&);
 template void remove_struct<float>(Array<float> *&);
 template void remove_struct<char>(Array<char> *&);
+
+template void Exchange_Sorts::BubbleSort<int>::start_sort();
+template void Exchange_Sorts::BubbleSort<float>::start_sort();
+template void Exchange_Sorts::BubbleSort<char>::start_sort();
+
+template void Exchange_Sorts::CocktailShakerSort<int>::start_sort();
+template void Exchange_Sorts::CocktailShakerSort<float>::start_sort();
+template void Exchange_Sorts::CocktailShakerSort<char>::start_sort();
+
+template void Exchange_Sorts::QuickSort<int>::start_sort();
+template void Exchange_Sorts::QuickSort<float>::start_sort();
+template void Exchange_Sorts::QuickSort<char>::start_sort();
+
+template void Exchange_Sorts::QuickSort<int>::quick_sort(const int &, const int &);
+template void Exchange_Sorts::QuickSort<float>::quick_sort(const int &, const int &);
+template void Exchange_Sorts::QuickSort<char>::quick_sort(const int &, const int &);
+
+template void Selection_Sorts::HeapSort<int>::start_sort();
+template void Selection_Sorts::HeapSort<float>::start_sort();
+template void Selection_Sorts::HeapSort<char>::start_sort();
+
+template void Selection_Sorts::HeapSort<int>::heapify(int *, const asize_t &, const asize_t &);
+template void Selection_Sorts::HeapSort<float>::heapify(float *, const asize_t &, const asize_t &);
+template void Selection_Sorts::HeapSort<char>::heapify(char *, const asize_t &, const asize_t &);
+
+template void Insertion_Sorts::InsertSort<int>::start_sort();
+template void Insertion_Sorts::InsertSort<float>::start_sort();
+template void Insertion_Sorts::InsertSort<char>::start_sort();
+
+template void Merge_Sorts::MergeSort<int>::start_sort();
+template void Merge_Sorts::MergeSort<float>::start_sort();
+template void Merge_Sorts::MergeSort<char>::start_sort();
+
+template void Merge_Sorts::MergeSort<int>::merge_sort(int *, const int &, const int &);
+template void Merge_Sorts::MergeSort<float>::merge_sort(float *, const int &, const int &);
+template void Merge_Sorts::MergeSort<char>::merge_sort(char *, const int &, const int &);
+
+template void Merge_Sorts::MergeSort<int>::merge(int *, const int &, const int &, const int &);
+template void Merge_Sorts::MergeSort<float>::merge(float *, const int &, const int &, const int &);
+template void Merge_Sorts::MergeSort<char>::merge(char *, const int &, const int &, const int &);
 
 template void ARRAYDATA<int>::generatedData(const int &, const int &);
 template void ARRAYDATA<float>::generatedData(const int &, const int &);
@@ -1162,43 +1202,3 @@ template void ARRAYDATA<char>::operator*(const asize_t &);
 template void ARRAYDATA<int>::operator/(const asize_t &);
 template void ARRAYDATA<float>::operator/(const asize_t &);
 template void ARRAYDATA<char>::operator/(const asize_t &);
-
-template void Exchange_Sorts::BubbleSort<int>::start_sort();
-template void Exchange_Sorts::BubbleSort<float>::start_sort();
-template void Exchange_Sorts::BubbleSort<char>::start_sort();
-
-template void Exchange_Sorts::CocktailShakerSort<int>::start_sort();
-template void Exchange_Sorts::CocktailShakerSort<float>::start_sort();
-template void Exchange_Sorts::CocktailShakerSort<char>::start_sort();
-
-template void Exchange_Sorts::QuickSort<int>::start_sort();
-template void Exchange_Sorts::QuickSort<float>::start_sort();
-template void Exchange_Sorts::QuickSort<char>::start_sort();
-
-template void Exchange_Sorts::QuickSort<int>::quick_sort(const int &, const int &);
-template void Exchange_Sorts::QuickSort<float>::quick_sort(const int &, const int &);
-template void Exchange_Sorts::QuickSort<char>::quick_sort(const int &, const int &);
-
-template void Selection_Sorts::HeapSort<int>::start_sort();
-template void Selection_Sorts::HeapSort<float>::start_sort();
-template void Selection_Sorts::HeapSort<char>::start_sort();
-
-template void Selection_Sorts::HeapSort<int>::heapify(int *, const asize_t &, const asize_t &);
-template void Selection_Sorts::HeapSort<float>::heapify(float *, const asize_t &, const asize_t &);
-template void Selection_Sorts::HeapSort<char>::heapify(char *, const asize_t &, const asize_t &);
-
-template void Insertion_Sorts::InsertSort<int>::start_sort();
-template void Insertion_Sorts::InsertSort<float>::start_sort();
-template void Insertion_Sorts::InsertSort<char>::start_sort();
-
-template void Merge_Sorts::MergeSort<int>::start_sort();
-template void Merge_Sorts::MergeSort<float>::start_sort();
-template void Merge_Sorts::MergeSort<char>::start_sort();
-
-template void Merge_Sorts::MergeSort<int>::merge_sort(int *, const int &, const int &);
-template void Merge_Sorts::MergeSort<float>::merge_sort(float *, const int &, const int &);
-template void Merge_Sorts::MergeSort<char>::merge_sort(char *, const int &, const int &);
-
-template void Merge_Sorts::MergeSort<int>::merge(int *, const int &, const int &, const int &);
-template void Merge_Sorts::MergeSort<float>::merge(float *, const int &, const int &, const int &);
-template void Merge_Sorts::MergeSort<char>::merge(char *, const int &, const int &, const int &);

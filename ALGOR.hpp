@@ -18,7 +18,7 @@
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
- *                              Version: 2.0.0-dev                              *
+ *                                Version: 2.0.0                                *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
@@ -27,10 +27,11 @@
  * 1. ALGOR_CORE - basic structures and functions of the library                *
  * 2. ALGOR_EXCEPTION - class for working with exceptions                       *
  * 3. ALGOR_RANDOM - own random number generators                               *
- * 4. AlGOR_ARRAY - class for working with arrays                               *
- * 5. AlGOR_SORTING - set of sorting methods                                    *
- * 6. AlGOR_HEAP - class for working with trees                                 *
- * 7. AlGOR_LIST - class for working with lists                                 *
+ * 4. AlGOR_SORTING - set of sorting methods                                    *
+ * 5. AlGOR_ARRAY - class for working with arrays                               *
+ * 6. ALGOR_MATRIX - class for working with matrices                            *
+ * 7. AlGOR_HEAP - class for working with trees                                 *
+ * 8. AlGOR_LIST - class for working with lists                                 *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -76,8 +77,6 @@ protected:
     Array<type_array> *ARRAY; //Pointer to a structure storing an array
 };
 
-//TODO Come up with your own alias for unsigned int, which will be used to indicate the size of the array
-
 //ALGOR_EXCEPTION
 
 //TODO Excep class will be implemented in version 2.1.0
@@ -105,7 +104,7 @@ public:
     MersenneTwister(int seed);
     void RandomInit(int seed);
     void RandomInitByArray(int const seeds[], int NumSeeds);
-    int IRandom (int min, int max);
+    int IRandom(int min, int max);
     int IRandomX(int min, int max);
     double Random();
     uint32_t BRandom();
@@ -115,59 +114,6 @@ private:
     int mersenne_twister_index;     //Index into mersenne_twister
     uint32_t LastInterval;          //Last interval length for IRandomX
     uint32_t RejectionLimit;        //Rejection limit used by IRandomX
-};
-
-//ALGOR_ARRAY
-
-enum ArrayStatus { SORTED, UNSORTED };
-enum ArrayType { NUMBER, STRING };
-
-template<typename type_array> class ARRAYDATA : public ArrayBase<type_array>
-{
-public:
-    ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
-    ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
-    ARRAYDATA() : ArrayBase<type_array>() {}
-
-    void generatedData(const int &min_limit, const int &max_limit);
-    void setNewData(Array<type_array> *&Array);
-    void setData(Array<type_array> *&Array);
-    void cloneData(Array<type_array> *&CloningArray);
-    void cloneData(ARRAYDATA<type_array> *&CloningObject);
-    void getData(Array<type_array> *&DATA);
-    Array<type_array> *getData();
-
-    void reset();
-    void resize(const asize_t &NEW_SIZE, const type_array &setElement);
-    void replace(const unsigned int &position, const type_array &value);
-    void reverse();
-    void remove();
-    void respawn();
-
-    type_array getMin(ArrayStatus ArrStat = UNSORTED);
-    type_array getMax(ArrayStatus ArrStat = UNSORTED);
-
-    Array<int> *lenear_searcher(const type_array &required_element);
-    int binary_searcher(const type_array &required_element);
-    Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = NUMBER);
-
-    type_array average();
-    type_array mediana();
-    type_array moda(int &highest_frequency);
-    Array<type_array> *modas(int &highest_frequency);
-
-    void operator&& (const type_array &value);
-    void operator! ();
-    void operator|| (const type_array &value);
-    void operator<< (ARRAYDATA<type_array> *&appendingArray);
-    void operator>> (ARRAYDATA<type_array> *&appendingArray);
-    void operator+ (const asize_t &addSize);
-    void operator- (const asize_t &subtractSize);
-    void operator* (const asize_t &multiplySize);
-    void operator/ (const asize_t &divideSize);
-
-private:
-    void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
 
 //ALGOR_SORTING
@@ -319,6 +265,70 @@ namespace Unknown_Sorts
 {
     //class SampleSort{};
 }
+
+//ALGOR_ARRAY
+
+enum ArrayStatus
+{
+    SORTED,
+    UNSORTED
+};
+enum ArrayType
+{
+    NUMBER,
+    STRING
+};
+
+template <typename type_array>
+class ARRAYDATA : public ArrayBase<type_array>
+{
+public:
+    ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
+    ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
+    ARRAYDATA() : ArrayBase<type_array>() {}
+
+    void generatedData(const int &min_limit, const int &max_limit);
+    void setNewData(Array<type_array> *&Array);
+    void setData(Array<type_array> *&Array);
+    void cloneData(Array<type_array> *&CloningArray);
+    void cloneData(ARRAYDATA<type_array> *&CloningObject);
+    void getData(Array<type_array> *&DATA);
+    Array<type_array> *getData();
+
+    void reset();
+    void resize(const asize_t &NEW_SIZE, const type_array &setElement);
+    void replace(const unsigned int &position, const type_array &value);
+    void reverse();
+    void remove();
+    void respawn();
+
+    type_array getMin(ArrayStatus ArrStat = UNSORTED);
+    type_array getMax(ArrayStatus ArrStat = UNSORTED);
+
+    Array<int> *lenear_searcher(const type_array &required_element);
+    int binary_searcher(const type_array &required_element);
+    Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = NUMBER);
+
+    type_array average();
+    type_array mediana();
+    type_array moda(int &highest_frequency);
+    Array<type_array> *modas(int &highest_frequency);
+
+    void operator&&(const type_array &value);
+    void operator!();
+    void operator||(const type_array &value);
+    void operator<<(ARRAYDATA<type_array> *&appendingArray);
+    void operator>>(ARRAYDATA<type_array> *&appendingArray);
+    void operator+(const asize_t &addSize);
+    void operator-(const asize_t &subtractSize);
+    void operator*(const asize_t &multiplySize);
+    void operator/(const asize_t &divideSize);
+
+private:
+    void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
+};
+
+//ALGOR_MATRIX
 
 //ALGOR_HEAP
 

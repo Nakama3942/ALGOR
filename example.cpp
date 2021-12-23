@@ -6,7 +6,7 @@ using std::cout;
 template <typename type_array>
 void printer(Array<type_array> *&ARRAY)
 {
-    for (int i = 0; i < ARRAY->array_size; i++)
+    for (unsigned int i = 0; i < ARRAY->array_size; i++)
     {
         cout << " " << ARRAY->array[i];
     }
@@ -20,7 +20,7 @@ int main()
 
     //Генерация (заполнение) массива
     ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
-    array->generatedData(1, 10);
+    array->generatedData(1, 100);
 
     //Вывод на экран неотсортированного массива
     ArrayStruct = array->getData();
@@ -28,7 +28,7 @@ int main()
 
     //Копирование массива
     ARRAYDATA<int> *copy_array = new ARRAYDATA<int>(12);
-    copy<int>(copy_array->getData()->array, array->getData()->array, copy_array->getData()->array_size);
+    copy_array->cloneData(array);
 
     //Сортировка массива
     ArrayStruct = copy_array->getData();
@@ -52,16 +52,15 @@ int main()
     printer(ArrayStruct);
 
     //Нахождение максимального и минимального элемента
-    //int min = minimum(array->getData()->array, array->getData()->array_size), max = maximum(copy_array->getData()->array, copy_array->getData()->array_size);
-    int min = array->getMin(), max = copy_array->getMax(ArrayStatus::SORTED);
-    cout << "Минимальный элемент: " << min << "; Максимальный: " << max << "\n";
+    //cout << "Минимальный элемент: " << minimum(array->getData()->array, array->getData()->array_size) << "; Максимальный: " << maximum(copy_array->getData()->array, copy_array->getData()->array_size) << "\n";
+    cout << "Минимальный элемент: " << array->getMin() << "; Максимальный: " << copy_array->getMax(ArrayStatus::SORTED) << "\n";
 
     //Нахождение определённого элемента в неотсортированном массиве
     try
     {
         Array<int> *NumberPoints = array->lenear_searcher(5);
         cout << "Элемент \"5\" встречается на местах: \n";
-        for (int i = 0; i < NumberPoints->array_size; i++)
+        for (unsigned int i = 0; i < NumberPoints->array_size; i++)
         {
             cout << NumberPoints->array[i] + 1 << " ";
         }
@@ -91,7 +90,7 @@ int main()
     {
         Array<int> *Occurrence = copy_array->searcherOccurrencesOfSubstring(Sequence);
         cout << "Последовательность \"5, 6\" встречается на местах: \n";
-        for (int i = 0; i < Occurrence->array_size; i++)
+        for (unsigned int i = 0; i < Occurrence->array_size; i++)
         {
             cout << Occurrence->array[i] + 1 << " ";
         }
@@ -118,12 +117,24 @@ int main()
     int modas_count;
     Array<int> *Modas = copy_array->modas(modas_count);
     cout << "Чаще всего встречаются элементы: ";
-    for (int i = 0; i < Modas->array_size; i++)
+    for (unsigned int i = 0; i < Modas->array_size; i++)
     {
         cout << Modas->array[i] << " ";
     }
     cout << ", а именно " << modas_count << " раз.\n";
     remove_struct<int>(Modas);
+
+    //Тест операторов
+    *array + 10;
+    Array<int> *temp = array->getData();
+    for (unsigned int i = 7; i < temp->array_size; i++)
+    {
+        temp->array[i] = i;
+    }
+    printer(temp);
+    *array && 2;
+    temp = array->getData();
+    printer(temp);
 
     //Освобождение памяти
     copy_array->remove();

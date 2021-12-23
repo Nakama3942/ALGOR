@@ -19,6 +19,77 @@
 
 ---
 -->
+
+## v2.0.0 (23.12.2021)
+
+#### Enhancements:
+- This is the largest update compared to previous versions. I finally implemented what I had planned from the very beginning, but for which I then two months ago did not have enough experience. I finally decided to split the original header into several. Of course, before that I decided what I want to implement in my library in the future. These were six sections: _Core_ (or _Base_) - the base on which everything else will be based; _Randomizer_ - own implementation of the randomizer (needed to get rid of any plug-in library); _Arrays_ - functions for working with arrays; _Sorting_ - sorting algorithms; _Trees_; _Lists_. As it is already clear, one of the goals was set: "To get rid of any plug-in library - my development should be unique and written only in pure C++ (in the future, assembly language inserts may appear)." True, later, in order to optimize and get rid of errors, another class was planned for working with exceptions, it was planned to implement matrices along with trees and lists, and in general the order changed slightly. And, finally, only at this stage did I understand how it is still possible to implement what I wanted to do two months ago. I rewrote the functions from the namespace for working with arrays into a class and began to extend its methods. A base class has been created, from which all sorting methods and the array processing class are inherited. Yes, sorting algorithms are now also described in the class. In the future, I will rebuild the architecture of the sorting classes, but this does not apply to this update. With the gigantic classification, problems appeared in the form of architecture. The library continues to support the use of not only classes but also structures. To do this, I also implemented basic functions that can be used when working with a structure, and on which most of the methods from the class are built, and some are even used in sorting classes. I ended up with a new library architecture. Further, based on the accumulated knowledge, I was able to separate the implementation from the declaration. I began to separate the implementation into separate .cpp files. Later, all the headers were combined into one common header, and all the implementation files were combined into one file with the implementation. So I was finally able to separate the implementation from the announcement - something that I had planned two months ago, but could not do then.
+- I have implemented what I had planned for this update: completely rebuild the architecture and syntax of the library. Now it's even easier to use. In addition to the new architecture, I have implemented aliases for some types.
+- Which functions have been rewritten, renamed, and which are truly new, it's hard to say. Therefore, I will describe this update like this:
+    - Removed:
+        1. The _ArrayProcessing_ class with all its methods, but the functionality and algorithms are not thrown away, but rewritten into new methods and functions
+    - New project structure:
+        1. _ALGOR_CORE_ ✔
+        2. _ALGOR_EXCEPTION_ ⧖ (will be released in version 2.1.0)
+        3. _ALGOR_RANDOM_ ✔
+        4. _AlGOR_SORTING_ ✔ (The functionality will be expanded from versions 2.1.1 to 2.1.X)
+        5. _AlGOR_ARRAY_ ✔
+        6. _ALGOR_MATRIX_ ⧖ (will be released in version 2.2.0)
+        7. _AlGOR_HEAP_ ⧖ (will be released in version 3.0.0)
+        8. _AlGOR_LIST_ ⧖ (will be released in version 4.0.0)
+    - New classes:
+        1. _RC4_ - a simple cryptographic randomizer (its functionality will be further expanded)
+        2. _MersenneTwister_ - an advanced randomizer (its functionality will be further expanded)
+        3. _ARRAYDATA_ - a class for working with an array
+    - Everyone knows how to work with randomizers. Sorting hasn't changed much. I will describe the ARRAYDATA class:
+        1. **Constructors** that accept either structure, array size, or void
+        2. **generatedData()** - generates array elements
+        3. **setNewData()** - removes the old array and stores the pointer to the new one
+        4. **setData()** - saves a pointer to a new array without deleting the old one
+        5. **cloneData()** - copies an array
+        6. **getData()** - sets/returns a pointer to an array
+        7. **reset()** - deletes the old array, creates a new one with the same size and fills it in the same range
+        8. **resize()** - resizes an array
+        9. **replace()** - changes the element at the specified position by the specified value
+        10. **reverse()** - reverses the array
+        11. **remove()** - removes an array
+        12. **respawn()** - analogue of **reset()**, only at the end it does not fill the array with elements - it leaves it empty
+        13. **getMin()** - returns the minimum value of the array (optimized method)
+        14. **getMax()** - returns the maximum value of the array (optimized method)
+        15. **lenear_searcher()** - Returns all occurrences of the element you are looking for
+        16. **binary_searcher()** - returns the occurrence of the desired element in a sorted array
+        17. **searcherOccurrencesOfSubstring()** - Returns all occurrences of a substring
+        18. **average()** - returns the arithmetic average of all array elements
+        19. **mediana()** - Returns the median of an array
+        20. **moda()** - Returns the first occurrence of a mod
+        21. **modas()** - Returns all occurrences of a mod
+        22. **operator&&** - adds an element to the end of the array
+        23. **operator!** - removes an element from the end of the array
+        24. **operator||** - removes all elements from the array that match the specified value
+        25. **operator<<** - merges two arrays in the current object
+        26. **operator>>** - merges two arrays in the specified object
+        27. **operator+** - increases the size of the array by the specified size
+        28. **operator-** - decreases the size of the array by the specified size
+        29. **operator*** - increases the size of the array several times by the specified size
+        30. **operator/** - decreases the size of the array several times by the specified size
+    - New basic features:
+        1. **swap()** - swaps two elements
+        2. **minimum()** - returns the minimum value of an array by iteration
+        3. **maximum()** - returns the maximum value of an array by iteration
+        4. **addElement()** - adds the specified value to the specified position
+        5. **subtractElement()** - removes the element at the specified position
+        6. **subtractValue()** - removes all elements that match the specified value
+        7. **copy()** - copies elements from one array to another
+        8. **create_struct()** - creates a structure and returns a pointer to it
+        9. **remove_struct()** - removes structure
+    - New types:
+        1. **int8_t, int16_t, int32_t, int64_t** (taken from stdint)
+        2. **uint8_t, uint16_t, uint32_t, uint64_t** (taken from stdint)
+        3. **asize_t** - "array size type" - native type for specifying the type "array size"
+- I got a lot of new experiences working on this update.
+
+---
+
 ## v1.1.0 (05.11.2021)
 
 #### Bug Fixes:
