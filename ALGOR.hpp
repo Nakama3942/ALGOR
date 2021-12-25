@@ -39,8 +39,6 @@
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
 
-#include "ALGOR_global.h"
-
 //ALGOR_CORE
 
 using int8_t = signed char;
