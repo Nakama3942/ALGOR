@@ -50,17 +50,17 @@
 
 //ALGOR_CORE
 
-using int8_t = signed char;
-using int16_t = short;
-using int32_t = int;
-using int64_t = long long;
+using int8_t = signed char; ///< Alias for signed char
+using int16_t = short; ///< Alias for short
+using int32_t = int; ///< Alias for int
+using int64_t = long long; ///< Alias for long long
 
-using uint8_t = unsigned char;
-using uint16_t = unsigned short;
-using uint32_t = unsigned int;
-using uint64_t = unsigned long long;
+using uint8_t = unsigned char; ///< Alias for unsigned char
+using uint16_t = unsigned short; ///< Alias for unsigned short
+using uint32_t = unsigned int; ///< Alias for unsigned int
+using uint64_t = unsigned long long; ///< Alias for unsigned long long
 
-using asize_t = unsigned int;
+using asize_t = unsigned int; ///< Alias for specifying the type "array size"
 
 template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
 template <typename type_array> type_array minimum(const type_array *Array, const asize_t &array_size);
@@ -78,14 +78,18 @@ template <typename type_array> struct Array { type_array *array; asize_t array_s
 template <typename type_array> Array<type_array> *create_struct(const asize_t &SIZE);
 template <typename type_array> void remove_struct(Array<type_array> *&Array);
 
+/*!
+ * \brief The base class, which is organized for working with arrays - memory allocation, storage, deletion
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ */
 template <typename type_array> class ArrayBase
 {
 public:
-    ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
-    ArrayBase(const asize_t &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
-    ArrayBase() { ARRAY = nullptr; }
+    ArrayBase(Array<type_array> *&Array);
+    ArrayBase(const asize_t &SIZE);
+    ArrayBase();
 protected:
-    Array<type_array> *ARRAY; //Pointer to a structure storing an array
+    Array<type_array> *ARRAY; ///< Pointer to a structure storing an array
 };
 
 //ALGOR_EXCEPTION
@@ -98,9 +102,12 @@ protected:
 
 //ALGOR_RANDOM
 
+/*!
+ * \brief Simple crypto-strong generator
+ * \note Taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A
+ */
 class RC4
 {
-//RC4 (taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A)
 public:
     //int crypto_entropy();
     void crypto_srand(const char *key, int ksize);
@@ -109,22 +116,25 @@ private:
     uint8_t Sbox[256];
 };
 
+/*!
+ * \brief Advanced generator based on Marsen primes
+ * \note Source URL: www.agner.org/random
+ */
 class MersenneTwister
 {
 public:
     MersenneTwister(int seed);
     void RandomInit(int seed);
-    void RandomInitByArray(int const seeds[], int NumSeeds);
     int IRandom(int min, int max);
     int IRandomX(int min, int max);
     double Random();
     uint32_t BRandom();
 private:
     void Init0(int seed);
-    uint32_t mersenne_twister[624]; //State vector
-    int mersenne_twister_index;     //Index into mersenne_twister
-    uint32_t LastInterval;          //Last interval length for IRandomX
-    uint32_t RejectionLimit;        //Rejection limit used by IRandomX
+    uint32_t mersenne_twister[624]; ///< State vector
+    int mersenne_twister_index;     ///< Index into mersenne_twister
+    uint32_t LastInterval;          ///< Last interval length for IRandomX
+    uint32_t RejectionLimit;        ///< Rejection limit used by IRandomX
 };
 
 //ALGOR_SORTING
@@ -279,23 +289,30 @@ namespace Unknown_Sorts
 
 //ALGOR_ARRAY
 
-enum ArrayStatus
+enum ArrayStatus /// Set of array statuses
 {
-    SORTED,
-    UNSORTED
+    SORTED, ///< Indicates that the array is sorted
+    UNSORTED ///< Indicates that the array is unsorted
 };
-enum ArrayType
+enum ArrayType /// A set of array types
 {
-    NUMBER,
-    STRING
+    NUMBER, ///< Indicates that the array stores numbers
+    STRING ///< Indicates that the array stores strings
 };
 
+/*!
+ * \brief Array processing
+ * \details This is the main class for working with arrays, the tasks of which
+ *          are storing a pointer to an array, the ability to create, delete, modify it,
+ *          calculate characteristics, etc.
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ */
 template <typename type_array> class ARRAYDATA : public ArrayBase<type_array>
 {
 public:
-    ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
-    ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
-    ARRAYDATA() : ArrayBase<type_array>() {}
+    ARRAYDATA(Array<type_array> *&Array);
+    ARRAYDATA(const asize_t &SIZE);
+    ARRAYDATA();
 
     void generatedData(const int &min_limit, const int &max_limit);
     void setNewData(Array<type_array> *&Array);

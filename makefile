@@ -24,10 +24,12 @@
 lib: libALGOR.so
 
 libALGOR.so: ALGOR.cpp
+	#g++ ALGOR.cpp -s -shared -o ALGOR.dll
 	@g++ -Wall -c -fPIC ALGOR.cpp -shared -o libALGOR.so.2.0.0 -Wl,-soname,libALGOR.so.2.0.0
 	@ln -s libALGOR.so.2.0.0 libALGOR.so
 	@echo Library compiled
 
 test: libALGOR.so
+	#g++ -s -o exam.exe example.cpp -L. -lALGOR
 	@g++ -no-pie -s -o exam example.cpp -L. -lALGOR
 	@echo Test compiled
