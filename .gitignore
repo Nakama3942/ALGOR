@@ -11,6 +11,9 @@
 *.exe
 *.dylib
 
+.vscode
+html
+
 # Qt-es
 object_script.*.Release
 object_script.*.Debug

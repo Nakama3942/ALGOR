@@ -23,7 +23,7 @@
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
  *                                                                              *
- *                              Структура проекта:                              *
+ *                              Project Structure:                              *
  * 1. ALGOR_CORE - basic structures and functions of the library                *
  * 2. ALGOR_EXCEPTION - class for working with exceptions                       *
  * 3. ALGOR_RANDOM - own random number generators                               *
@@ -35,6 +35,15 @@
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
+
+/*!
+ * \file
+ * \brief Library for processing arrays and sorting them 
+ * \author Kalynovsky Valentin
+ * \version 2.0.0
+ * \date 23.12.2021
+ * \copyright Copyright © 2021 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
+ */
 
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
@@ -61,6 +70,10 @@ template <typename type_array> void subtractElement(type_array *&Array, asize_t 
 template <typename type_array> void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
 template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
 
+/*!
+ * \brief A structure that mimics an array. Designed to store a pointer to a dynamic array and its size
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ */
 template <typename type_array> struct Array { type_array *array; asize_t array_size = 0; };
 template <typename type_array> Array<type_array> *create_struct(const asize_t &SIZE);
 template <typename type_array> void remove_struct(Array<type_array> *&Array);
@@ -277,8 +290,7 @@ enum ArrayType
     STRING
 };
 
-template <typename type_array>
-class ARRAYDATA : public ArrayBase<type_array>
+template <typename type_array> class ARRAYDATA : public ArrayBase<type_array>
 {
 public:
     ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
