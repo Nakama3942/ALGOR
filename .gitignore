@@ -13,6 +13,8 @@
 
 .vscode
 html
+latex
+rtf
 
 # Qt-es
 object_script.*.Release

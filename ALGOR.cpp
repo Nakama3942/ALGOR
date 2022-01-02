@@ -391,12 +391,9 @@ uint32_t MersenneTwister::BRandom()
     return resulting_bit;
 }
 
-/*!
- * \brief Basic initialization procedure
- * \param seed Generation seed
- */
 void MersenneTwister::Init0(int seed)
 {
+    //Basic initialization procedure
     const uint32_t factor = 1812433253UL;
     mersenne_twister[0] = seed;
     for (mersenne_twister_index = 1; mersenne_twister_index < 624; mersenne_twister_index++)
