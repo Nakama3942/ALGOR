@@ -742,38 +742,15 @@ void Noncomparison_Sort::RadixSort::start_sort()
     delete[] tempArray;
 }
 
-/*!
- * \brief Construct a new arraydata<type array>::arraydata object
- * \details With this creation of an object, both the structure and the object of the class will point to the same array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] Array Pointer to a structured array
- */
 template <typename type_array>
 ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
-/*!
- * \brief Construct a new arraydata<type array>::arraydata object
- * \details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] SIZE The size of the array being created
- */
 template <typename type_array>
 ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
 
-/*!
- * \brief Construct a new arraydata<type array>::arraydata object
- * \details With this creation of an object, no memory will be allocated for the array. The object will be empty
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 ARRAYDATA<type_array>::ARRAYDATA() : ArrayBase<type_array>() {}
 
-/*!
- * \brief A method that fills the entire array with random values
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param min_limit The minimum value that can be generated
- * \param max_limit The maximum value that can be generated
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
@@ -795,11 +772,6 @@ void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_l
     }
 }
 
-/*!
- * \brief A method that replaces the previous array with a new one, freeing memory from the previous one
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param Array An array that will replace the previous one in the object
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 {
@@ -807,11 +779,6 @@ void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
     this->ARRAY = Array;
 }
 
-/*!
- * \brief A method that replaces the previous array with a new one without freeing memory from the previous one
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param Array An array that will replace the previous one in the object
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 {

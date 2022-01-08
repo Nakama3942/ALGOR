@@ -32,6 +32,7 @@
  * 6. ALGOR_MATRIX - class for working with matrices                            *
  * 7. AlGOR_HEAP - class for working with trees                                 *
  * 8. AlGOR_LIST - class for working with lists                                 *
+ * 9. ALGOR_DOCUMENTATION - Documentation Libraries                             *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -362,13 +363,6 @@ enum ArrayType /// A set of array types
     STRING  ///< Indicates that the array stores strings
 };
 
-/*!
- * \brief Array processing
- * \details This is the main class for working with arrays, the tasks of which
- *          are storing a pointer to an array, the ability to create, delete, modify it,
- *          calculate characteristics, etc.
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 class ARRAYDATA : public ArrayBase<type_array>
 {
@@ -423,5 +417,55 @@ private:
 //ALGOR_HEAP
 
 //ALGOR_LIST
+
+//ALGOR_DOCUMENTATION
+
+/*!
+ * \class ARRAYDATA
+ * \brief Array processing
+ * \details This is the main class for working with arrays, the tasks of which
+ *          are storing a pointer to an array, the ability to create, delete, modify it,
+ *          calculate characteristics, etc.
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ */
+/*!
+ * \fn ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) 
+ * \brief Construct a new arraydata<type array>::arraydata object
+ * \details With this creation of an object, both the structure and the object of the class will point to the same array
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ * \param[in] Array Pointer to a structured array
+ */
+/*!
+ * \fn ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE)
+ * \brief Construct a new arraydata<type array>::arraydata object
+ * \details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ * \param[in] SIZE The size of the array being created
+ */
+/*!
+ * \fn ARRAYDATA<type_array>::ARRAYDATA()
+ * \brief Construct a new arraydata<type array>::arraydata object
+ * \details With this creation of an object, no memory will be allocated for the array. The object will be empty
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ */
+/*!
+ * \fn void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
+ * \brief A method that fills the entire array with random values
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ * \param min_limit The minimum value that can be generated
+ * \param max_limit The maximum value that can be generated
+ */
+/*!
+ * \fn void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
+ * \brief A method that replaces the previous array with a new one, freeing memory from the previous one
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ * \param Array An array that will replace the previous one in the object
+ */
+/*!
+ * \fn void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
+ * \brief A method that replaces the previous array with a new one without freeing memory from the previous one
+ * \tparam type_array The type of elements that the array stores. For example int or float
+ * \param Array An array that will replace the previous one in the object
+ */
 
 #endif //ALGOR_HPP
