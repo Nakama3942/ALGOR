@@ -51,54 +51,105 @@
 //ALGOR_CORE
 
 using int8_t = signed char; ///< Alias for signed char
-using int16_t = short; ///< Alias for short
-using int32_t = int; ///< Alias for int
-using int64_t = long long; ///< Alias for long long
+using int16_t = short;      ///< Alias for short
+using int32_t = int;        ///< Alias for int
+using int64_t = long long;  ///< Alias for long long
 
-using uint8_t = unsigned char; ///< Alias for unsigned char
-using uint16_t = unsigned short; ///< Alias for unsigned short
-using uint32_t = unsigned int; ///< Alias for unsigned int
+using uint8_t = unsigned char;       ///< Alias for unsigned char
+using uint16_t = unsigned short;     ///< Alias for unsigned short
+using uint32_t = unsigned int;       ///< Alias for unsigned int
 using uint64_t = unsigned long long; ///< Alias for unsigned long long
 
 using asize_t = unsigned int; ///< Alias for specifying the type "array size"
 
-template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber);
-template <typename type_array> type_array minimum(const type_array *Array, const asize_t &array_size);
-template <typename type_array> type_array maximum(const type_array *Array, const asize_t &array_size);
-template <typename type_array> void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
-template <typename type_array> void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
-template <typename type_array> void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
-template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
+template <typename type_array>
+void swap(type_array &firstNumber, type_array &secondNumber);
+template <typename type_array>
+type_array minimum(const type_array *Array, const asize_t &array_size);
+template <typename type_array>
+type_array maximum(const type_array *Array, const asize_t &array_size);
+template <typename type_array>
+void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
+template <typename type_array>
+void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
+template <typename type_array>
+void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
+template <typename type_array>
+void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
 
 /*!
  * \brief A structure that mimics an array. Designed to store a pointer to a dynamic array and its size
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> struct Array { type_array *array; asize_t array_size = 0; };
-template <typename type_array> Array<type_array> *create_struct(const asize_t &SIZE);
-template <typename type_array> void remove_struct(Array<type_array> *&Array);
+template <typename type_array>
+struct Array
+{
+    type_array *array;
+    asize_t array_size = 0;
+};
+template <typename type_array>
+Array<type_array> *create_struct(const asize_t &SIZE);
+template <typename type_array>
+void remove_struct(Array<type_array> *&Array);
 
 /*!
  * \brief The base class, which is organized for working with arrays - memory allocation, storage, deletion
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> class ArrayBase
+template <typename type_array>
+class ArrayBase
 {
 public:
     ArrayBase(Array<type_array> *&Array);
     ArrayBase(const asize_t &SIZE);
     ArrayBase();
+
 protected:
     Array<type_array> *ARRAY; ///< Pointer to a structure storing an array
 };
 
 //ALGOR_EXCEPTION
 
-//TODO Excep class will be implemented in version 2.1.0
-//class Excep
-//{
-//public:
-//};
+/*!
+ * \brief Class for working with exceptions
+ * 
+ */
+class Exception
+{
+public:
+    Exception(unsigned int CODE, const char *MESSAGE, const char *DETAILS);
+    Exception(unsigned int CODE, const char *MESSAGE);
+    Exception(unsigned int CODE);
+    Exception(const char *MESSAGE);
+    unsigned int code();
+    const char *what();
+    const char *details();
+
+protected:
+    unsigned int CODE;   ///< Exception encoding
+    const char *MESSAGE; ///< Message exception
+    const char *DETAILS; ///< Exception details
+};
+
+/*!
+ * \brief void_data exception class
+ * 
+ */
+class void_data : public Exception
+{
+public:
+    void_data();
+};
+
+/*!
+ * \brief not_found exception class
+ * 
+ */
+class not_found : public Exception
+{
+public:
+    not_found();
+};
 
 //ALGOR_RANDOM
 
@@ -112,6 +163,7 @@ public:
     //int crypto_entropy();
     void crypto_srand(const char *key, int ksize);
     void crypto_rand(char *output, int size);
+
 private:
     uint8_t Sbox[256];
 };
@@ -129,29 +181,32 @@ public:
     int IRandomX(int min, int max);
     double Random();
     uint32_t BRandom();
+
 private:
     void Init0(int seed);
-    uint32_t mersenne_twister[624]; ///< State vector
-    int mersenne_twister_index;     ///< Index into mersenne_twister
-    uint32_t LastInterval;          ///< Last interval length for IRandomX
-    uint32_t RejectionLimit;        ///< Rejection limit used by IRandomX
+    uint32_t mersenne_twister[624]; //State vector
+    int mersenne_twister_index;     //Index into mersenne_twister
+    uint32_t LastInterval;          //Last interval length for IRandomX
+    uint32_t RejectionLimit;        //Rejection limit used by IRandomX
 };
 
 //ALGOR_SORTING
 
 namespace Exchange_Sorts
 {
-    template <typename type_array> class BubbleSort : public ArrayBase<type_array>
+    template <typename type_array>
+    class BubbleSort : public ArrayBase<type_array>
     {
     public:
-        BubbleSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
+        BubbleSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
         void start_sort();
     };
 
-    template <typename type_array> class CocktailShakerSort : public ArrayBase<type_array>
+    template <typename type_array>
+    class CocktailShakerSort : public ArrayBase<type_array>
     {
     public:
-        CocktailShakerSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
+        CocktailShakerSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
         void start_sort();
     };
 
@@ -161,11 +216,13 @@ namespace Exchange_Sorts
 
     //class GnomeSort{};
 
-    template <typename type_array> class QuickSort : public ArrayBase<type_array>
+    template <typename type_array>
+    class QuickSort : public ArrayBase<type_array>
     {
     public:
-        QuickSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
+        QuickSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
         void start_sort();
+
     private:
         void quick_sort(const int &left_limit, const int &right_limit);
     };
@@ -182,11 +239,13 @@ namespace Selection_Sorts
 {
     //class SelectionSort{};
 
-    template <typename type_array> class HeapSort : public ArrayBase<type_array>
+    template <typename type_array>
+    class HeapSort : public ArrayBase<type_array>
     {
     public:
-        HeapSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
+        HeapSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
         void start_sort();
+
     private:
         void heapify(type_array *Array, const asize_t &count, const asize_t &array_size);
     };
@@ -196,10 +255,11 @@ namespace Selection_Sorts
 
 namespace Insertion_Sorts
 {
-    template <typename type_array> class InsertSort : public ArrayBase<type_array>
+    template <typename type_array>
+    class InsertSort : public ArrayBase<type_array>
     {
     public:
-        InsertSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
+        InsertSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
         void start_sort();
     };
 
@@ -216,11 +276,13 @@ namespace Insertion_Sorts
 
 namespace Merge_Sorts
 {
-    template <typename type_array> class MergeSort : public ArrayBase<type_array>
+    template <typename type_array>
+    class MergeSort : public ArrayBase<type_array>
     {
     public:
-        MergeSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {};
+        MergeSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
         void start_sort();
+
     private:
         void merge_sort(type_array *Array, const int &left_limit, const int &right_limit);
         void merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit);
@@ -236,7 +298,7 @@ namespace Noncomparison_Sort
     class CountingSort : public ArrayBase<int>
     {
     public:
-        CountingSort(Array<int> *&Array) : ArrayBase<int>(Array) {};
+        CountingSort(Array<int> *&Array) : ArrayBase<int>(Array){};
         void start_sort();
     };
 
@@ -245,7 +307,7 @@ namespace Noncomparison_Sort
     class RadixSort : public ArrayBase<int>
     {
     public:
-        RadixSort(Array<int> *&Array) : ArrayBase<int>(Array) {};
+        RadixSort(Array<int> *&Array) : ArrayBase<int>(Array){};
         void start_sort();
     };
 
@@ -291,13 +353,13 @@ namespace Unknown_Sorts
 
 enum ArrayStatus /// Set of array statuses
 {
-    SORTED, ///< Indicates that the array is sorted
+    SORTED,  ///< Indicates that the array is sorted
     UNSORTED ///< Indicates that the array is unsorted
 };
 enum ArrayType /// A set of array types
 {
     NUMBER, ///< Indicates that the array stores numbers
-    STRING ///< Indicates that the array stores strings
+    STRING  ///< Indicates that the array stores strings
 };
 
 /*!
@@ -307,7 +369,8 @@ enum ArrayType /// A set of array types
  *          calculate characteristics, etc.
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> class ARRAYDATA : public ArrayBase<type_array>
+template <typename type_array>
+class ARRAYDATA : public ArrayBase<type_array>
 {
 public:
     ARRAYDATA(Array<type_array> *&Array);

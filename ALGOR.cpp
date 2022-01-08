@@ -26,7 +26,8 @@
  * \param[in, out] firstNumber First item to replace
  * \param[in, out] secondNumber Second item to replace
  */
-template <typename type_array> void swap(type_array &firstNumber, type_array &secondNumber)
+template <typename type_array>
+void swap(type_array &firstNumber, type_array &secondNumber)
 {
     type_array *temp = new type_array(firstNumber);
     firstNumber = secondNumber;
@@ -39,10 +40,16 @@ template <typename type_array> void swap(type_array &firstNumber, type_array &se
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param[in] Array The array in which to look for the minimum element
  * \param[in] array_size The size of this very array
+ * \throw void_data Transferred an empty array
  * \return type_array
  */
-template <typename type_array> type_array minimum(const type_array *Array, const asize_t &array_size)
+template <typename type_array>
+type_array minimum(const type_array *Array, const asize_t &array_size)
 {
+    if (array_size == 0)
+    {
+        throw void_data();
+    }
     type_array point_min = Array[0];
     for (unsigned int i = 1; i < array_size; i++)
     {
@@ -59,10 +66,16 @@ template <typename type_array> type_array minimum(const type_array *Array, const
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param[in] Array The array in which to look for the maximum element
  * \param[in] array_size The size of this very array
+ * \throw void_data Transferred an empty array
  * \return type_array
  */
-template <typename type_array> type_array maximum(const type_array *Array, const asize_t &array_size)
+template <typename type_array>
+type_array maximum(const type_array *Array, const asize_t &array_size)
 {
+    if (array_size == 0)
+    {
+        throw void_data();
+    }
     type_array point_max = Array[0];
     for (unsigned int i = 1; i < array_size; i++)
     {
@@ -82,7 +95,8 @@ template <typename type_array> type_array maximum(const type_array *Array, const
  * \param[in] value The element to add to the array
  * \param[in] position The position at which the element will be added
  */
-template <typename type_array> void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
+template <typename type_array>
+void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
 {
     array_size++;
     if (array_size == 1)
@@ -108,7 +122,8 @@ template <typename type_array> void addElement(type_array *&Array, asize_t &arra
  * \param[in] array_size The size of this very array
  * \param[in] position The position at which the element will be removed
  */
-template <typename type_array> void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
+template <typename type_array>
+void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
 {
     if (array_size == 1)
     {
@@ -141,7 +156,8 @@ template <typename type_array> void subtractElement(type_array *&Array, asize_t 
  * \param[in] array_size The size of this very array
  * \param[in] value The value to be removed in the entire array
  */
-template <typename type_array> void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
+template <typename type_array>
+void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
     int counter = 0;
     type_array *temp_Array = new type_array[array_size];
@@ -170,7 +186,8 @@ template <typename type_array> void subtractValue(type_array *&Array, asize_t &a
  * \param[in] position_in_new_array The position from which to start writing in the array to which the data is copied
  * \param[in] position_in_old_array The position from which to start reading from the array, from which the data is copied
  */
-template <typename type_array> void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
+template <typename type_array>
+void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
     for (unsigned int i = 0; i < size_of_copied; i++)
     {
@@ -184,7 +201,8 @@ template <typename type_array> void copy(type_array *new_array, const type_array
  * \param[in] SIZE The size of the array to be created
  * \return Array<type_array>* Pointer to array
  */
-template <typename type_array> Array<type_array> *create_struct(const asize_t &SIZE)
+template <typename type_array>
+Array<type_array> *create_struct(const asize_t &SIZE)
 {
     Array<type_array> *ARRAY = new Array<type_array>;
     ARRAY->array_size = SIZE;
@@ -197,7 +215,8 @@ template <typename type_array> Array<type_array> *create_struct(const asize_t &S
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param[in] Array The array to be deleted
  */
-template <typename type_array> void remove_struct(Array<type_array> *&Array)
+template <typename type_array>
+void remove_struct(Array<type_array> *&Array)
 {
     delete[] Array->array;
     delete (Array);
@@ -210,7 +229,8 @@ template <typename type_array> void remove_struct(Array<type_array> *&Array)
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param[in] Array Pointer to a structured array
  */
-template<typename type_array> ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
+template <typename type_array>
+ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
 
 /*!
  * \brief Construct a new ArrayBase<type_array>::ArrayBase object
@@ -218,14 +238,109 @@ template<typename type_array> ArrayBase<type_array>::ArrayBase(Array<type_array>
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param[in] SIZE The size of the array being created
  */
-template<typename type_array> ArrayBase<type_array>::ArrayBase(const asize_t &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
+template <typename type_array>
+ArrayBase<type_array>::ArrayBase(const asize_t &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
 
 /*!
  * \brief Construct a new ArrayBase<type_array>::ArrayBase object
  * \details With this creation of an object, no memory will be allocated for the array. The object will be empty
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template<typename type_array> ArrayBase<type_array>::ArrayBase() { ARRAY = nullptr; }
+template <typename type_array>
+ArrayBase<type_array>::ArrayBase() { ARRAY = nullptr; }
+
+/*!
+ * \brief Construct a new Exception::Exception object
+ * \details Takes full detailed information on exclusion
+ * \param CODE Exception encoding
+ * \param MESSAGE Message exception
+ * \param DETAILS Exception details
+ */
+Exception::Exception(unsigned int CODE, const char *MESSAGE, const char *DETAILS)
+{
+    this->CODE = CODE;
+    this->MESSAGE = MESSAGE;
+    this->DETAILS = DETAILS;
+}
+
+/*!
+ * \brief Construct a new Exception::Exception object
+ * \details Accepts basic exception information
+ * \param CODE Exception encoding
+ * \param MESSAGE Message exception
+ */
+Exception::Exception(unsigned int CODE, const char *MESSAGE)
+{
+    this->CODE = CODE;
+    this->MESSAGE = MESSAGE;
+    this->DETAILS = "No information given";
+}
+
+/*!
+ * \brief Construct a new Exception::Exception object
+ * \details Takes cordivity of exception
+ * \param CODE Exception encoding
+ */
+Exception::Exception(unsigned int CODE)
+{
+    this->CODE = CODE;
+    this->MESSAGE = "No information given";
+    this->DETAILS = "No information given";
+}
+
+/*!
+ * \brief Construct a new Exception::Exception object
+ * \details Accepts an exception message
+ * \param MESSAGE Message exception
+ */
+Exception::Exception(const char *MESSAGE)
+{
+    this->CODE = 0xffffffff;
+    this->MESSAGE = MESSAGE;
+    this->DETAILS = "No information given";
+}
+
+/*!
+ * \brief Returns exclusion encoding
+ *
+ * \return <unsigned int> - exception encoding
+ */
+unsigned int Exception::code()
+{
+    return CODE;
+}
+
+/*!
+ * \brief Returns an exception message
+ * 
+ * \return <const char*> - message exception
+ */
+const char *Exception::what()
+{
+    return MESSAGE;
+}
+
+/*!
+ * \brief Returns exception details
+ * 
+ * \return <const char*> - exception details
+ */
+const char *Exception::details()
+{
+    return DETAILS;
+}
+
+/*!
+ * \brief Construct a new void data::void data object
+ * \details Geted empty data structure
+ */
+void_data::void_data() : Exception(400, "Void data", "Geted empty data structure") {}
+
+/*!
+ * \brief Construct a new not found::not found object
+ * \details Search error - item not found
+ */
+not_found::not_found() : Exception(404, "Not found", "Search error - item not found") {}
 
 //int RC4::crypto_entropy()
 //{
@@ -402,7 +517,8 @@ void MersenneTwister::Init0(int seed)
     }
 }
 
-template <typename type_array> void Exchange_Sorts::BubbleSort<type_array>::start_sort()
+template <typename type_array>
+void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 {
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
@@ -416,7 +532,8 @@ template <typename type_array> void Exchange_Sorts::BubbleSort<type_array>::star
     }
 }
 
-template <typename type_array> void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
+template <typename type_array>
+void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
 {
     int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
     while (leftMark <= rightMark)
@@ -440,12 +557,14 @@ template <typename type_array> void Exchange_Sorts::CocktailShakerSort<type_arra
     }
 }
 
-template <typename type_array> void Exchange_Sorts::QuickSort<type_array>::start_sort()
+template <typename type_array>
+void Exchange_Sorts::QuickSort<type_array>::start_sort()
 {
     quick_sort(0, this->ARRAY->array_size - 1);
 }
 
-template <typename type_array> void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, const int &right_limit)
+template <typename type_array>
+void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, const int &right_limit)
 {
     type_array middle = this->ARRAY->array[(left_limit + right_limit) / 2];
     int start = left_limit, finish = right_limit;
@@ -476,7 +595,8 @@ template <typename type_array> void Exchange_Sorts::QuickSort<type_array>::quick
     }
 }
 
-template <typename type_array> void Selection_Sorts::HeapSort<type_array>::start_sort()
+template <typename type_array>
+void Selection_Sorts::HeapSort<type_array>::start_sort()
 {
     for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
     {
@@ -489,7 +609,8 @@ template <typename type_array> void Selection_Sorts::HeapSort<type_array>::start
     }
 }
 
-template <typename type_array> void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
+template <typename type_array>
+void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
 {
     asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
     if (left < array_size && Array[left] > Array[large])
@@ -507,7 +628,8 @@ template <typename type_array> void Selection_Sorts::HeapSort<type_array>::heapi
     }
 }
 
-template <typename type_array> void Insertion_Sorts::InsertSort<type_array>::start_sort()
+template <typename type_array>
+void Insertion_Sorts::InsertSort<type_array>::start_sort()
 {
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
@@ -518,12 +640,14 @@ template <typename type_array> void Insertion_Sorts::InsertSort<type_array>::sta
     }
 }
 
-template <typename type_array> void Merge_Sorts::MergeSort<type_array>::start_sort()
+template <typename type_array>
+void Merge_Sorts::MergeSort<type_array>::start_sort()
 {
     merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
 }
 
-template <typename type_array> void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
+template <typename type_array>
+void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
 {
     if (left_limit < right_limit)
     {
@@ -534,7 +658,8 @@ template <typename type_array> void Merge_Sorts::MergeSort<type_array>::merge_so
     }
 }
 
-template <typename type_array> void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
+template <typename type_array>
+void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
 {
     int start = left_limit, finish = middle_limit + 1;
     type_array *tempArray = new type_array[right_limit - left_limit + 1];
@@ -623,7 +748,8 @@ void Noncomparison_Sort::RadixSort::start_sort()
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param[in] Array Pointer to a structured array
  */
-template<typename type_array> ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
+template <typename type_array>
+ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
 /*!
  * \brief Construct a new arraydata<type array>::arraydata object
@@ -631,14 +757,16 @@ template<typename type_array> ARRAYDATA<type_array>::ARRAYDATA(Array<type_array>
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param[in] SIZE The size of the array being created
  */
-template<typename type_array> ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
+template <typename type_array>
+ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
 
 /*!
  * \brief Construct a new arraydata<type array>::arraydata object
  * \details With this creation of an object, no memory will be allocated for the array. The object will be empty
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template<typename type_array> ARRAYDATA<type_array>::ARRAYDATA() : ArrayBase<type_array>() {}
+template <typename type_array>
+ARRAYDATA<type_array>::ARRAYDATA() : ArrayBase<type_array>() {}
 
 /*!
  * \brief A method that fills the entire array with random values
@@ -646,7 +774,8 @@ template<typename type_array> ARRAYDATA<type_array>::ARRAYDATA() : ArrayBase<typ
  * \param min_limit The minimum value that can be generated
  * \param max_limit The maximum value that can be generated
  */
-template <typename type_array> void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
+template <typename type_array>
+void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
     RC4 rc4;
     //Key generation (will be used until I come up with an analogue of time(NULL))
@@ -671,7 +800,8 @@ template <typename type_array> void ARRAYDATA<type_array>::generatedData(const i
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param Array An array that will replace the previous one in the object
  */
-template <typename type_array> void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
+template <typename type_array>
+void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 {
     remove();
     this->ARRAY = Array;
@@ -682,7 +812,8 @@ template <typename type_array> void ARRAYDATA<type_array>::setNewData(Array<type
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param Array An array that will replace the previous one in the object
  */
-template <typename type_array> void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
+template <typename type_array>
+void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 {
     this->ARRAY = Array;
 }
@@ -692,7 +823,8 @@ template <typename type_array> void ARRAYDATA<type_array>::setData(Array<type_ar
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param CloningArray The array to be copied to the object
  */
-template <typename type_array> void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
+template <typename type_array>
+void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
 {
     if (this->ARRAY != nullptr)
     {
@@ -707,7 +839,8 @@ template <typename type_array> void ARRAYDATA<type_array>::cloneData(Array<type_
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param CloningObject The object from which to copy the array
  */
-template <typename type_array> void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
+template <typename type_array>
+void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
 {
     if (this->ARRAY != nullptr)
     {
@@ -722,7 +855,8 @@ template <typename type_array> void ARRAYDATA<type_array>::cloneData(ARRAYDATA<t
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param DATA A pointer that will point to the array that is stored in the object
  */
-template <typename type_array> void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
+template <typename type_array>
+void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
 {
     DATA = this->ARRAY;
 }
@@ -732,7 +866,8 @@ template <typename type_array> void ARRAYDATA<type_array>::getData(Array<type_ar
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \return Array<type_array>*
  */
-template <typename type_array> Array<type_array> *ARRAYDATA<type_array>::getData()
+template <typename type_array>
+Array<type_array> *ARRAYDATA<type_array>::getData()
 {
     return this->ARRAY;
 }
@@ -743,7 +878,8 @@ template <typename type_array> Array<type_array> *ARRAYDATA<type_array>::getData
  *        not generate elements).
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> void ARRAYDATA<type_array>::reset()
+template <typename type_array>
+void ARRAYDATA<type_array>::reset()
 {
     int SIZE = this->ARRAY->array_size;
     type_array min = getMin(), max = getMax();
@@ -768,7 +904,8 @@ template <typename type_array> void ARRAYDATA<type_array>::reset()
  *          of the array, therefore, he cannot know whether the array will
  *          be increased or decreased.
  */
-template <typename type_array> void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
+template <typename type_array>
+void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
 {
     Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
     if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
@@ -793,7 +930,8 @@ template <typename type_array> void ARRAYDATA<type_array>::resize(const asize_t 
  * \param position The position at which the value changes
  * \param value The value to be placed in the position
  */
-template <typename type_array> void ARRAYDATA<type_array>::replace(const unsigned int &position, const type_array &value)
+template <typename type_array>
+void ARRAYDATA<type_array>::replace(const unsigned int &position, const type_array &value)
 {
     this->ARRAY->array[position - 1] = value;
 }
@@ -802,7 +940,8 @@ template <typename type_array> void ARRAYDATA<type_array>::replace(const unsigne
  * \brief Reverses the array
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> void ARRAYDATA<type_array>::reverse()
+template <typename type_array>
+void ARRAYDATA<type_array>::reverse()
 {
     int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
     for (unsigned int i = 0; i < this->ARRAY->array_size / 2; i++)
@@ -817,7 +956,8 @@ template <typename type_array> void ARRAYDATA<type_array>::reverse()
  * \brief Removes an array
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> void ARRAYDATA<type_array>::remove()
+template <typename type_array>
+void ARRAYDATA<type_array>::remove()
 {
     remove_struct<type_array>(this->ARRAY);
 }
@@ -827,7 +967,8 @@ template <typename type_array> void ARRAYDATA<type_array>::remove()
  *        is allocated the same size without filling it, unlike reset()
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> void ARRAYDATA<type_array>::respawn()
+template <typename type_array>
+void ARRAYDATA<type_array>::respawn()
 {
     unsigned int size = this->ARRAY->array_size;
     remove();
@@ -840,7 +981,8 @@ template <typename type_array> void ARRAYDATA<type_array>::respawn()
  * \param ArrStat Array status
  * \return type_array
  */
-template <typename type_array> type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
+template <typename type_array>
+type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
 {
     switch (ArrStat)
     {
@@ -858,7 +1000,8 @@ template <typename type_array> type_array ARRAYDATA<type_array>::getMin(ArraySta
  * \param ArrStat Array status
  * \return type_array
  */
-template <typename type_array> type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
+template <typename type_array>
+type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
 {
     switch (ArrStat)
     {
@@ -877,7 +1020,8 @@ template <typename type_array> type_array ARRAYDATA<type_array>::getMax(ArraySta
  * \param required_element The value to find
  * \return Array<int>*
  */
-template <typename type_array> Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
+template <typename type_array>
+Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
     Array<int> *NumberPoints = new Array<int>;
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
@@ -901,14 +1045,16 @@ template <typename type_array> Array<int> *ARRAYDATA<type_array>::lenear_searche
  * \param required_element The value to find
  * \return int
  */
-template <typename type_array> int ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
+template <typename type_array>
+int ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
     int position = 0;
     binary_searcher(required_element, position, 0, this->ARRAY->array_size - 1);
     return position;
 }
 
-template <typename type_array> void ARRAYDATA<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
+template <typename type_array>
+void ARRAYDATA<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
 {
     if (left_limit > right_limit)
     {
@@ -936,7 +1082,8 @@ template <typename type_array> void ARRAYDATA<type_array>::binary_searcher(const
  * \param ArrType Array type
  * \return Array<int>*
  */
-template <typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
+template <typename type_array>
+Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
     Array<int> *Occurrences = new Array<int>;
     for (unsigned int i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
@@ -969,7 +1116,7 @@ template <typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurr
     }
     if (Occurrences->array_size == 0)
     {
-        throw -1;
+        throw not_found();
     }
     return Occurrences;
 }
@@ -979,7 +1126,8 @@ template <typename type_array> Array<int> *ARRAYDATA<type_array>::searcherOccurr
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \return type_array
  */
-template <typename type_array> type_array ARRAYDATA<type_array>::average()
+template <typename type_array>
+type_array ARRAYDATA<type_array>::average()
 {
     if (this->ARRAY->array_size == 0)
     {
@@ -998,7 +1146,8 @@ template <typename type_array> type_array ARRAYDATA<type_array>::average()
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \return type_array
  */
-template <typename type_array> type_array ARRAYDATA<type_array>::mediana()
+template <typename type_array>
+type_array ARRAYDATA<type_array>::mediana()
 {
     if (this->ARRAY->array_size == 0)
     {
@@ -1013,7 +1162,8 @@ template <typename type_array> type_array ARRAYDATA<type_array>::mediana()
  * \param highest_frequency An indicator of the frequency of occurrence of an element that is most often found
  * \return type_array
  */
-template <typename type_array> type_array ARRAYDATA<type_array>::moda(int &highest_frequency)
+template <typename type_array>
+type_array ARRAYDATA<type_array>::moda(int &highest_frequency)
 {
     if (this->ARRAY->array_size == 0)
     {
@@ -1044,7 +1194,8 @@ template <typename type_array> type_array ARRAYDATA<type_array>::moda(int &highe
  * \param highest_frequency An indicator of the frequency of occurrence of elements that are most often found
  * \return Array<type_array>*
  */
-template <typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
+template <typename type_array>
+Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 {
     if (this->ARRAY->array_size == 0)
     {
@@ -1082,7 +1233,8 @@ template <typename type_array> Array<type_array> *ARRAYDATA<type_array>::modas(i
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param value The value to add to the end of the array
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator&&(const type_array &value)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator&&(const type_array &value)
 {
     addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
 }
@@ -1091,7 +1243,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator&&(const type
  * \brief Operator that removes an element from the end of an array
  * \tparam type_array The type of elements that the array stores. For example int or float
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator!()
+template <typename type_array>
+void ARRAYDATA<type_array>::operator!()
 {
     subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
 }
@@ -1101,7 +1254,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator!()
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param value The value to be removed
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator||(const type_array &value)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator||(const type_array &value)
 {
     subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
 }
@@ -1111,7 +1265,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator||(const type
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param appendingArray An array to attach from another object
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
 {
     unsigned int newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
     Array<type_array> *temp = create_struct<type_array>(newSize);
@@ -1130,7 +1285,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator<<(ARRAYDATA<
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param appendingArray An array from another object to which the current array will be passed
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
 {
     unsigned int newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
     Array<type_array> *temp = create_struct<type_array>(newSize);
@@ -1150,7 +1306,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator>>(ARRAYDATA<
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param addSize Parameter indicating how much to increase the array
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator+(const asize_t &addSize)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator+(const asize_t &addSize)
 {
     if (this->ARRAY->array_size + addSize > 0xffffffff)
     {
@@ -1168,7 +1325,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator+(const asize
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param subtractSize Parameter indicating how much to reduce the array
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
 {
     if (subtractSize >= this->ARRAY->array_size)
     {
@@ -1187,7 +1345,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator-(const asize
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param multiplySize Parameter indicating how many times to increase the array
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
 {
     if (this->ARRAY->array_size * multiplySize > 0xffffffff)
     {
@@ -1205,7 +1364,8 @@ template <typename type_array> void ARRAYDATA<type_array>::operator*(const asize
  * \tparam type_array The type of elements that the array stores. For example int or float
  * \param divideSize Параметр, указывающий, во сколько раз следует уменьшить массив
  */
-template <typename type_array> void ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
+template <typename type_array>
+void ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
 {
     if (divideSize >= this->ARRAY->array_size)
     {
