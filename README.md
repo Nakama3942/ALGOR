@@ -16,6 +16,26 @@ In search of sorting algorithms and explanations in the form of a code, I often 
 В поисках алгоритмов сортировок и пояснений в виде кода, я часто натыкался на большие коды с кучей лишнего, не относящегося к алгоритму сортировки (типа тестирование) и, в принципе, в коде присутствовали переменные не с нормальными названиеми, а с названиями типа А, В, С - стиль кода нарушен (а иногда даже ужасен), иногда можно встретить сбившуюся табуляцию и есть куча других факторов, которые делают код нечитабельным и недоступным для понимания. Я потратил кучу времени, чтобы разобрать в этих алгоритмах и написал эту библиотеку, во-первых, чтобы каждый раз не писать одно и тоже, а просто подключил библиотеку и используешь готовый код, во-вторых для других людей, которые только учат алгоритмы, что бы можно было легко разобраться: в коде присутствуют только нужные методы, находятся они в порядке код я стараюсь оптимизировать, стиль не нарушен и самое главное - благодаря нормальным именам код понятен, читабелен и пригоден для изучения алгоритмов.
 -->
 
+## Functional
+
+The library implements the following functionality:
+- _ALGOR_CORE_ ✔
+    - Section of the implementation of basic functions, structures, classes and definitions
+- _ALGOR_EXCEPTION_ ⧖ (will be released in version 2.1.0)
+    - Section of the implementation of exceptions
+- _ALGOR_RANDOM_ ✔
+    - Section of the implementation of randomizers
+- _AlGOR_SORTING_ ✔ (The functionality will be expanded from versions 2.1.1 to 2.1.X)
+    - Section of the implementation of sorting algorithms
+- _AlGOR_ARRAY_ ✔
+    - Section of the implementation of classes of working with arrays
+- _ALGOR_MATRIX_ ⧖ (will be released in version 3.0.0)
+    - Section of the implementation of classes of working with matrices
+- _AlGOR_HEAP_ ⧖ (will be released in version 4.0.0)
+    - Section of the implementation of classes of working with trees
+- _AlGOR_LIST_ ⧖ (will be released in version 5.0.0)
+    - Section of the implementation of classes of working with lists
+
 ## Usage
 <!--
 To use the library, just download the "sortingalgorithms.hpp" file and link it to your program

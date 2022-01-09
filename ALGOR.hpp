@@ -1,7 +1,7 @@
 /* ******************************   ALGOR.hpp   ******************************* *
  * ---------------------------------------------------------------------------- *
  *                                                                              *
- * Copyright © 2021 Kalynovsky Valentin. All rights reserved.                   *
+ * Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.              *
  *                                                                              *
  * Licensed under the Apache License, Version 2.0 (the "License");              *
  * you may not use this file except in compliance with the License.             *
@@ -18,7 +18,7 @@
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
- *                                Version: 2.0.0                                *
+ *                              Version: 2.1.0-dev                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
@@ -32,7 +32,6 @@
  * 6. ALGOR_MATRIX - class for working with matrices                            *
  * 7. AlGOR_HEAP - class for working with trees                                 *
  * 8. AlGOR_LIST - class for working with lists                                 *
- * 9. ALGOR_DOCUMENTATION - Documentation Libraries                             *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -43,13 +42,21 @@
  * \author Kalynovsky Valentin
  * \version 2.0.0
  * \date 23.12.2021
- * \copyright Copyright © 2021 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
+ * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
  */
 
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
 
-//ALGOR_CORE
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_CORE                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 using int8_t = signed char; ///< Alias for signed char
 using int16_t = short;      ///< Alias for short
@@ -78,10 +85,6 @@ void subtractValue(type_array *&Array, asize_t &array_size, const type_array &va
 template <typename type_array>
 void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
 
-/*!
- * \brief A structure that mimics an array. Designed to store a pointer to a dynamic array and its size
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 struct Array
 {
@@ -93,10 +96,6 @@ Array<type_array> *create_struct(const asize_t &SIZE);
 template <typename type_array>
 void remove_struct(Array<type_array> *&Array);
 
-/*!
- * \brief The base class, which is organized for working with arrays - memory allocation, storage, deletion
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 class ArrayBase
 {
@@ -109,12 +108,16 @@ protected:
     Array<type_array> *ARRAY; ///< Pointer to a structure storing an array
 };
 
-//ALGOR_EXCEPTION
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * -->                           ALGOR_EXCEPTION                           <-- *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-/*!
- * \brief Class for working with exceptions
- * 
- */
 class Exception
 {
 public:
@@ -132,32 +135,28 @@ protected:
     const char *DETAILS; ///< Exception details
 };
 
-/*!
- * \brief void_data exception class
- * 
- */
 class void_data : public Exception
 {
 public:
     void_data();
 };
 
-/*!
- * \brief not_found exception class
- * 
- */
 class not_found : public Exception
 {
 public:
     not_found();
 };
 
-//ALGOR_RANDOM
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                             ALGOR_RANDOM                            <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-/*!
- * \brief Simple crypto-strong generator
- * \note Taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A
- */
 class RC4
 {
 public:
@@ -169,10 +168,6 @@ private:
     uint8_t Sbox[256];
 };
 
-/*!
- * \brief Advanced generator based on Marsen primes
- * \note Source URL: www.agner.org/random
- */
 class MersenneTwister
 {
 public:
@@ -191,7 +186,15 @@ private:
     uint32_t RejectionLimit;        //Rejection limit used by IRandomX
 };
 
-//ALGOR_SORTING
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * -->                            ALGOR_SORTING                            <-- *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 namespace Exchange_Sorts
 {
@@ -350,7 +353,15 @@ namespace Unknown_Sorts
     //class SampleSort{};
 }
 
-//ALGOR_ARRAY
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * -->                             ALGOR_ARRAY                             <-- *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 enum ArrayStatus /// Set of array statuses
 {
@@ -412,60 +423,55 @@ private:
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
 
-//ALGOR_MATRIX
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                             ALGOR_MATRIX                            <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//ALGOR_HEAP
+//class Matrix
+//{
+//public:
+//    Matrix();
+//protected:
+//};
 
-//ALGOR_LIST
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_HEAP                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//ALGOR_DOCUMENTATION
+//class Heap
+//{
+//public:
+//    Heap();
+//protected:
+//};
 
-/*!
- * \class ARRAYDATA
- * \brief Array processing
- * \details This is the main class for working with arrays, the tasks of which
- *          are storing a pointer to an array, the ability to create, delete, modify it,
- *          calculate characteristics, etc.
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
-/*!
- * \fn ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) 
- * \brief Construct a new arraydata<type array>::arraydata object
- * \details With this creation of an object, both the structure and the object of the class will point to the same array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] Array Pointer to a structured array
- */
-/*!
- * \fn ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE)
- * \brief Construct a new arraydata<type array>::arraydata object
- * \details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] SIZE The size of the array being created
- */
-/*!
- * \fn ARRAYDATA<type_array>::ARRAYDATA()
- * \brief Construct a new arraydata<type array>::arraydata object
- * \details With this creation of an object, no memory will be allocated for the array. The object will be empty
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
-/*!
- * \fn void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
- * \brief A method that fills the entire array with random values
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param min_limit The minimum value that can be generated
- * \param max_limit The maximum value that can be generated
- */
-/*!
- * \fn void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
- * \brief A method that replaces the previous array with a new one, freeing memory from the previous one
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param Array An array that will replace the previous one in the object
- */
-/*!
- * \fn void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
- * \brief A method that replaces the previous array with a new one without freeing memory from the previous one
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param Array An array that will replace the previous one in the object
- */
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_LIST                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+//class List
+//{
+//public:
+//    List();
+//protected:
+//};
 
 #endif //ALGOR_HPP

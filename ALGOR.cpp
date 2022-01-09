@@ -1,7 +1,7 @@
-/* **************************************************************************** *
+/* ******************************   ALGOR.cpp   ******************************* *
  * ---------------------------------------------------------------------------- *
  *                                                                              *
- * Copyright © 2021 Kalynovsky Valentin. All rights reserved.                   *
+ * Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.              *
  *                                                                              *
  * Licensed under the Apache License, Version 2.0 (the "License");              *
  * you may not use this file except in compliance with the License.             *
@@ -20,12 +20,16 @@
 
 #include "ALGOR.hpp"
 
-/*!
- * \brief Swaps two elements
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in, out] firstNumber First item to replace
- * \param[in, out] secondNumber Second item to replace
- */
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_CORE                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
 template <typename type_array>
 void swap(type_array &firstNumber, type_array &secondNumber)
 {
@@ -35,14 +39,6 @@ void swap(type_array &firstNumber, type_array &secondNumber)
     delete (temp);
 }
 
-/*!
- * \brief Finds the minimum element in an array by iterating over
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] Array The array in which to look for the minimum element
- * \param[in] array_size The size of this very array
- * \throw void_data Transferred an empty array
- * \return type_array
- */
 template <typename type_array>
 type_array minimum(const type_array *Array, const asize_t &array_size)
 {
@@ -61,14 +57,6 @@ type_array minimum(const type_array *Array, const asize_t &array_size)
     return point_min;
 }
 
-/*!
- * \brief Finds the maximum element in an array by iterating over
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] Array The array in which to look for the maximum element
- * \param[in] array_size The size of this very array
- * \throw void_data Transferred an empty array
- * \return type_array
- */
 template <typename type_array>
 type_array maximum(const type_array *Array, const asize_t &array_size)
 {
@@ -87,14 +75,6 @@ type_array maximum(const type_array *Array, const asize_t &array_size)
     return point_max;
 }
 
-/*!
- * \brief Adds a specific value to an array at a specified position
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in, out] Array The array to which the element is added
- * \param[in] array_size The size of this very array
- * \param[in] value The element to add to the array
- * \param[in] position The position at which the element will be added
- */
 template <typename type_array>
 void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
 {
@@ -115,13 +95,6 @@ void addElement(type_array *&Array, asize_t &array_size, const type_array &value
     delete[] temp_Array;
 }
 
-/*!
- * \brief Removes the specified position from the array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in, out] Array The array in which the position will be deleted
- * \param[in] array_size The size of this very array
- * \param[in] position The position at which the element will be removed
- */
 template <typename type_array>
 void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
 {
@@ -149,13 +122,6 @@ void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int
     delete[] temp_Array;
 }
 
-/*!
- * \brief Removes a specific element from all positions in an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in, out] Array An array in which all elements that match the given value will be removed
- * \param[in] array_size The size of this very array
- * \param[in] value The value to be removed in the entire array
- */
 template <typename type_array>
 void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
@@ -177,15 +143,6 @@ void subtractValue(type_array *&Array, asize_t &array_size, const type_array &va
     delete[] temp_Array;
 }
 
-/*!
- * \brief Copies an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in, out] new_array The array into which the data is copied
- * \param[in] old_array The array from which to copy
- * \param[in] size_of_copied A parameter that indicates how many items to copy
- * \param[in] position_in_new_array The position from which to start writing in the array to which the data is copied
- * \param[in] position_in_old_array The position from which to start reading from the array, from which the data is copied
- */
 template <typename type_array>
 void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
@@ -195,12 +152,6 @@ void copy(type_array *new_array, const type_array *old_array, const unsigned int
     }
 }
 
-/*!
- * \brief Creates a structure with a pointer to an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] SIZE The size of the array to be created
- * \return Array<type_array>* Pointer to array
- */
 template <typename type_array>
 Array<type_array> *create_struct(const asize_t &SIZE)
 {
@@ -210,11 +161,6 @@ Array<type_array> *create_struct(const asize_t &SIZE)
     return ARRAY;
 }
 
-/*!
- * \brief Removes an array and structure from heap
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] Array The array to be deleted
- */
 template <typename type_array>
 void remove_struct(Array<type_array> *&Array)
 {
@@ -223,39 +169,25 @@ void remove_struct(Array<type_array> *&Array)
     Array = nullptr;
 }
 
-/*!
- * \brief Construct a new ArrayBase<type_array>::ArrayBase object
- * \details With this creation of an object, both the structure and the object of the class will point to the same array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] Array Pointer to a structured array
- */
 template <typename type_array>
 ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
 
-/*!
- * \brief Construct a new ArrayBase<type_array>::ArrayBase object
- * \details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param[in] SIZE The size of the array being created
- */
 template <typename type_array>
 ArrayBase<type_array>::ArrayBase(const asize_t &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
 
-/*!
- * \brief Construct a new ArrayBase<type_array>::ArrayBase object
- * \details With this creation of an object, no memory will be allocated for the array. The object will be empty
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 ArrayBase<type_array>::ArrayBase() { ARRAY = nullptr; }
 
-/*!
- * \brief Construct a new Exception::Exception object
- * \details Takes full detailed information on exclusion
- * \param CODE Exception encoding
- * \param MESSAGE Message exception
- * \param DETAILS Exception details
- */
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * -->                           ALGOR_EXCEPTION                           <-- *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
 Exception::Exception(unsigned int CODE, const char *MESSAGE, const char *DETAILS)
 {
     this->CODE = CODE;
@@ -263,12 +195,6 @@ Exception::Exception(unsigned int CODE, const char *MESSAGE, const char *DETAILS
     this->DETAILS = DETAILS;
 }
 
-/*!
- * \brief Construct a new Exception::Exception object
- * \details Accepts basic exception information
- * \param CODE Exception encoding
- * \param MESSAGE Message exception
- */
 Exception::Exception(unsigned int CODE, const char *MESSAGE)
 {
     this->CODE = CODE;
@@ -276,11 +202,6 @@ Exception::Exception(unsigned int CODE, const char *MESSAGE)
     this->DETAILS = "No information given";
 }
 
-/*!
- * \brief Construct a new Exception::Exception object
- * \details Takes cordivity of exception
- * \param CODE Exception encoding
- */
 Exception::Exception(unsigned int CODE)
 {
     this->CODE = CODE;
@@ -288,11 +209,6 @@ Exception::Exception(unsigned int CODE)
     this->DETAILS = "No information given";
 }
 
-/*!
- * \brief Construct a new Exception::Exception object
- * \details Accepts an exception message
- * \param MESSAGE Message exception
- */
 Exception::Exception(const char *MESSAGE)
 {
     this->CODE = 0xffffffff;
@@ -300,47 +216,34 @@ Exception::Exception(const char *MESSAGE)
     this->DETAILS = "No information given";
 }
 
-/*!
- * \brief Returns exclusion encoding
- *
- * \return <unsigned int> - exception encoding
- */
 unsigned int Exception::code()
 {
     return CODE;
 }
 
-/*!
- * \brief Returns an exception message
- * 
- * \return <const char*> - message exception
- */
 const char *Exception::what()
 {
     return MESSAGE;
 }
 
-/*!
- * \brief Returns exception details
- * 
- * \return <const char*> - exception details
- */
 const char *Exception::details()
 {
     return DETAILS;
 }
 
-/*!
- * \brief Construct a new void data::void data object
- * \details Geted empty data structure
- */
 void_data::void_data() : Exception(400, "Void data", "Geted empty data structure") {}
 
-/*!
- * \brief Construct a new not found::not found object
- * \details Search error - item not found
- */
 not_found::not_found() : Exception(404, "Not found", "Search error - item not found") {}
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                             ALGOR_RANDOM                            <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 //int RC4::crypto_entropy()
 //{
@@ -349,11 +252,6 @@ not_found::not_found() : Exception(404, "Not found", "Search error - item not fo
 //    return 0;
 //}
 
-/*!
- * \brief Set up the key
- * \param[in] key The key to be installed
- * \param[in] ksize Key size
- */
 void RC4::crypto_srand(const char *key, int ksize)
 {
     uint8_t j = 0;
@@ -368,11 +266,6 @@ void RC4::crypto_srand(const char *key, int ksize)
     }
 }
 
-/*!
- * \brief Generates a value
- * \param[out] output Generates an array of elements
- * \param[in] size Array size
- */
 void RC4::crypto_rand(char *output, int size)
 {
     uint8_t i = 0, j = 0, t;
@@ -386,21 +279,12 @@ void RC4::crypto_rand(char *output, int size)
     }
 }
 
-/*!
- * \brief Construct a new Mersenne Twister::Mersenne Twister object
- * \details Installs the seed
- * \param[in] seed Generation seed
- */
 MersenneTwister::MersenneTwister(int seed)
 {
     RandomInit(seed);
     LastInterval = 0;
 }
 
-/*!
- * \brief Re-seed
- * \param seed Generation seed
- */
 void MersenneTwister::RandomInit(int seed)
 {
     Init0(seed);
@@ -410,12 +294,6 @@ void MersenneTwister::RandomInit(int seed)
     }
 }
 
-/*!
- * \brief Output random integer
- * \param min The minimum value that can be generated
- * \param max The maximum value that can be generated
- * \return int
- */
 int MersenneTwister::IRandom(int min, int max)
 {
     if (max <= min)
@@ -430,12 +308,6 @@ int MersenneTwister::IRandom(int min, int max)
     return rand_int;
 }
 
-/*!
- * \brief Output random integer, exact
- * \param min The minimum value that can be generated
- * \param max The maximum value that can be generated
- * \return int
- */
 int MersenneTwister::IRandomX(int min, int max)
 {
     if (max <= min)
@@ -462,19 +334,11 @@ int MersenneTwister::IRandomX(int min, int max)
     return (int32_t)iran + min;
 }
 
-/*!
- * \brief Output random float
- * \return double
- */
 double MersenneTwister::Random()
 {
     return (double)BRandom() * (1. / (65536. * 65536.));
 }
 
-/*!
- * \brief Output random bits
- * \return uint32_t
- */
 uint32_t MersenneTwister::BRandom()
 {
     uint32_t resulting_bit;
@@ -516,6 +380,16 @@ void MersenneTwister::Init0(int seed)
         mersenne_twister[mersenne_twister_index] = (factor * (mersenne_twister[mersenne_twister_index - 1] ^ (mersenne_twister[mersenne_twister_index - 1] >> 30)) + mersenne_twister_index);
     }
 }
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * -->                            ALGOR_SORTING                            <-- *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 template <typename type_array>
 void Exchange_Sorts::BubbleSort<type_array>::start_sort()
@@ -742,6 +616,16 @@ void Noncomparison_Sort::RadixSort::start_sort()
     delete[] tempArray;
 }
 
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * -->                             ALGOR_ARRAY                             <-- *
+ * %%%%%                      $-------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
 template <typename type_array>
 ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
@@ -785,11 +669,6 @@ void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
     this->ARRAY = Array;
 }
 
-/*!
- * \brief Method that replaces the old array by copying the existing one
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param CloningArray The array to be copied to the object
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
 {
@@ -801,11 +680,6 @@ void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
     copy<type_array>(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
 }
 
-/*!
- * \brief A method that replaces an old array by copying an existing one from another object
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param CloningObject The object from which to copy the array
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
 {
@@ -817,34 +691,18 @@ void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
     copy<type_array>(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
 }
 
-/*!
- * \brief Gives a pointer to an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param DATA A pointer that will point to the array that is stored in the object
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
 {
     DATA = this->ARRAY;
 }
 
-/*!
- * \brief Returns a pointer to an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \return Array<type_array>*
- */
 template <typename type_array>
 Array<type_array> *ARRAYDATA<type_array>::getData()
 {
     return this->ARRAY;
 }
 
-/*!
- * \brief The method removes the old array, creates a new one with the same characteristics
- *        (size, minimum and maximum limits) and fills it (unlike respawn (), which does
- *        not generate elements).
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::reset()
 {
@@ -855,22 +713,6 @@ void ARRAYDATA<type_array>::reset()
     generatedData(min, max);
 }
 
-/*!
- * \brief Method that resizes the array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param NEW_SIZE New array size
- * \param setElement The value with which new cells of the array are filled
- * \warning In the case of increasing the size of the array after copying,
- *          the new cells remain empty and store "garbage" in themselves.
- *          Sometimes, by accident, a programmer can try to get data without
- *          specifying it, as a result of which, in the best case, an incorrect
- *          result will simply be given, and in the worst case, the program may crash.
- *          For this, the setElement parameter was created, but it must be specified
- *          not only in case of an increase in size, but always when calling the method
- *          for prevention. The programmer may not even know the current size
- *          of the array, therefore, he cannot know whether the array will
- *          be increased or decreased.
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
 {
@@ -891,22 +733,12 @@ void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &se
     remove_struct<type_array>(OLD_ARRAY);
 }
 
-/*!
- * \brief Changes the value at the specified position
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param position The position at which the value changes
- * \param value The value to be placed in the position
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::replace(const unsigned int &position, const type_array &value)
 {
     this->ARRAY->array[position - 1] = value;
 }
 
-/*!
- * \brief Reverses the array
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::reverse()
 {
@@ -919,21 +751,12 @@ void ARRAYDATA<type_array>::reverse()
     }
 }
 
-/*!
- * \brief Removes an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::remove()
 {
     remove_struct<type_array>(this->ARRAY);
 }
 
-/*!
- * \brief The method deletes the old array, however, the memory for the new array
- *        is allocated the same size without filling it, unlike reset()
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::respawn()
 {
@@ -942,12 +765,6 @@ void ARRAYDATA<type_array>::respawn()
     this->ARRAY = create_struct<type_array>(size);
 }
 
-/*!
- * \brief Optimized method for finding the minimum element
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param ArrStat Array status
- * \return type_array
- */
 template <typename type_array>
 type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
 {
@@ -961,12 +778,6 @@ type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
     throw -1;
 }
 
-/*!
- * \brief Optimized method for finding the maximum element
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param ArrStat Array status
- * \return type_array
- */
 template <typename type_array>
 type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
 {
@@ -980,13 +791,6 @@ type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
     throw -1;
 }
 
-/*!
- * \brief Linear item search method
- * \details Returns all occurrences of the found value
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param required_element The value to find
- * \return Array<int>*
- */
 template <typename type_array>
 Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
@@ -1005,13 +809,6 @@ Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_el
     return NumberPoints;
 }
 
-/*!
- * \brief Binary item search method
- * \details Returns only one position and is only used in sorted arrays
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param required_element The value to find
- * \return int
- */
 template <typename type_array>
 int ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
@@ -1042,13 +839,6 @@ void ARRAYDATA<type_array>::binary_searcher(const type_array &required_element, 
     }
 }
 
-/*!
- * \brief Sequence search method that returns all its occurrences
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param SUBARRAY The substring that is searched for in the main array
- * \param ArrType Array type
- * \return Array<int>*
- */
 template <typename type_array>
 Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
@@ -1088,11 +878,6 @@ Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_arr
     return Occurrences;
 }
 
-/*!
- * \brief Method that returns the arithmetic mean of an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \return type_array
- */
 template <typename type_array>
 type_array ARRAYDATA<type_array>::average()
 {
@@ -1108,11 +893,6 @@ type_array ARRAYDATA<type_array>::average()
     return average / (type_array)this->ARRAY->array_size;
 }
 
-/*!
- * \brief Method that returns the median of an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \return type_array
- */
 template <typename type_array>
 type_array ARRAYDATA<type_array>::mediana()
 {
@@ -1123,12 +903,6 @@ type_array ARRAYDATA<type_array>::mediana()
     return this->ARRAY->array_size % 2 == 0 ? (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : (this->ARRAY->array[this->ARRAY->array_size / 2]);
 }
 
-/*!
- * \brief Method that returns the array mode
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param highest_frequency An indicator of the frequency of occurrence of an element that is most often found
- * \return type_array
- */
 template <typename type_array>
 type_array ARRAYDATA<type_array>::moda(int &highest_frequency)
 {
@@ -1155,12 +929,6 @@ type_array ARRAYDATA<type_array>::moda(int &highest_frequency)
     return most_frequent;
 }
 
-/*!
- * \brief A method that returns all elements with an array mode
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param highest_frequency An indicator of the frequency of occurrence of elements that are most often found
- * \return Array<type_array>*
- */
 template <typename type_array>
 Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 {
@@ -1195,43 +963,24 @@ Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
     return MostFrequents;
 }
 
-/*!
- * \brief Operator adding an element to the end of an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param value The value to add to the end of the array
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator&&(const type_array &value)
 {
     addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
 }
 
-/*!
- * \brief Operator that removes an element from the end of an array
- * \tparam type_array The type of elements that the array stores. For example int or float
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator!()
 {
     subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
 }
 
-/*!
- * \brief An operator that removes all elements with a specified value
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param value The value to be removed
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator||(const type_array &value)
 {
     subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
 }
 
-/*!
- * \brief Operator for merging two arrays in the current object
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param appendingArray An array to attach from another object
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
 {
@@ -1247,11 +996,6 @@ void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
     remove_struct<type_array>(temp);
 }
 
-/*!
- * \brief Operator for merging two arrays in a received object
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param appendingArray An array from another object to which the current array will be passed
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
 {
@@ -1268,11 +1012,6 @@ void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
 
 //TODO Optimize operators + - * /
 
-/*!
- * \brief Operator for increasing an array by a specific size
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param addSize Parameter indicating how much to increase the array
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator+(const asize_t &addSize)
 {
@@ -1287,11 +1026,6 @@ void ARRAYDATA<type_array>::operator+(const asize_t &addSize)
     remove_struct<type_array>(temp);
 }
 
-/*!
- * \brief Operator for decreasing an array by a specific size
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param subtractSize Parameter indicating how much to reduce the array
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
 {
@@ -1307,11 +1041,6 @@ void ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
     remove_struct<type_array>(temp);
 }
 
-/*!
- * \brief Operator for increasing an array by several times
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param multiplySize Parameter indicating how many times to increase the array
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
 {
@@ -1326,11 +1055,6 @@ void ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
     remove_struct<type_array>(temp);
 }
 
-/*!
- * \brief Operator for decreasing an array by some times
- * \tparam type_array The type of elements that the array stores. For example int or float
- * \param divideSize Параметр, указывающий, во сколько раз следует уменьшить массив
- */
 template <typename type_array>
 void ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
 {
@@ -1345,6 +1069,52 @@ void ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
     copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
     remove_struct<type_array>(temp);
 }
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                             ALGOR_MATRIX                            <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+//TODO The implementation of the matrices is scheduled to version 3.0.0
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_HEAP                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+//TODO The implementation of the trees is scheduled to version 4.0.0
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_LIST                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+//TODO The implementation of the lists is scheduled to version 5.0.0
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                    $------------------------$                   %%%%% *
+ * -->                          Forced compilation                         <-- *
+ * %%%%%                    $------------------------$                   %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 template void swap<int>(int &, int &);
 template void swap<float>(float &, float &);
