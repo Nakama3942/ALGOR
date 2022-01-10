@@ -39,13 +39,18 @@ void swap(type_array &firstNumber, type_array &secondNumber)
     delete (temp);
 }
 
-template <typename type_array>
-type_array minimum(const type_array *Array, const asize_t &array_size)
+void verification(const asize_t &array_size)
 {
     if (array_size == 0)
     {
         throw void_data();
     }
+}
+
+template <typename type_array>
+type_array minimum(const type_array *Array, const asize_t &array_size)
+{
+    verification(array_size);
     type_array point_min = Array[0];
     for (unsigned int i = 1; i < array_size; i++)
     {
@@ -60,10 +65,7 @@ type_array minimum(const type_array *Array, const asize_t &array_size)
 template <typename type_array>
 type_array maximum(const type_array *Array, const asize_t &array_size)
 {
-    if (array_size == 0)
-    {
-        throw void_data();
-    }
+    verification(array_size);
     type_array point_max = Array[0];
     for (unsigned int i = 1; i < array_size; i++)
     {
@@ -98,18 +100,15 @@ void addElement(type_array *&Array, asize_t &array_size, const type_array &value
 template <typename type_array>
 void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
 {
+    verification(array_size);
     if (array_size == 1)
     {
         delete[] Array;
         return;
     }
-    if (array_size == 0)
-    {
-        throw "Массив пустой";
-    }
     if (position >= array_size)
     {
-        throw "Удаляемая позиция отсутствует в массиве";
+        throw position_failure();
     }
     type_array *temp_Array = new type_array[array_size];
     for (unsigned int i = 0; i < array_size; i++)
@@ -125,6 +124,7 @@ void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int
 template <typename type_array>
 void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
+    verification(array_size);
     int counter = 0;
     type_array *temp_Array = new type_array[array_size];
     for (unsigned int i = 0; i < array_size; i++)
@@ -134,7 +134,7 @@ void subtractValue(type_array *&Array, asize_t &array_size, const type_array &va
     if (counter == 0)
     {
         delete[] temp_Array;
-        throw "Указанный элемент отсутствует";
+        throw value_failure();
     }
     delete[] Array;
     array_size -= counter;
@@ -155,6 +155,7 @@ void copy(type_array *new_array, const type_array *old_array, const unsigned int
 template <typename type_array>
 Array<type_array> *create_struct(const asize_t &SIZE)
 {
+    verification(SIZE);
     Array<type_array> *ARRAY = new Array<type_array>;
     ARRAY->array_size = SIZE;
     ARRAY->array = new type_array[SIZE];
@@ -170,7 +171,7 @@ void remove_struct(Array<type_array> *&Array)
 }
 
 template <typename type_array>
-ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array) : ARRAY(Array) {}
+ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array) : ARRAY(Array) { verification(ARRAY->array_size); }
 
 template <typename type_array>
 ArrayBase<type_array>::ArrayBase(const asize_t &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
@@ -188,32 +189,22 @@ ArrayBase<type_array>::ArrayBase() { ARRAY = nullptr; }
  * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-Exception::Exception(unsigned int CODE, const char *MESSAGE, const char *DETAILS)
+Exception::Exception(unsigned int CODE, const char *DETAILS)
 {
     this->CODE = CODE;
-    this->MESSAGE = MESSAGE;
     this->DETAILS = DETAILS;
-}
-
-Exception::Exception(unsigned int CODE, const char *MESSAGE)
-{
-    this->CODE = CODE;
-    this->MESSAGE = MESSAGE;
-    this->DETAILS = "No information given";
 }
 
 Exception::Exception(unsigned int CODE)
 {
     this->CODE = CODE;
-    this->MESSAGE = "No information given";
     this->DETAILS = "No information given";
 }
 
-Exception::Exception(const char *MESSAGE)
+Exception::Exception(const char *DETAILS)
 {
     this->CODE = 0xffffffff;
-    this->MESSAGE = MESSAGE;
-    this->DETAILS = "No information given";
+    this->DETAILS = DETAILS;
 }
 
 unsigned int Exception::code()
@@ -223,17 +214,16 @@ unsigned int Exception::code()
 
 const char *Exception::what()
 {
-    return MESSAGE;
-}
-
-const char *Exception::details()
-{
     return DETAILS;
 }
 
-void_data::void_data() : Exception(400, "Void data", "Geted empty data structure") {}
+position_failure::position_failure() : Exception(254, "Position failure - position is missing in the array") {}
 
-not_found::not_found() : Exception(404, "Not found", "Search error - item not found") {}
+value_failure::value_failure() : Exception(255, "Value failure - value is missing in the array") {}
+
+void_data::void_data() : Exception(400, "Geted empty data structure") {}
+
+not_found::not_found() : Exception(404, "Search error - item not found") {}
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                          +-+-/+/-+++++/^^^/*****# *
@@ -394,6 +384,7 @@ void MersenneTwister::Init0(int seed)
 template <typename type_array>
 void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 {
+    verification(this->ARRAY->array_size);
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         for (unsigned int j = 0; j < this->ARRAY->array_size - 1; j++)
@@ -409,6 +400,7 @@ void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 template <typename type_array>
 void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
 {
+    verification(this->ARRAY->array_size);
     int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
     while (leftMark <= rightMark)
     {
@@ -434,6 +426,7 @@ void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
 template <typename type_array>
 void Exchange_Sorts::QuickSort<type_array>::start_sort()
 {
+    verification(this->ARRAY->array_size);
     quick_sort(0, this->ARRAY->array_size - 1);
 }
 
@@ -472,6 +465,7 @@ void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, co
 template <typename type_array>
 void Selection_Sorts::HeapSort<type_array>::start_sort()
 {
+    verification(this->ARRAY->array_size);
     for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
     {
         heapify(this->ARRAY->array, right, this->ARRAY->array_size);
@@ -505,6 +499,7 @@ void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asi
 template <typename type_array>
 void Insertion_Sorts::InsertSort<type_array>::start_sort()
 {
+    verification(this->ARRAY->array_size);
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
     {
         for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
@@ -517,6 +512,7 @@ void Insertion_Sorts::InsertSort<type_array>::start_sort()
 template <typename type_array>
 void Merge_Sorts::MergeSort<type_array>::start_sort()
 {
+    verification(this->ARRAY->array_size);
     merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
 }
 
@@ -559,6 +555,7 @@ void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &lef
 
 void Noncomparison_Sort::CountingSort::start_sort()
 {
+    verification(this->ARRAY->array_size);
     int min = minimum<int>(ARRAY->array, ARRAY->array_size),
         max = maximum<int>(ARRAY->array, ARRAY->array_size);
     int *tempArray = new int[max - min + 1];
@@ -584,6 +581,7 @@ void Noncomparison_Sort::CountingSort::start_sort()
 
 void Noncomparison_Sort::RadixSort::start_sort()
 {
+    verification(this->ARRAY->array_size);
     int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
     int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
     while (max / exp > 0)

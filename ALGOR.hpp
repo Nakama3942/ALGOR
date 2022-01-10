@@ -121,18 +121,27 @@ protected:
 class Exception
 {
 public:
-    Exception(unsigned int CODE, const char *MESSAGE, const char *DETAILS);
-    Exception(unsigned int CODE, const char *MESSAGE);
+    Exception(unsigned int CODE, const char *DETAILS);
     Exception(unsigned int CODE);
-    Exception(const char *MESSAGE);
+    Exception(const char *DETAILS);
     unsigned int code();
     const char *what();
-    const char *details();
 
 protected:
     unsigned int CODE;   ///< Exception encoding
-    const char *MESSAGE; ///< Message exception
     const char *DETAILS; ///< Exception details
+};
+
+class position_failure : public Exception
+{
+public:
+    position_failure();
+};
+
+class value_failure : public Exception
+{
+public:
+    value_failure();
 };
 
 class void_data : public Exception
