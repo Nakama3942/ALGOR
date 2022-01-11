@@ -40,8 +40,8 @@
  * \file
  * \brief Library for processing arrays and sorting them 
  * \author Kalynovsky Valentin
- * \version 2.0.0
- * \date 23.12.2021
+ * \version 2.1.0
+ * \date 11.01.2022
  * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
  */
 
@@ -105,7 +105,7 @@ public:
     ArrayBase();
 
 protected:
-    Array<type_array> *ARRAY; ///< Pointer to a structure storing an array
+    Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
 };
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -130,6 +130,12 @@ public:
 protected:
     unsigned int CODE;   ///< Exception encoding
     const char *DETAILS; ///< Exception details
+};
+
+class memory_overflow : public Exception
+{
+public:
+    memory_overflow();
 };
 
 class position_failure : public Exception
@@ -389,7 +395,7 @@ class ARRAYDATA : public ArrayBase<type_array>
 public:
     ARRAYDATA(Array<type_array> *&Array);
     ARRAYDATA(const asize_t &SIZE);
-    ARRAYDATA();
+    ~ARRAYDATA();
 
     void generatedData(const int &min_limit, const int &max_limit);
     void setNewData(Array<type_array> *&Array);
@@ -403,7 +409,6 @@ public:
     void resize(const asize_t &NEW_SIZE, const type_array &setElement);
     void replace(const unsigned int &position, const type_array &value);
     void reverse();
-    void remove();
     void respawn();
 
     type_array getMin(ArrayStatus ArrStat = UNSORTED);
@@ -429,6 +434,7 @@ public:
     void operator/(const asize_t &divideSize);
 
 private:
+    void remove();
     void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
 

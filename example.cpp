@@ -137,9 +137,7 @@ int main()
     printer(temp);
 
     //Освобождение памяти
-    copy_array->remove();
     delete (copy_array);
-    array->remove();
     delete (array);
 
     //Выход из программы
