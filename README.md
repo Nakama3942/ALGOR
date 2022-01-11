@@ -21,7 +21,7 @@ In search of sorting algorithms and explanations in the form of a code, I often 
 The library implements the following functionality:
 - _ALGOR_CORE_ ✔
     - Section of the implementation of basic functions, structures, classes and definitions
-- _ALGOR_EXCEPTION_ ⧖ (will be released in version 2.1.0)
+- _ALGOR_EXCEPTION_ ✔
     - Section of the implementation of exceptions
 - _ALGOR_RANDOM_ ✔
     - Section of the implementation of randomizers

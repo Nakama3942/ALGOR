@@ -20,6 +20,18 @@
 ---
 -->
 
+## v2.1.0 (11.01.2022)
+
+#### Bug Fixes:
+- The remove () method is now private. Now the ARRAYDATA class cannot store a pointer to nullptr, therefore the object will constantly store some kind of array, which will increase the fault tolerance of the ARRAYDATA class.
+- Added more checks and now, in case of an error, the program will not crash, but throw exceptions that the programmer can catch.
+
+#### Documenting:
+- I started documenting the library. True, the documentation is not yet available and is under development. At the moment, the sorting algorithms are generally undocumented, and everything else is documented at the brief and param levels. All warnings, notes, details, etc. will be described after the completion of the development of the second version of the library, i.e. before version 3.0.0.
+
+#### Enhancements:
+- Written class for working with exceptions - Exception. All exceptions that are thrown by the library now throw objects inherited from Exception, which stores information about the error and can return this information at the request of the programmer. The programmer can also create his own exception classes inherited from Exception.
+
 ## v2.0.0 (23.12.2021)
 
 #### Enhancements:
@@ -56,13 +68,13 @@
         12. **respawn()** - analogue of **reset()**, only at the end it does not fill the array with elements - it leaves it empty
         13. **getMin()** - returns the minimum value of the array (optimized method)
         14. **getMax()** - returns the maximum value of the array (optimized method)
-        15. **lenear_searcher()** - Returns all occurrences of the element you are looking for
+        15. **lenear_searcher()** - returns all occurrences of the element you are looking for
         16. **binary_searcher()** - returns the occurrence of the desired element in a sorted array
-        17. **searcherOccurrencesOfSubstring()** - Returns all occurrences of a substring
+        17. **searcherOccurrencesOfSubstring()** - returns all occurrences of a substring
         18. **average()** - returns the arithmetic average of all array elements
-        19. **mediana()** - Returns the median of an array
-        20. **moda()** - Returns the first occurrence of a mod
-        21. **modas()** - Returns all occurrences of a mod
+        19. **mediana()** - returns the median of an array
+        20. **moda()** - returns the first occurrence of a mod
+        21. **modas()** - returns all occurrences of a mod
         22. **operator&&** - adds an element to the end of the array
         23. **operator!** - removes an element from the end of the array
         24. **operator||** - removes all elements from the array that match the specified value
@@ -88,8 +100,6 @@
         3. **asize_t** - "array size type" - native type for specifying the type "array size"
 - I got a lot of new experiences working on this update.
 
----
-
 ## v1.1.0 (05.11.2021)
 
 #### Bug Fixes:
@@ -113,8 +123,6 @@
     2. **sum()**
 - I also updated the example to follow the new standards of the library for working with arrays, and now everything is structured in the example itself: now each function is responsible for explaining its library method and is called from the main function. This is done to make it easier to understand this library. From now on it will be more difficult to get confused.
 
----
-
 ## v1.0.2 (16.10.2021)
 
 #### Bug Fixes:
@@ -136,8 +144,6 @@
         5. Finding the median - **mediana()**
         6. Finding a Moda - **moda()**
 
----
-
 ## v1.0.1 (01.10.2021)
 
 #### Bug Fixes:
@@ -145,8 +151,6 @@
     1. Removed template where it is not needed
     2. Fixed the passed type to the swap method of the _ArrayProcessing_ class
     3. In general, I fixed the passed types where they were incorrectly specified
-
----
 
 ## v1.0.0 (29.09.2021)
 
