@@ -48,6 +48,8 @@
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
 
+#include <ctime>
+
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -211,52 +213,56 @@ private:
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-namespace Exchange_Sorts
+template <class type_array> //NOTE Тут може бути й клас - треба тестувати
+class Exchange_Sorts : public ArrayBase<type_array>
 {
-    template <typename type_array>
-    class BubbleSort : public ArrayBase<type_array>
-    {
-    public:
-        BubbleSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-        void start_sort();
-    };
-
-    template <typename type_array>
-    class CocktailShakerSort : public ArrayBase<type_array>
-    {
-    public:
-        CocktailShakerSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-        void start_sort();
-    };
-
-    //class OddevenSort{};
-
-    //class CombSort{};
-
-    //class GnomeSort{};
-
-    template <typename type_array>
-    class QuickSort : public ArrayBase<type_array>
-    {
-    public:
-        QuickSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-        void start_sort();
-
-    private:
-        void quick_sort(const int &left_limit, const int &right_limit);
-    };
-
-    namespace Ineffective_Sorts
-    {
-        //class StoogeSort{};
-
-        //class BogoSort{};
-    }
-}
+public:
+	Exchange_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
+	void Bubble_Sort();
+	void Cocktail_Shaker_Sort();
+	void Odd_Even_Sort();
+	void Comb_Sort();
+	void Gnome_Sort();
+	//void Propotion_Extend_Sort();
+	void Quick_Sort();
+	void Slow_Sort();
+	void Stooge_Sort();
+	void Bogo_Sort();
+private:
+	void Recursive_Quick_Sort(const int &left_limit, const int &right_limit);
+	void Recursive_Slow_Sort(const int &left_limit, const int &right_limit);
+	void Recursive_Stooge_Sort(const int &left_limit, const int &right_limit);
+	bool Correct();
+	void Shuffle();
+};
 
 namespace Selection_Sorts
 {
-    //class SelectionSort{};
+	template <class type_array> //NOTE Скоріше тут буде тип - треба тестувати
+	class SelectionSort
+	{
+	public:
+		static void selection_sort(type_array *Array, int array_size)
+		{
+			for(int i = 0; i < array_size; i++)
+			{
+				int min_index = i;
+
+				for(int j = i + 1; j < array_size; j++)
+				{
+					if(Array[j] < Array[min_index])
+					{
+						min_index = j;
+					}
+				}
+
+				if(min_index != i)
+				{
+					swap<type_array>(Array[i], Array[min_index]);
+				}
+			}
+		}
+	};
 
     template <typename type_array>
     class HeapSort : public ArrayBase<type_array>
@@ -269,7 +275,188 @@ namespace Selection_Sorts
         void heapify(type_array *Array, const asize_t &count, const asize_t &array_size);
     };
 
-    //class SmoothSort{};
+	template <class type_array> //NOTE Скоріше тут буде тип - треба тестувати
+	class SmoothSort
+	{
+	public:
+		//Исходник: http://cppalgo.blogspot.com/2010/10/smoothsort.html
+		SmoothSort(type_array *Array, int array_size)
+		{
+			this->Array = Array;
+			this->array_size = array_size;
+		}
+		void smooth_sort()
+		{
+			make_heap_pool();
+
+			for (int i = array_size - 1; i >= 0; i--)
+			{
+				int nextPosHeapItemsAmount;
+				int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
+				if (posMaxTopElem != i)
+				{
+					swap<type_array>(Array[i], Array[posMaxTopElem]);
+					shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
+				}
+				PrevState(curState);
+			}
+		}
+	private:
+		type_array *Array;
+		int array_size;
+		int LeoNum[44] = {1, 1, 3, 5, 9, 15, 25, 41, 67, 109, 177, 287, 465, 753, 1219, 1973, 3193, 5167, 8361, 13529, 21891, 35421, 57313, 92735, 150049, 242785, 392835, 635621, 1028457, 1664079, 2692537, 4356617, 7049155, 11405773, 18454929, 29860703, 48315633, 78176337, 126491971, 204668309, 331160281, 535828591, 866988873, 1402817465};
+		int curState;
+		int NextState(int &curState)
+		{
+			int posNewTop = -1;
+
+			if ((curState & 7) == 5)
+			{
+				curState += 3;
+				posNewTop = 3;
+			}
+			else
+			{
+				int next = curState;
+				int pos = 0;
+				while (next && (next & 3) != 3)
+				{
+					next >>= 1;
+					pos++;
+				}
+				if ((next&3) == 3)
+				{
+					curState += 1 << pos;
+					posNewTop = pos + 2;
+				}
+				else if (curState & 1)
+				{
+					curState |= 2;
+				}
+				else
+				{
+					curState |= 1;
+				}
+			}
+			return posNewTop;
+		}
+		void PrevState(int &curState)
+		{
+			if ((curState & 15) == 8)
+			{
+				curState -= 3;
+			}
+			else if (curState & 1)
+			{
+				if ((curState & 3) == 3)
+				{
+					curState ^= 2;
+				}
+				else
+				{
+					curState ^= 1;
+				}
+			}
+			else
+			{
+				int prev = curState;
+				int pos = 0;
+				while (prev && !(prev & 1))
+				{
+					prev >>= 1;
+					pos++;
+				}
+				if (prev)
+				{
+					curState ^= 1 << pos;
+					curState |= 1 << (pos - 1);
+					curState |= 1 << (pos - 2);
+				}
+				else
+				{
+					curState = 0;
+				}
+			}
+		}
+		void shiftDown(int posHeapItemsAmount, int indexLastTop)
+		{
+			int posCurNode = indexLastTop;
+			while (posHeapItemsAmount > 1)
+			{
+				int posR = posCurNode - 1;
+				int posL = posR - LeoNum[posHeapItemsAmount-2];
+				int posMaxChild = posL;
+				int posNextTop = posHeapItemsAmount - 1;
+				if (Array[posR] > Array[posL])
+				{
+					posMaxChild = posR;
+					posNextTop = posHeapItemsAmount- 2;
+				}
+				if (Array[posCurNode] < Array[posMaxChild])
+				{
+					swap<type_array>(Array[posCurNode], Array[posMaxChild]);
+					posHeapItemsAmount = posNextTop;
+					posCurNode = posMaxChild;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+		void make_heap_pool()
+		{
+			for (int i = 0; i < array_size; i++)
+			{
+				int posHeapItemsAmount = NextState(curState);
+				if (posHeapItemsAmount != -1)
+				{
+					shiftDown(posHeapItemsAmount, i);
+				}
+			}
+		}
+		int findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount)
+		{
+			int pos = 0;
+
+			while (!(curState & 1))
+			{
+				curState >>= 1;
+				pos++;
+			}
+
+			int posMaxTopElem = indexLastTop;
+			nextPosHeapItemsAmount = pos;
+			int curTopElem = indexLastTop - LeoNum[pos];
+			curState >>= 1;
+			pos++;
+
+			while (curState)
+			{
+				if (curState & 1)
+				{
+					if (Array[curTopElem] > Array[posMaxTopElem])
+					{
+						posMaxTopElem = curTopElem;
+						nextPosHeapItemsAmount = pos;
+					}
+					curTopElem -= LeoNum[pos];
+				}
+				curState >>= 1;
+				pos++;
+			}
+
+			return posMaxTopElem;
+		}
+	};
+
+	//class CartesianTreeSort{};
+
+	//class TournamentSort
+
+	//class CycleSort
+
+	//class WeakHeapSort
 }
 
 namespace Insertion_Sorts
@@ -282,15 +469,31 @@ namespace Insertion_Sorts
         void start_sort();
     };
 
-    //class ShellSort{};
+	template <class type_array> //NOTE Скоріше тут буде тип - треба тестувати
+	class ShellSort
+	{
+	public:
+		static void shell_sort(type_array *Array, int array_size)
+		{
+			for (int step = array_size / 2; step > 0; step /= 2) {
+				for (int i = step; i < array_size; i++)
+				{
+					for (int j = i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
+					{
+						swap<type_array>(Array[j], Array[j + step]);
+					}
+				}
+			}
+		}
+	};
+
+	//class SplaySort
+
+	//class TreeSort{};
 
     //class LibrarySort{};
 
-    //class PatienceSort{};
-
-    //class TreeSort{};
-
-    //class CycleSort{};
+	//class PatienceSort{};
 }
 
 namespace Merge_Sorts
@@ -307,13 +510,25 @@ namespace Merge_Sorts
         void merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit);
     };
 
-    //class SlowSort{};
+	//class CascadeMergeSort
 
-    //class StrandSort{};
+	//class TreeSort{};
+
+	//class OscillatingMergeSort
+
+	//class PolyphaseMergeSort
 }
 
-namespace Noncomparison_Sort
+namespace Distribution_Sort
 {
+	//class AmericanFlagSort
+
+	//class BeadSort{};
+
+	//class BucketSort{};
+
+	//class BurstSort{};
+
     class CountingSort : public ArrayBase<int>
     {
     public:
@@ -321,7 +536,11 @@ namespace Noncomparison_Sort
         void start_sort();
     };
 
-    //class BucketSort{};
+	//class InterpolationSort
+
+	//class PigeonholeSort{};
+
+	//class ProxmapSort{};
 
     class RadixSort : public ArrayBase<int>
     {
@@ -330,42 +549,42 @@ namespace Noncomparison_Sort
         void start_sort();
     };
 
-    //class PigeonholeSort{};
+	//class FlashSort{};
+}
 
-    //class BurstSort{};
+namespace Concurrent_Sort
+{
+	//class BitonicSorter{};
 
-    //class BeadSort{};
+	//class BatcherOddEvenMergeSort{};
 
-    //class PostmanSort{};
+	//class PairwiseSortingNetwork{};
+
+	//class SampleSort{};
 }
 
 namespace Hybrid_Sorts
 {
-    //class TimSort{};
+	//class BlockMergeSort{};
 
-    //class BlockSort{};
+	//class KirkpatrickReischSort
+
+    //class TimSort{};
 
     //class IntroSort{};
 
     //class SpreadSort{};
+
+	//class MergeInsertionSort{};
 }
 
 namespace Other_Sorts
 {
-    //class TopologicalSort{};
-
-    //class BitonicSorter{};
-
-    //class FlashSort{};
+	//class TopologicalSort{};
 
     //class PancakeSort{};
 
     //class SpaghettiSort{};
-}
-
-namespace Unknown_Sorts
-{
-    //class SampleSort{};
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *

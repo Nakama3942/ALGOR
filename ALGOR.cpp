@@ -398,7 +398,7 @@ void MersenneTwister::Init0(int seed)
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 template <typename type_array>
-void Exchange_Sorts::BubbleSort<type_array>::start_sort()
+void Exchange_Sorts<type_array>::Bubble_Sort()
 {
     verification(this->ARRAY->array_size);
     for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
@@ -414,7 +414,7 @@ void Exchange_Sorts::BubbleSort<type_array>::start_sort()
 }
 
 template <typename type_array>
-void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
+void Exchange_Sorts<type_array>::Cocktail_Shaker_Sort()
 {
     verification(this->ARRAY->array_size);
     int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
@@ -439,15 +439,90 @@ void Exchange_Sorts::CocktailShakerSort<type_array>::start_sort()
     }
 }
 
-template <typename type_array>
-void Exchange_Sorts::QuickSort<type_array>::start_sort()
+template<class type_array>
+void Exchange_Sorts<type_array>::Odd_Even_Sort()
 {
-    verification(this->ARRAY->array_size);
-    quick_sort(0, this->ARRAY->array_size - 1);
+	for(asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		if(i & 1) //Непарний
+		{
+			for(asize_t j = 2; j < this->ARRAY->array_size; j += 2)
+			{
+				if(this->ARRAY->array[j] < this->ARRAY->array[j - 1])
+				{
+					swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
+				}
+			}
+		}
+		else
+		{
+			for(asize_t j = 1; j < this->ARRAY->array_size; j += 2)
+			{
+				if(this->ARRAY->array[j] < this->ARRAY->array[j - 1])
+				{
+					swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
+				}
+			}
+		}
+	}
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Comb_Sort()
+{
+	double factor = 1.2473309; //Фактор зменшення
+	int step = this->ARRAY->array_size - 1; //Шаг
+
+	while(step >= 1)
+	{
+		for(asize_t i = 0; i + step < this->ARRAY->array_size; i++)
+		{
+			if(this->ARRAY->array[i] > this->ARRAY->array[i + step])
+			{
+				swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i + step]);
+			}
+		}
+		step /= factor;
+	}
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Gnome_Sort()
+{
+	for(asize_t count = 0; count < this->ARRAY->array_size; count++)
+	{
+		asize_t i = 1, j = 2;
+
+		while(i < this->ARRAY->array_size)
+		{
+			if(this->ARRAY->array[i] > this->ARRAY->array[i - 1])
+			{
+				i = j;
+				j++;
+			}
+			else
+			{
+				swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
+				i--;
+				if(i == 0)
+				{
+					i = j;
+					j++;
+				}
+			}
+		}
+	}
 }
 
 template <typename type_array>
-void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, const int &right_limit)
+void Exchange_Sorts<type_array>::Quick_Sort()
+{
+    verification(this->ARRAY->array_size);
+	Recursive_Quick_Sort(0, this->ARRAY->array_size - 1);
+}
+
+template <typename type_array>
+void Exchange_Sorts<type_array>::Recursive_Quick_Sort(const int &left_limit, const int &right_limit)
 {
     type_array middle = this->ARRAY->array[(left_limit + right_limit) / 2];
     int start = left_limit, finish = right_limit;
@@ -470,12 +545,92 @@ void Exchange_Sorts::QuickSort<type_array>::quick_sort(const int &left_limit, co
     } while (start < finish);
     if (left_limit < finish)
     {
-        quick_sort(left_limit, finish);
+		Recursive_Quick_Sort(left_limit, finish);
     }
     if (start < right_limit)
     {
-        quick_sort(start, right_limit);
+		Recursive_Quick_Sort(start, right_limit);
     }
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Slow_Sort()
+{
+	Recursive_Slow_Sort(0, this->ARRAY->array_size - 1);
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Recursive_Slow_Sort(const int &left_limit, const int &right_limit)
+{
+	if(left_limit >= right_limit)
+	{
+		return;
+	}
+	int middle = (left_limit + right_limit) / 2;
+	Recursive_Slow_Sort(left_limit, middle);
+	Recursive_Slow_Sort(middle + 1, right_limit);
+	if(this->ARRAY->array[middle] > this->ARRAY->array[right_limit])
+	{
+		swap<type_array>(this->ARRAY->array[middle], this->ARRAY->array[right_limit]);
+	}
+	Recursive_Slow_Sort(left_limit, right_limit - 1);
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Stooge_Sort()
+{
+	Recursive_Stooge_Sort(0, this->ARRAY->array_size - 1);
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Recursive_Stooge_Sort(const int &left_limit, const int &right_limit)
+{
+	if(this->ARRAY->array[left_limit] > this->ARRAY->array[right_limit])
+	{
+		swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
+	}
+	if(left_limit + 1 >= right_limit)
+	{
+		return;
+	}
+
+	int k = (int)((right_limit - left_limit + 1) / 3);
+	Recursive_Stooge_Sort(left_limit, right_limit - k);
+	Recursive_Stooge_Sort(left_limit + k, right_limit);
+	Recursive_Stooge_Sort(left_limit, right_limit - k);
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Bogo_Sort()
+{
+	while(Correct())
+	{
+		Shuffle();
+	}
+}
+
+template<class type_array>
+bool Exchange_Sorts<type_array>::Correct()
+{
+	asize_t size = this->ARRAY->array_size;
+	while(--size > 0)
+	{
+		if(this->ARRAY->array[size - 1] > this->ARRAY->array[size])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+template<class type_array>
+void Exchange_Sorts<type_array>::Shuffle()
+{
+	for(asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		MersenneTwister RanGen(time(NULL));
+		swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[RanGen.IRandom(0, this->ARRAY->array_size)]);
+	}
 }
 
 template <typename type_array>
@@ -569,7 +724,7 @@ void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &lef
     delete[] tempArray;
 }
 
-void Noncomparison_Sort::CountingSort::start_sort()
+void Distribution_Sort::CountingSort::start_sort()
 {
     verification(this->ARRAY->array_size);
     int min = minimum<int>(ARRAY->array, ARRAY->array_size),
@@ -595,7 +750,7 @@ void Noncomparison_Sort::CountingSort::start_sort()
     delete[] tempArray;
 }
 
-void Noncomparison_Sort::RadixSort::start_sort()
+void Distribution_Sort::RadixSort::start_sort()
 {
     verification(this->ARRAY->array_size);
     int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
@@ -1168,21 +1323,61 @@ template ArrayBase<int>::ArrayBase();
 template ArrayBase<float>::ArrayBase();
 template ArrayBase<char>::ArrayBase();
 
-template void Exchange_Sorts::BubbleSort<int>::start_sort();
-template void Exchange_Sorts::BubbleSort<float>::start_sort();
-template void Exchange_Sorts::BubbleSort<char>::start_sort();
+template void Exchange_Sorts<int>::Bubble_Sort();
+template void Exchange_Sorts<float>::Bubble_Sort();
+template void Exchange_Sorts<char>::Bubble_Sort();
 
-template void Exchange_Sorts::CocktailShakerSort<int>::start_sort();
-template void Exchange_Sorts::CocktailShakerSort<float>::start_sort();
-template void Exchange_Sorts::CocktailShakerSort<char>::start_sort();
+template void Exchange_Sorts<int>::Cocktail_Shaker_Sort();
+template void Exchange_Sorts<float>::Cocktail_Shaker_Sort();
+template void Exchange_Sorts<char>::Cocktail_Shaker_Sort();
 
-template void Exchange_Sorts::QuickSort<int>::start_sort();
-template void Exchange_Sorts::QuickSort<float>::start_sort();
-template void Exchange_Sorts::QuickSort<char>::start_sort();
+template void Exchange_Sorts<int>::Odd_Even_Sort();
+template void Exchange_Sorts<float>::Odd_Even_Sort();
+template void Exchange_Sorts<char>::Odd_Even_Sort();
 
-template void Exchange_Sorts::QuickSort<int>::quick_sort(const int &, const int &);
-template void Exchange_Sorts::QuickSort<float>::quick_sort(const int &, const int &);
-template void Exchange_Sorts::QuickSort<char>::quick_sort(const int &, const int &);
+template void Exchange_Sorts<int>::Comb_Sort();
+template void Exchange_Sorts<float>::Comb_Sort();
+template void Exchange_Sorts<char>::Comb_Sort();
+
+template void Exchange_Sorts<int>::Gnome_Sort();
+template void Exchange_Sorts<float>::Gnome_Sort();
+template void Exchange_Sorts<char>::Gnome_Sort();
+
+template void Exchange_Sorts<int>::Quick_Sort();
+template void Exchange_Sorts<float>::Quick_Sort();
+template void Exchange_Sorts<char>::Quick_Sort();
+
+template void Exchange_Sorts<int>::Recursive_Quick_Sort(const int &, const int &);
+template void Exchange_Sorts<float>::Recursive_Quick_Sort(const int &, const int &);
+template void Exchange_Sorts<char>::Recursive_Quick_Sort(const int &, const int &);
+
+template void Exchange_Sorts<int>::Slow_Sort();
+template void Exchange_Sorts<float>::Slow_Sort();
+template void Exchange_Sorts<char>::Slow_Sort();
+
+template void Exchange_Sorts<int>::Recursive_Slow_Sort(const int &, const int &);
+template void Exchange_Sorts<float>::Recursive_Slow_Sort(const int &, const int &);
+template void Exchange_Sorts<char>::Recursive_Slow_Sort(const int &, const int &);
+
+template void Exchange_Sorts<int>::Stooge_Sort();
+template void Exchange_Sorts<float>::Stooge_Sort();
+template void Exchange_Sorts<char>::Stooge_Sort();
+
+template void Exchange_Sorts<int>::Recursive_Stooge_Sort(const int &, const int &);
+template void Exchange_Sorts<float>::Recursive_Stooge_Sort(const int &, const int &);
+template void Exchange_Sorts<char>::Recursive_Stooge_Sort(const int &, const int &);
+
+template void Exchange_Sorts<int>::Bogo_Sort();
+template void Exchange_Sorts<float>::Bogo_Sort();
+template void Exchange_Sorts<char>::Bogo_Sort();
+
+template bool Exchange_Sorts<int>::Correct();
+template bool Exchange_Sorts<float>::Correct();
+template bool Exchange_Sorts<char>::Correct();
+
+template void Exchange_Sorts<int>::Shuffle();
+template void Exchange_Sorts<float>::Shuffle();
+template void Exchange_Sorts<char>::Shuffle();
 
 template void Selection_Sorts::HeapSort<int>::start_sort();
 template void Selection_Sorts::HeapSort<float>::start_sort();
@@ -1347,3 +1542,4 @@ template void ARRAYDATA<char>::operator/(const asize_t &);
 template void ARRAYDATA<int>::remove();
 template void ARRAYDATA<float>::remove();
 template void ARRAYDATA<char>::remove();
+
