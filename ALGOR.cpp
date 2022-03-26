@@ -22,10 +22,10 @@
 
 void verification(const asize_t &array_size)
 {
-    if (array_size == 0)
-    {
-        throw void_data();
-    }
+	if (array_size == 0)
+	{
+		throw void_data();
+	}
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -41,140 +41,140 @@ void verification(const asize_t &array_size)
 template <typename type_array>
 void swap(type_array &firstNumber, type_array &secondNumber)
 {
-    type_array temp = firstNumber;
-    firstNumber = secondNumber;
-    secondNumber = temp;
+	type_array temp = firstNumber;
+	firstNumber = secondNumber;
+	secondNumber = temp;
 }
 
 template <typename type_array>
 type_array minimum(const type_array *Array, const asize_t &array_size)
 {
-    verification(array_size);
-    type_array point_min = Array[0];
-    for (unsigned int i = 1; i < array_size; i++)
-    {
-        if (point_min > Array[i])
-        {
-            point_min = Array[i];
-        }
-    }
-    return point_min;
+	verification(array_size);
+	type_array point_min = Array[0];
+	for (unsigned int i = 1; i < array_size; i++)
+	{
+		if (point_min > Array[i])
+		{
+			point_min = Array[i];
+		}
+	}
+	return point_min;
 }
 
 template <typename type_array>
 type_array maximum(const type_array *Array, const asize_t &array_size)
 {
-    verification(array_size);
-    type_array point_max = Array[0];
-    for (unsigned int i = 1; i < array_size; i++)
-    {
-        if (point_max < Array[i])
-        {
-            point_max = Array[i];
-        }
-    }
-    return point_max;
+	verification(array_size);
+	type_array point_max = Array[0];
+	for (unsigned int i = 1; i < array_size; i++)
+	{
+		if (point_max < Array[i])
+		{
+			point_max = Array[i];
+		}
+	}
+	return point_max;
 }
 
 template <typename type_array>
 void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
 {
-    array_size++;
-    if (array_size > 0xffffffff)
-    {
-        throw memory_overflow();
-    }
-    if (array_size == 1)
-    {
-        Array = new type_array[array_size]{value};
-        return;
-    }
-    type_array *temp_Array = new type_array[array_size];
-    for (unsigned int i = 0; i < array_size; i++)
-    {
-        position > i ? temp_Array[i] = Array[i] : (position == i ? temp_Array[i] = value : temp_Array[i] = Array[i - 1]);
-    }
-    delete[] Array;
-    Array = new type_array[array_size];
-    copy<type_array>(Array, temp_Array, array_size);
-    delete[] temp_Array;
+	array_size++;
+	if (array_size > 0xffffffff)
+	{
+		throw memory_overflow();
+	}
+	if (array_size == 1)
+	{
+		Array = new type_array[array_size]{value};
+		return;
+	}
+	type_array *temp_Array = new type_array[array_size];
+	for (unsigned int i = 0; i < array_size; i++)
+	{
+		position > i ? temp_Array[i] = Array[i] : (position == i ? temp_Array[i] = value : temp_Array[i] = Array[i - 1]);
+	}
+	delete[] Array;
+	Array = new type_array[array_size];
+	copy<type_array>(Array, temp_Array, array_size);
+	delete[] temp_Array;
 }
 
 template <typename type_array>
 void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
 {
-    verification(array_size);
-    if (array_size == 1)
-    {
-        delete[] Array;
-        return;
-    }
-    if (position >= array_size)
-    {
-        throw position_failure();
-    }
-    type_array *temp_Array = new type_array[array_size];
-    for (unsigned int i = 0; i < array_size; i++)
-    {
-        position > i ? temp_Array[i] = Array[i] : (position < i ? temp_Array[i - 1] = Array[i] : 0);
-    }
-    delete[] Array;
-    Array = new type_array[array_size--];
-    copy<type_array>(Array, temp_Array, array_size);
-    delete[] temp_Array;
+	verification(array_size);
+	if (array_size == 1)
+	{
+		delete[] Array;
+		return;
+	}
+	if (position >= array_size)
+	{
+		throw position_failure();
+	}
+	type_array *temp_Array = new type_array[array_size];
+	for (unsigned int i = 0; i < array_size; i++)
+	{
+		position > i ? temp_Array[i] = Array[i] : (position < i ? temp_Array[i - 1] = Array[i] : 0);
+	}
+	delete[] Array;
+	Array = new type_array[array_size--];
+	copy<type_array>(Array, temp_Array, array_size);
+	delete[] temp_Array;
 }
 
 template <typename type_array>
 void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
-    verification(array_size);
-    int counter = 0;
-    type_array *temp_Array = new type_array[array_size];
-    for (unsigned int i = 0; i < array_size; i++)
-    {
-        Array[i] != value ? temp_Array[i - counter] = Array[i] : counter++;
-    }
-    if (counter == 0)
-    {
-        delete[] temp_Array;
-        throw value_failure();
-    }
-    delete[] Array;
-    array_size -= counter;
-    Array = new type_array[array_size];
-    copy<type_array>(Array, temp_Array, array_size);
-    delete[] temp_Array;
+	verification(array_size);
+	int counter = 0;
+	type_array *temp_Array = new type_array[array_size];
+	for (unsigned int i = 0; i < array_size; i++)
+	{
+		Array[i] != value ? temp_Array[i - counter] = Array[i] : counter++;
+	}
+	if (counter == 0)
+	{
+		delete[] temp_Array;
+		throw value_failure();
+	}
+	delete[] Array;
+	array_size -= counter;
+	Array = new type_array[array_size];
+	copy<type_array>(Array, temp_Array, array_size);
+	delete[] temp_Array;
 }
 
 template <typename type_array>
 void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
-    for (unsigned int i = 0; i < size_of_copied; i++)
-    {
-        new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
-    }
+	for (unsigned int i = 0; i < size_of_copied; i++)
+	{
+		new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
+	}
 }
 
 template <typename type_array>
 Array<type_array> *create_struct(const asize_t &SIZE)
 {
-    verification(SIZE);
-    Array<type_array> *ARRAY = new Array<type_array>;
-    ARRAY->array_size = SIZE;
-    ARRAY->array = new type_array[SIZE];
-    return ARRAY;
+	verification(SIZE);
+	Array<type_array> *ARRAY = new Array<type_array>;
+	ARRAY->array_size = SIZE;
+	ARRAY->array = new type_array[SIZE];
+	return ARRAY;
 }
 
 template <typename type_array>
 void remove_struct(Array<type_array> *&Array)
 {
-    if (Array == nullptr)
-    {
-        throw void_data();
-    }
-    delete[] Array->array;
-    delete (Array);
-    Array = nullptr;
+	if (Array == nullptr)
+	{
+		throw void_data();
+	}
+	delete[] Array->array;
+	delete (Array);
+	Array = nullptr;
 }
 
 template <typename type_array>
@@ -198,38 +198,38 @@ ArrayBase<type_array>::ArrayBase() {}
 
 Exception::Exception(unsigned int CODE, const char *DETAILS)
 {
-    this->CODE = CODE;
-    this->DETAILS = DETAILS;
+	this->CODE = CODE;
+	this->DETAILS = DETAILS;
 }
 
 Exception::Exception(unsigned int CODE)
 {
-    this->CODE = CODE;
-    this->DETAILS = "No information given";
+	this->CODE = CODE;
+	this->DETAILS = "No information given";
 }
 
 Exception::Exception(const char *DETAILS)
 {
-    this->CODE = 0xffffffff;
-    this->DETAILS = DETAILS;
+	this->CODE = 0xffffffff;
+	this->DETAILS = DETAILS;
 }
 
 unsigned int Exception::code()
 {
-    return CODE;
+	return CODE;
 }
 
 const char *Exception::what()
 {
-    return DETAILS;
+	return DETAILS;
 }
 
 memory_overflow::memory_overflow() : Exception(55, "The memory cell that stores the size of the data"
-                                                   "volume can no longer store more. This error can"
-                                                   "occur in cases when a larger value is required"
-                                                   "to be written to the cell that can store the"
-                                                   "variable 0xffffffff, i.e. more than 4 bytes, since"
-                                                   "the data size storage cell occupies 4 bytes.")
+												   "volume can no longer store more. This error can"
+												   "occur in cases when a larger value is required"
+												   "to be written to the cell that can store the"
+												   "variable 0xffffffff, i.e. more than 4 bytes, since"
+												   "the data size storage cell occupies 4 bytes.")
 {
 }
 
@@ -251,140 +251,140 @@ not_found::not_found() : Exception(404, "Search error - item not found") {}
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//int RC4::crypto_entropy()
+// int RC4::crypto_entropy()
 //{
-//    //Collects entropy
-//    //WARNING Может быть реализован в Линуксе
-//    return 0;
-//}
+//     //Collects entropy
+//     //WARNING Может быть реализован в Линуксе
+//     return 0;
+// }
 
 void RC4::crypto_srand(const char *key, int ksize)
 {
-    uint8_t j = 0;
-    for (int i = 0; i < 256; i++)
-    {
-        Sbox[i] = i;
-    }
-    for (int i = 0; i < 256; i++)
-    {
-        j = j + Sbox[i] + (uint8_t)key[i % ksize];
-        swap<uint8_t>(Sbox[i], Sbox[j]);
-    }
+	uint8_t j = 0;
+	for (int i = 0; i < 256; i++)
+	{
+		Sbox[i] = i;
+	}
+	for (int i = 0; i < 256; i++)
+	{
+		j = j + Sbox[i] + (uint8_t)key[i % ksize];
+		swap<uint8_t>(Sbox[i], Sbox[j]);
+	}
 }
 
 void RC4::crypto_rand(char *output, int size)
 {
-    uint8_t i = 0, j = 0, t;
-    for (int k = 0; i < size; k++)
-    {
-        i += 1;
-        j += Sbox[i];
-        swap<uint8_t>(Sbox[i], Sbox[j]);
-        t = Sbox[i] + Sbox[j];
-        output[k] = (unsigned int)Sbox[t];
-    }
+	uint8_t i = 0, j = 0, t;
+	for (int k = 0; i < size; k++)
+	{
+		i += 1;
+		j += Sbox[i];
+		swap<uint8_t>(Sbox[i], Sbox[j]);
+		t = Sbox[i] + Sbox[j];
+		output[k] = (unsigned int)Sbox[t];
+	}
 }
 
 MersenneTwister::MersenneTwister(int seed)
 {
-    RandomInit(seed);
-    LastInterval = 0;
+	RandomInit(seed);
+	LastInterval = 0;
 }
 
 void MersenneTwister::RandomInit(int seed)
 {
-    Init0(seed);
-    for (int i = 0; i < 37; i++)
-    {
-        BRandom();
-    }
+	Init0(seed);
+	for (int i = 0; i < 37; i++)
+	{
+		BRandom();
+	}
 }
 
 int MersenneTwister::IRandom(int min, int max)
 {
-    if (max <= min)
-    {
-        return max == min ? min : 0x80000000;
-    }
-    int rand_int = int((double)(uint32_t)(max - min + 1) * Random() + min);
-    if (rand_int > max)
-    {
-        rand_int = max;
-    }
-    return rand_int;
+	if (max <= min)
+	{
+		return max == min ? min : 0x80000000;
+	}
+	int rand_int = int((double)(uint32_t)(max - min + 1) * Random() + min);
+	if (rand_int > max)
+	{
+		rand_int = max;
+	}
+	return rand_int;
 }
 
 int MersenneTwister::IRandomX(int min, int max)
 {
-    if (max <= min)
-    {
-        return max == min ? min : 0x80000000;
-    }
-    uint32_t len_interval; //Length of interval
-    uint64_t long_rbi;     //Random bits * interval
-    uint32_t iran;         //long_rbi / 2^32
-    uint32_t remainder;    //long_rbi % 2^32
+	if (max <= min)
+	{
+		return max == min ? min : 0x80000000;
+	}
+	uint32_t len_interval; // Length of interval
+	uint64_t long_rbi;	   // Random bits * interval
+	uint32_t iran;		   // long_rbi / 2^32
+	uint32_t remainder;	   // long_rbi % 2^32
 
-    len_interval = uint32_t(max - min + 1);
-    if (len_interval != LastInterval)
-    {
-        RejectionLimit = uint32_t(((uint64_t)1 << 32) / len_interval) * len_interval - 1;
-        LastInterval = len_interval;
-    }
-    do
-    {
-        long_rbi = (uint64_t)BRandom() * len_interval;
-        iran = (uint32_t)(long_rbi >> 32);
-        remainder = (uint32_t)long_rbi;
-    } while (remainder > RejectionLimit);
-    return (int32_t)iran + min;
+	len_interval = uint32_t(max - min + 1);
+	if (len_interval != LastInterval)
+	{
+		RejectionLimit = uint32_t(((uint64_t)1 << 32) / len_interval) * len_interval - 1;
+		LastInterval = len_interval;
+	}
+	do
+	{
+		long_rbi = (uint64_t)BRandom() * len_interval;
+		iran = (uint32_t)(long_rbi >> 32);
+		remainder = (uint32_t)long_rbi;
+	} while (remainder > RejectionLimit);
+	return (int32_t)iran + min;
 }
 
 double MersenneTwister::Random()
 {
-    return (double)BRandom() * (1. / (65536. * 65536.));
+	return (double)BRandom() * (1. / (65536. * 65536.));
 }
 
 uint32_t MersenneTwister::BRandom()
 {
-    uint32_t resulting_bit;
-    if (mersenne_twister_index >= 624)
-    {
-        const uint32_t LOWER_MASK = (1LU << 31) - 1;  //Lower bits
-        const uint32_t UPPER_MASK = 0xFFFFFFFF << 31; //Upper bits
-        static const uint32_t mask[2] = {0, 0x9908B0DF};
-        int counter;
-        for (counter = 0; counter < 624 - 397; counter++)
-        {
-            resulting_bit = (mersenne_twister[counter] & UPPER_MASK) | (mersenne_twister[counter + 1] & LOWER_MASK);
-            mersenne_twister[counter] = mersenne_twister[counter + 397] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
-        }
-        for (; counter < 624 - 1; counter++)
-        {
-            resulting_bit = (mersenne_twister[counter] & UPPER_MASK) | (mersenne_twister[counter + 1] & LOWER_MASK);
-            mersenne_twister[counter] = mersenne_twister[counter + (397 - 624)] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
-        }
-        resulting_bit = (mersenne_twister[624 - 1] & UPPER_MASK) | (mersenne_twister[0] & LOWER_MASK);
-        mersenne_twister[624 - 1] = mersenne_twister[397 - 1] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
-        mersenne_twister_index = 0;
-    }
-    resulting_bit = mersenne_twister[mersenne_twister_index++];
-    resulting_bit ^= resulting_bit >> 11;
-    resulting_bit ^= (resulting_bit << 7) & 0x9D2C5680;
-    resulting_bit ^= (resulting_bit << 15) & 0xEFC60000;
-    resulting_bit ^= resulting_bit >> 18;
-    return resulting_bit;
+	uint32_t resulting_bit;
+	if (mersenne_twister_index >= 624)
+	{
+		const uint32_t LOWER_MASK = (1LU << 31) - 1;  // Lower bits
+		const uint32_t UPPER_MASK = 0xFFFFFFFF << 31; // Upper bits
+		static const uint32_t mask[2] = {0, 0x9908B0DF};
+		int counter;
+		for (counter = 0; counter < 624 - 397; counter++)
+		{
+			resulting_bit = (mersenne_twister[counter] & UPPER_MASK) | (mersenne_twister[counter + 1] & LOWER_MASK);
+			mersenne_twister[counter] = mersenne_twister[counter + 397] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
+		}
+		for (; counter < 624 - 1; counter++)
+		{
+			resulting_bit = (mersenne_twister[counter] & UPPER_MASK) | (mersenne_twister[counter + 1] & LOWER_MASK);
+			mersenne_twister[counter] = mersenne_twister[counter + (397 - 624)] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
+		}
+		resulting_bit = (mersenne_twister[624 - 1] & UPPER_MASK) | (mersenne_twister[0] & LOWER_MASK);
+		mersenne_twister[624 - 1] = mersenne_twister[397 - 1] ^ (resulting_bit >> 1) ^ mask[resulting_bit & 1];
+		mersenne_twister_index = 0;
+	}
+	resulting_bit = mersenne_twister[mersenne_twister_index++];
+	resulting_bit ^= resulting_bit >> 11;
+	resulting_bit ^= (resulting_bit << 7) & 0x9D2C5680;
+	resulting_bit ^= (resulting_bit << 15) & 0xEFC60000;
+	resulting_bit ^= resulting_bit >> 18;
+	return resulting_bit;
 }
 
 void MersenneTwister::Init0(int seed)
 {
-    //Basic initialization procedure
-    const uint32_t factor = 1812433253UL;
-    mersenne_twister[0] = seed;
-    for (mersenne_twister_index = 1; mersenne_twister_index < 624; mersenne_twister_index++)
-    {
-        mersenne_twister[mersenne_twister_index] = (factor * (mersenne_twister[mersenne_twister_index - 1] ^ (mersenne_twister[mersenne_twister_index - 1] >> 30)) + mersenne_twister_index);
-    }
+	// Basic initialization procedure
+	const uint32_t factor = 1812433253UL;
+	mersenne_twister[0] = seed;
+	for (mersenne_twister_index = 1; mersenne_twister_index < 624; mersenne_twister_index++)
+	{
+		mersenne_twister[mersenne_twister_index] = (factor * (mersenne_twister[mersenne_twister_index - 1] ^ (mersenne_twister[mersenne_twister_index - 1] >> 30)) + mersenne_twister_index);
+	}
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -400,55 +400,55 @@ void MersenneTwister::Init0(int seed)
 template <typename type_array>
 void Exchange_Sorts<type_array>::Bubble_Sort()
 {
-    verification(this->ARRAY->array_size);
-    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
-    {
-        for (unsigned int j = 0; j < this->ARRAY->array_size - 1; j++)
-        {
-            if (this->ARRAY->array[j] > this->ARRAY->array[j + 1])
-            {
-                swap<type_array>(this->ARRAY->array[j], this->ARRAY->array[j + 1]);
-            }
-        }
-    }
+	verification(this->ARRAY->array_size);
+	for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+	{
+		for (unsigned int j = 0; j < this->ARRAY->array_size - 1; j++)
+		{
+			if (this->ARRAY->array[j] > this->ARRAY->array[j + 1])
+			{
+				swap<type_array>(this->ARRAY->array[j], this->ARRAY->array[j + 1]);
+			}
+		}
+	}
 }
 
 template <typename type_array>
 void Exchange_Sorts<type_array>::Cocktail_Shaker_Sort()
 {
-    verification(this->ARRAY->array_size);
-    int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
-    while (leftMark <= rightMark)
-    {
-        for (int i = rightMark; i >= leftMark; i--)
-        {
-            if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
-            {
-                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
-            }
-        }
-        leftMark++;
-        for (int i = leftMark; i <= rightMark; i++)
-        {
-            if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
-            {
-                swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
-            }
-        }
-        rightMark--;
-    }
+	verification(this->ARRAY->array_size);
+	int leftMark = 1, rightMark = this->ARRAY->array_size - 1;
+	while (leftMark <= rightMark)
+	{
+		for (int i = rightMark; i >= leftMark; i--)
+		{
+			if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
+			{
+				swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
+			}
+		}
+		leftMark++;
+		for (int i = leftMark; i <= rightMark; i++)
+		{
+			if (this->ARRAY->array[i - 1] > this->ARRAY->array[i])
+			{
+				swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
+			}
+		}
+		rightMark--;
+	}
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Odd_Even_Sort()
 {
-	for(asize_t i = 0; i < this->ARRAY->array_size; i++)
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
-		if(i & 1) //Непарний
+		if (i & 1) //Непарний
 		{
-			for(asize_t j = 2; j < this->ARRAY->array_size; j += 2)
+			for (asize_t j = 2; j < this->ARRAY->array_size; j += 2)
 			{
-				if(this->ARRAY->array[j] < this->ARRAY->array[j - 1])
+				if (this->ARRAY->array[j] < this->ARRAY->array[j - 1])
 				{
 					swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
 				}
@@ -456,9 +456,9 @@ void Exchange_Sorts<type_array>::Odd_Even_Sort()
 		}
 		else
 		{
-			for(asize_t j = 1; j < this->ARRAY->array_size; j += 2)
+			for (asize_t j = 1; j < this->ARRAY->array_size; j += 2)
 			{
-				if(this->ARRAY->array[j] < this->ARRAY->array[j - 1])
+				if (this->ARRAY->array[j] < this->ARRAY->array[j - 1])
 				{
 					swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
 				}
@@ -467,17 +467,17 @@ void Exchange_Sorts<type_array>::Odd_Even_Sort()
 	}
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Comb_Sort()
 {
-	double factor = 1.2473309; //Фактор зменшення
+	double factor = 1.2473309;				//Фактор зменшення
 	int step = this->ARRAY->array_size - 1; //Шаг
 
-	while(step >= 1)
+	while (step >= 1)
 	{
-		for(asize_t i = 0; i + step < this->ARRAY->array_size; i++)
+		for (asize_t i = 0; i + step < this->ARRAY->array_size; i++)
 		{
-			if(this->ARRAY->array[i] > this->ARRAY->array[i + step])
+			if (this->ARRAY->array[i] > this->ARRAY->array[i + step])
 			{
 				swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i + step]);
 			}
@@ -486,16 +486,16 @@ void Exchange_Sorts<type_array>::Comb_Sort()
 	}
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Gnome_Sort()
 {
-	for(asize_t count = 0; count < this->ARRAY->array_size; count++)
+	for (asize_t count = 0; count < this->ARRAY->array_size; count++)
 	{
 		asize_t i = 1, j = 2;
 
-		while(i < this->ARRAY->array_size)
+		while (i < this->ARRAY->array_size)
 		{
-			if(this->ARRAY->array[i] > this->ARRAY->array[i - 1])
+			if (this->ARRAY->array[i] > this->ARRAY->array[i - 1])
 			{
 				i = j;
 				j++;
@@ -504,7 +504,7 @@ void Exchange_Sorts<type_array>::Gnome_Sort()
 			{
 				swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[i - 1]);
 				i--;
-				if(i == 0)
+				if (i == 0)
 				{
 					i = j;
 					j++;
@@ -517,79 +517,79 @@ void Exchange_Sorts<type_array>::Gnome_Sort()
 template <typename type_array>
 void Exchange_Sorts<type_array>::Quick_Sort()
 {
-    verification(this->ARRAY->array_size);
+	verification(this->ARRAY->array_size);
 	Recursive_Quick_Sort(0, this->ARRAY->array_size - 1);
 }
 
 template <typename type_array>
 void Exchange_Sorts<type_array>::Recursive_Quick_Sort(const int &left_limit, const int &right_limit)
 {
-    type_array middle = this->ARRAY->array[(left_limit + right_limit) / 2];
-    int start = left_limit, finish = right_limit;
-    do
-    {
-        while (this->ARRAY->array[start] < middle)
-        {
-            start++;
-        }
-        while (this->ARRAY->array[finish] > middle)
-        {
-            finish--;
-        }
-        if (start <= finish)
-        {
-            swap<type_array>(this->ARRAY->array[start], this->ARRAY->array[finish]);
-            start++;
-            finish--;
-        }
-    } while (start < finish);
-    if (left_limit < finish)
-    {
+	type_array middle = this->ARRAY->array[(left_limit + right_limit) / 2];
+	int start = left_limit, finish = right_limit;
+	do
+	{
+		while (this->ARRAY->array[start] < middle)
+		{
+			start++;
+		}
+		while (this->ARRAY->array[finish] > middle)
+		{
+			finish--;
+		}
+		if (start <= finish)
+		{
+			swap<type_array>(this->ARRAY->array[start], this->ARRAY->array[finish]);
+			start++;
+			finish--;
+		}
+	} while (start < finish);
+	if (left_limit < finish)
+	{
 		Recursive_Quick_Sort(left_limit, finish);
-    }
-    if (start < right_limit)
-    {
+	}
+	if (start < right_limit)
+	{
 		Recursive_Quick_Sort(start, right_limit);
-    }
+	}
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Slow_Sort()
 {
 	Recursive_Slow_Sort(0, this->ARRAY->array_size - 1);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Recursive_Slow_Sort(const int &left_limit, const int &right_limit)
 {
-	if(left_limit >= right_limit)
+	if (left_limit >= right_limit)
 	{
 		return;
 	}
 	int middle = (left_limit + right_limit) / 2;
 	Recursive_Slow_Sort(left_limit, middle);
 	Recursive_Slow_Sort(middle + 1, right_limit);
-	if(this->ARRAY->array[middle] > this->ARRAY->array[right_limit])
+	if (this->ARRAY->array[middle] > this->ARRAY->array[right_limit])
 	{
 		swap<type_array>(this->ARRAY->array[middle], this->ARRAY->array[right_limit]);
 	}
 	Recursive_Slow_Sort(left_limit, right_limit - 1);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Stooge_Sort()
 {
 	Recursive_Stooge_Sort(0, this->ARRAY->array_size - 1);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Recursive_Stooge_Sort(const int &left_limit, const int &right_limit)
 {
-	if(this->ARRAY->array[left_limit] > this->ARRAY->array[right_limit])
+	if (this->ARRAY->array[left_limit] > this->ARRAY->array[right_limit])
 	{
 		swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
 	}
-	if(left_limit + 1 >= right_limit)
+	if (left_limit + 1 >= right_limit)
 	{
 		return;
 	}
@@ -600,22 +600,22 @@ void Exchange_Sorts<type_array>::Recursive_Stooge_Sort(const int &left_limit, co
 	Recursive_Stooge_Sort(left_limit, right_limit - k);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Bogo_Sort()
 {
-	while(Correct())
+	while (Correct())
 	{
 		Shuffle();
 	}
 }
 
-template<class type_array>
+template <class type_array>
 bool Exchange_Sorts<type_array>::Correct()
 {
 	asize_t size = this->ARRAY->array_size;
-	while(--size > 0)
+	while (--size > 0)
 	{
-		if(this->ARRAY->array[size - 1] > this->ARRAY->array[size])
+		if (this->ARRAY->array[size - 1] > this->ARRAY->array[size])
 		{
 			return true;
 		}
@@ -623,10 +623,10 @@ bool Exchange_Sorts<type_array>::Correct()
 	return false;
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Shuffle()
 {
-	for(asize_t i = 0; i < this->ARRAY->array_size; i++)
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		MersenneTwister RanGen(time(NULL));
 		swap<type_array>(this->ARRAY->array[i], this->ARRAY->array[RanGen.IRandom(0, this->ARRAY->array_size)]);
@@ -636,153 +636,153 @@ void Exchange_Sorts<type_array>::Shuffle()
 template <typename type_array>
 void Selection_Sorts::HeapSort<type_array>::start_sort()
 {
-    verification(this->ARRAY->array_size);
-    for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
-    {
-        heapify(this->ARRAY->array, right, this->ARRAY->array_size);
-    }
-    for (int i = this->ARRAY->array_size - 1; i >= 0; i--)
-    {
-        swap<type_array>(this->ARRAY->array[0], this->ARRAY->array[i]);
-        heapify(this->ARRAY->array, 0, i);
-    }
+	verification(this->ARRAY->array_size);
+	for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
+	{
+		heapify(this->ARRAY->array, right, this->ARRAY->array_size);
+	}
+	for (int i = this->ARRAY->array_size - 1; i >= 0; i--)
+	{
+		swap<type_array>(this->ARRAY->array[0], this->ARRAY->array[i]);
+		heapify(this->ARRAY->array, 0, i);
+	}
 }
 
 template <typename type_array>
 void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
 {
-    asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
-    if (left < array_size && Array[left] > Array[large])
-    {
-        large = left;
-    }
-    if (right < array_size && Array[right] > Array[large])
-    {
-        large = right;
-    }
-    if (large != count)
-    {
-        swap<type_array>(Array[count], Array[large]);
-        heapify(Array, large, array_size);
-    }
+	asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
+	if (left < array_size && Array[left] > Array[large])
+	{
+		large = left;
+	}
+	if (right < array_size && Array[right] > Array[large])
+	{
+		large = right;
+	}
+	if (large != count)
+	{
+		swap<type_array>(Array[count], Array[large]);
+		heapify(Array, large, array_size);
+	}
 }
 
 template <typename type_array>
 void Insertion_Sorts::InsertSort<type_array>::start_sort()
 {
-    verification(this->ARRAY->array_size);
-    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
-    {
-        for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
-        {
-            swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
-        }
-    }
+	verification(this->ARRAY->array_size);
+	for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+	{
+		for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
+		{
+			swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
+		}
+	}
 }
 
 template <typename type_array>
 void Merge_Sorts::MergeSort<type_array>::start_sort()
 {
-    verification(this->ARRAY->array_size);
-    merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
+	verification(this->ARRAY->array_size);
+	merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
 }
 
 template <typename type_array>
 void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
 {
-    if (left_limit < right_limit)
-    {
-        int middle = left_limit + (right_limit - left_limit) / 2;
-        merge_sort(Array, left_limit, middle);
-        merge_sort(Array, middle + 1, right_limit);
-        merge(Array, left_limit, middle, right_limit);
-    }
+	if (left_limit < right_limit)
+	{
+		int middle = left_limit + (right_limit - left_limit) / 2;
+		merge_sort(Array, left_limit, middle);
+		merge_sort(Array, middle + 1, right_limit);
+		merge(Array, left_limit, middle, right_limit);
+	}
 }
 
 template <typename type_array>
 void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
 {
-    int start = left_limit, finish = middle_limit + 1;
-    type_array *tempArray = new type_array[right_limit - left_limit + 1];
-    for (int i = left_limit; i <= right_limit; i++)
-    {
-        if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
-        {
-            tempArray[i - left_limit] = Array[start];
-            start++;
-        }
-        else
-        {
-            tempArray[i - left_limit] = Array[finish];
-            finish++;
-        }
-    }
-    for (int i = left_limit; i <= right_limit; i++)
-    {
-        Array[i] = tempArray[i - left_limit];
-    }
-    delete[] tempArray;
+	int start = left_limit, finish = middle_limit + 1;
+	type_array *tempArray = new type_array[right_limit - left_limit + 1];
+	for (int i = left_limit; i <= right_limit; i++)
+	{
+		if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
+		{
+			tempArray[i - left_limit] = Array[start];
+			start++;
+		}
+		else
+		{
+			tempArray[i - left_limit] = Array[finish];
+			finish++;
+		}
+	}
+	for (int i = left_limit; i <= right_limit; i++)
+	{
+		Array[i] = tempArray[i - left_limit];
+	}
+	delete[] tempArray;
 }
 
 void Distribution_Sort::CountingSort::start_sort()
 {
-    verification(this->ARRAY->array_size);
-    int min = minimum<int>(ARRAY->array, ARRAY->array_size),
-        max = maximum<int>(ARRAY->array, ARRAY->array_size);
-    int *tempArray = new int[max - min + 1];
-    for (int i = 0; i < max - min + 1; i++)
-    {
-        tempArray[i] = 0;
-    }
-    for (unsigned int i = 0; i < ARRAY->array_size; i++)
-    {
-        tempArray[ARRAY->array[i] - min] = tempArray[ARRAY->array[i] - min] + 1;
-    }
-    for (int i = 0, j = min; j < max + 1; j++)
-    {
-        while (tempArray[j - min] != 0)
-        {
-            ARRAY->array[i] = j;
-            tempArray[j - min]--;
-            i++;
-        }
-    }
-    delete[] tempArray;
+	verification(this->ARRAY->array_size);
+	int min = minimum<int>(ARRAY->array, ARRAY->array_size),
+		max = maximum<int>(ARRAY->array, ARRAY->array_size);
+	int *tempArray = new int[max - min + 1];
+	for (int i = 0; i < max - min + 1; i++)
+	{
+		tempArray[i] = 0;
+	}
+	for (unsigned int i = 0; i < ARRAY->array_size; i++)
+	{
+		tempArray[ARRAY->array[i] - min] = tempArray[ARRAY->array[i] - min] + 1;
+	}
+	for (int i = 0, j = min; j < max + 1; j++)
+	{
+		while (tempArray[j - min] != 0)
+		{
+			ARRAY->array[i] = j;
+			tempArray[j - min]--;
+			i++;
+		}
+	}
+	delete[] tempArray;
 }
 
 void Distribution_Sort::RadixSort::start_sort()
 {
-    verification(this->ARRAY->array_size);
-    int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
-    int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
-    while (max / exp > 0)
-    {
-        for (int i = 0; i < bit; i++)
-        {
-            bucket[i] = 0;
-        }
-        for (unsigned int i = 0; i < ARRAY->array_size; i++)
-        {
-            bucket[(ARRAY->array[i] / exp) % bit]++;
-        }
-        for (int i = 1; i < bit; i++)
-        {
-            bucket[i] += bucket[i - 1];
-        }
-        for (int i = ARRAY->array_size - 1; i >= 0; i--)
-        {
-            int current = (ARRAY->array[i] % (exp * bit)) / exp;
-            bucket[current]--;
-            tempArray[bucket[current]] = ARRAY->array[i];
-        }
-        for (unsigned int i = 0; i < ARRAY->array_size; i++)
-        {
-            ARRAY->array[i] = tempArray[i];
-        }
-        exp *= bit;
-    }
-    delete[] bucket;
-    delete[] tempArray;
+	verification(this->ARRAY->array_size);
+	int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
+	int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
+	while (max / exp > 0)
+	{
+		for (int i = 0; i < bit; i++)
+		{
+			bucket[i] = 0;
+		}
+		for (unsigned int i = 0; i < ARRAY->array_size; i++)
+		{
+			bucket[(ARRAY->array[i] / exp) % bit]++;
+		}
+		for (int i = 1; i < bit; i++)
+		{
+			bucket[i] += bucket[i - 1];
+		}
+		for (int i = ARRAY->array_size - 1; i >= 0; i--)
+		{
+			int current = (ARRAY->array[i] % (exp * bit)) / exp;
+			bucket[current]--;
+			tempArray[bucket[current]] = ARRAY->array[i];
+		}
+		for (unsigned int i = 0; i < ARRAY->array_size; i++)
+		{
+			ARRAY->array[i] = tempArray[i];
+		}
+		exp *= bit;
+	}
+	delete[] bucket;
+	delete[] tempArray;
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -804,429 +804,429 @@ ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SI
 template <typename type_array>
 ARRAYDATA<type_array>::~ARRAYDATA()
 {
-    remove();
+	remove();
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
-    RC4 rc4;
-    //Key generation (will be used until I come up with an analogue of time(NULL))
-    //TODO Think of an analogue time(NULL)
-    char key[100];
-    //rc4.crypto_entropy(key, 100);
-    rc4.crypto_srand(key, 100);
-    int BUFSIZe = 100;
-    char output[BUFSIZe];
-    rc4.crypto_rand(output, BUFSIZe);
+	RC4 rc4;
+	// Key generation (will be used until I come up with an analogue of time(NULL))
+	// TODO Think of an analogue time(NULL)
+	char key[100];
+	// rc4.crypto_entropy(key, 100);
+	rc4.crypto_srand(key, 100);
+	int BUFSIZe = 100;
+	char output[BUFSIZe];
+	rc4.crypto_rand(output, BUFSIZe);
 
-    //Substitute the generated key
-    MersenneTwister RanGen((uint8_t)output[50]);
-    for (asize_t i = 0; i < this->ARRAY->array_size; i++)
-    {
-        this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit);
-    }
+	// Substitute the generated key
+	MersenneTwister RanGen((uint8_t)output[50]);
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit);
+	}
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 {
-    verification(Array->array_size);
-    remove();
-    this->ARRAY = Array;
+	verification(Array->array_size);
+	remove();
+	this->ARRAY = Array;
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 {
-    verification(Array->array_size);
-    this->ARRAY = Array;
+	verification(Array->array_size);
+	this->ARRAY = Array;
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
 {
-    verification(CloningArray->array_size);
-    if (CloningArray->array_size != this->ARRAY->array_size)
-    {
-        remove();
-        this->ARRAY = create_struct<type_array>(CloningArray->array_size);
-    }
-    copy<type_array>(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
+	verification(CloningArray->array_size);
+	if (CloningArray->array_size != this->ARRAY->array_size)
+	{
+		remove();
+		this->ARRAY = create_struct<type_array>(CloningArray->array_size);
+	}
+	copy<type_array>(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
 {
-    if (CloningObject->getData()->array_size != this->ARRAY->array_size)
-    {
-        remove();
-        this->ARRAY = create_struct<type_array>(CloningObject->getData()->array_size);
-    }
-    copy<type_array>(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
+	if (CloningObject->getData()->array_size != this->ARRAY->array_size)
+	{
+		remove();
+		this->ARRAY = create_struct<type_array>(CloningObject->getData()->array_size);
+	}
+	copy<type_array>(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
 {
-    DATA = this->ARRAY;
+	DATA = this->ARRAY;
 }
 
 template <typename type_array>
 Array<type_array> *ARRAYDATA<type_array>::getData()
 {
-    return this->ARRAY;
+	return this->ARRAY;
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::reset()
 {
-    asize_t SIZE = this->ARRAY->array_size;
-    type_array min = getMin(), max = getMax();
-    remove();
-    this->ARRAY = create_struct<type_array>(SIZE);
-    generatedData(min, max);
+	asize_t SIZE = this->ARRAY->array_size;
+	type_array min = getMin(), max = getMax();
+	remove();
+	this->ARRAY = create_struct<type_array>(SIZE);
+	generatedData(min, max);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
 {
-    Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
-    if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
-    {
-        copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
-        for (asize_t i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
-        {
-            NEW_ARRAY->array[i] = setElement;
-        }
-    }
-    else
-    {
-        copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
-    }
-    this->ARRAY = NEW_ARRAY;
-    remove_struct<type_array>(OLD_ARRAY);
+	Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
+	if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
+	{
+		copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
+		for (asize_t i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
+		{
+			NEW_ARRAY->array[i] = setElement;
+		}
+	}
+	else
+	{
+		copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
+	}
+	this->ARRAY = NEW_ARRAY;
+	remove_struct<type_array>(OLD_ARRAY);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::replace(const unsigned int &position, const type_array &value)
 {
-    this->ARRAY->array[position] = value;
+	this->ARRAY->array[position] = value;
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::reverse()
 {
-    int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
-    for (asize_t i = 0; i < this->ARRAY->array_size / 2; i++)
-    {
-        swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
-        left_limit++;
-        right_limit--;
-    }
+	int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
+	for (asize_t i = 0; i < this->ARRAY->array_size / 2; i++)
+	{
+		swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
+		left_limit++;
+		right_limit--;
+	}
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::respawn()
 {
-    asize_t size = this->ARRAY->array_size;
-    remove();
-    this->ARRAY = create_struct<type_array>(size);
+	asize_t size = this->ARRAY->array_size;
+	remove();
+	this->ARRAY = create_struct<type_array>(size);
 }
 
 template <typename type_array>
 type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
 {
-    switch (ArrStat)
-    {
-    case UNSORTED:
-        return minimum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
-    case SORTED:
-        return this->ARRAY->array[0];
-    }
-    throw value_failure();
+	switch (ArrStat)
+	{
+	case UNSORTED:
+		return minimum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
+	case SORTED:
+		return this->ARRAY->array[0];
+	}
+	throw value_failure();
 }
 
 template <typename type_array>
 type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
 {
-    switch (ArrStat)
-    {
-    case UNSORTED:
-        return maximum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
-    case SORTED:
-        return this->ARRAY->array[this->ARRAY->array_size - 1];
-    }
-    throw value_failure();
+	switch (ArrStat)
+	{
+	case UNSORTED:
+		return maximum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
+	case SORTED:
+		return this->ARRAY->array[this->ARRAY->array_size - 1];
+	}
+	throw value_failure();
 }
 
 template <typename type_array>
 Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
-    Array<int> *NumberPoints = new Array<int>;
-    for (asize_t i = 0; i < this->ARRAY->array_size; i++)
-    {
-        if (required_element == this->ARRAY->array[i])
-        {
-            addElement<int>(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
-        }
-    }
-    if (NumberPoints->array_size == 0)
-    {
-        throw not_found();
-    }
-    return NumberPoints;
+	Array<int> *NumberPoints = new Array<int>;
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		if (required_element == this->ARRAY->array[i])
+		{
+			addElement<int>(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
+		}
+	}
+	if (NumberPoints->array_size == 0)
+	{
+		throw not_found();
+	}
+	return NumberPoints;
 }
 
 template <typename type_array>
 int ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
-    int position = 0;
-    binary_searcher(required_element, position, 0, this->ARRAY->array_size - 1);
-    return position;
+	int position = 0;
+	binary_searcher(required_element, position, 0, this->ARRAY->array_size - 1);
+	return position;
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
 {
-    if (left_limit > right_limit)
-    {
-        throw not_found();
-    }
-    int middle = left_limit + (right_limit - left_limit) / 2;
-    if (this->ARRAY->array[middle] == required_element)
-    {
-        number_point = middle;
-    }
-    if (this->ARRAY->array[middle] > required_element)
-    {
-        binary_searcher(required_element, number_point, left_limit, middle - 1);
-    }
-    if (this->ARRAY->array[middle] < required_element)
-    {
-        binary_searcher(required_element, number_point, middle + 1, right_limit);
-    }
+	if (left_limit > right_limit)
+	{
+		throw not_found();
+	}
+	int middle = left_limit + (right_limit - left_limit) / 2;
+	if (this->ARRAY->array[middle] == required_element)
+	{
+		number_point = middle;
+	}
+	if (this->ARRAY->array[middle] > required_element)
+	{
+		binary_searcher(required_element, number_point, left_limit, middle - 1);
+	}
+	if (this->ARRAY->array[middle] < required_element)
+	{
+		binary_searcher(required_element, number_point, middle + 1, right_limit);
+	}
 }
 
 template <typename type_array>
 Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
-    Array<int> *Occurrences = new Array<int>;
-    for (asize_t i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
-    {
-        for (asize_t j = 0; j < SUBARRAY->array_size; j++)
-        {
-            if (this->ARRAY->array[i + j] == SUBARRAY->array[j])
-            {
-                switch (ArrType)
-                {
-                case NUMBER:
-                    if (SUBARRAY->array_size - j == 1)
-                    {
-                        addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
-                    }
-                    break;
-                case STRING:
-                    if (SUBARRAY->array_size - j == 2)
-                    {
-                        addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
-                    }
-                    break;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-    if (Occurrences->array_size == 0)
-    {
-        throw not_found();
-    }
-    return Occurrences;
+	Array<int> *Occurrences = new Array<int>;
+	for (asize_t i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
+	{
+		for (asize_t j = 0; j < SUBARRAY->array_size; j++)
+		{
+			if (this->ARRAY->array[i + j] == SUBARRAY->array[j])
+			{
+				switch (ArrType)
+				{
+				case NUMBER:
+					if (SUBARRAY->array_size - j == 1)
+					{
+						addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+					}
+					break;
+				case STRING:
+					if (SUBARRAY->array_size - j == 2)
+					{
+						addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+					}
+					break;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	if (Occurrences->array_size == 0)
+	{
+		throw not_found();
+	}
+	return Occurrences;
 }
 
 template <typename type_array>
 type_array ARRAYDATA<type_array>::average()
 {
-    type_array average = 0;
-    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
-    {
-        average += this->ARRAY->array[i];
-    }
-    return average / (type_array)this->ARRAY->array_size;
+	type_array average = 0;
+	for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+	{
+		average += this->ARRAY->array[i];
+	}
+	return average / (type_array)this->ARRAY->array_size;
 }
 
 template <typename type_array>
 type_array ARRAYDATA<type_array>::mediana()
 {
-    return this->ARRAY->array_size % 2 == 0 ? (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : (this->ARRAY->array[this->ARRAY->array_size / 2]);
+	return this->ARRAY->array_size % 2 == 0 ? (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : (this->ARRAY->array[this->ARRAY->array_size / 2]);
 }
 
 template <typename type_array>
 type_array ARRAYDATA<type_array>::moda(int &highest_frequency)
 {
-    type_array most_frequent = 0;
-    highest_frequency = 0;
-    int current_frequency = 0;
-    for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
-    {
-        current_frequency++;
-        if (i == this->ARRAY->array_size - 1 || this->ARRAY->array[i] != this->ARRAY->array[i + 1])
-        {
-            if (current_frequency > highest_frequency)
-            {
-                highest_frequency = current_frequency;
-                most_frequent = this->ARRAY->array[i];
-            }
-            current_frequency = 0;
-        }
-    }
-    return most_frequent;
+	type_array most_frequent = 0;
+	highest_frequency = 0;
+	int current_frequency = 0;
+	for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+	{
+		current_frequency++;
+		if (i == this->ARRAY->array_size - 1 || this->ARRAY->array[i] != this->ARRAY->array[i + 1])
+		{
+			if (current_frequency > highest_frequency)
+			{
+				highest_frequency = current_frequency;
+				most_frequent = this->ARRAY->array[i];
+			}
+			current_frequency = 0;
+		}
+	}
+	return most_frequent;
 }
 
 template <typename type_array>
 Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 {
-    Array<type_array> *MostFrequents = new Array<type_array>;
-    highest_frequency = 0;
-    int current_frequency = 0;
-    type_array most_frequent = moda(highest_frequency);
-    addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
-    for (asize_t i = 0; i < this->ARRAY->array_size; i++)
-    {
-        if (most_frequent == this->ARRAY->array[i])
-        {
-            for (asize_t j = i + highest_frequency; j < this->ARRAY->array_size; j++)
-            {
-                current_frequency++;
-                if (j == this->ARRAY->array_size - 1 || this->ARRAY->array[j] != this->ARRAY->array[j + 1])
-                {
-                    if (current_frequency == highest_frequency)
-                    {
-                        addElement<type_array>(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
-                    }
-                    current_frequency = 0;
-                }
-            }
-            break;
-        }
-    }
-    return MostFrequents;
+	Array<type_array> *MostFrequents = new Array<type_array>;
+	highest_frequency = 0;
+	int current_frequency = 0;
+	type_array most_frequent = moda(highest_frequency);
+	addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		if (most_frequent == this->ARRAY->array[i])
+		{
+			for (asize_t j = i + highest_frequency; j < this->ARRAY->array_size; j++)
+			{
+				current_frequency++;
+				if (j == this->ARRAY->array_size - 1 || this->ARRAY->array[j] != this->ARRAY->array[j + 1])
+				{
+					if (current_frequency == highest_frequency)
+					{
+						addElement<type_array>(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
+					}
+					current_frequency = 0;
+				}
+			}
+			break;
+		}
+	}
+	return MostFrequents;
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator&&(const type_array &value)
 {
-    addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
+	addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator!()
 {
-    subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
+	subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator||(const type_array &value)
 {
-    subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
+	subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
 {
-    asize_t newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
-    Array<type_array> *temp = create_struct<type_array>(newSize);
-    for (asize_t i = 0; i < newSize; i++)
-    {
-        i < this->ARRAY->array_size ? temp->array[i] = this->ARRAY->array[i] : temp->array[i] = appendingArray->getData()->array[i - this->ARRAY->array_size];
-    }
-    remove();
-    this->ARRAY = create_struct<type_array>(newSize);
-    copy<type_array>(this->ARRAY->array, temp->array, newSize);
-    remove_struct<type_array>(temp);
+	asize_t newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
+	Array<type_array> *temp = create_struct<type_array>(newSize);
+	for (asize_t i = 0; i < newSize; i++)
+	{
+		i < this->ARRAY->array_size ? temp->array[i] = this->ARRAY->array[i] : temp->array[i] = appendingArray->getData()->array[i - this->ARRAY->array_size];
+	}
+	remove();
+	this->ARRAY = create_struct<type_array>(newSize);
+	copy<type_array>(this->ARRAY->array, temp->array, newSize);
+	remove_struct<type_array>(temp);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
 {
-    asize_t newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
-    Array<type_array> *temp = create_struct<type_array>(newSize);
-    for (asize_t i = 0; i < newSize; i++)
-    {
-        i < appendingArray->getData()->array_size ? temp->array[i] = appendingArray->getData()->array[i] : temp->array[i] = this->ARRAY->array[i - appendingArray->getData()->array_size];
-    }
-    appendingArray->resize(newSize, 1);
-    copy<type_array>(appendingArray->getData()->array, temp->array, newSize);
-    remove_struct<type_array>(temp);
+	asize_t newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
+	Array<type_array> *temp = create_struct<type_array>(newSize);
+	for (asize_t i = 0; i < newSize; i++)
+	{
+		i < appendingArray->getData()->array_size ? temp->array[i] = appendingArray->getData()->array[i] : temp->array[i] = this->ARRAY->array[i - appendingArray->getData()->array_size];
+	}
+	appendingArray->resize(newSize, 1);
+	copy<type_array>(appendingArray->getData()->array, temp->array, newSize);
+	remove_struct<type_array>(temp);
 }
 
-//TODO Optimize operators + - * /
+// TODO Optimize operators + - * /
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator+(const asize_t &addSize)
 {
-    if (this->ARRAY->array_size + addSize > 0xffffffff)
-    {
-        throw memory_overflow();
-    }
-    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-    resize(temp->array_size + addSize, 1);
-    copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
-    remove_struct<type_array>(temp);
+	if (this->ARRAY->array_size + addSize > 0xffffffff)
+	{
+		throw memory_overflow();
+	}
+	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	resize(temp->array_size + addSize, 1);
+	copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
+	remove_struct<type_array>(temp);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
 {
-    if (subtractSize >= this->ARRAY->array_size)
-    {
-        remove();
-        return;
-    }
-    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-    resize(temp->array_size - subtractSize, 1);
-    copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
-    remove_struct<type_array>(temp);
+	if (subtractSize >= this->ARRAY->array_size)
+	{
+		remove();
+		return;
+	}
+	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	resize(temp->array_size - subtractSize, 1);
+	copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+	remove_struct<type_array>(temp);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
 {
-    if (this->ARRAY->array_size * multiplySize > 0xffffffff)
-    {
-        throw memory_overflow();
-    }
-    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-    resize(temp->array_size * multiplySize, 1);
-    copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
-    remove_struct<type_array>(temp);
+	if (this->ARRAY->array_size * multiplySize > 0xffffffff)
+	{
+		throw memory_overflow();
+	}
+	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	resize(temp->array_size * multiplySize, 1);
+	copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
+	remove_struct<type_array>(temp);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
 {
-    if (divideSize >= this->ARRAY->array_size)
-    {
-        remove();
-        return;
-    }
-    Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-    copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-    resize(temp->array_size / divideSize, 1);
-    copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
-    remove_struct<type_array>(temp);
+	if (divideSize >= this->ARRAY->array_size)
+	{
+		remove();
+		return;
+	}
+	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
+	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	resize(temp->array_size / divideSize, 1);
+	copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+	remove_struct<type_array>(temp);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::remove()
 {
-    remove_struct<type_array>(this->ARRAY);
+	remove_struct<type_array>(this->ARRAY);
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -1239,7 +1239,7 @@ void ARRAYDATA<type_array>::remove()
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//TODO The implementation of the matrices is scheduled to version 3.0.0
+// TODO The implementation of the matrices is scheduled to version 3.0.0
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -1251,7 +1251,7 @@ void ARRAYDATA<type_array>::remove()
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//TODO The implementation of the trees is scheduled to version 4.0.0
+// TODO The implementation of the trees is scheduled to version 4.0.0
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -1263,7 +1263,7 @@ void ARRAYDATA<type_array>::remove()
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//TODO The implementation of the lists is scheduled to version 5.0.0
+// TODO The implementation of the lists is scheduled to version 5.0.0
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -1542,4 +1542,3 @@ template void ARRAYDATA<char>::operator/(const asize_t &);
 template void ARRAYDATA<int>::remove();
 template void ARRAYDATA<float>::remove();
 template void ARRAYDATA<char>::remove();
-

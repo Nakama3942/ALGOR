@@ -61,13 +61,13 @@
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 using int8_t = signed char; ///< Alias for signed char
-using int16_t = short;      ///< Alias for short
-using int32_t = int;        ///< Alias for int
-using int64_t = long long;  ///< Alias for long long
+using int16_t = short;		///< Alias for short
+using int32_t = int;		///< Alias for int
+using int64_t = long long;	///< Alias for long long
 
-using uint8_t = unsigned char;       ///< Alias for unsigned char
-using uint16_t = unsigned short;     ///< Alias for unsigned short
-using uint32_t = unsigned int;       ///< Alias for unsigned int
+using uint8_t = unsigned char;		 ///< Alias for unsigned char
+using uint16_t = unsigned short;	 ///< Alias for unsigned short
+using uint32_t = unsigned int;		 ///< Alias for unsigned int
 using uint64_t = unsigned long long; ///< Alias for unsigned long long
 
 using asize_t = unsigned int; ///< Alias for specifying the type "array size"
@@ -90,8 +90,8 @@ void copy(type_array *new_array, const type_array *old_array, const unsigned int
 template <typename type_array>
 struct Array
 {
-    type_array *array;
-    asize_t array_size = 0;
+	type_array *array;
+	asize_t array_size = 0;
 };
 template <typename type_array>
 Array<type_array> *create_struct(const asize_t &SIZE);
@@ -102,12 +102,12 @@ template <typename type_array>
 class ArrayBase
 {
 public:
-    ArrayBase(Array<type_array> *&Array);
-    ArrayBase(const asize_t &SIZE);
-    ArrayBase();
+	ArrayBase(Array<type_array> *&Array);
+	ArrayBase(const asize_t &SIZE);
+	ArrayBase();
 
 protected:
-    Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
+	Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
 };
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -123,45 +123,45 @@ protected:
 class Exception
 {
 public:
-    Exception(unsigned int CODE, const char *DETAILS);
-    Exception(unsigned int CODE);
-    Exception(const char *DETAILS);
-    unsigned int code();
-    const char *what();
+	Exception(unsigned int CODE, const char *DETAILS);
+	Exception(unsigned int CODE);
+	Exception(const char *DETAILS);
+	unsigned int code();
+	const char *what();
 
 protected:
-    unsigned int CODE;   ///< Exception encoding
-    const char *DETAILS; ///< Exception details
+	unsigned int CODE;	 ///< Exception encoding
+	const char *DETAILS; ///< Exception details
 };
 
 class memory_overflow : public Exception
 {
 public:
-    memory_overflow();
+	memory_overflow();
 };
 
 class position_failure : public Exception
 {
 public:
-    position_failure();
+	position_failure();
 };
 
 class value_failure : public Exception
 {
 public:
-    value_failure();
+	value_failure();
 };
 
 class void_data : public Exception
 {
 public:
-    void_data();
+	void_data();
 };
 
 class not_found : public Exception
 {
 public:
-    not_found();
+	not_found();
 };
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -177,30 +177,30 @@ public:
 class RC4
 {
 public:
-    //int crypto_entropy();
-    void crypto_srand(const char *key, int ksize);
-    void crypto_rand(char *output, int size);
+	// int crypto_entropy();
+	void crypto_srand(const char *key, int ksize);
+	void crypto_rand(char *output, int size);
 
 private:
-    uint8_t Sbox[256];
+	uint8_t Sbox[256];
 };
 
 class MersenneTwister
 {
 public:
-    MersenneTwister(int seed);
-    void RandomInit(int seed);
-    int IRandom(int min, int max);
-    int IRandomX(int min, int max);
-    double Random();
-    uint32_t BRandom();
+	MersenneTwister(int seed);
+	void RandomInit(int seed);
+	int IRandom(int min, int max);
+	int IRandomX(int min, int max);
+	double Random();
+	uint32_t BRandom();
 
 private:
-    void Init0(int seed);
-    uint32_t mersenne_twister[624]; //State vector
-    int mersenne_twister_index;     //Index into mersenne_twister
-    uint32_t LastInterval;          //Last interval length for IRandomX
-    uint32_t RejectionLimit;        //Rejection limit used by IRandomX
+	void Init0(int seed);
+	uint32_t mersenne_twister[624]; // State vector
+	int mersenne_twister_index;		// Index into mersenne_twister
+	uint32_t LastInterval;			// Last interval length for IRandomX
+	uint32_t RejectionLimit;		// Rejection limit used by IRandomX
 };
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -213,7 +213,7 @@ private:
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template <class type_array> //NOTE Тут може бути й клас - треба тестувати
+template <class type_array> // NOTE Тут може бути й клас - треба тестувати
 class Exchange_Sorts : public ArrayBase<type_array>
 {
 public:
@@ -223,11 +223,12 @@ public:
 	void Odd_Even_Sort();
 	void Comb_Sort();
 	void Gnome_Sort();
-	//void Propotion_Extend_Sort();
+	// void Propotion_Extend_Sort();
 	void Quick_Sort();
 	void Slow_Sort();
 	void Stooge_Sort();
 	void Bogo_Sort();
+
 private:
 	void Recursive_Quick_Sort(const int &left_limit, const int &right_limit);
 	void Recursive_Slow_Sort(const int &left_limit, const int &right_limit);
@@ -238,25 +239,25 @@ private:
 
 namespace Selection_Sorts
 {
-	template <class type_array> //NOTE Скоріше тут буде тип - треба тестувати
+	template <class type_array> // NOTE Скоріше тут буде тип - треба тестувати
 	class SelectionSort
 	{
 	public:
 		static void selection_sort(type_array *Array, int array_size)
 		{
-			for(int i = 0; i < array_size; i++)
+			for (int i = 0; i < array_size; i++)
 			{
 				int min_index = i;
 
-				for(int j = i + 1; j < array_size; j++)
+				for (int j = i + 1; j < array_size; j++)
 				{
-					if(Array[j] < Array[min_index])
+					if (Array[j] < Array[min_index])
 					{
 						min_index = j;
 					}
 				}
 
-				if(min_index != i)
+				if (min_index != i)
 				{
 					swap<type_array>(Array[i], Array[min_index]);
 				}
@@ -264,18 +265,18 @@ namespace Selection_Sorts
 		}
 	};
 
-    template <typename type_array>
-    class HeapSort : public ArrayBase<type_array>
-    {
-    public:
-        HeapSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-        void start_sort();
+	template <typename type_array>
+	class HeapSort : public ArrayBase<type_array>
+	{
+	public:
+		HeapSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
+		void start_sort();
 
-    private:
-        void heapify(type_array *Array, const asize_t &count, const asize_t &array_size);
-    };
+	private:
+		void heapify(type_array *Array, const asize_t &count, const asize_t &array_size);
+	};
 
-	template <class type_array> //NOTE Скоріше тут буде тип - треба тестувати
+	template <class type_array> // NOTE Скоріше тут буде тип - треба тестувати
 	class SmoothSort
 	{
 	public:
@@ -301,6 +302,7 @@ namespace Selection_Sorts
 				PrevState(curState);
 			}
 		}
+
 	private:
 		type_array *Array;
 		int array_size;
@@ -324,7 +326,7 @@ namespace Selection_Sorts
 					next >>= 1;
 					pos++;
 				}
-				if ((next&3) == 3)
+				if ((next & 3) == 3)
 				{
 					curState += 1 << pos;
 					posNewTop = pos + 2;
@@ -384,13 +386,13 @@ namespace Selection_Sorts
 			while (posHeapItemsAmount > 1)
 			{
 				int posR = posCurNode - 1;
-				int posL = posR - LeoNum[posHeapItemsAmount-2];
+				int posL = posR - LeoNum[posHeapItemsAmount - 2];
 				int posMaxChild = posL;
 				int posNextTop = posHeapItemsAmount - 1;
 				if (Array[posR] > Array[posL])
 				{
 					posMaxChild = posR;
-					posNextTop = posHeapItemsAmount- 2;
+					posNextTop = posHeapItemsAmount - 2;
 				}
 				if (Array[posCurNode] < Array[posMaxChild])
 				{
@@ -450,32 +452,33 @@ namespace Selection_Sorts
 		}
 	};
 
-	//class CartesianTreeSort{};
+	// class CartesianTreeSort{};
 
-	//class TournamentSort
+	// class TournamentSort
 
-	//class CycleSort
+	// class CycleSort
 
-	//class WeakHeapSort
+	// class WeakHeapSort
 }
 
 namespace Insertion_Sorts
 {
-    template <typename type_array>
-    class InsertSort : public ArrayBase<type_array>
-    {
-    public:
-        InsertSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-        void start_sort();
-    };
+	template <typename type_array>
+	class InsertSort : public ArrayBase<type_array>
+	{
+	public:
+		InsertSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
+		void start_sort();
+	};
 
-	template <class type_array> //NOTE Скоріше тут буде тип - треба тестувати
+	template <class type_array> // NOTE Скоріше тут буде тип - треба тестувати
 	class ShellSort
 	{
 	public:
 		static void shell_sort(type_array *Array, int array_size)
 		{
-			for (int step = array_size / 2; step > 0; step /= 2) {
+			for (int step = array_size / 2; step > 0; step /= 2)
+			{
 				for (int i = step; i < array_size; i++)
 				{
 					for (int j = i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
@@ -487,104 +490,104 @@ namespace Insertion_Sorts
 		}
 	};
 
-	//class SplaySort
+	// class SplaySort
 
-	//class TreeSort{};
+	// class TreeSort{};
 
-    //class LibrarySort{};
+	// class LibrarySort{};
 
-	//class PatienceSort{};
+	// class PatienceSort{};
 }
 
 namespace Merge_Sorts
 {
-    template <typename type_array>
-    class MergeSort : public ArrayBase<type_array>
-    {
-    public:
-        MergeSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-        void start_sort();
+	template <typename type_array>
+	class MergeSort : public ArrayBase<type_array>
+	{
+	public:
+		MergeSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
+		void start_sort();
 
-    private:
-        void merge_sort(type_array *Array, const int &left_limit, const int &right_limit);
-        void merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit);
-    };
+	private:
+		void merge_sort(type_array *Array, const int &left_limit, const int &right_limit);
+		void merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit);
+	};
 
-	//class CascadeMergeSort
+	// class CascadeMergeSort
 
-	//class TreeSort{};
+	// class TreeSort{};
 
-	//class OscillatingMergeSort
+	// class OscillatingMergeSort
 
-	//class PolyphaseMergeSort
+	// class PolyphaseMergeSort
 }
 
 namespace Distribution_Sort
 {
-	//class AmericanFlagSort
+	// class AmericanFlagSort
 
-	//class BeadSort{};
+	// class BeadSort{};
 
-	//class BucketSort{};
+	// class BucketSort{};
 
-	//class BurstSort{};
+	// class BurstSort{};
 
-    class CountingSort : public ArrayBase<int>
-    {
-    public:
-        CountingSort(Array<int> *&Array) : ArrayBase<int>(Array){};
-        void start_sort();
-    };
+	class CountingSort : public ArrayBase<int>
+	{
+	public:
+		CountingSort(Array<int> *&Array) : ArrayBase<int>(Array){};
+		void start_sort();
+	};
 
-	//class InterpolationSort
+	// class InterpolationSort
 
-	//class PigeonholeSort{};
+	// class PigeonholeSort{};
 
-	//class ProxmapSort{};
+	// class ProxmapSort{};
 
-    class RadixSort : public ArrayBase<int>
-    {
-    public:
-        RadixSort(Array<int> *&Array) : ArrayBase<int>(Array){};
-        void start_sort();
-    };
+	class RadixSort : public ArrayBase<int>
+	{
+	public:
+		RadixSort(Array<int> *&Array) : ArrayBase<int>(Array){};
+		void start_sort();
+	};
 
-	//class FlashSort{};
+	// class FlashSort{};
 }
 
 namespace Concurrent_Sort
 {
-	//class BitonicSorter{};
+	// class BitonicSorter{};
 
-	//class BatcherOddEvenMergeSort{};
+	// class BatcherOddEvenMergeSort{};
 
-	//class PairwiseSortingNetwork{};
+	// class PairwiseSortingNetwork{};
 
-	//class SampleSort{};
+	// class SampleSort{};
 }
 
 namespace Hybrid_Sorts
 {
-	//class BlockMergeSort{};
+	// class BlockMergeSort{};
 
-	//class KirkpatrickReischSort
+	// class KirkpatrickReischSort
 
-    //class TimSort{};
+	// class TimSort{};
 
-    //class IntroSort{};
+	// class IntroSort{};
 
-    //class SpreadSort{};
+	// class SpreadSort{};
 
-	//class MergeInsertionSort{};
+	// class MergeInsertionSort{};
 }
 
 namespace Other_Sorts
 {
-	//class TopologicalSort{};
+	// class TopologicalSort{};
 
-    //class PancakeSort{};
+	// class PancakeSort{};
 
-    //class SpaghettiSort{};
+	// class SpaghettiSort{};
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -599,62 +602,62 @@ namespace Other_Sorts
 
 enum ArrayStatus /// Set of array statuses
 {
-    SORTED,  ///< Indicates that the array is sorted
-    UNSORTED ///< Indicates that the array is unsorted
+	SORTED,	 ///< Indicates that the array is sorted
+	UNSORTED ///< Indicates that the array is unsorted
 };
 enum ArrayType /// A set of array types
 {
-    NUMBER, ///< Indicates that the array stores numbers
-    STRING  ///< Indicates that the array stores strings
+	NUMBER, ///< Indicates that the array stores numbers
+	STRING	///< Indicates that the array stores strings
 };
 
 template <typename type_array>
 class ARRAYDATA : public ArrayBase<type_array>
 {
 public:
-    ARRAYDATA(Array<type_array> *&Array);
-    ARRAYDATA(const asize_t &SIZE);
-    ~ARRAYDATA();
+	ARRAYDATA(Array<type_array> *&Array);
+	ARRAYDATA(const asize_t &SIZE);
+	~ARRAYDATA();
 
-    void generatedData(const int &min_limit, const int &max_limit);
-    void setNewData(Array<type_array> *&Array);
-    void setData(Array<type_array> *&Array);
-    void cloneData(Array<type_array> *&CloningArray);
-    void cloneData(ARRAYDATA<type_array> *&CloningObject);
-    void getData(Array<type_array> *&DATA);
-    Array<type_array> *getData();
+	void generatedData(const int &min_limit, const int &max_limit);
+	void setNewData(Array<type_array> *&Array);
+	void setData(Array<type_array> *&Array);
+	void cloneData(Array<type_array> *&CloningArray);
+	void cloneData(ARRAYDATA<type_array> *&CloningObject);
+	void getData(Array<type_array> *&DATA);
+	Array<type_array> *getData();
 
-    void reset();
-    void resize(const asize_t &NEW_SIZE, const type_array &setElement);
-    void replace(const unsigned int &position, const type_array &value);
-    void reverse();
-    void respawn();
+	void reset();
+	void resize(const asize_t &NEW_SIZE, const type_array &setElement);
+	void replace(const unsigned int &position, const type_array &value);
+	void reverse();
+	void respawn();
 
-    type_array getMin(ArrayStatus ArrStat = UNSORTED);
-    type_array getMax(ArrayStatus ArrStat = UNSORTED);
+	type_array getMin(ArrayStatus ArrStat = UNSORTED);
+	type_array getMax(ArrayStatus ArrStat = UNSORTED);
 
-    Array<int> *lenear_searcher(const type_array &required_element);
-    int binary_searcher(const type_array &required_element);
-    Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = NUMBER);
+	Array<int> *lenear_searcher(const type_array &required_element);
+	int binary_searcher(const type_array &required_element);
+	Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = NUMBER);
 
-    type_array average();
-    type_array mediana();
-    type_array moda(int &highest_frequency);
-    Array<type_array> *modas(int &highest_frequency);
+	type_array average();
+	type_array mediana();
+	type_array moda(int &highest_frequency);
+	Array<type_array> *modas(int &highest_frequency);
 
-    void operator&&(const type_array &value);
-    void operator!();
-    void operator||(const type_array &value);
-    void operator<<(ARRAYDATA<type_array> *&appendingArray);
-    void operator>>(ARRAYDATA<type_array> *&appendingArray);
-    void operator+(const asize_t &addSize);
-    void operator-(const asize_t &subtractSize);
-    void operator*(const asize_t &multiplySize);
-    void operator/(const asize_t &divideSize);
+	void operator&&(const type_array &value);
+	void operator!();
+	void operator||(const type_array &value);
+	void operator<<(ARRAYDATA<type_array> *&appendingArray);
+	void operator>>(ARRAYDATA<type_array> *&appendingArray);
+	void operator+(const asize_t &addSize);
+	void operator-(const asize_t &subtractSize);
+	void operator*(const asize_t &multiplySize);
+	void operator/(const asize_t &divideSize);
 
 private:
-    void remove();
-    void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
+	void remove();
+	void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 };
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -667,12 +670,12 @@ private:
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//class Matrix
+// class Matrix
 //{
-//public:
-//    Matrix();
-//protected:
-//};
+// public:
+//     Matrix();
+// protected:
+// };
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -684,12 +687,12 @@ private:
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//class Heap
+// class Heap
 //{
-//public:
-//    Heap();
-//protected:
-//};
+// public:
+//     Heap();
+// protected:
+// };
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -701,11 +704,11 @@ private:
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-//class List
+// class List
 //{
-//public:
-//    List();
-//protected:
-//};
+// public:
+//     List();
+// protected:
+// };
 
-#endif //ALGOR_HPP
+#endif // ALGOR_HPP
