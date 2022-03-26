@@ -20,6 +20,23 @@
 ---
 -->
 
+## v2.1.1 (26.03.2022)
+
+#### Enhancements:
+- Added SelectionSort and SmoothSort to the Selection_Sorts namespace; ShellSort in Insertion_Sorts and all remaining algorithms with Exchange_Sorts, namely OddEvenSort, CombSort, GnomeSort, SlowSort, StoogeSort and BogoSort. After implementing all the algorithms with Exchange_Sorts, I finally got the opportunity to combine them into one class.
+
+Now, to call, you do NOT need to write a long command like
+```cpp
+Selection_Sorts::HeapSort<int> *sort = new Selection_Sorts::HeapSort<int>(ArrayStruct);
+sort->start_sort();
+```
+as is still required for all other namespaces. Now it is enough to enter the ensuing command
+```cpp
+Exchange_Sorts<int> *sort = new Exchange_Sorts<int>(ArrayStruct);
+sort->Stooge_Sort(); // Or some other
+```
+As you can see, now it is enough to create a class object and select the desired sorting algorithm in it. Now you do not need, as before, to select a class in the namespace, and start sorting already in it.
+
 ## v2.1.0 (11.01.2022)
 
 #### Bug Fixes:
