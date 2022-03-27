@@ -603,7 +603,31 @@ namespace Distribution_Sort
 
 namespace Concurrent_Sort
 {
-	// class BitonicSorter{};
+	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+	class BitonicSorter
+	{
+	public:
+		static void bitonic_sorter(type_array *Array, int array_size)
+		{
+			for(int k = 2; k <= array_size; k *= 2)
+			{
+				for(int j = k / 2; j > 0; j /= 2)
+				{
+					for(int i = 0; i < array_size; i++)
+					{
+						int l = i ^ j;
+						if(l > i)
+						{
+							if((((i & k) == 0) && (Array[i] > Array[l])) || (((i & k) != 0) && (Array[i] < Array[l])))
+							{
+								swap<type_array>(Array[i], Array[l]);
+							}
+						}
+					}
+				}
+			}
+		}
+	};
 
 	// class BatcherOddEvenMergeSort{};
 
@@ -631,7 +655,44 @@ namespace Other_Sorts
 {
 	// class TopologicalSort{};
 
-	// class PancakeSort{};
+	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+	class PancakeSort
+	{
+	public:
+		static void pancake_sort(type_array *Array, int array_size)
+		{
+			while(array_size > 1)
+			{
+				int maxIndex = max_index(Array, array_size);
+				flip(Array, maxIndex);
+				flip(Array, array_size - 1);
+				array_size--;
+			}
+		}
+	private:
+		static int max_index(type_array *Array, int array_size)
+		{
+			int index = 0;
+			for(int i = 0; i < array_size; i++)
+			{
+				if(Array[index] < Array[i])
+				{
+					index = i;
+				}
+			}
+			return index;
+		}
+		static void flip(type_array *Array, int index)
+		{
+			int left = 0;
+			while(left < index)
+			{
+				swap<type_array>(Array[left], Array[index]);
+				index--;
+				left++;
+			}
+		}
+	};
 
 	// class SpaghettiSort{};
 }
