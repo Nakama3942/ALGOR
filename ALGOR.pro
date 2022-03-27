@@ -5,7 +5,7 @@ DEFINES += ALGOR_LIBRARY
 
 VERSION = 2.0.0
 
-CONFIG += c++11
+CONFIG += c++20
 CONFIG += build_all
 
 # You can make your code fail to compile if it uses deprecated APIs.

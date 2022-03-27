@@ -939,9 +939,9 @@ type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
 {
 	switch (ArrStat)
 	{
-	case UNSORTED:
+	case ARRAYDATA::ArrayStatus::UNSORTED:
 		return minimum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
-	case SORTED:
+	case ARRAYDATA::ArrayStatus::SORTED:
 		return this->ARRAY->array[0];
 	}
 	throw value_failure();
@@ -952,9 +952,9 @@ type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
 {
 	switch (ArrStat)
 	{
-	case UNSORTED:
+	case ARRAYDATA::ArrayStatus::UNSORTED:
 		return maximum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
-	case SORTED:
+	case ARRAYDATA::ArrayStatus::SORTED:
 		return this->ARRAY->array[this->ARRAY->array_size - 1];
 	}
 	throw value_failure();
@@ -1020,13 +1020,13 @@ Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_arr
 			{
 				switch (ArrType)
 				{
-				case NUMBER:
+				case ARRAYDATA::ArrayType::NUMBER:
 					if (SUBARRAY->array_size - j == 1)
 					{
 						addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 					}
 					break;
-				case STRING:
+				case ARRAYDATA::ArrayType::STRING:
 					if (SUBARRAY->array_size - j == 2)
 					{
 						addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);

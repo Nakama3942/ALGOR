@@ -456,7 +456,53 @@ namespace Selection_Sorts
 
 	// class TournamentSort
 
-	// class CycleSort
+	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+	class CycleSort
+	{
+	public:
+		static void cycle_sort(type_array *Array, int array_size)
+		{
+			for(int cycle_start = 0; cycle_start < array_size; cycle_start++)
+			{
+				type_array item = Array[cycle_start];
+
+				int pos = cycle_start;
+				for(int i = cycle_start + 1; i < array_size; i++)
+				{
+					if(Array[i] < item)
+					{
+						pos += 1;
+					}
+				}
+				if(pos == cycle_start)
+				{
+					continue;
+				}
+				while(item == Array[pos])
+				{
+					pos += 1;
+				}
+				swap<type_array>(Array[pos], item);
+
+				while(pos != cycle_start)
+				{
+					pos = cycle_start;
+					for(int i = cycle_start + 1; i < array_size; i++)
+					{
+						if(Array[i] < item)
+						{
+							pos += 1;
+						}
+					}
+					while(item == Array[pos])
+					{
+						pos += 1;
+					}
+					swap<type_array>(Array[pos], item);
+				}
+			}
+		}
+	};
 
 	// class WeakHeapSort
 }
@@ -600,17 +646,6 @@ namespace Other_Sorts
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-enum ArrayStatus /// Set of array statuses
-{
-	SORTED,	 ///< Indicates that the array is sorted
-	UNSORTED ///< Indicates that the array is unsorted
-};
-enum ArrayType /// A set of array types
-{
-	NUMBER, ///< Indicates that the array stores numbers
-	STRING	///< Indicates that the array stores strings
-};
-
 template <typename type_array>
 class ARRAYDATA : public ArrayBase<type_array>
 {
@@ -618,6 +653,17 @@ public:
 	ARRAYDATA(Array<type_array> *&Array);
 	ARRAYDATA(const asize_t &SIZE);
 	~ARRAYDATA();
+
+	enum class ArrayStatus /// Set of array statuses
+	{
+		SORTED,	 ///< Indicates that the array is sorted
+		UNSORTED ///< Indicates that the array is unsorted
+	};
+	enum class ArrayType /// A set of array types
+	{
+		NUMBER, ///< Indicates that the array stores numbers
+		STRING	///< Indicates that the array stores strings
+	};
 
 	void generatedData(const int &min_limit, const int &max_limit);
 	void setNewData(Array<type_array> *&Array);
@@ -633,12 +679,12 @@ public:
 	void reverse();
 	void respawn();
 
-	type_array getMin(ArrayStatus ArrStat = UNSORTED);
-	type_array getMax(ArrayStatus ArrStat = UNSORTED);
+	type_array getMin(ArrayStatus ArrStat = ArrayStatus::UNSORTED);
+	type_array getMax(ArrayStatus ArrStat = ArrayStatus::UNSORTED);
 
 	Array<int> *lenear_searcher(const type_array &required_element);
 	int binary_searcher(const type_array &required_element);
-	Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = NUMBER);
+	Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
 
 	type_array average();
 	type_array mediana();
