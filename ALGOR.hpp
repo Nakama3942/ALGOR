@@ -217,7 +217,7 @@ template <class type_array> // NOTE Тут може бути й клас - тр�
 class Exchange_Sorts : public ArrayBase<type_array>
 {
 public:
-	Exchange_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
+	Exchange_Sorts(Array<type_array> *&Array);
 	void Bubble_Sort();
 	void Cocktail_Shaker_Sort();
 	void Odd_Even_Sort();
@@ -229,12 +229,100 @@ public:
 	void Stooge_Sort();
 	void Bogo_Sort();
 
-private:
-	void Recursive_Quick_Sort(const int &left_limit, const int &right_limit);
-	void Recursive_Slow_Sort(const int &left_limit, const int &right_limit);
-	void Recursive_Stooge_Sort(const int &left_limit, const int &right_limit);
-	bool Correct();
-	void Shuffle();
+	class BubbleSort
+	{
+	public:
+		BubbleSort(type_array *array, asize_t asize);;
+		void bubble_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+	};
+
+	class CocktailShakerSort
+	{
+	public:
+		CocktailShakerSort(type_array *array, asize_t asize);;
+		void cocktail_shaker_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+	};
+
+	class OddEvenSort
+	{
+	public:
+		OddEvenSort(type_array *array, asize_t asize);;
+		void odd_even_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+	};
+
+	class CombSort
+	{
+	public:
+		CombSort(type_array *array, asize_t asize);;
+		void comb_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+	};
+
+	class GnomeSort
+	{
+	public:
+		GnomeSort(type_array *array, asize_t asize);;
+		void gnome_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+	};
+
+	class QuickSort
+	{
+	public:
+		QuickSort(type_array *array, asize_t asize);;
+		void quick_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+		void recursive_quick_sort(const int &left_limit, const int &right_limit);
+	};
+
+	class SlowSort
+	{
+	public:
+		SlowSort(type_array *array, asize_t asize);;
+		void slow_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+		void recursive_slow_sort(const int &left_limit, const int &right_limit);
+	};
+
+	class StoogeSort
+	{
+	public:
+		StoogeSort(type_array *array, asize_t asize);;
+		void stooge_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+		void recursive_stooge_sort(const int &left_limit, const int &right_limit);
+	};
+
+	class BogoSort
+	{
+	public:
+		BogoSort(type_array *array, asize_t asize);;
+		void bogo_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+		bool Correct();
+		void Shuffle();
+	};
 };
 
 namespace Selection_Sorts
@@ -452,10 +540,6 @@ namespace Selection_Sorts
 		}
 	};
 
-	// class CartesianTreeSort{};
-
-	// class TournamentSort
-
 	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
 	class CycleSort
 	{
@@ -503,8 +587,6 @@ namespace Selection_Sorts
 			}
 		}
 	};
-
-	// class WeakHeapSort
 }
 
 namespace Insertion_Sorts
@@ -535,8 +617,6 @@ namespace Insertion_Sorts
 			}
 		}
 	};
-
-	// class SplaySort
 
 	// class TreeSort{};
 
