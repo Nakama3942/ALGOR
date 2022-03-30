@@ -20,6 +20,13 @@
 ---
 -->
 
+## v2.1.2 (30.03.2022)
+
+#### Enhancements:
+- Made the following sorting algorithms: Selection_Sort, Smooth_Sort, Cycle_Sort; combined them together with Heap_Sort (only four algorithms) into one class - Selection_Sorts.
+- I refused Cartesian_Tree_Sort, Tournament_Sort, WeakHeap_Sort due to their very complicated implementation and lack of templates. Maybe someday I will implement them.
+- I will not mention all other algorithms yet, because they are not yet ready for use. When their category of algorithms is prepared, then I will remember them.
+
 ## v2.1.1 (26.03.2022)
 
 #### Enhancements:

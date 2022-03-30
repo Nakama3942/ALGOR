@@ -397,88 +397,88 @@ void MersenneTwister::Init0(int seed)
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template<class type_array>
-Exchange_Sorts<type_array>::Exchange_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array){}
+template <class type_array>
+Exchange_Sorts<type_array>::Exchange_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Bubble_Sort()
 {
 	BubbleSort *sort = new BubbleSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->bubble_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Cocktail_Shaker_Sort()
 {
 	CocktailShakerSort *sort = new CocktailShakerSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->cocktail_shaker_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Odd_Even_Sort()
 {
 	OddEvenSort *sort = new OddEvenSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->odd_even_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Comb_Sort()
 {
 	CombSort *sort = new CombSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->comb_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Gnome_Sort()
 {
 	GnomeSort *sort = new GnomeSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->gnome_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Quick_Sort()
 {
 	QuickSort *sort = new QuickSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->quick_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Slow_Sort()
 {
 	SlowSort *sort = new SlowSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->slow_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Stooge_Sort()
 {
 	StoogeSort *sort = new StoogeSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->stooge_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::Bogo_Sort()
 {
 	BogoSort *sort = new BogoSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->bogo_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::BubbleSort::BubbleSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::BubbleSort::BubbleSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::BubbleSort::bubble_sort()
 {
-	//verification(array_size);
+	// verification(array_size);
 	for (asize_t i = 0; i < array_size; i++)
 	{
 		for (asize_t j = 0; j < array_size - 1; j++)
@@ -491,13 +491,13 @@ void Exchange_Sorts<type_array>::BubbleSort::bubble_sort()
 	}
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::CocktailShakerSort::CocktailShakerSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::CocktailShakerSort::CocktailShakerSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_sort()
 {
-	//verification(array_size);
+	// verification(array_size);
 	asize_t leftMark = 1, rightMark = array_size - 1;
 	while (leftMark <= rightMark)
 	{
@@ -520,10 +520,10 @@ void Exchange_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_sort()
 	}
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::OddEvenSort::OddEvenSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::OddEvenSort::OddEvenSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::OddEvenSort::odd_even_sort()
 {
 	for (asize_t i = 0; i < array_size; i++)
@@ -540,10 +540,10 @@ void Exchange_Sorts<type_array>::OddEvenSort::odd_even_sort()
 	}
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::CombSort::CombSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::CombSort::CombSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::CombSort::comb_sort()
 {
 	double factor = 1.2473309; //Фактор зменшення
@@ -562,10 +562,10 @@ void Exchange_Sorts<type_array>::CombSort::comb_sort()
 	}
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::GnomeSort::GnomeSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::GnomeSort::GnomeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::GnomeSort::gnome_sort()
 {
 	for (asize_t count = 0; count < array_size; count++)
@@ -593,17 +593,17 @@ void Exchange_Sorts<type_array>::GnomeSort::gnome_sort()
 	}
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::QuickSort::QuickSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::QuickSort::QuickSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::QuickSort::quick_sort()
 {
-	//verification(array_size);
+	// verification(array_size);
 	recursive_quick_sort(0, array_size - 1);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::QuickSort::recursive_quick_sort(const int &left_limit, const int &right_limit)
 {
 	type_array middle = Array[(left_limit + right_limit) / 2];
@@ -635,16 +635,16 @@ void Exchange_Sorts<type_array>::QuickSort::recursive_quick_sort(const int &left
 	}
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::SlowSort::SlowSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::SlowSort::SlowSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::SlowSort::slow_sort()
 {
 	recursive_slow_sort(0, array_size - 1);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::SlowSort::recursive_slow_sort(const int &left_limit, const int &right_limit)
 {
 	if (left_limit >= right_limit)
@@ -661,18 +661,16 @@ void Exchange_Sorts<type_array>::SlowSort::recursive_slow_sort(const int &left_l
 	recursive_slow_sort(left_limit, right_limit - 1);
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::StoogeSort::StoogeSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::StoogeSort::StoogeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-
-
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::StoogeSort::stooge_sort()
 {
 	recursive_stooge_sort(0, array_size - 1);
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::StoogeSort::recursive_stooge_sort(const int &left_limit, const int &right_limit)
 {
 	if (Array[left_limit] > Array[right_limit])
@@ -690,12 +688,10 @@ void Exchange_Sorts<type_array>::StoogeSort::recursive_stooge_sort(const int &le
 	recursive_stooge_sort(left_limit, right_limit - k);
 }
 
-template<class type_array>
-Exchange_Sorts<type_array>::BogoSort::BogoSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Exchange_Sorts<type_array>::BogoSort::BogoSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-
-
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::BogoSort::bogo_sort()
 {
 	while (Correct())
@@ -704,7 +700,7 @@ void Exchange_Sorts<type_array>::BogoSort::bogo_sort()
 	}
 }
 
-template<class type_array>
+template <class type_array>
 bool Exchange_Sorts<type_array>::BogoSort::Correct()
 {
 	asize_t size = array_size;
@@ -718,7 +714,7 @@ bool Exchange_Sorts<type_array>::BogoSort::Correct()
 	return false;
 }
 
-template<class type_array>
+template <class type_array>
 void Exchange_Sorts<type_array>::BogoSort::Shuffle()
 {
 	for (asize_t i = 0; i < array_size; i++)
@@ -728,44 +724,44 @@ void Exchange_Sorts<type_array>::BogoSort::Shuffle()
 	}
 }
 
-template<class type_array>
-Selection_Sorts<type_array>::Selection_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array){}
+template <class type_array>
+Selection_Sorts<type_array>::Selection_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::Selection_Sort()
 {
 	SelectionSort *sort = new SelectionSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->selection_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::Heap_Sort()
 {
 	HeapSort *sort = new HeapSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->heap_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::Smooth_Sort()
 {
 	SmoothSort sort(this->ARRAY->array, (int)this->ARRAY->array_size);
 	sort.smooth_sort();
 }
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::Cycle_Sort()
 {
 	CycleSort *sort = new CycleSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->cycle_sort();
-	delete(sort);
+	delete (sort);
 }
 
-template<class type_array>
-Selection_Sorts<type_array>::SelectionSort::SelectionSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Selection_Sorts<type_array>::SelectionSort::SelectionSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::SelectionSort::selection_sort()
 {
 	for (asize_t i = 0; i < array_size; i++)
@@ -785,10 +781,10 @@ void Selection_Sorts<type_array>::SelectionSort::selection_sort()
 	}
 }
 
-template<class type_array>
-Selection_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Selection_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::HeapSort::heap_sort()
 {
 	//Типи int у циклах ЗАЛИШИТИ! Без них не працює!
@@ -804,7 +800,7 @@ void Selection_Sorts<type_array>::HeapSort::heap_sort()
 	}
 }
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::HeapSort::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
 {
 	asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
@@ -823,10 +819,10 @@ void Selection_Sorts<type_array>::HeapSort::heapify(type_array *Array, const asi
 	}
 }
 
-template<class type_array>
-Selection_Sorts<type_array>::SmoothSort::SmoothSort(type_array *array, int asize) : Array(array), array_size(asize){}
+template <class type_array>
+Selection_Sorts<type_array>::SmoothSort::SmoothSort(type_array *array, int asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::SmoothSort::smooth_sort()
 {
 	make_heap_pool();
@@ -844,7 +840,7 @@ void Selection_Sorts<type_array>::SmoothSort::smooth_sort()
 	}
 }
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::SmoothSort::make_heap_pool()
 {
 	for (int i = 0; i < (int)array_size; i++)
@@ -857,7 +853,7 @@ void Selection_Sorts<type_array>::SmoothSort::make_heap_pool()
 	}
 }
 
-template<class type_array>
+template <class type_array>
 int Selection_Sorts<type_array>::SmoothSort::NextState(int &curState)
 {
 	int posNewTop = -1;
@@ -893,7 +889,7 @@ int Selection_Sorts<type_array>::SmoothSort::NextState(int &curState)
 	return posNewTop;
 }
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItemsAmount, int indexLastTop)
 {
 	int posCurNode = indexLastTop;
@@ -921,7 +917,7 @@ void Selection_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItemsAmount, 
 	}
 }
 
-template<class type_array>
+template <class type_array>
 int Selection_Sorts<type_array>::SmoothSort::findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount)
 {
 	int pos = 0;
@@ -956,7 +952,7 @@ int Selection_Sorts<type_array>::SmoothSort::findPosMaxElem(int curState, int in
 	return posMaxTopElem;
 }
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::SmoothSort::PrevState(int &curState)
 {
 	if ((curState & 15) == 8)
@@ -996,45 +992,45 @@ void Selection_Sorts<type_array>::SmoothSort::PrevState(int &curState)
 	}
 }
 
-template<class type_array>
-Selection_Sorts<type_array>::CycleSort::CycleSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+template <class type_array>
+Selection_Sorts<type_array>::CycleSort::CycleSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Selection_Sorts<type_array>::CycleSort::cycle_sort()
 {
-	for(asize_t cycle_start = 0; cycle_start < array_size; cycle_start++)
+	for (asize_t cycle_start = 0; cycle_start < array_size; cycle_start++)
 	{
 		type_array item = Array[cycle_start];
 
 		asize_t pos = cycle_start;
-		for(asize_t i = cycle_start + 1; i < array_size; i++)
+		for (asize_t i = cycle_start + 1; i < array_size; i++)
 		{
-			if(Array[i] < item)
+			if (Array[i] < item)
 			{
 				pos += 1;
 			}
 		}
-		if(pos == cycle_start)
+		if (pos == cycle_start)
 		{
 			continue;
 		}
-		while(item == Array[pos])
+		while (item == Array[pos])
 		{
 			pos += 1;
 		}
 		swap<type_array>(Array[pos], item);
 
-		while(pos != cycle_start)
+		while (pos != cycle_start)
 		{
 			pos = cycle_start;
-			for(asize_t i = cycle_start + 1; i < array_size; i++)
+			for (asize_t i = cycle_start + 1; i < array_size; i++)
 			{
-				if(Array[i] < item)
+				if (Array[i] < item)
 				{
 					pos += 1;
 				}
 			}
-			while(item == Array[pos])
+			while (item == Array[pos])
 			{
 				pos += 1;
 			}

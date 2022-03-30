@@ -233,6 +233,7 @@ public:
 	public:
 		BubbleSort(type_array *array, asize_t asize);
 		void bubble_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -243,6 +244,7 @@ public:
 	public:
 		CocktailShakerSort(type_array *array, asize_t asize);
 		void cocktail_shaker_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -253,6 +255,7 @@ public:
 	public:
 		OddEvenSort(type_array *array, asize_t asize);
 		void odd_even_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -263,6 +266,7 @@ public:
 	public:
 		CombSort(type_array *array, asize_t asize);
 		void comb_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -273,6 +277,7 @@ public:
 	public:
 		GnomeSort(type_array *array, asize_t asize);
 		void gnome_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -283,6 +288,7 @@ public:
 	public:
 		QuickSort(type_array *array, asize_t asize);
 		void quick_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -294,6 +300,7 @@ public:
 	public:
 		SlowSort(type_array *array, asize_t asize);
 		void slow_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -305,6 +312,7 @@ public:
 	public:
 		StoogeSort(type_array *array, asize_t asize);
 		void stooge_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -316,6 +324,7 @@ public:
 	public:
 		BogoSort(type_array *array, asize_t asize);
 		void bogo_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -339,6 +348,7 @@ public:
 	public:
 		SelectionSort(type_array *array, asize_t asize);
 		void selection_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -349,6 +359,7 @@ public:
 	public:
 		HeapSort(type_array *array, asize_t asize);
 		void heap_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
@@ -360,24 +371,27 @@ public:
 	public:
 		CycleSort(type_array *array, asize_t asize);
 		void cycle_sort();
+
 	private:
 		type_array *Array;
 		asize_t array_size;
 	};
+
 private:
 	class SmoothSort
 	{
 	public:
 		//Сирці: http://cppalgo.blogspot.com/2010/10/smoothsort.html
-		//WARNING Алгоритм не хоче працювати при динамічному виділенні пам'яті:
+		// WARNING Алгоритм не хоче працювати при динамічному виділенні пам'яті:
 		//з'являється помилка сегментації, а при статичному оголошенні все працює.
 		//Щоб користувач Не міг динамічно оголосити об'єкт даного класу, я вимушено
 		//закрив цей клас, щоб його можна було використати тільки через метод
 		//зовнішнього класу
-		//WARNING Алгоритм протестовано тільки на масиві з int числами. З іншими
+		// WARNING Алгоритм протестовано тільки на масиві з int числами. З іншими
 		//типами алгоритм може не працювати
 		SmoothSort(type_array *array, int asize);
 		void smooth_sort();
+
 	private:
 		type_array *Array;
 		int array_size;
@@ -610,16 +624,16 @@ namespace Concurrent_Sort
 	public:
 		static void bitonic_sorter(type_array *Array, int array_size)
 		{
-			for(int k = 2; k <= array_size; k *= 2)
+			for (int k = 2; k <= array_size; k *= 2)
 			{
-				for(int j = k / 2; j > 0; j /= 2)
+				for (int j = k / 2; j > 0; j /= 2)
 				{
-					for(int i = 0; i < array_size; i++)
+					for (int i = 0; i < array_size; i++)
 					{
 						int l = i ^ j;
-						if(l > i)
+						if (l > i)
 						{
-							if((((i & k) == 0) && (Array[i] > Array[l])) || (((i & k) != 0) && (Array[i] < Array[l])))
+							if ((((i & k) == 0) && (Array[i] > Array[l])) || (((i & k) != 0) && (Array[i] < Array[l])))
 							{
 								swap<type_array>(Array[i], Array[l]);
 							}
@@ -662,7 +676,7 @@ namespace Other_Sorts
 	public:
 		static void pancake_sort(type_array *Array, int array_size)
 		{
-			while(array_size > 1)
+			while (array_size > 1)
 			{
 				int maxIndex = max_index(Array, array_size);
 				flip(Array, maxIndex);
@@ -670,13 +684,14 @@ namespace Other_Sorts
 				array_size--;
 			}
 		}
+
 	private:
 		static int max_index(type_array *Array, int array_size)
 		{
 			int index = 0;
-			for(int i = 0; i < array_size; i++)
+			for (int i = 0; i < array_size; i++)
 			{
-				if(Array[index] < Array[i])
+				if (Array[index] < Array[i])
 				{
 					index = i;
 				}
@@ -686,7 +701,7 @@ namespace Other_Sorts
 		static void flip(type_array *Array, int index)
 		{
 			int left = 0;
-			while(left < index)
+			while (left < index)
 			{
 				swap<type_array>(Array[left], Array[index]);
 				index--;
