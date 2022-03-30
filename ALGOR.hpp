@@ -223,7 +223,6 @@ public:
 	void Odd_Even_Sort();
 	void Comb_Sort();
 	void Gnome_Sort();
-	// void Propotion_Extend_Sort();
 	void Quick_Sort();
 	void Slow_Sort();
 	void Stooge_Sort();
@@ -232,7 +231,7 @@ public:
 	class BubbleSort
 	{
 	public:
-		BubbleSort(type_array *array, asize_t asize);;
+		BubbleSort(type_array *array, asize_t asize);
 		void bubble_sort();
 	private:
 		type_array *Array;
@@ -242,7 +241,7 @@ public:
 	class CocktailShakerSort
 	{
 	public:
-		CocktailShakerSort(type_array *array, asize_t asize);;
+		CocktailShakerSort(type_array *array, asize_t asize);
 		void cocktail_shaker_sort();
 	private:
 		type_array *Array;
@@ -252,7 +251,7 @@ public:
 	class OddEvenSort
 	{
 	public:
-		OddEvenSort(type_array *array, asize_t asize);;
+		OddEvenSort(type_array *array, asize_t asize);
 		void odd_even_sort();
 	private:
 		type_array *Array;
@@ -262,7 +261,7 @@ public:
 	class CombSort
 	{
 	public:
-		CombSort(type_array *array, asize_t asize);;
+		CombSort(type_array *array, asize_t asize);
 		void comb_sort();
 	private:
 		type_array *Array;
@@ -272,7 +271,7 @@ public:
 	class GnomeSort
 	{
 	public:
-		GnomeSort(type_array *array, asize_t asize);;
+		GnomeSort(type_array *array, asize_t asize);
 		void gnome_sort();
 	private:
 		type_array *Array;
@@ -282,7 +281,7 @@ public:
 	class QuickSort
 	{
 	public:
-		QuickSort(type_array *array, asize_t asize);;
+		QuickSort(type_array *array, asize_t asize);
 		void quick_sort();
 	private:
 		type_array *Array;
@@ -293,7 +292,7 @@ public:
 	class SlowSort
 	{
 	public:
-		SlowSort(type_array *array, asize_t asize);;
+		SlowSort(type_array *array, asize_t asize);
 		void slow_sort();
 	private:
 		type_array *Array;
@@ -304,7 +303,7 @@ public:
 	class StoogeSort
 	{
 	public:
-		StoogeSort(type_array *array, asize_t asize);;
+		StoogeSort(type_array *array, asize_t asize);
 		void stooge_sort();
 	private:
 		type_array *Array;
@@ -315,7 +314,7 @@ public:
 	class BogoSort
 	{
 	public:
-		BogoSort(type_array *array, asize_t asize);;
+		BogoSort(type_array *array, asize_t asize);
 		void bogo_sort();
 	private:
 		type_array *Array;
@@ -325,269 +324,72 @@ public:
 	};
 };
 
-namespace Selection_Sorts
+template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+class Selection_Sorts : public ArrayBase<type_array>
 {
-	template <class type_array> // NOTE Скоріше тут буде тип - треба тестувати
+public:
+	Selection_Sorts(Array<type_array> *&Array);
+	void Selection_Sort();
+	void Heap_Sort();
+	void Smooth_Sort();
+	void Cycle_Sort();
+
 	class SelectionSort
 	{
 	public:
-		static void selection_sort(type_array *Array, int array_size)
-		{
-			for (int i = 0; i < array_size; i++)
-			{
-				int min_index = i;
-
-				for (int j = i + 1; j < array_size; j++)
-				{
-					if (Array[j] < Array[min_index])
-					{
-						min_index = j;
-					}
-				}
-
-				if (min_index != i)
-				{
-					swap<type_array>(Array[i], Array[min_index]);
-				}
-			}
-		}
+		SelectionSort(type_array *array, asize_t asize);
+		void selection_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
 	};
 
-	template <typename type_array>
-	class HeapSort : public ArrayBase<type_array>
+	class HeapSort
 	{
 	public:
-		HeapSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-		void start_sort();
-
+		HeapSort(type_array *array, asize_t asize);
+		void heap_sort();
 	private:
+		type_array *Array;
+		asize_t array_size;
 		void heapify(type_array *Array, const asize_t &count, const asize_t &array_size);
 	};
 
-	template <class type_array> // NOTE Скоріше тут буде тип - треба тестувати
+	class CycleSort
+	{
+	public:
+		CycleSort(type_array *array, asize_t asize);
+		void cycle_sort();
+	private:
+		type_array *Array;
+		asize_t array_size;
+	};
+private:
 	class SmoothSort
 	{
 	public:
-		//Исходник: http://cppalgo.blogspot.com/2010/10/smoothsort.html
-		SmoothSort(type_array *Array, int array_size)
-		{
-			this->Array = Array;
-			this->array_size = array_size;
-		}
-		void smooth_sort()
-		{
-			make_heap_pool();
-
-			for (int i = array_size - 1; i >= 0; i--)
-			{
-				int nextPosHeapItemsAmount;
-				int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
-				if (posMaxTopElem != i)
-				{
-					swap<type_array>(Array[i], Array[posMaxTopElem]);
-					shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
-				}
-				PrevState(curState);
-			}
-		}
-
+		//Сирці: http://cppalgo.blogspot.com/2010/10/smoothsort.html
+		//WARNING Алгоритм не хоче працювати при динамічному виділенні пам'яті:
+		//з'являється помилка сегментації, а при статичному оголошенні все працює.
+		//Щоб користувач Не міг динамічно оголосити об'єкт даного класу, я вимушено
+		//закрив цей клас, щоб його можна було використати тільки через метод
+		//зовнішнього класу
+		//WARNING Алгоритм протестовано тільки на масиві з int числами. З іншими
+		//типами алгоритм може не працювати
+		SmoothSort(type_array *array, int asize);
+		void smooth_sort();
 	private:
 		type_array *Array;
 		int array_size;
 		int LeoNum[44] = {1, 1, 3, 5, 9, 15, 25, 41, 67, 109, 177, 287, 465, 753, 1219, 1973, 3193, 5167, 8361, 13529, 21891, 35421, 57313, 92735, 150049, 242785, 392835, 635621, 1028457, 1664079, 2692537, 4356617, 7049155, 11405773, 18454929, 29860703, 48315633, 78176337, 126491971, 204668309, 331160281, 535828591, 866988873, 1402817465};
 		int curState;
-		int NextState(int &curState)
-		{
-			int posNewTop = -1;
-
-			if ((curState & 7) == 5)
-			{
-				curState += 3;
-				posNewTop = 3;
-			}
-			else
-			{
-				int next = curState;
-				int pos = 0;
-				while (next && (next & 3) != 3)
-				{
-					next >>= 1;
-					pos++;
-				}
-				if ((next & 3) == 3)
-				{
-					curState += 1 << pos;
-					posNewTop = pos + 2;
-				}
-				else if (curState & 1)
-				{
-					curState |= 2;
-				}
-				else
-				{
-					curState |= 1;
-				}
-			}
-			return posNewTop;
-		}
-		void PrevState(int &curState)
-		{
-			if ((curState & 15) == 8)
-			{
-				curState -= 3;
-			}
-			else if (curState & 1)
-			{
-				if ((curState & 3) == 3)
-				{
-					curState ^= 2;
-				}
-				else
-				{
-					curState ^= 1;
-				}
-			}
-			else
-			{
-				int prev = curState;
-				int pos = 0;
-				while (prev && !(prev & 1))
-				{
-					prev >>= 1;
-					pos++;
-				}
-				if (prev)
-				{
-					curState ^= 1 << pos;
-					curState |= 1 << (pos - 1);
-					curState |= 1 << (pos - 2);
-				}
-				else
-				{
-					curState = 0;
-				}
-			}
-		}
-		void shiftDown(int posHeapItemsAmount, int indexLastTop)
-		{
-			int posCurNode = indexLastTop;
-			while (posHeapItemsAmount > 1)
-			{
-				int posR = posCurNode - 1;
-				int posL = posR - LeoNum[posHeapItemsAmount - 2];
-				int posMaxChild = posL;
-				int posNextTop = posHeapItemsAmount - 1;
-				if (Array[posR] > Array[posL])
-				{
-					posMaxChild = posR;
-					posNextTop = posHeapItemsAmount - 2;
-				}
-				if (Array[posCurNode] < Array[posMaxChild])
-				{
-					swap<type_array>(Array[posCurNode], Array[posMaxChild]);
-					posHeapItemsAmount = posNextTop;
-					posCurNode = posMaxChild;
-				}
-				else
-				{
-					break;
-				}
-			}
-		}
-		void make_heap_pool()
-		{
-			for (int i = 0; i < array_size; i++)
-			{
-				int posHeapItemsAmount = NextState(curState);
-				if (posHeapItemsAmount != -1)
-				{
-					shiftDown(posHeapItemsAmount, i);
-				}
-			}
-		}
-		int findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount)
-		{
-			int pos = 0;
-
-			while (!(curState & 1))
-			{
-				curState >>= 1;
-				pos++;
-			}
-
-			int posMaxTopElem = indexLastTop;
-			nextPosHeapItemsAmount = pos;
-			int curTopElem = indexLastTop - LeoNum[pos];
-			curState >>= 1;
-			pos++;
-
-			while (curState)
-			{
-				if (curState & 1)
-				{
-					if (Array[curTopElem] > Array[posMaxTopElem])
-					{
-						posMaxTopElem = curTopElem;
-						nextPosHeapItemsAmount = pos;
-					}
-					curTopElem -= LeoNum[pos];
-				}
-				curState >>= 1;
-				pos++;
-			}
-
-			return posMaxTopElem;
-		}
+		void make_heap_pool();
+		int NextState(int &curState);
+		void shiftDown(int posHeapItemsAmount, int indexLastTop);
+		int findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount);
+		void PrevState(int &curState);
 	};
-
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class CycleSort
-	{
-	public:
-		static void cycle_sort(type_array *Array, int array_size)
-		{
-			for(int cycle_start = 0; cycle_start < array_size; cycle_start++)
-			{
-				type_array item = Array[cycle_start];
-
-				int pos = cycle_start;
-				for(int i = cycle_start + 1; i < array_size; i++)
-				{
-					if(Array[i] < item)
-					{
-						pos += 1;
-					}
-				}
-				if(pos == cycle_start)
-				{
-					continue;
-				}
-				while(item == Array[pos])
-				{
-					pos += 1;
-				}
-				swap<type_array>(Array[pos], item);
-
-				while(pos != cycle_start)
-				{
-					pos = cycle_start;
-					for(int i = cycle_start + 1; i < array_size; i++)
-					{
-						if(Array[i] < item)
-						{
-							pos += 1;
-						}
-					}
-					while(item == Array[pos])
-					{
-						pos += 1;
-					}
-					swap<type_array>(Array[pos], item);
-				}
-			}
-		}
-	};
-}
+};
 
 namespace Insertion_Sorts
 {

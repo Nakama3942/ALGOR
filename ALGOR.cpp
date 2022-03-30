@@ -728,23 +728,84 @@ void Exchange_Sorts<type_array>::BogoSort::Shuffle()
 	}
 }
 
-template <typename type_array>
-void Selection_Sorts::HeapSort<type_array>::start_sort()
+template<class type_array>
+Selection_Sorts<type_array>::Selection_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array){}
+
+template<class type_array>
+void Selection_Sorts<type_array>::Selection_Sort()
 {
-	verification(this->ARRAY->array_size);
-	for (int right = this->ARRAY->array_size / 2 - 1; right >= 0; right--)
+	SelectionSort *sort = new SelectionSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->selection_sort();
+	delete(sort);
+}
+
+template<class type_array>
+void Selection_Sorts<type_array>::Heap_Sort()
+{
+	HeapSort *sort = new HeapSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->heap_sort();
+	delete(sort);
+}
+
+template<class type_array>
+void Selection_Sorts<type_array>::Smooth_Sort()
+{
+	SmoothSort sort(this->ARRAY->array, (int)this->ARRAY->array_size);
+	sort.smooth_sort();
+}
+
+template<class type_array>
+void Selection_Sorts<type_array>::Cycle_Sort()
+{
+	CycleSort *sort = new CycleSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->cycle_sort();
+	delete(sort);
+}
+
+template<class type_array>
+Selection_Sorts<type_array>::SelectionSort::SelectionSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+
+template<class type_array>
+void Selection_Sorts<type_array>::SelectionSort::selection_sort()
+{
+	for (asize_t i = 0; i < array_size; i++)
 	{
-		heapify(this->ARRAY->array, right, this->ARRAY->array_size);
-	}
-	for (int i = this->ARRAY->array_size - 1; i >= 0; i--)
-	{
-		swap<type_array>(this->ARRAY->array[0], this->ARRAY->array[i]);
-		heapify(this->ARRAY->array, 0, i);
+		asize_t min_index = i;
+		for (asize_t j = i + 1; j < array_size; j++)
+		{
+			if (Array[j] < Array[min_index])
+			{
+				min_index = j;
+			}
+		}
+		if (min_index != i)
+		{
+			swap<type_array>(Array[i], Array[min_index]);
+		}
 	}
 }
 
-template <typename type_array>
-void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
+template<class type_array>
+Selection_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+
+template<class type_array>
+void Selection_Sorts<type_array>::HeapSort::heap_sort()
+{
+	//Типи int у циклах ЗАЛИШИТИ! Без них не працює!
+	verification(array_size);
+	for (int right = array_size / 2 - 1; right >= 0; right--)
+	{
+		heapify(Array, right, array_size);
+	}
+	for (int i = array_size - 1; i >= 0; i--)
+	{
+		swap<type_array>(Array[0], Array[i]);
+		heapify(Array, 0, i);
+	}
+}
+
+template<class type_array>
+void Selection_Sorts<type_array>::HeapSort::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
 {
 	asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
 	if (left < array_size && Array[left] > Array[large])
@@ -759,6 +820,226 @@ void Selection_Sorts::HeapSort<type_array>::heapify(type_array *Array, const asi
 	{
 		swap<type_array>(Array[count], Array[large]);
 		heapify(Array, large, array_size);
+	}
+}
+
+template<class type_array>
+Selection_Sorts<type_array>::SmoothSort::SmoothSort(type_array *array, int asize) : Array(array), array_size(asize){}
+
+template<class type_array>
+void Selection_Sorts<type_array>::SmoothSort::smooth_sort()
+{
+	make_heap_pool();
+
+	for (int i = array_size - 1; i >= 0; i--)
+	{
+		int nextPosHeapItemsAmount;
+		int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
+		if (posMaxTopElem != i)
+		{
+			swap<type_array>(Array[i], Array[posMaxTopElem]);
+			shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
+		}
+		PrevState(curState);
+	}
+}
+
+template<class type_array>
+void Selection_Sorts<type_array>::SmoothSort::make_heap_pool()
+{
+	for (int i = 0; i < (int)array_size; i++)
+	{
+		int posHeapItemsAmount = NextState(curState);
+		if (posHeapItemsAmount != -1)
+		{
+			shiftDown(posHeapItemsAmount, i);
+		}
+	}
+}
+
+template<class type_array>
+int Selection_Sorts<type_array>::SmoothSort::NextState(int &curState)
+{
+	int posNewTop = -1;
+
+	if ((curState & 7) == 5)
+	{
+		curState += 3;
+		posNewTop = 3;
+	}
+	else
+	{
+		int next = curState;
+		int pos = 0;
+		while (next && (next & 3) != 3)
+		{
+			next >>= 1;
+			pos++;
+		}
+		if ((next & 3) == 3)
+		{
+			curState += 1 << pos;
+			posNewTop = pos + 2;
+		}
+		else if (curState & 1)
+		{
+			curState |= 2;
+		}
+		else
+		{
+			curState |= 1;
+		}
+	}
+	return posNewTop;
+}
+
+template<class type_array>
+void Selection_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItemsAmount, int indexLastTop)
+{
+	int posCurNode = indexLastTop;
+	while (posHeapItemsAmount > 1)
+	{
+		int posR = posCurNode - 1;
+		int posL = posR - LeoNum[posHeapItemsAmount - 2];
+		int posMaxChild = posL;
+		int posNextTop = posHeapItemsAmount - 1;
+		if (Array[posR] > Array[posL])
+		{
+			posMaxChild = posR;
+			posNextTop = posHeapItemsAmount - 2;
+		}
+		if (Array[posCurNode] < Array[posMaxChild])
+		{
+			swap<type_array>(Array[posCurNode], Array[posMaxChild]);
+			posHeapItemsAmount = posNextTop;
+			posCurNode = posMaxChild;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
+template<class type_array>
+int Selection_Sorts<type_array>::SmoothSort::findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount)
+{
+	int pos = 0;
+
+	while (!(curState & 1))
+	{
+		curState >>= 1;
+		pos++;
+	}
+
+	int posMaxTopElem = indexLastTop;
+	nextPosHeapItemsAmount = pos;
+	int curTopElem = indexLastTop - LeoNum[pos];
+	curState >>= 1;
+	pos++;
+
+	while (curState)
+	{
+		if (curState & 1)
+		{
+			if (Array[curTopElem] > Array[posMaxTopElem])
+			{
+				posMaxTopElem = curTopElem;
+				nextPosHeapItemsAmount = pos;
+			}
+			curTopElem -= LeoNum[pos];
+		}
+		curState >>= 1;
+		pos++;
+	}
+
+	return posMaxTopElem;
+}
+
+template<class type_array>
+void Selection_Sorts<type_array>::SmoothSort::PrevState(int &curState)
+{
+	if ((curState & 15) == 8)
+	{
+		curState -= 3;
+	}
+	else if (curState & 1)
+	{
+		if ((curState & 3) == 3)
+		{
+			curState ^= 2;
+		}
+		else
+		{
+			curState ^= 1;
+		}
+	}
+	else
+	{
+		int prev = curState;
+		int pos = 0;
+		while (prev && !(prev & 1))
+		{
+			prev >>= 1;
+			pos++;
+		}
+		if (prev)
+		{
+			curState ^= 1 << pos;
+			curState |= 1 << (pos - 1);
+			curState |= 1 << (pos - 2);
+		}
+		else
+		{
+			curState = 0;
+		}
+	}
+}
+
+template<class type_array>
+Selection_Sorts<type_array>::CycleSort::CycleSort(type_array *array, asize_t asize) : Array(array), array_size(asize){}
+
+template<class type_array>
+void Selection_Sorts<type_array>::CycleSort::cycle_sort()
+{
+	for(asize_t cycle_start = 0; cycle_start < array_size; cycle_start++)
+	{
+		type_array item = Array[cycle_start];
+
+		asize_t pos = cycle_start;
+		for(asize_t i = cycle_start + 1; i < array_size; i++)
+		{
+			if(Array[i] < item)
+			{
+				pos += 1;
+			}
+		}
+		if(pos == cycle_start)
+		{
+			continue;
+		}
+		while(item == Array[pos])
+		{
+			pos += 1;
+		}
+		swap<type_array>(Array[pos], item);
+
+		while(pos != cycle_start)
+		{
+			pos = cycle_start;
+			for(asize_t i = cycle_start + 1; i < array_size; i++)
+			{
+				if(Array[i] < item)
+				{
+					pos += 1;
+				}
+			}
+			while(item == Array[pos])
+			{
+				pos += 1;
+			}
+			swap<type_array>(Array[pos], item);
+		}
 	}
 }
 
@@ -1550,13 +1831,81 @@ template void Exchange_Sorts<int>::BogoSort::Shuffle();
 template void Exchange_Sorts<float>::BogoSort::Shuffle();
 template void Exchange_Sorts<char>::BogoSort::Shuffle();
 
-template void Selection_Sorts::HeapSort<int>::start_sort();
-template void Selection_Sorts::HeapSort<float>::start_sort();
-template void Selection_Sorts::HeapSort<char>::start_sort();
+template Selection_Sorts<int>::Selection_Sorts(Array<int> *&);
+template Selection_Sorts<float>::Selection_Sorts(Array<float> *&);
+template Selection_Sorts<char>::Selection_Sorts(Array<char> *&);
 
-template void Selection_Sorts::HeapSort<int>::heapify(int *, const asize_t &, const asize_t &);
-template void Selection_Sorts::HeapSort<float>::heapify(float *, const asize_t &, const asize_t &);
-template void Selection_Sorts::HeapSort<char>::heapify(char *, const asize_t &, const asize_t &);
+template void Selection_Sorts<int>::Selection_Sort();
+template void Selection_Sorts<float>::Selection_Sort();
+template void Selection_Sorts<char>::Selection_Sort();
+
+template void Selection_Sorts<int>::Heap_Sort();
+template void Selection_Sorts<float>::Heap_Sort();
+template void Selection_Sorts<char>::Heap_Sort();
+
+template void Selection_Sorts<int>::Smooth_Sort();
+template void Selection_Sorts<float>::Smooth_Sort();
+template void Selection_Sorts<char>::Smooth_Sort();
+
+template void Selection_Sorts<int>::Cycle_Sort();
+template void Selection_Sorts<float>::Cycle_Sort();
+template void Selection_Sorts<char>::Cycle_Sort();
+
+template Selection_Sorts<int>::SelectionSort::SelectionSort(int *, asize_t);
+template Selection_Sorts<float>::SelectionSort::SelectionSort(float *, asize_t);
+template Selection_Sorts<char>::SelectionSort::SelectionSort(char *, asize_t);
+
+template void Selection_Sorts<int>::SelectionSort::selection_sort();
+template void Selection_Sorts<float>::SelectionSort::selection_sort();
+template void Selection_Sorts<char>::SelectionSort::selection_sort();
+
+template Selection_Sorts<int>::HeapSort::HeapSort(int *, asize_t);
+template Selection_Sorts<float>::HeapSort::HeapSort(float *, asize_t);
+template Selection_Sorts<char>::HeapSort::HeapSort(char *, asize_t);
+
+template void Selection_Sorts<int>::HeapSort::heap_sort();
+template void Selection_Sorts<float>::HeapSort::heap_sort();
+template void Selection_Sorts<char>::HeapSort::heap_sort();
+
+template void Selection_Sorts<int>::HeapSort::heapify(int *, const asize_t &, const asize_t &);
+template void Selection_Sorts<float>::HeapSort::heapify(float *, const asize_t &, const asize_t &);
+template void Selection_Sorts<char>::HeapSort::heapify(char *, const asize_t &, const asize_t &);
+
+template Selection_Sorts<int>::SmoothSort::SmoothSort(int *, int);
+template Selection_Sorts<float>::SmoothSort::SmoothSort(float *, int);
+template Selection_Sorts<char>::SmoothSort::SmoothSort(char *, int);
+
+template void Selection_Sorts<int>::SmoothSort::smooth_sort();
+template void Selection_Sorts<float>::SmoothSort::smooth_sort();
+template void Selection_Sorts<char>::SmoothSort::smooth_sort();
+
+template void Selection_Sorts<int>::SmoothSort::make_heap_pool();
+template void Selection_Sorts<float>::SmoothSort::make_heap_pool();
+template void Selection_Sorts<char>::SmoothSort::make_heap_pool();
+
+template int Selection_Sorts<int>::SmoothSort::NextState(int &);
+template int Selection_Sorts<float>::SmoothSort::NextState(int &);
+template int Selection_Sorts<char>::SmoothSort::NextState(int &);
+
+template void Selection_Sorts<int>::SmoothSort::shiftDown(int, int);
+template void Selection_Sorts<float>::SmoothSort::shiftDown(int, int);
+template void Selection_Sorts<char>::SmoothSort::shiftDown(int, int);
+
+template int Selection_Sorts<int>::SmoothSort::findPosMaxElem(int, int, int &);
+template int Selection_Sorts<float>::SmoothSort::findPosMaxElem(int, int, int &);
+template int Selection_Sorts<char>::SmoothSort::findPosMaxElem(int, int, int &);
+
+template void Selection_Sorts<int>::SmoothSort::PrevState(int &);
+template void Selection_Sorts<float>::SmoothSort::PrevState(int &);
+template void Selection_Sorts<char>::SmoothSort::PrevState(int &);
+
+template Selection_Sorts<int>::CycleSort::CycleSort(int *, asize_t);
+template Selection_Sorts<float>::CycleSort::CycleSort(float *, asize_t);
+template Selection_Sorts<char>::CycleSort::CycleSort(char *, asize_t);
+
+template void Selection_Sorts<int>::CycleSort::cycle_sort();
+template void Selection_Sorts<float>::CycleSort::cycle_sort();
+template void Selection_Sorts<char>::CycleSort::cycle_sort();
 
 template void Insertion_Sorts::InsertSort<int>::start_sort();
 template void Insertion_Sorts::InsertSort<float>::start_sort();
