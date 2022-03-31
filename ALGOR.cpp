@@ -38,8 +38,42 @@ void verification(const asize_t &array_size)
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+memcell_t getMemoryCell()
+{
+	memcell_t *cells = new memcell_t[10];
+	memcell_t *cell = new memcell_t(cells[0]);
+	for (int i = 1; i < 10; i++)
+	{
+		*cell >>= (memcell_t)cells[i];
+		*cell <<= (memcell_t)cells[i + 1];
+		*cell ^= (memcell_t)cells[i + 2];
+	}
+	return *cell;
+}
+
+memcell_t getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
+{
+	memcell_t *cells = new memcell_t[10];
+	memcell_t *cell = new memcell_t(cells[0]);
+	for (int i = 1; i < 10; i++)
+	{
+		*cell >>= (memcell_t)cells[i];
+		*cell <<= (memcell_t)cells[i + 1];
+		*cell ^= (memcell_t)cells[i + 2];
+		if (right_adjust != 0)
+		{
+			*cell >>= right_adjust;
+		}
+		if (left_adjust != 0)
+		{
+			*cell <<= left_adjust;
+		}
+	}
+	return *cell;
+}
+
 template <typename type_array>
-void swap(type_array &firstNumber, type_array &secondNumber)
+void Core<type_array>::swap(type_array &firstNumber, type_array &secondNumber)
 {
 	type_array temp = firstNumber;
 	firstNumber = secondNumber;
@@ -47,7 +81,7 @@ void swap(type_array &firstNumber, type_array &secondNumber)
 }
 
 template <typename type_array>
-type_array minimum(const type_array *Array, const asize_t &array_size)
+type_array Core<type_array>::minimum(const type_array *Array, const asize_t &array_size)
 {
 	verification(array_size);
 	type_array point_min = Array[0];
@@ -62,7 +96,7 @@ type_array minimum(const type_array *Array, const asize_t &array_size)
 }
 
 template <typename type_array>
-type_array maximum(const type_array *Array, const asize_t &array_size)
+type_array Core<type_array>::maximum(const type_array *Array, const asize_t &array_size)
 {
 	verification(array_size);
 	type_array point_max = Array[0];
@@ -77,7 +111,7 @@ type_array maximum(const type_array *Array, const asize_t &array_size)
 }
 
 template <typename type_array>
-void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
+void Core<type_array>::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
 {
 	array_size++;
 	if (array_size > 0xffffffff)
@@ -96,12 +130,12 @@ void addElement(type_array *&Array, asize_t &array_size, const type_array &value
 	}
 	delete[] Array;
 	Array = new type_array[array_size];
-	copy<type_array>(Array, temp_Array, array_size);
+	copy(Array, temp_Array, array_size);
 	delete[] temp_Array;
 }
 
 template <typename type_array>
-void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
+void Core<type_array>::subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
 {
 	verification(array_size);
 	if (array_size == 1)
@@ -120,12 +154,12 @@ void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int
 	}
 	delete[] Array;
 	Array = new type_array[array_size--];
-	copy<type_array>(Array, temp_Array, array_size);
+	copy(Array, temp_Array, array_size);
 	delete[] temp_Array;
 }
 
 template <typename type_array>
-void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
+void Core<type_array>::subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
 	verification(array_size);
 	int counter = 0;
@@ -142,12 +176,12 @@ void subtractValue(type_array *&Array, asize_t &array_size, const type_array &va
 	delete[] Array;
 	array_size -= counter;
 	Array = new type_array[array_size];
-	copy<type_array>(Array, temp_Array, array_size);
+	copy(Array, temp_Array, array_size);
 	delete[] temp_Array;
 }
 
 template <typename type_array>
-void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
+void Core<type_array>::copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
 	for (unsigned int i = 0; i < size_of_copied; i++)
 	{
@@ -268,7 +302,7 @@ void RC4::crypto_srand(const char *key, int ksize)
 	for (int i = 0; i < 256; i++)
 	{
 		j = j + Sbox[i] + (uint8_t)key[i % ksize];
-		swap<uint8_t>(Sbox[i], Sbox[j]);
+		Core<uint8_t>::swap(Sbox[i], Sbox[j]);
 	}
 }
 
@@ -279,7 +313,7 @@ void RC4::crypto_rand(char *output, int size)
 	{
 		i += 1;
 		j += Sbox[i];
-		swap<uint8_t>(Sbox[i], Sbox[j]);
+		Core<uint8_t>::swap(Sbox[i], Sbox[j]);
 		t = Sbox[i] + Sbox[j];
 		output[k] = (unsigned int)Sbox[t];
 	}
@@ -485,7 +519,7 @@ void Exchange_Sorts<type_array>::BubbleSort::bubble_sort()
 		{
 			if (Array[j] > Array[j + 1])
 			{
-				swap<type_array>(Array[j], Array[j + 1]);
+				Core<type_array>::swap(Array[j], Array[j + 1]);
 			}
 		}
 	}
@@ -505,7 +539,7 @@ void Exchange_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_sort()
 		{
 			if (Array[i - 1] > Array[i])
 			{
-				swap<type_array>(Array[i], Array[i - 1]);
+				Core<type_array>::swap(Array[i], Array[i - 1]);
 			}
 		}
 		leftMark++;
@@ -513,7 +547,7 @@ void Exchange_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_sort()
 		{
 			if (Array[i - 1] > Array[i])
 			{
-				swap<type_array>(Array[i], Array[i - 1]);
+				Core<type_array>::swap(Array[i], Array[i - 1]);
 			}
 		}
 		rightMark--;
@@ -534,7 +568,7 @@ void Exchange_Sorts<type_array>::OddEvenSort::odd_even_sort()
 		{
 			if (Array[j] < Array[j - 1])
 			{
-				swap<type_array>(Array[j - 1], Array[j]);
+				Core<type_array>::swap(Array[j - 1], Array[j]);
 			}
 		}
 	}
@@ -555,7 +589,7 @@ void Exchange_Sorts<type_array>::CombSort::comb_sort()
 		{
 			if (Array[i] > Array[i + step])
 			{
-				swap<type_array>(Array[i], Array[i + step]);
+				Core<type_array>::swap(Array[i], Array[i + step]);
 			}
 		}
 		step /= factor;
@@ -581,7 +615,7 @@ void Exchange_Sorts<type_array>::GnomeSort::gnome_sort()
 			}
 			else
 			{
-				swap<type_array>(Array[i], Array[i - 1]);
+				Core<type_array>::swap(Array[i], Array[i - 1]);
 				i--;
 				if (i == 0)
 				{
@@ -620,7 +654,7 @@ void Exchange_Sorts<type_array>::QuickSort::recursive_quick_sort(const int &left
 		}
 		if (start <= finish)
 		{
-			swap<type_array>(Array[start], Array[finish]);
+			Core<type_array>::swap(Array[start], Array[finish]);
 			start++;
 			finish--;
 		}
@@ -656,7 +690,7 @@ void Exchange_Sorts<type_array>::SlowSort::recursive_slow_sort(const int &left_l
 	recursive_slow_sort(middle + 1, right_limit);
 	if (Array[middle] > Array[right_limit])
 	{
-		swap<type_array>(Array[middle], Array[right_limit]);
+		Core<type_array>::swap(Array[middle], Array[right_limit]);
 	}
 	recursive_slow_sort(left_limit, right_limit - 1);
 }
@@ -675,7 +709,7 @@ void Exchange_Sorts<type_array>::StoogeSort::recursive_stooge_sort(const int &le
 {
 	if (Array[left_limit] > Array[right_limit])
 	{
-		swap<type_array>(Array[left_limit], Array[right_limit]);
+		Core<type_array>::swap(Array[left_limit], Array[right_limit]);
 	}
 	if (left_limit + 1 >= right_limit)
 	{
@@ -719,8 +753,8 @@ void Exchange_Sorts<type_array>::BogoSort::Shuffle()
 {
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		MersenneTwister RanGen(time(NULL));
-		swap<type_array>(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
+		MersenneTwister RanGen(getMemoryCell());
+		Core<type_array>::swap(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
 	}
 }
 
@@ -776,7 +810,7 @@ void Selection_Sorts<type_array>::SelectionSort::selection_sort()
 		}
 		if (min_index != i)
 		{
-			swap<type_array>(Array[i], Array[min_index]);
+			Core<type_array>::swap(Array[i], Array[min_index]);
 		}
 	}
 }
@@ -795,7 +829,7 @@ void Selection_Sorts<type_array>::HeapSort::heap_sort()
 	}
 	for (int i = array_size - 1; i >= 0; i--)
 	{
-		swap<type_array>(Array[0], Array[i]);
+		Core<type_array>::swap(Array[0], Array[i]);
 		heapify(Array, 0, i);
 	}
 }
@@ -814,7 +848,7 @@ void Selection_Sorts<type_array>::HeapSort::heapify(type_array *Array, const asi
 	}
 	if (large != count)
 	{
-		swap<type_array>(Array[count], Array[large]);
+		Core<type_array>::swap(Array[count], Array[large]);
 		heapify(Array, large, array_size);
 	}
 }
@@ -833,7 +867,7 @@ void Selection_Sorts<type_array>::SmoothSort::smooth_sort()
 		int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
 		if (posMaxTopElem != i)
 		{
-			swap<type_array>(Array[i], Array[posMaxTopElem]);
+			Core<type_array>::swap(Array[i], Array[posMaxTopElem]);
 			shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
 		}
 		PrevState(curState);
@@ -906,7 +940,7 @@ void Selection_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItemsAmount, 
 		}
 		if (Array[posCurNode] < Array[posMaxChild])
 		{
-			swap<type_array>(Array[posCurNode], Array[posMaxChild]);
+			Core<type_array>::swap(Array[posCurNode], Array[posMaxChild]);
 			posHeapItemsAmount = posNextTop;
 			posCurNode = posMaxChild;
 		}
@@ -1018,7 +1052,7 @@ void Selection_Sorts<type_array>::CycleSort::cycle_sort()
 		{
 			pos += 1;
 		}
-		swap<type_array>(Array[pos], item);
+		Core<type_array>::swap(Array[pos], item);
 
 		while (pos != cycle_start)
 		{
@@ -1034,7 +1068,7 @@ void Selection_Sorts<type_array>::CycleSort::cycle_sort()
 			{
 				pos += 1;
 			}
-			swap<type_array>(Array[pos], item);
+			Core<type_array>::swap(Array[pos], item);
 		}
 	}
 }
@@ -1047,7 +1081,7 @@ void Insertion_Sorts::InsertSort<type_array>::start_sort()
 	{
 		for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
 		{
-			swap<type_array>(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
+			Core<type_array>::swap(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
 		}
 	}
 }
@@ -1099,8 +1133,8 @@ void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &lef
 void Distribution_Sort::CountingSort::start_sort()
 {
 	verification(this->ARRAY->array_size);
-	int min = minimum<int>(ARRAY->array, ARRAY->array_size),
-		max = maximum<int>(ARRAY->array, ARRAY->array_size);
+	int min = Core<int>::minimum(ARRAY->array, ARRAY->array_size),
+		max = Core<int>::maximum(ARRAY->array, ARRAY->array_size);
 	int *tempArray = new int[max - min + 1];
 	for (int i = 0; i < max - min + 1; i++)
 	{
@@ -1125,7 +1159,7 @@ void Distribution_Sort::CountingSort::start_sort()
 void Distribution_Sort::RadixSort::start_sort()
 {
 	verification(this->ARRAY->array_size);
-	int exp = 1, bit = 10, max = maximum<int>(ARRAY->array, ARRAY->array_size);
+	int exp = 1, bit = 10, max = Core<int>::maximum(ARRAY->array, ARRAY->array_size);
 	int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
 	while (max / exp > 0)
 	{
@@ -1182,18 +1216,7 @@ ARRAYDATA<type_array>::~ARRAYDATA()
 template <typename type_array>
 void ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
-	RC4 rc4;
-	// Key generation (will be used until I come up with an analogue of time(NULL))
-	// TODO Think of an analogue time(NULL)
-	char key[100];
-	// rc4.crypto_entropy(key, 100);
-	rc4.crypto_srand(key, 100);
-	int BUFSIZe = 100;
-	char output[BUFSIZe];
-	rc4.crypto_rand(output, BUFSIZe);
-
-	// Substitute the generated key
-	MersenneTwister RanGen((uint8_t)output[50]);
+	MersenneTwister RanGen(getMemoryCell());
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit);
@@ -1224,7 +1247,7 @@ void ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
 		remove();
 		this->ARRAY = create_struct<type_array>(CloningArray->array_size);
 	}
-	copy<type_array>(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
+	Core<type_array>::copy(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
 }
 
 template <typename type_array>
@@ -1235,7 +1258,7 @@ void ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
 		remove();
 		this->ARRAY = create_struct<type_array>(CloningObject->getData()->array_size);
 	}
-	copy<type_array>(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
+	Core<type_array>::copy(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
 }
 
 template <typename type_array>
@@ -1266,7 +1289,7 @@ void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &se
 	Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
 	if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
 	{
-		copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
+		Core<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
 		for (asize_t i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
 		{
 			NEW_ARRAY->array[i] = setElement;
@@ -1274,7 +1297,7 @@ void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &se
 	}
 	else
 	{
-		copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
+		Core<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
 	}
 	this->ARRAY = NEW_ARRAY;
 	remove_struct<type_array>(OLD_ARRAY);
@@ -1292,7 +1315,7 @@ void ARRAYDATA<type_array>::reverse()
 	int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
 	for (asize_t i = 0; i < this->ARRAY->array_size / 2; i++)
 	{
-		swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
+		Core<type_array>::swap(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
 		left_limit++;
 		right_limit--;
 	}
@@ -1312,7 +1335,7 @@ type_array ARRAYDATA<type_array>::getMin(ArrayStatus ArrStat)
 	switch (ArrStat)
 	{
 	case ARRAYDATA::ArrayStatus::UNSORTED:
-		return minimum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
+		return Core<type_array>::minimum(this->ARRAY->array, this->ARRAY->array_size);
 	case ARRAYDATA::ArrayStatus::SORTED:
 		return this->ARRAY->array[0];
 	}
@@ -1325,7 +1348,7 @@ type_array ARRAYDATA<type_array>::getMax(ArrayStatus ArrStat)
 	switch (ArrStat)
 	{
 	case ARRAYDATA::ArrayStatus::UNSORTED:
-		return maximum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
+		return Core<type_array>::maximum(this->ARRAY->array, this->ARRAY->array_size);
 	case ARRAYDATA::ArrayStatus::SORTED:
 		return this->ARRAY->array[this->ARRAY->array_size - 1];
 	}
@@ -1340,7 +1363,7 @@ Array<int> *ARRAYDATA<type_array>::lenear_searcher(const type_array &required_el
 	{
 		if (required_element == this->ARRAY->array[i])
 		{
-			addElement<int>(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
+			Core<int>::addElement(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
 		}
 	}
 	if (NumberPoints->array_size == 0)
@@ -1395,13 +1418,13 @@ Array<int> *ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_arr
 				case ARRAYDATA::ArrayType::NUMBER:
 					if (SUBARRAY->array_size - j == 1)
 					{
-						addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+						Core<int>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 					}
 					break;
 				case ARRAYDATA::ArrayType::STRING:
 					if (SUBARRAY->array_size - j == 2)
 					{
-						addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+						Core<int>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 					}
 					break;
 				}
@@ -1465,7 +1488,7 @@ Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 	highest_frequency = 0;
 	int current_frequency = 0;
 	type_array most_frequent = moda(highest_frequency);
-	addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
+	Core<type_array>::addElement(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		if (most_frequent == this->ARRAY->array[i])
@@ -1477,7 +1500,7 @@ Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 				{
 					if (current_frequency == highest_frequency)
 					{
-						addElement<type_array>(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
+						Core<type_array>::addElement(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
 					}
 					current_frequency = 0;
 				}
@@ -1491,19 +1514,19 @@ Array<type_array> *ARRAYDATA<type_array>::modas(int &highest_frequency)
 template <typename type_array>
 void ARRAYDATA<type_array>::operator&&(const type_array &value)
 {
-	addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
+	Core<type_array>::addElement(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator!()
 {
-	subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
+	Core<type_array>::subtractElement(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
 }
 
 template <typename type_array>
 void ARRAYDATA<type_array>::operator||(const type_array &value)
 {
-	subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
+	Core<type_array>::subtractValue(this->ARRAY->array, this->ARRAY->array_size, value);
 }
 
 template <typename type_array>
@@ -1517,7 +1540,7 @@ void ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
 	}
 	remove();
 	this->ARRAY = create_struct<type_array>(newSize);
-	copy<type_array>(this->ARRAY->array, temp->array, newSize);
+	Core<type_array>::copy(this->ARRAY->array, temp->array, newSize);
 	remove_struct<type_array>(temp);
 }
 
@@ -1531,7 +1554,7 @@ void ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
 		i < appendingArray->getData()->array_size ? temp->array[i] = appendingArray->getData()->array[i] : temp->array[i] = this->ARRAY->array[i - appendingArray->getData()->array_size];
 	}
 	appendingArray->resize(newSize, 1);
-	copy<type_array>(appendingArray->getData()->array, temp->array, newSize);
+	Core<type_array>::copy(appendingArray->getData()->array, temp->array, newSize);
 	remove_struct<type_array>(temp);
 }
 
@@ -1545,9 +1568,9 @@ void ARRAYDATA<type_array>::operator+(const asize_t &addSize)
 		throw memory_overflow();
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	Core<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size + addSize, 1);
-	copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
+	Core<type_array>::copy(this->ARRAY->array, temp->array, temp->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -1560,9 +1583,9 @@ void ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
 		return;
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	Core<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size - subtractSize, 1);
-	copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+	Core<type_array>::copy(this->ARRAY->array, temp->array, this->ARRAY->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -1574,9 +1597,9 @@ void ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
 		throw memory_overflow();
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	Core<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size * multiplySize, 1);
-	copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
+	Core<type_array>::copy(this->ARRAY->array, temp->array, temp->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -1589,9 +1612,9 @@ void ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
 		return;
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	Core<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size / divideSize, 1);
-	copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+	Core<type_array>::copy(this->ARRAY->array, temp->array, this->ARRAY->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -1647,33 +1670,33 @@ void ARRAYDATA<type_array>::remove()
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template void swap<int>(int &, int &);
-template void swap<float>(float &, float &);
-template void swap<char>(char &, char &);
+template void Core<int>::swap(int &, int &);
+template void Core<float>::swap(float &, float &);
+template void Core<char>::swap(char &, char &);
 
-template int minimum<int>(const int *, const asize_t &);
-template float minimum<float>(const float *, const asize_t &);
-template char minimum<char>(const char *, const asize_t &);
+template int Core<int>::minimum(const int *, const asize_t &);
+template float Core<float>::minimum(const float *, const asize_t &);
+template char Core<char>::minimum(const char *, const asize_t &);
 
-template int maximum<int>(const int *, const asize_t &);
-template float maximum<float>(const float *, const asize_t &);
-template char maximum<char>(const char *, const asize_t &);
+template int Core<int>::maximum(const int *, const asize_t &);
+template float Core<float>::maximum(const float *, const asize_t &);
+template char Core<char>::maximum(const char *, const asize_t &);
 
-template void addElement<int>(int *&, asize_t &, const int &, const unsigned int);
-template void addElement<float>(float *&, asize_t &, const float &, const unsigned int);
-template void addElement<char>(char *&, asize_t &, const char &, const unsigned int);
+template void Core<int>::addElement(int *&, asize_t &, const int &, const unsigned int);
+template void Core<float>::addElement(float *&, asize_t &, const float &, const unsigned int);
+template void Core<char>::addElement(char *&, asize_t &, const char &, const unsigned int);
 
-template void subtractElement<int>(int *&, asize_t &, const unsigned int);
-template void subtractElement<float>(float *&, asize_t &, const unsigned int);
-template void subtractElement<char>(char *&, asize_t &, const unsigned int);
+template void Core<int>::subtractElement(int *&, asize_t &, const unsigned int);
+template void Core<float>::subtractElement(float *&, asize_t &, const unsigned int);
+template void Core<char>::subtractElement(char *&, asize_t &, const unsigned int);
 
-template void subtractValue<int>(int *&, asize_t &, const int &);
-template void subtractValue<float>(float *&, asize_t &, const float &);
-template void subtractValue<char>(char *&, asize_t &, const char &);
+template void Core<int>::subtractValue(int *&, asize_t &, const int &);
+template void Core<float>::subtractValue(float *&, asize_t &, const float &);
+template void Core<char>::subtractValue(char *&, asize_t &, const char &);
 
-template void copy<int>(int *, const int *, const unsigned int &, unsigned int, unsigned int);
-template void copy<float>(float *, const float *, const unsigned int &, unsigned int, unsigned int);
-template void copy<char>(char *, const char *, const unsigned int &, unsigned int, unsigned int);
+template void Core<int>::copy(int *, const int *, const unsigned int &, unsigned int, unsigned int);
+template void Core<float>::copy(float *, const float *, const unsigned int &, unsigned int, unsigned int);
+template void Core<char>::copy(char *, const char *, const unsigned int &, unsigned int, unsigned int);
 
 template Array<int> *create_struct<int>(const asize_t &);
 template Array<float> *create_struct<float>(const asize_t &);
@@ -2058,3 +2081,162 @@ template void ARRAYDATA<char>::operator/(const asize_t &);
 template void ARRAYDATA<int>::remove();
 template void ARRAYDATA<float>::remove();
 template void ARRAYDATA<char>::remove();
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                               STANDART                              <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+#if STANDARDS_SWITCH == 1
+
+template <class type_array>
+st_SortingAlgorithms<type_array>::st_SortingAlgorithms(Array<type_array> *&Array) : ArrayBase<type_array>(Array)
+{
+}
+
+template <class type_array>
+void st_SortingAlgorithms<type_array>::Library_Sort()
+{
+	LibrarySort *sort = new LibrarySort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->library_sort();
+	delete (sort);
+}
+
+template <class type_array>
+st_SortingAlgorithms<type_array>::LibrarySort::LibrarySort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+
+template <class type_array>
+void st_SortingAlgorithms<type_array>::LibrarySort::library_sort()
+{
+	initialization();
+	while (index_pos < array_size)
+	{
+		binarysearch();
+		insertion();
+	}
+	rebalancing();
+	finalization();
+}
+
+template <class type_array>
+void st_SortingAlgorithms<type_array>::LibrarySort::initialization()
+{
+	gaps = new type_array[array_size + 1]{0};
+	for (asize_t i = 0; i < 2; i++)
+	{
+		library[i] = new type_array[array_size + 1]{0};
+	}
+	numbered = new bool[array_size + 1]{0};
+	library[target_lib][0] = Array[0];
+}
+
+template <class type_array>
+void st_SortingAlgorithms<type_array>::LibrarySort::binarysearch()
+{
+	insert = (asize_t)std::distance(library[target_lib], std::lower_bound(library[target_lib], library[target_lib] + lib_size, Array[index_pos]));
+}
+
+template <class type_array>
+void st_SortingAlgorithms<type_array>::LibrarySort::insertion()
+{
+	if (numbered[insert] == true)
+	{
+		asize_t prov_size = 0, next_target_lib = !target_lib;
+		// update library and clear gaps
+		for (asize_t i = 0; i <= array_size; i++)
+		{
+			if (numbered[i] == true)
+			{
+				library[next_target_lib][prov_size] = gaps[i];
+				prov_size++;
+				numbered[i] = false;
+			}
+			if (i <= lib_size)
+			{
+				library[next_target_lib][prov_size] = library[target_lib][i];
+				prov_size++;
+			}
+		}
+		target_lib = next_target_lib;
+		lib_size = prov_size - 1;
+	}
+	else
+	{
+		numbered[insert] = true;
+		gaps[insert] = Array[index_pos];
+		index_pos++;
+	}
+}
+
+template <class type_array>
+void st_SortingAlgorithms<type_array>::LibrarySort::rebalancing()
+{
+	for (asize_t i = 0; index_pos_for_output < array_size; i++)
+	{
+		if (numbered[i] == true)
+		{
+			Array[index_pos_for_output] = gaps[i];
+			index_pos_for_output++;
+		}
+
+		if (i < lib_size)
+		{
+			Array[index_pos_for_output] = library[target_lib][i];
+			index_pos_for_output++;
+		}
+	}
+}
+
+template <class type_array>
+void st_SortingAlgorithms<type_array>::LibrarySort::finalization()
+{
+	delete[] numbered;
+	for (asize_t i = 0; i < 2; i++)
+	{
+		delete[] library[i];
+	}
+	delete[] gaps;
+}
+
+template st_SortingAlgorithms<int>::st_SortingAlgorithms(Array<int> *&);
+template st_SortingAlgorithms<float>::st_SortingAlgorithms(Array<float> *&);
+template st_SortingAlgorithms<char>::st_SortingAlgorithms(Array<char> *&);
+
+template void st_SortingAlgorithms<int>::Library_Sort();
+template void st_SortingAlgorithms<float>::Library_Sort();
+template void st_SortingAlgorithms<char>::Library_Sort();
+
+template st_SortingAlgorithms<int>::LibrarySort::LibrarySort(int *, asize_t);
+template st_SortingAlgorithms<float>::LibrarySort::LibrarySort(float *, asize_t);
+template st_SortingAlgorithms<char>::LibrarySort::LibrarySort(char *, asize_t);
+
+template void st_SortingAlgorithms<int>::LibrarySort::library_sort();
+template void st_SortingAlgorithms<float>::LibrarySort::library_sort();
+template void st_SortingAlgorithms<char>::LibrarySort::library_sort();
+
+template void st_SortingAlgorithms<int>::LibrarySort::initialization();
+template void st_SortingAlgorithms<float>::LibrarySort::initialization();
+template void st_SortingAlgorithms<char>::LibrarySort::initialization();
+
+template void st_SortingAlgorithms<int>::LibrarySort::binarysearch();
+template void st_SortingAlgorithms<float>::LibrarySort::binarysearch();
+template void st_SortingAlgorithms<char>::LibrarySort::binarysearch();
+
+template void st_SortingAlgorithms<int>::LibrarySort::insertion();
+template void st_SortingAlgorithms<float>::LibrarySort::insertion();
+template void st_SortingAlgorithms<char>::LibrarySort::insertion();
+
+template void st_SortingAlgorithms<int>::LibrarySort::rebalancing();
+template void st_SortingAlgorithms<float>::LibrarySort::rebalancing();
+template void st_SortingAlgorithms<char>::LibrarySort::rebalancing();
+
+template void st_SortingAlgorithms<int>::LibrarySort::finalization();
+template void st_SortingAlgorithms<float>::LibrarySort::finalization();
+template void st_SortingAlgorithms<char>::LibrarySort::finalization();
+
+#endif // STANDARDS_SWITCH

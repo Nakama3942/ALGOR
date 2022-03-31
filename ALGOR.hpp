@@ -48,7 +48,17 @@
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
 
-#include <ctime>
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                               SETTINGS                              <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+#define STANDARDS_SWITCH 1
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -71,21 +81,23 @@ using uint32_t = unsigned int;		 ///< Alias for unsigned int
 using uint64_t = unsigned long long; ///< Alias for unsigned long long
 
 using asize_t = unsigned int; ///< Alias for specifying the type "array size"
+using memcell_t = long long;  //Тип, хранящий расчитаную ячейку памяти
+
+memcell_t getMemoryCell(); //Заместо time(NULL)
+memcell_t getMemoryCell(memcell_t right_adjust, memcell_t left_adjust);
 
 template <typename type_array>
-void swap(type_array &firstNumber, type_array &secondNumber);
-template <typename type_array>
-type_array minimum(const type_array *Array, const asize_t &array_size);
-template <typename type_array>
-type_array maximum(const type_array *Array, const asize_t &array_size);
-template <typename type_array>
-void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
-template <typename type_array>
-void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
-template <typename type_array>
-void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
-template <typename type_array>
-void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
+class Core
+{
+public:
+	static void swap(type_array &firstNumber, type_array &secondNumber);
+	static type_array minimum(const type_array *Array, const asize_t &array_size);
+	static type_array maximum(const type_array *Array, const asize_t &array_size);
+	static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
+	static void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
+	static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
+	static void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
+};
 
 template <typename type_array>
 struct Array
@@ -427,7 +439,7 @@ namespace Insertion_Sorts
 				{
 					for (int j = i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
 					{
-						swap<type_array>(Array[j], Array[j + step]);
+						Core<type_array>::swap(Array[j], Array[j + step]);
 					}
 				}
 			}
@@ -635,7 +647,7 @@ namespace Concurrent_Sort
 						{
 							if ((((i & k) == 0) && (Array[i] > Array[l])) || (((i & k) != 0) && (Array[i] < Array[l])))
 							{
-								swap<type_array>(Array[i], Array[l]);
+								Core<type_array>::swap(Array[i], Array[l]);
 							}
 						}
 					}
@@ -703,7 +715,7 @@ namespace Other_Sorts
 			int left = 0;
 			while (left < index)
 			{
-				swap<type_array>(Array[left], Array[index]);
+				Core<type_array>::swap(Array[left], Array[index]);
 				index--;
 				left++;
 			}
@@ -833,5 +845,53 @@ private:
 //     List();
 // protected:
 // };
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                               STANDART                              <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+#if STANDARDS_SWITCH == 0
+#pragma message("Compilation, which was conceived by the author")
+#elif STANDARDS_SWITCH == 1
+#pragma message("Compilation that includes the standard libraries")
+#include <iterator>
+using namespace std;
+
+template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+class st_SortingAlgorithms : public ArrayBase<type_array>
+{
+public:
+	st_SortingAlgorithms(Array<type_array> *&Array);
+	void Library_Sort();
+
+	class LibrarySort
+	{
+	public:
+		LibrarySort(type_array *array, asize_t asize);
+		void library_sort();
+
+	private:
+		type_array *Array;
+		asize_t array_size;
+
+		type_array *gaps, *library[2];
+		asize_t lib_size = 0, index_pos = 0, insert, index_pos_for_output = 0;
+		bool target_lib = false, *numbered;
+
+		void initialization();
+		void binarysearch();
+		void insertion();
+		void rebalancing();
+		void finalization();
+	};
+};
+
+#endif // STANDARDS_SWITCH
 
 #endif // ALGOR_HPP
