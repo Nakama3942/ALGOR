@@ -58,7 +58,7 @@
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-#define STANDARDS_SWITCH 1
+#define STANDARDS_SWITCH 0
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -92,7 +92,9 @@ class Core
 public:
 	static void swap(type_array &firstNumber, type_array &secondNumber);
 	static type_array minimum(const type_array *Array, const asize_t &array_size);
+	static type_array minimum(type_array firstNumber, type_array secondNumber);
 	static type_array maximum(const type_array *Array, const asize_t &array_size);
+	static type_array maximum(type_array firstNumber, type_array secondNumber);
 	static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
 	static void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
 	static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
@@ -528,7 +530,38 @@ namespace Distribution_Sort
 
 	// class InterpolationSort
 
-	// class PigeonholeSort{};
+	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+	class PigeonholeSort
+	{
+	public:
+		PigeonholeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+		void pigeonhole_sort()
+		{
+			min = Core<type_array>::minimum(Array, array_size);
+			max = Core<type_array>::maximum(Array, array_size);
+			range = (asize_t)max - (asize_t)min + 1;
+			hole = new type_array[range]{0};
+
+			for (asize_t i = 0; i < array_size; i++)
+			{
+				hole[Array[i] - min] = Array[i];
+			}
+			for (asize_t i = 0; i < range; i++)
+			{
+				while (hole[i] != '\0')
+				{
+					Array[count] = hole[i];
+					hole[i] = {};
+					count++;
+				}
+			}
+			delete[] hole;
+		}
+
+	private:
+		type_array *Array, *hole, min, max;
+		asize_t array_size, range, count = 0;
+	};
 
 	// class ProxmapSort{};
 
@@ -583,7 +616,95 @@ namespace Hybrid_Sorts
 
 	// class KirkpatrickReischSort
 
-	// class TimSort{};
+	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+	class TimSort
+	{
+	public:
+		TimSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+		void tim_sort()
+		{
+			for (asize_t i = 0; i < array_size; i += RUN)
+			{
+				insertionSort(i, Core<asize_t>::minimum((i + 31), (array_size - 1)));
+			}
+			for (asize_t size = RUN; size < array_size; size *= 2)
+			{
+				for (asize_t left = 0; left < array_size; left += 2 * size)
+				{
+					asize_t middle = left + size - 1;
+					asize_t right = Core<asize_t>::minimum((left + 2 * size - 1), (array_size - 1));
+					merge(left, middle, right);
+				}
+			}
+		}
+
+	private:
+		type_array *Array;
+		asize_t array_size;
+
+		const asize_t RUN = 32;
+
+		void insertionSort(asize_t left_limit, asize_t right_limit)
+		{
+			for (asize_t i = left_limit + 1; i <= right_limit; i++)
+			{
+				type_array temp = Array[i];
+				int j = i - 1;
+				while (Array[j] > temp && j >= (int)left_limit)
+				{
+					Array[j + 1] = Array[j];
+					j--;
+				}
+				Array[j + 1] = temp;
+			}
+		}
+		void merge(asize_t left_limit, asize_t middle, asize_t right_limit)
+		{
+			asize_t len1 = middle - left_limit + 1, len2 = right_limit - middle;
+			asize_t *left = new asize_t[len1], *right = new asize_t[len2];
+
+			for (asize_t i = 0; i < len1; i++)
+			{
+				left[i] = Array[left_limit + i];
+			}
+			for (asize_t i = 0; i < len2; i++)
+			{
+				right[i] = Array[middle + 1 + i];
+			}
+
+			asize_t i = 0, j = 0, k = left_limit;
+
+			while (i < len1 && j < len2)
+			{
+				if (left[i] <= right[j])
+				{
+					Array[k] = left[i];
+					i++;
+				}
+				else
+				{
+					Array[k] = right[j];
+					j++;
+				}
+				k++;
+			}
+			while (i < len1)
+			{
+				Array[k] = left[i];
+				k++;
+				i++;
+			}
+			while (j < len2)
+			{
+				Array[k] = right[j];
+				k++;
+				j++;
+			}
+
+			delete[] left;
+			delete[] right;
+		}
+	};
 
 	// class IntroSort{};
 

@@ -96,6 +96,12 @@ type_array Core<type_array>::minimum(const type_array *Array, const asize_t &arr
 }
 
 template <typename type_array>
+type_array Core<type_array>::minimum(type_array firstNumber, type_array secondNumber)
+{
+	return firstNumber < secondNumber ? firstNumber : secondNumber;
+}
+
+template <typename type_array>
 type_array Core<type_array>::maximum(const type_array *Array, const asize_t &array_size)
 {
 	verification(array_size);
@@ -108,6 +114,12 @@ type_array Core<type_array>::maximum(const type_array *Array, const asize_t &arr
 		}
 	}
 	return point_max;
+}
+
+template <typename type_array>
+type_array Core<type_array>::maximum(type_array firstNumber, type_array secondNumber)
+{
+	return firstNumber > secondNumber ? firstNumber : secondNumber;
 }
 
 template <typename type_array>
@@ -1870,9 +1882,17 @@ template int Core<int>::minimum(const int *, const asize_t &);
 template float Core<float>::minimum(const float *, const asize_t &);
 template char Core<char>::minimum(const char *, const asize_t &);
 
+template int Core<int>::minimum(int, int);
+template float Core<float>::minimum(float, float);
+template char Core<char>::minimum(char, char);
+
 template int Core<int>::maximum(const int *, const asize_t &);
 template float Core<float>::maximum(const float *, const asize_t &);
 template char Core<char>::maximum(const char *, const asize_t &);
+
+template int Core<int>::maximum(int, int);
+template float Core<float>::maximum(float, float);
+template char Core<char>::maximum(char, char);
 
 template void Core<int>::addElement(int *&, asize_t &, const int &, const unsigned int);
 template void Core<float>::addElement(float *&, asize_t &, const float &, const unsigned int);
