@@ -20,6 +20,14 @@
 ---
 -->
 
+## v2.1.3+NPS (01.04.2022)
+
+- NPS - New Project Structure
+
+#### Enhancements:
+- I implemented the following sorting algorithms: ShellSort, TreeSort, PatienceSort and LibrarySort and combined them with InsertSort (except LibrarySort) into one class. Since I can't do without the standard libraries in LibrarySort, I decided to make it a separate class. This has complicated the structure and division of the library into two versions - with and without standard libraries. There will now be settings on top of the header. Depending on the value of #define STANDARDS_SWITCH, the library will be compiled with or without these algorithms, which require standard libraries. "0" - without libraries, "1" - with libraries. Since the library was originally conceived as a clean project without the use of any standard or any other library - I am not going to further develop this area. This section will collect some sorting algorithms that these standard libraries require and no more. Everything else I will have to implement myself. Since there are already a lot of implemented sorting algorithms, I can afford it. It is possible that in the future, due to the introduction of a system of settings, the structure of the project will become increasingly complex. Of course, I will not release this product with standard libraries, but I will leave them in case of need. If a programmer needs exactly the algorithm that uses standard libraries - he can always download the repository and build a library with the necessary settings.
+- In case the programmer used a section with standard libraries, I had to place some of the standard functions in the Core class to avoid conflicts.
+
 ## v2.1.2 (30.03.2022)
 
 #### Enhancements:
