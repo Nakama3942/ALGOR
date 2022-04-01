@@ -417,162 +417,76 @@ private:
 	};
 };
 
-namespace Insertion_Sorts
+template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+class Insertion_Sorts : public ArrayBase<type_array>
 {
-	template <typename type_array>
-	class InsertSort : public ArrayBase<type_array>
+public:
+	Insertion_Sorts(Array<type_array> *&Array);
+	void Insert_Sort();
+	void Shell_Sort();
+	void Tree_Sort();
+	void Patience_Sort();
+
+	class InsertSort
 	{
 	public:
-		InsertSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-		void start_sort();
+		InsertSort(type_array *array, asize_t asize);
+		void insert_sort();
+
+	private:
+		type_array *Array;
+		asize_t array_size;
 	};
 
-	template <class type_array> // NOTE Скоріше тут буде тип - треба тестувати
 	class ShellSort
 	{
 	public:
-		static void shell_sort(type_array *Array, int array_size)
-		{
-			for (int step = array_size / 2; step > 0; step /= 2)
-			{
-				for (int i = step; i < array_size; i++)
-				{
-					for (int j = i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
-					{
-						Core<type_array>::swap(Array[j], Array[j + step]);
-					}
-				}
-			}
-		}
+		ShellSort(type_array *array, asize_t asize);
+		void shell_sort();
+
+	private:
+		type_array *Array;
+		asize_t array_size;
 	};
 
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
 	class TreeSort
 	{
 	public:
-		static void tree_sort(type_array *Array, int array_size)
-		{
-			Tree *root = nullptr;
-			root = insert(root, Array[0]);
-			for (int i = 1; i < array_size; i++)
-			{
-				insert(root, Array[i]);
-			}
-			int index = 0;
-			store(root, Array, index);
-		}
+		TreeSort(type_array *array, asize_t asize);
+		void tree_sort();
 
 	private:
+		type_array *Array;
+		asize_t array_size;
+
 		struct Tree
 		{
 			int data;
 			Tree *left, *right;
 		};
-		static Tree *newnode(int key)
-		{
-			Tree *temp = new Tree;
-			temp->data = key;
-			temp->left = nullptr;
-			temp->right = nullptr;
-			return temp;
-		}
-		static Tree *insert(Tree *node, int key)
-		{
-			if (node == nullptr)
-			{
-				return newnode(key);
-			}
-			if (key < node->data)
-			{
-				node->left = insert(node->left, key);
-			}
-			else
-			{
-				node->right = insert(node->right, key);
-			}
-			return node;
-		}
-		static void store(Tree *root, int *Array, int &index)
-		{
-			if (root != nullptr)
-			{
-				store(root->left, Array, index);
-				Array[index++] = root->data;
-				store(root->right, Array, index);
-			}
-		}
+
+		Tree *newnode(int key);
+		Tree *insert(Tree *node, int key);
+		void store(Tree *root, type_array *Array, asize_t &index);
 	};
 
-	// class LibrarySort{};
-
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
 	class PatienceSort
 	{
 	public:
-		static void patience_sort(type_array *Array, int array_size)
-		{
-			int *count = new int[array_size]{0}, pickedRow;
-			type_array **decks = new type_array *[array_size], *sortedArr = new type_array[array_size], min;
-			for (int i = 0; i < array_size; i++)
-			{
-				decks[i] = new type_array[array_size];
-			}
+		PatienceSort(type_array *array, asize_t asize);
+		void patience_sort();
 
-			for (int i = 0; i < array_size; i++)
-			{
-				for (int j = 0; j < array_size; j++)
-				{
-					if (count[j] == 0 || (count[j] > 0 && decks[j][count[j] - 1] >= Array[i]))
-					{
-						decks[j][count[j]] = Array[i];
-						count[j]++;
-						break;
-					}
-				}
-			}
+	private:
+		type_array *Array;
+		asize_t array_size;
 
-			min = decks[0][count[0] - 1];
-			pickedRow = 0;
+		asize_t *count, pickedRow;
+		type_array **decks, *sortedArr, min;
 
-			for (int i = 0; i < array_size; i++)
-			{
-				for (int j = 0; j < array_size; j++)
-				{
-					if (count[j] > 0 && decks[j][count[j] - 1] < min)
-					{
-						min = decks[j][count[j] - 1];
-						pickedRow = j;
-					}
-				}
-				sortedArr[i] = min;
-				count[pickedRow]--;
-
-				for (int j = 0; j < array_size; j++)
-				{
-					if (count[j] > 0)
-					{
-						min = decks[j][count[j] - 1];
-						pickedRow = j;
-						break;
-					}
-				}
-			}
-
-			for (int i = 0; i < array_size; i++)
-			{
-				Array[i] = sortedArr[i];
-			}
-
-			delete[] sortedArr;
-			for (int i = 0; i < array_size; i++)
-			{
-				delete[] decks[i];
-			}
-			delete[] decks;
-			delete[] count;
-		}
+		void initialization();
+		void finalization();
 	};
-}
+};
 
 namespace Merge_Sorts
 {
@@ -870,7 +784,17 @@ public:
 	st_SortingAlgorithms(Array<type_array> *&Array);
 	void Library_Sort();
 
-	class LibrarySort
+	// class ProportionExtendSort //Категорія Exchange_Sorts
+
+	// class CartesianTreeSort //Категорія Selection_Sorts
+
+	// class TournamentSort //Категорія Selection_Sorts
+
+	// class WeakHeapSort //Категорія Selection_Sorts
+
+	// class SplaySort //Категорія Insertion_Sorts
+
+	class LibrarySort //Категорія Insertion_Sorts
 	{
 	public:
 		LibrarySort(type_array *array, asize_t asize);

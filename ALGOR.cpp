@@ -1073,17 +1073,209 @@ void Selection_Sorts<type_array>::CycleSort::cycle_sort()
 	}
 }
 
-template <typename type_array>
-void Insertion_Sorts::InsertSort<type_array>::start_sort()
+template <class type_array>
+Insertion_Sorts<type_array>::Insertion_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::Insert_Sort()
 {
-	verification(this->ARRAY->array_size);
-	for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+	InsertSort *sort = new InsertSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->insert_sort();
+	delete (sort);
+}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::Shell_Sort()
+{
+	ShellSort *sort = new ShellSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->shell_sort();
+	delete (sort);
+}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::Tree_Sort()
+{
+	TreeSort *sort = new TreeSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->tree_sort();
+	delete (sort);
+}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::Patience_Sort()
+{
+	PatienceSort *sort = new PatienceSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->patience_sort();
+	delete (sort);
+}
+
+template <class type_array>
+Insertion_Sorts<type_array>::InsertSort::InsertSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::InsertSort::insert_sort()
+{
+	// verification(array_size);
+	for (asize_t i = 0; i < array_size; i++)
 	{
-		for (int j = i; j > 0 && this->ARRAY->array[j - 1] > this->ARRAY->array[j]; j--)
+		for (asize_t j = i; j > 0 && Array[j - 1] > Array[j]; j--)
 		{
-			Core<type_array>::swap(this->ARRAY->array[j - 1], this->ARRAY->array[j]);
+			Core<type_array>::swap(Array[j - 1], Array[j]);
 		}
 	}
+}
+
+template <class type_array>
+Insertion_Sorts<type_array>::ShellSort::ShellSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::ShellSort::shell_sort()
+{
+	for (asize_t step = array_size / 2; step > 0; step /= 2)
+	{
+		for (asize_t i = step; i < array_size; i++)
+		{
+			for (int j = (int)i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
+			{
+				Core<type_array>::swap(Array[j], Array[j + step]);
+			}
+		}
+	}
+}
+
+template <class type_array>
+Insertion_Sorts<type_array>::TreeSort::TreeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::TreeSort::tree_sort()
+{
+	Tree *root = nullptr;
+	root = insert(root, Array[0]);
+	for (asize_t i = 1; i < array_size; i++)
+	{
+		insert(root, Array[i]);
+	}
+	asize_t index = 0;
+	store(root, Array, index);
+	delete (root);
+}
+
+template <class type_array>
+typename Insertion_Sorts<type_array>::TreeSort::Tree *Insertion_Sorts<type_array>::TreeSort::newnode(int key)
+{
+	Tree *temp = new Tree;
+	temp->data = key;
+	temp->left = nullptr;
+	temp->right = nullptr;
+	return temp;
+}
+
+template <class type_array>
+typename Insertion_Sorts<type_array>::TreeSort::Tree *Insertion_Sorts<type_array>::TreeSort::insert(Tree *node, int key)
+{
+	if (node == nullptr)
+	{
+		return newnode(key);
+	}
+	if (key < node->data)
+	{
+		node->left = insert(node->left, key);
+	}
+	else
+	{
+		node->right = insert(node->right, key);
+	}
+	return node;
+}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::TreeSort::store(Tree *root, type_array *Array, asize_t &index)
+{
+	if (root != nullptr)
+	{
+		store(root->left, Array, index);
+		Array[index++] = root->data;
+		store(root->right, Array, index);
+	}
+}
+
+template <class type_array>
+Insertion_Sorts<type_array>::PatienceSort::PatienceSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::PatienceSort::patience_sort()
+{
+	initialization();
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		for (asize_t j = 0; j < array_size; j++)
+		{
+			if (count[j] == 0 || (count[j] > 0 && decks[j][count[j] - 1] >= Array[i]))
+			{
+				decks[j][count[j]] = Array[i];
+				count[j]++;
+				break;
+			}
+		}
+	}
+
+	min = decks[0][count[0] - 1];
+	pickedRow = 0;
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		for (asize_t j = 0; j < array_size; j++)
+		{
+			if (count[j] > 0 && decks[j][count[j] - 1] < min)
+			{
+				min = decks[j][count[j] - 1];
+				pickedRow = j;
+			}
+		}
+		sortedArr[i] = min;
+		count[pickedRow]--;
+
+		for (asize_t j = 0; j < array_size; j++)
+		{
+			if (count[j] > 0)
+			{
+				min = decks[j][count[j] - 1];
+				pickedRow = j;
+				break;
+			}
+		}
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		Array[i] = sortedArr[i];
+	}
+
+	finalization();
+}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::PatienceSort::initialization()
+{
+	count = new asize_t[array_size]{0};
+	decks = new type_array *[array_size];
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		decks[i] = new type_array[array_size]{0};
+	}
+	sortedArr = new type_array[array_size]{0};
+}
+
+template <class type_array>
+void Insertion_Sorts<type_array>::PatienceSort::finalization()
+{
+	delete[] sortedArr;
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		delete[] decks[i];
+	}
+	delete[] decks;
+	delete[] count;
 }
 
 template <typename type_array>
@@ -1926,9 +2118,77 @@ template void Selection_Sorts<int>::CycleSort::cycle_sort();
 template void Selection_Sorts<float>::CycleSort::cycle_sort();
 template void Selection_Sorts<char>::CycleSort::cycle_sort();
 
-template void Insertion_Sorts::InsertSort<int>::start_sort();
-template void Insertion_Sorts::InsertSort<float>::start_sort();
-template void Insertion_Sorts::InsertSort<char>::start_sort();
+template Insertion_Sorts<int>::Insertion_Sorts(Array<int> *&);
+template Insertion_Sorts<float>::Insertion_Sorts(Array<float> *&);
+template Insertion_Sorts<char>::Insertion_Sorts(Array<char> *&);
+
+template void Insertion_Sorts<int>::Insert_Sort();
+template void Insertion_Sorts<float>::Insert_Sort();
+template void Insertion_Sorts<char>::Insert_Sort();
+
+template void Insertion_Sorts<int>::Shell_Sort();
+template void Insertion_Sorts<float>::Shell_Sort();
+template void Insertion_Sorts<char>::Shell_Sort();
+
+template void Insertion_Sorts<int>::Tree_Sort();
+template void Insertion_Sorts<float>::Tree_Sort();
+template void Insertion_Sorts<char>::Tree_Sort();
+
+template void Insertion_Sorts<int>::Patience_Sort();
+template void Insertion_Sorts<float>::Patience_Sort();
+template void Insertion_Sorts<char>::Patience_Sort();
+
+template Insertion_Sorts<int>::InsertSort::InsertSort(int *, asize_t);
+template Insertion_Sorts<float>::InsertSort::InsertSort(float *, asize_t);
+template Insertion_Sorts<char>::InsertSort::InsertSort(char *, asize_t);
+
+template void Insertion_Sorts<int>::InsertSort::insert_sort();
+template void Insertion_Sorts<float>::InsertSort::insert_sort();
+template void Insertion_Sorts<char>::InsertSort::insert_sort();
+
+template Insertion_Sorts<int>::ShellSort::ShellSort(int *, asize_t);
+template Insertion_Sorts<float>::ShellSort::ShellSort(float *, asize_t);
+template Insertion_Sorts<char>::ShellSort::ShellSort(char *, asize_t);
+
+template void Insertion_Sorts<int>::ShellSort::shell_sort();
+template void Insertion_Sorts<float>::ShellSort::shell_sort();
+template void Insertion_Sorts<char>::ShellSort::shell_sort();
+
+template Insertion_Sorts<int>::TreeSort::TreeSort(int *, asize_t);
+template Insertion_Sorts<float>::TreeSort::TreeSort(float *, asize_t);
+template Insertion_Sorts<char>::TreeSort::TreeSort(char *, asize_t);
+
+template void Insertion_Sorts<int>::TreeSort::tree_sort();
+template void Insertion_Sorts<float>::TreeSort::tree_sort();
+template void Insertion_Sorts<char>::TreeSort::tree_sort();
+
+template typename Insertion_Sorts<int>::TreeSort::Tree *Insertion_Sorts<int>::TreeSort::newnode(int);
+template typename Insertion_Sorts<float>::TreeSort::Tree *Insertion_Sorts<float>::TreeSort::newnode(int);
+template typename Insertion_Sorts<char>::TreeSort::Tree *Insertion_Sorts<char>::TreeSort::newnode(int);
+
+template typename Insertion_Sorts<int>::TreeSort::Tree *Insertion_Sorts<int>::TreeSort::insert(Tree *, int);
+template typename Insertion_Sorts<float>::TreeSort::Tree *Insertion_Sorts<float>::TreeSort::insert(Tree *, int);
+template typename Insertion_Sorts<char>::TreeSort::Tree *Insertion_Sorts<char>::TreeSort::insert(Tree *, int);
+
+template void Insertion_Sorts<int>::TreeSort::store(Tree *, int *, asize_t &);
+template void Insertion_Sorts<float>::TreeSort::store(Tree *, float *, asize_t &);
+template void Insertion_Sorts<char>::TreeSort::store(Tree *, char *, asize_t &);
+
+template Insertion_Sorts<int>::PatienceSort::PatienceSort(int *, asize_t);
+template Insertion_Sorts<float>::PatienceSort::PatienceSort(float *, asize_t);
+template Insertion_Sorts<char>::PatienceSort::PatienceSort(char *, asize_t);
+
+template void Insertion_Sorts<int>::PatienceSort::patience_sort();
+template void Insertion_Sorts<float>::PatienceSort::patience_sort();
+template void Insertion_Sorts<char>::PatienceSort::patience_sort();
+
+template void Insertion_Sorts<int>::PatienceSort::initialization();
+template void Insertion_Sorts<float>::PatienceSort::initialization();
+template void Insertion_Sorts<char>::PatienceSort::initialization();
+
+template void Insertion_Sorts<int>::PatienceSort::finalization();
+template void Insertion_Sorts<float>::PatienceSort::finalization();
+template void Insertion_Sorts<char>::PatienceSort::finalization();
 
 template void Merge_Sorts::MergeSort<int>::start_sort();
 template void Merge_Sorts::MergeSort<float>::start_sort();
@@ -2147,7 +2407,7 @@ void st_SortingAlgorithms<type_array>::LibrarySort::insertion()
 	if (numbered[insert] == true)
 	{
 		asize_t prov_size = 0, next_target_lib = !target_lib;
-		// update library and clear gaps
+
 		for (asize_t i = 0; i <= array_size; i++)
 		{
 			if (numbered[i] == true)
@@ -2162,6 +2422,7 @@ void st_SortingAlgorithms<type_array>::LibrarySort::insertion()
 				prov_size++;
 			}
 		}
+
 		target_lib = next_target_lib;
 		lib_size = prov_size - 1;
 	}
