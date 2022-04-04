@@ -1290,31 +1290,45 @@ void Insertion_Sorts<type_array>::PatienceSort::finalization()
 	delete[] count;
 }
 
-template <typename type_array>
-void Merge_Sorts::MergeSort<type_array>::start_sort()
+template<class type_array>
+Merge_Sorts<type_array>::Merge_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
+
+template<class type_array>
+void Merge_Sorts<type_array>::Merge_Sort()
 {
-	verification(this->ARRAY->array_size);
-	merge_sort(this->ARRAY->array, 0, this->ARRAY->array_size - 1);
+	MergeSort *sort = new MergeSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->merge_sort();
+	delete (sort);
 }
 
-template <typename type_array>
-void Merge_Sorts::MergeSort<type_array>::merge_sort(type_array *Array, const int &left_limit, const int &right_limit)
+template<class type_array>
+Merge_Sorts<type_array>::MergeSort::MergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+
+template<class type_array>
+void Merge_Sorts<type_array>::MergeSort::merge_sort()
+{
+	//verification(array_size);
+	recursive_merge_sort(0, array_size - 1);
+}
+
+template<class type_array>
+void Merge_Sorts<type_array>::MergeSort::recursive_merge_sort(const asize_t &left_limit, const asize_t &right_limit)
 {
 	if (left_limit < right_limit)
 	{
-		int middle = left_limit + (right_limit - left_limit) / 2;
-		merge_sort(Array, left_limit, middle);
-		merge_sort(Array, middle + 1, right_limit);
-		merge(Array, left_limit, middle, right_limit);
+		asize_t middle = left_limit + (right_limit - left_limit) / 2;
+		recursive_merge_sort(left_limit, middle);
+		recursive_merge_sort(middle + 1, right_limit);
+		merge(left_limit, middle, right_limit);
 	}
 }
 
-template <typename type_array>
-void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit)
+template<class type_array>
+void Merge_Sorts<type_array>::MergeSort::merge(const asize_t &left_limit, const asize_t &middle_limit, const asize_t &right_limit)
 {
-	int start = left_limit, finish = middle_limit + 1;
+	asize_t start = left_limit, finish = middle_limit + 1;
 	type_array *tempArray = new type_array[right_limit - left_limit + 1];
-	for (int i = left_limit; i <= right_limit; i++)
+	for (asize_t i = left_limit; i <= right_limit; i++)
 	{
 		if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
 		{
@@ -1327,12 +1341,13 @@ void Merge_Sorts::MergeSort<type_array>::merge(type_array *Array, const int &lef
 			finish++;
 		}
 	}
-	for (int i = left_limit; i <= right_limit; i++)
+	for (asize_t i = left_limit; i <= right_limit; i++)
 	{
 		Array[i] = tempArray[i - left_limit];
 	}
 	delete[] tempArray;
 }
+
 
 void Distribution_Sort::CountingSort::start_sort()
 {
@@ -2210,17 +2225,29 @@ template void Insertion_Sorts<int>::PatienceSort::finalization();
 template void Insertion_Sorts<float>::PatienceSort::finalization();
 template void Insertion_Sorts<char>::PatienceSort::finalization();
 
-template void Merge_Sorts::MergeSort<int>::start_sort();
-template void Merge_Sorts::MergeSort<float>::start_sort();
-template void Merge_Sorts::MergeSort<char>::start_sort();
+template Merge_Sorts<int>::Merge_Sorts(Array<int> *&);
+template Merge_Sorts<float>::Merge_Sorts(Array<float> *&);
+template Merge_Sorts<char>::Merge_Sorts(Array<char> *&);
 
-template void Merge_Sorts::MergeSort<int>::merge_sort(int *, const int &, const int &);
-template void Merge_Sorts::MergeSort<float>::merge_sort(float *, const int &, const int &);
-template void Merge_Sorts::MergeSort<char>::merge_sort(char *, const int &, const int &);
+template void Merge_Sorts<int>::Merge_Sort();
+template void Merge_Sorts<float>::Merge_Sort();
+template void Merge_Sorts<char>::Merge_Sort();
 
-template void Merge_Sorts::MergeSort<int>::merge(int *, const int &, const int &, const int &);
-template void Merge_Sorts::MergeSort<float>::merge(float *, const int &, const int &, const int &);
-template void Merge_Sorts::MergeSort<char>::merge(char *, const int &, const int &, const int &);
+template Merge_Sorts<int>::MergeSort::MergeSort(int *, asize_t);
+template Merge_Sorts<float>::MergeSort::MergeSort(float *, asize_t);
+template Merge_Sorts<char>::MergeSort::MergeSort(char *, asize_t);
+
+template void Merge_Sorts<int>::MergeSort::merge_sort();
+template void Merge_Sorts<float>::MergeSort::merge_sort();
+template void Merge_Sorts<char>::MergeSort::merge_sort();
+
+template void Merge_Sorts<int>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
+template void Merge_Sorts<float>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
+template void Merge_Sorts<char>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
+
+template void Merge_Sorts<int>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
+template void Merge_Sorts<float>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
+template void Merge_Sorts<char>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
 
 template ARRAYDATA<int>::ARRAYDATA(Array<int> *&);
 template ARRAYDATA<float>::ARRAYDATA(Array<float> *&);

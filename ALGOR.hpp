@@ -490,40 +490,196 @@ public:
 	};
 };
 
-namespace Merge_Sorts
+template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+class Merge_Sorts : public ArrayBase<type_array>
 {
-	template <typename type_array>
+public:
+	Merge_Sorts(Array<type_array> *&Array);
+	void Merge_Sort();
+
 	class MergeSort : public ArrayBase<type_array>
 	{
 	public:
-		MergeSort(Array<type_array> *&Array) : ArrayBase<type_array>(Array){};
-		void start_sort();
+		MergeSort(type_array *array, asize_t asize);
+		void merge_sort();
 
 	private:
-		void merge_sort(type_array *Array, const int &left_limit, const int &right_limit);
-		void merge(type_array *Array, const int &left_limit, const int &middle_limit, const int &right_limit);
+		type_array *Array;
+		asize_t array_size;
+
+		void recursive_merge_sort(const asize_t &left_limit, const asize_t &right_limit);
+		void merge(const asize_t &left_limit, const asize_t &middle_limit, const asize_t &right_limit);
 	};
-
-	// class CascadeMergeSort
-
-	// class OscillatingMergeSort
-
-	// class PolyphaseMergeSort
-}
+};
 
 namespace Distribution_Sort
 {
 	// class AmericanFlagSort
 
-	// class BeadSort{};
+	class BeadSort
+	{
+	public:
+		//WARNING Працює тільки з масивами типу int
+		BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+		void bead_sort()
+		{
+			max = Core<int>::maximum(Array, array_size);
+			beads = new unsigned char[max * array_size]{0};
 
-	// class BucketSort{};
+			for (asize_t i = 0; i < array_size; i++)
+			{
+				for (int j = 0; j < Array[i]; j++)
+				{
+					beads[i * max + j] = 1;
+				}
+			}
+			for (int j = 0; j < max; j++)
+			{
+				int sum = 0;
+				for (asize_t i = 0; i < array_size; i++)
+				{
+					sum += beads[i * max + j];
+					beads[i * max + j] = 0;
+				}
+				for (asize_t i = array_size - sum; i < array_size; i++)
+				{
+					beads[i * max + j] = 1;
+				}
+			}
+			for (asize_t i = 0; i < array_size; i++) {
+				int j = 0;
+				for (; j < max && beads[i * max + j]; j++);
+				Array[i] = j;
+			}
+
+			delete[] beads;
+		}
+
+	private:
+		int *Array, max;
+		asize_t array_size;
+
+		unsigned char *beads;
+	};
+
+	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
+	class BucketSort
+	{
+	public:
+		//https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
+		BucketSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+		void bucket_sort()
+		{
+			min = Core<type_array>::getMin(Array, array_size);
+			max = Core<type_array>::getMax(Array, array_size);
+			range = (max - min) / array_size;
+
+			bucket = new type_array*[array_size];
+			for(asize_t i = 0; i < array_size; i++)
+			{
+				bucket[i] = new type_array[1];
+				bucket[i][0] = 1;
+			}
+
+			for(asize_t i = 0; i < array_size; i++)
+			{
+				bucket_index = asize_t((Array[i] - min) / range);
+				if(bucket_index == array_size)
+				{
+					bucket_index--;
+				}
+				bucket[bucket_index] = push_back(bucket[bucket_index], Array[i]);
+			}
+
+			for(asize_t i = 0; i < array_size; i++)
+			{
+				if(bucket[i][0] > 2)
+				{
+					bubble_sort(bucket[i]);
+				}
+			}
+
+			for(asize_t i = 0; i < array_size; i++)
+			{
+				for(asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
+				{
+					Array[array_index++] = bucket[i][j];
+				}
+			}
+
+			for(asize_t i = 0; i < array_size; i++)
+			{
+				delete[] bucket[i];
+			}
+			delete[] bucket;
+		}
+
+	private:
+		type_array *Array, **bucket, min, max, range;
+		asize_t array_size, bucket_index, array_index = 0;
+
+		type_array *push_back(type_array *bucket, type_array value)
+		{
+			//Суть алгоритму наступна: я не можу створити структуру структур через
+			//невиразну помилку, яка незрозуміло звідки береться (в інших місцях
+			//коду все працює - воно не хоче тільки тут працювати чомусь) й
+			//у окремих змінних зберігати не вийде, оскільки постає питання: скільки
+			//їх потрібно? Отже треба буде оголошувати окремий масив для зберігання
+			//розмірів кожного підмасиву. Це запарно, тому я вирішив вписати їх у
+			//самі підмасиви (хоча потім може виникнути плутанина в інших місцях
+			//коду). Так як люди рахують з одиниці, а комп'ютери з нуля - я вирішив
+			//зберігати розмір у нульовій позиції, а так як для зберігання самого
+			//розміру тепер теж потрібна пам'ять у масиві - він (розмір) завжди
+			//буде більшим на одиницю. Наприклад, при розмірі масиву 6 там,
+			//насправді, масив складається з 5 елементів.
+			//Цей метод працює наступним чином: він дивиться розмір поданого
+			//підмасиву й створює тимчасовий масив, розмір якого на одиницю більше
+			//підмасиву; потім він (розмір) записується на нульове місце й так як у
+			//підмасиві на 1 елемент менше, ніж було зазначено, зі збільшенням
+			//тимчасово масиву різниця стане у два елементи. Тому для полегшення
+			//розуміння коду я вирішив у циклі використовувати оригінальний
+			//розмір, а під нульовим елементом можна уявити новий елемент. Тобто, у
+			//масиві з 5 елементів (насправді їх 4) нульовий елемент можна замінити
+			//новим й почати їх записувати у тимчасовий масив, який на одиницю
+			//більше (насправді, він тепер вміщує тих самих 5 елементів),
+			//починаючи не з нульового, а з першого номера. Що відбувається
+			//насправді? Спочатку у тимчасовий масив зазначається його розмір,
+			//потім на останню комірку заноситься нове значення й потім
+			//переносяться всі інші елементи з підмасиву до тимчасового
+			//масиву. Ось і все. Коли тимчасовий масив сформовано, пам'ять від
+			//старого звільняється й повертається адреса на тимчасовий масив. Тепер
+			//тимчасовий і є підмасивом. Все просто.
+			type_array *temp = new type_array[bucket[0] + 1];
+			temp[0] = bucket[0] + 1;
+			for(asize_t i = 0; i < (asize_t)bucket[0]; i++)
+			{
+				i != 0 ? temp[i] = bucket[i] : temp[bucket[0]] = value;
+			}
+			delete[] bucket;
+			return temp;
+		}
+		void bubble_sort(type_array *bucket)
+		{
+			//NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
+			for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
+			{
+				for (asize_t j = 1; j < (asize_t)bucket[0] - 1; j++)
+				{
+					if (bucket[j] > bucket[j + 1])
+					{
+						Core<type_array>::swap(bucket[j], bucket[j + 1]);
+					}
+				}
+			}
+		}
+	};
 
 	// class BurstSort{};
 
 	class CountingSort : public ArrayBase<int>
 	{
 	public:
+		//WARNING Працює тільки з масивами типу int
 		CountingSort(Array<int> *&Array) : ArrayBase<int>(Array){};
 		void start_sort();
 	};
@@ -534,6 +690,8 @@ namespace Distribution_Sort
 	class PigeonholeSort
 	{
 	public:
+		//WARNING Не тестувався на float, але цей алгоритм знаходиться
+		//у категорії, що підтримує тільки int значення
 		PigeonholeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 		void pigeonhole_sort()
 		{
@@ -568,6 +726,7 @@ namespace Distribution_Sort
 	class RadixSort : public ArrayBase<int>
 	{
 	public:
+		//WARNING Працює тільки з масивами типу int
 		RadixSort(Array<int> *&Array) : ArrayBase<int>(Array){};
 		void start_sort();
 	};
@@ -935,6 +1094,12 @@ public:
 		void rebalancing();
 		void finalization();
 	};
+
+	// class CascadeMergeSort //Категорія Merge_Sorts
+
+	// class OscillatingMergeSort //Категорія Merge_Sorts
+
+	// class PolyphaseMergeSort //Категорія Merge_Sorts
 };
 
 #endif // STANDARDS_SWITCH
