@@ -20,6 +20,11 @@
 ---
 -->
 
+## v2.1.4 (04.04.2022)
+
+#### Enhancements:
+- I tried to read CascadeMergeSort, OscillatingMergeSort and PolyphaseMergeSort, but there is almost no information on them (even on Wikipedia). I decided to abandon these algorithms and it turned out that in this category there is only one algorithm that has already been implemented. I rewrote it to a new standard and released a new release.
+
 ## v2.1.3+NPS (01.04.2022)
 
 - NPS - New Project Structure

@@ -1290,10 +1290,10 @@ void Insertion_Sorts<type_array>::PatienceSort::finalization()
 	delete[] count;
 }
 
-template<class type_array>
+template <class type_array>
 Merge_Sorts<type_array>::Merge_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
-template<class type_array>
+template <class type_array>
 void Merge_Sorts<type_array>::Merge_Sort()
 {
 	MergeSort *sort = new MergeSort(this->ARRAY->array, this->ARRAY->array_size);
@@ -1301,17 +1301,17 @@ void Merge_Sorts<type_array>::Merge_Sort()
 	delete (sort);
 }
 
-template<class type_array>
+template <class type_array>
 Merge_Sorts<type_array>::MergeSort::MergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<class type_array>
+template <class type_array>
 void Merge_Sorts<type_array>::MergeSort::merge_sort()
 {
-	//verification(array_size);
+	// verification(array_size);
 	recursive_merge_sort(0, array_size - 1);
 }
 
-template<class type_array>
+template <class type_array>
 void Merge_Sorts<type_array>::MergeSort::recursive_merge_sort(const asize_t &left_limit, const asize_t &right_limit)
 {
 	if (left_limit < right_limit)
@@ -1323,7 +1323,7 @@ void Merge_Sorts<type_array>::MergeSort::recursive_merge_sort(const asize_t &lef
 	}
 }
 
-template<class type_array>
+template <class type_array>
 void Merge_Sorts<type_array>::MergeSort::merge(const asize_t &left_limit, const asize_t &middle_limit, const asize_t &right_limit)
 {
 	asize_t start = left_limit, finish = middle_limit + 1;
@@ -1348,8 +1348,7 @@ void Merge_Sorts<type_array>::MergeSort::merge(const asize_t &left_limit, const 
 	delete[] tempArray;
 }
 
-
-void Distribution_Sort::CountingSort::start_sort()
+void Distribution_Sorts::CountingSort::start_sort()
 {
 	verification(this->ARRAY->array_size);
 	int min = Core<int>::minimum(ARRAY->array, ARRAY->array_size),
@@ -1375,7 +1374,7 @@ void Distribution_Sort::CountingSort::start_sort()
 	delete[] tempArray;
 }
 
-void Distribution_Sort::RadixSort::start_sort()
+void Distribution_Sorts::RadixSort::start_sort()
 {
 	verification(this->ARRAY->array_size);
 	int exp = 1, bit = 10, max = Core<int>::maximum(ARRAY->array, ARRAY->array_size);

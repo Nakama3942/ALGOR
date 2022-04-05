@@ -45,6 +45,11 @@
  * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
  */
 
+//WARNING Перепровірити код, де у якості максимального значання задається
+//0xffffffff, так як для int найменшим є 0x80000000, то число представляє собою
+//-1 для типу int. Обов'язково необхідно перевірити код усюди, де використовуються
+//шістнадцятковий код
+
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
 
@@ -512,14 +517,110 @@ public:
 	};
 };
 
-namespace Distribution_Sort
+namespace Distribution_Sorts
 {
-	// class AmericanFlagSort
+	class AmericanFlagSort
+	{
+	public:
+		//https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
+		// WARNING Працює тільки з масивами типу int
+		AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+		void american_flag_sort()
+		{
+			int numberOfDigits = getMaxNumberOfDigits(); // Max number of digits
+			int max = 1;
+			for (int i = 0; i < numberOfDigits - 1; i++)
+			{
+				max *= 10;
+			}
+			recursive_american_flag_sort(0, (int)array_size, max);
+		}
+	private:
+		int *Array;
+		asize_t array_size;
+
+		const int NUMBER_OF_BUCKETS = 10; // 10 for base 10 numbers
+
+		void recursive_american_flag_sort(int start, int length, int divisor)
+		{
+			int *count = new int[NUMBER_OF_BUCKETS]{0};
+			int digit = 0;
+
+			for (int i = start; i < (int)length; i++)
+			{
+				int array_digit = Array[i];
+				digit = getDigit(array_digit, divisor);
+				count[digit]++;
+			}
+
+			int *offset = new int[NUMBER_OF_BUCKETS];
+			offset[0] = start + 0;
+			for (int i = 1; i < NUMBER_OF_BUCKETS; i++)
+			{
+				offset[i] = count[i - 1] + offset[i - 1];
+			}
+
+			for (int b = 0; b < NUMBER_OF_BUCKETS; b++)
+			{
+				while (count[b] > 0)
+				{
+					int origin = offset[b];
+					int from = origin;
+					int num = Array[from];
+					Array[from] = -1;
+					do
+					{
+						digit = getDigit(num, divisor);
+						int to = offset[digit]++;
+						count[digit]--;
+						int temp = Array[to];
+						Array[to] = num;
+						num = temp;
+						from = to;
+					} while (from != origin);
+				}
+			}
+			if (divisor > 1)
+			{
+				for (int i = 0; i < NUMBER_OF_BUCKETS; i++)
+				{
+					int begin = (i > 0) ? offset[i - 1] : start;
+					int end = offset[i];
+					if (end - begin > 1)
+					{
+						recursive_american_flag_sort(begin, end, divisor / 10);
+					}
+				}
+			}
+		}
+		int getMaxNumberOfDigits()
+		{
+			int count = 1;
+			int value = Core<int>::maximum(Array, array_size);
+			while(true)
+			{
+				value /= 10;
+				if(value != 0)
+				{
+					count++;
+				}
+				else
+				{
+					break;
+				}
+			}
+			return count;
+		}
+		int getDigit(int integer, int divisor)
+		{
+			return (integer / divisor) % 10;
+		}
+	};
 
 	class BeadSort
 	{
 	public:
-		//WARNING Працює тільки з масивами типу int
+		// WARNING Працює тільки з масивами типу int
 		BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
 		void bead_sort()
 		{
@@ -546,9 +647,11 @@ namespace Distribution_Sort
 					beads[i * max + j] = 1;
 				}
 			}
-			for (asize_t i = 0; i < array_size; i++) {
+			for (asize_t i = 0; i < array_size; i++)
+			{
 				int j = 0;
-				for (; j < max && beads[i * max + j]; j++);
+				for (; j < max && beads[i * max + j]; j++)
+					;
 				Array[i] = j;
 			}
 
@@ -566,7 +669,7 @@ namespace Distribution_Sort
 	class BucketSort
 	{
 	public:
-		//https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
+		// https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
 		BucketSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 		void bucket_sort()
 		{
@@ -574,40 +677,40 @@ namespace Distribution_Sort
 			max = Core<type_array>::getMax(Array, array_size);
 			range = (max - min) / array_size;
 
-			bucket = new type_array*[array_size];
-			for(asize_t i = 0; i < array_size; i++)
+			bucket = new type_array *[array_size];
+			for (asize_t i = 0; i < array_size; i++)
 			{
 				bucket[i] = new type_array[1];
 				bucket[i][0] = 1;
 			}
 
-			for(asize_t i = 0; i < array_size; i++)
+			for (asize_t i = 0; i < array_size; i++)
 			{
 				bucket_index = asize_t((Array[i] - min) / range);
-				if(bucket_index == array_size)
+				if (bucket_index == array_size)
 				{
 					bucket_index--;
 				}
 				bucket[bucket_index] = push_back(bucket[bucket_index], Array[i]);
 			}
 
-			for(asize_t i = 0; i < array_size; i++)
+			for (asize_t i = 0; i < array_size; i++)
 			{
-				if(bucket[i][0] > 2)
+				if (bucket[i][0] > 2)
 				{
 					bubble_sort(bucket[i]);
 				}
 			}
 
-			for(asize_t i = 0; i < array_size; i++)
+			for (asize_t i = 0; i < array_size; i++)
 			{
-				for(asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
+				for (asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
 				{
 					Array[array_index++] = bucket[i][j];
 				}
 			}
 
-			for(asize_t i = 0; i < array_size; i++)
+			for (asize_t i = 0; i < array_size; i++)
 			{
 				delete[] bucket[i];
 			}
@@ -651,7 +754,7 @@ namespace Distribution_Sort
 			//тимчасовий і є підмасивом. Все просто.
 			type_array *temp = new type_array[bucket[0] + 1];
 			temp[0] = bucket[0] + 1;
-			for(asize_t i = 0; i < (asize_t)bucket[0]; i++)
+			for (asize_t i = 0; i < (asize_t)bucket[0]; i++)
 			{
 				i != 0 ? temp[i] = bucket[i] : temp[bucket[0]] = value;
 			}
@@ -660,7 +763,7 @@ namespace Distribution_Sort
 		}
 		void bubble_sort(type_array *bucket)
 		{
-			//NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
+			// NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
 			for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
 			{
 				for (asize_t j = 1; j < (asize_t)bucket[0] - 1; j++)
@@ -674,12 +777,10 @@ namespace Distribution_Sort
 		}
 	};
 
-	// class BurstSort{};
-
 	class CountingSort : public ArrayBase<int>
 	{
 	public:
-		//WARNING Працює тільки з масивами типу int
+		// WARNING Працює тільки з масивами типу int
 		CountingSort(Array<int> *&Array) : ArrayBase<int>(Array){};
 		void start_sort();
 	};
@@ -690,7 +791,7 @@ namespace Distribution_Sort
 	class PigeonholeSort
 	{
 	public:
-		//WARNING Не тестувався на float, але цей алгоритм знаходиться
+		// WARNING Не тестувався на float, але цей алгоритм знаходиться
 		//у категорії, що підтримує тільки int значення
 		PigeonholeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 		void pigeonhole_sort()
@@ -726,7 +827,7 @@ namespace Distribution_Sort
 	class RadixSort : public ArrayBase<int>
 	{
 	public:
-		//WARNING Працює тільки з масивами типу int
+		// WARNING Працює тільки з масивами типу int
 		RadixSort(Array<int> *&Array) : ArrayBase<int>(Array){};
 		void start_sort();
 	};
@@ -1100,6 +1201,8 @@ public:
 	// class OscillatingMergeSort //Категорія Merge_Sorts
 
 	// class PolyphaseMergeSort //Категорія Merge_Sorts
+
+	// class BurstSort{}; //Категорія Distribution_Sorts
 };
 
 #endif // STANDARDS_SWITCH
