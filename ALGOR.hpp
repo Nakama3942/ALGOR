@@ -45,8 +45,8 @@
  * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
  */
 
-//WARNING Перепровірити код, де у якості максимального значання задається
-//0xffffffff, так як для int найменшим є 0x80000000, то число представляє собою
+// WARNING Перепровірити код, де у якості максимального значання задається
+// 0xffffffff, так як для int найменшим є 0x80000000, то число представляє собою
 //-1 для типу int. Обов'язково необхідно перевірити код усюди, де використовуються
 //шістнадцятковий код
 
@@ -522,7 +522,7 @@ namespace Distribution_Sorts
 	class AmericanFlagSort
 	{
 	public:
-		//https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
+		// https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
 		// WARNING Працює тільки з масивами типу int
 		AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
 		void american_flag_sort()
@@ -535,6 +535,7 @@ namespace Distribution_Sorts
 			}
 			recursive_american_flag_sort(0, (int)array_size, max);
 		}
+
 	private:
 		int *Array;
 		asize_t array_size;
@@ -560,11 +561,11 @@ namespace Distribution_Sorts
 				offset[i] = count[i - 1] + offset[i - 1];
 			}
 
-			for (int b = 0; b < NUMBER_OF_BUCKETS; b++)
+			for (int bucket = 0; bucket < NUMBER_OF_BUCKETS; bucket++)
 			{
-				while (count[b] > 0)
+				while (count[bucket] > 0)
 				{
-					int origin = offset[b];
+					int origin = offset[bucket];
 					int from = origin;
 					int num = Array[from];
 					Array[from] = -1;
@@ -597,10 +598,10 @@ namespace Distribution_Sorts
 		{
 			int count = 1;
 			int value = Core<int>::maximum(Array, array_size);
-			while(true)
+			while (true)
 			{
 				value /= 10;
-				if(value != 0)
+				if (value != 0)
 				{
 					count++;
 				}
@@ -785,7 +786,142 @@ namespace Distribution_Sorts
 		void start_sort();
 	};
 
-	// class InterpolationSort
+	class InterpolationSort
+	{
+	public:
+		// https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h
+		//  WARNING Працює тільки з масивами типу int
+		InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+		void interpolation_sort()
+		{
+			getMin();
+
+			if (index_min != 0)
+			{
+				Array[index_min] = Array[0];
+				Array[0] = nArray_min;
+			}
+
+			if (array_size >= MIN_SORTABLE_LENGTH)
+			{
+				getMax();
+
+				ifac = (nArray_max - nArray_min) / (array_size - 1);
+
+				if (ifac <= 0)
+				{
+					ifac = 1;
+				}
+				else
+				{
+					while (((nArray_max - nArray_min) / ifac) > ((int)array_size - 1))
+					{
+						ifac++;
+					}
+				}
+
+				space = new int[2 * array_size + 1];
+
+				if (!space)
+				{
+					return;
+				}
+
+				cmp_index = space;
+				cum = space + array_size;
+				hist = cum + 1;
+				sorted = hist;
+
+				for (asize_t i = 0; i <= array_size; i++)
+				{
+					cum[i] = 0;
+				}
+
+				for (int i = array_size; --i >= 0;)
+				{
+					hist[cmp_index[i] = (Array[i] - nArray_min) / ifac] += 1;
+					ComplexityCount++;
+				}
+
+				for (asize_t i = 1; i < array_size; i++)
+				{
+					cum[i] += cum[i - 1];
+					ComplexityCount++;
+				}
+
+				for (asize_t i = 0; i < array_size; i++)
+				{
+					cmp_index[i] = cum[cmp_index[i]]++;
+					ComplexityCount++;
+				}
+
+				for (asize_t i = array_size; i > 0; i--)
+				{
+					sorted[cmp_index[i - 1]] = Array[i - 1];
+					ComplexityCount++;
+				}
+
+				Core<int>::copy(Array, sorted, array_size);
+
+				delete[] space;
+			}
+
+			for (asize_t i = 1; i < array_size; i++)
+			{
+				ComplexityCount++;
+
+				if (Array[i] >= Array[i - 1])
+				{
+					continue;
+				}
+
+				temp = Array[i];
+				Array[i] = Array[i - 1];
+
+				asize_t j;
+				for (j = i - 2; temp < Array[j]; j--)
+				{
+					Array[j + 1] = Array[j];
+				}
+				Array[j + 1] = temp;
+			}
+		}
+
+	private:
+		int *Array;
+		asize_t array_size;
+
+		const asize_t MIN_SORTABLE_LENGTH = 128;
+
+		int ifac, temp;
+		int nArray_min, nArray_max, index_min;
+		int *space, *cmp_index, *cum, *hist, *sorted;
+		int ComplexityCount = 0;
+
+		void getMin()
+		{
+			nArray_min = Array[0];
+			for (asize_t i = 1; i < array_size; i++)
+			{
+				if (nArray_min > Array[i])
+				{
+					nArray_min = Array[i];
+					index_min = i;
+				}
+			}
+		}
+		void getMax()
+		{
+			nArray_max = Array[0];
+			for (asize_t i = 1; i < array_size; i++)
+			{
+				if (nArray_max < Array[i])
+				{
+					nArray_max = Array[i];
+				}
+			}
+		}
+	};
 
 	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
 	class PigeonholeSort
@@ -821,8 +957,6 @@ namespace Distribution_Sorts
 		type_array *Array, *hole, min, max;
 		asize_t array_size, range, count = 0;
 	};
-
-	// class ProxmapSort{};
 
 	class RadixSort : public ArrayBase<int>
 	{
@@ -1203,6 +1337,8 @@ public:
 	// class PolyphaseMergeSort //Категорія Merge_Sorts
 
 	// class BurstSort{}; //Категорія Distribution_Sorts
+
+	// class ProxmapSort{}; //Категорія Distribution_Sorts
 };
 
 #endif // STANDARDS_SWITCH
