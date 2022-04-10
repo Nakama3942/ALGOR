@@ -159,6 +159,12 @@ public:
 	memory_overflow();
 };
 
+class division_by_zero : public Exception
+{
+public:
+	division_by_zero() : Exception(101, "A division by zero has occurred - an undefined result of the program execution") {}
+};
+
 class position_failure : public Exception
 {
 public:
@@ -966,7 +972,112 @@ namespace Distribution_Sorts
 		void start_sort();
 	};
 
-	// class FlashSort{};
+	class FlashSort
+	{
+	public:
+		// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
+		FlashSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+		void flash_sort()
+		{
+			const asize_t m = (int)(0.45 * array_size);
+
+			//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
+			//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
+			//розмір == 2 та перший елемент більше другого (так як сортування
+			//іде в напрямку збільшення, тому перший елемент має бути найменшим),
+			//тоді необхідно змінити ці два елементи місцями - це і є все
+			//сортування; інакше (тобто якщо розмір == 1 чи масив з 2 елементів
+			//відсортовано (перший елемент менше другого)) - відразу завершати
+			//сортування, так як там нічого сортувати. Розмір не може
+			//дорівнювати 0, так як конструктор класу викликає верифікацію, де
+			//перевіряється масив на пустотність. При всіх інших розмірах
+			//(тобто >= 3) m буде дорівнювати 1 чи більше, а тому до k не зможе
+			//потрапити значення -1 й викликати помилку.
+			// WARNING Обов'язково треба додати верифікацію до конструктору!
+			if (m == 0)
+			{
+				if (array_size == 2 && Array[0] > Array[1])
+				{
+					Core<int>::swap(Array[0], Array[1]);
+				}
+				return;
+			}
+
+			L = new int[m];
+
+			for (asize_t i = 0; i < array_size; i++)
+			{
+				if (Array[i] < Array[min])
+				{
+					min = i;
+				}
+				if (Array[i] > Array[max])
+				{
+					max = i;
+				}
+			}
+
+			//Якщо всі елементи мають одне значення, то при знаходженні
+			//константи c1 виникне ділення на 0, а тому треба завчасно робити
+			//перевірку і в випадку рівності значень - кидати виключення.
+			if (Array[min] == Array[max])
+			{
+				throw division_by_zero();
+			}
+
+			const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
+
+			for (asize_t i = 0; i < m; i++)
+			{
+				L[i] = 0;
+			}
+			for (asize_t i = 0; i < array_size; ++i)
+			{
+				++L[c1 * (Array[i] - min)];
+			}
+			for (asize_t i = 1; i < m; ++i)
+			{
+				L[i] = L[i] + L[i - 1];
+			}
+
+			Core<int>::swap(Array[max], Array[0]);
+
+			k = m - 1;
+
+			while (move < array_size - 1)
+			{
+				while ((int)j > L[k] - 1)
+				{
+					++j;
+					k = c1 * (Array[j] - min);
+				}
+				flash = Array[j];
+				while ((int)j != L[k])
+				{
+					k = c1 * (flash - Array[min]);
+					Core<int>::swap(Array[L[k] - 1], flash);
+					L[k]--;
+					move++;
+				}
+			}
+
+			for (j = 1; j < array_size; j++)
+			{
+				flash = Array[j];
+				int i = j - 1;
+				while (i >= 0 && Array[i] > flash)
+				{
+					Array[i + 1] = Array[i];
+					i--;
+				}
+				Array[i + 1] = flash;
+			}
+		}
+
+	private:
+		int *Array, *L, flash;
+		asize_t array_size, min = 0, max = 0, move = 0, j = 0, k;
+	};
 }
 
 namespace Concurrent_Sort
