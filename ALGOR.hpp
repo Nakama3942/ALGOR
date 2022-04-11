@@ -523,13 +523,63 @@ public:
 	};
 };
 
-namespace Distribution_Sorts
+class Distribution_Sorts : public ArrayBase<int>
 {
+public:
+	Distribution_Sorts(Array<int> *&Array) : ArrayBase<int>(Array) {}
+	void AmericanFlag_Sort()
+	{
+		AmericanFlagSort *sort = new AmericanFlagSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->american_flag_sort();
+		delete (sort);
+	}
+	void Bead_Sort()
+	{
+		BeadSort *sort = new BeadSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->bead_sort();
+		delete (sort);
+	}
+	void Bucket_Sort()
+	{
+		BucketSort *sort = new BucketSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->bucket_sort();
+		delete (sort);
+	}
+	void Counting_Sort()
+	{
+		CountingSort *sort = new CountingSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->counting_sort();
+		delete (sort);
+	}
+	void Interpolation_Sort()
+	{
+		InterpolationSort *sort = new InterpolationSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->interpolation_sort();
+		delete (sort);
+	}
+	void Pigeonhole_Sort()
+	{
+		PigeonholeSort *sort = new PigeonholeSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->pigeonhole_sort();
+		delete (sort);
+	}
+	void Radix_Sort()
+	{
+		RadixSort *sort = new RadixSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->radix_sort();
+		delete (sort);
+	}
+	void Flash_Sort()
+	{
+		FlashSort *sort = new FlashSort(this->ARRAY->array, this->ARRAY->array_size);
+		sort->flash_sort();
+		delete (sort);
+	}
+
 	class AmericanFlagSort
 	{
 	public:
 		// https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
-		// WARNING Працює тільки з масивами типу int
 		AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
 		void american_flag_sort()
 		{
@@ -627,7 +677,6 @@ namespace Distribution_Sorts
 	class BeadSort
 	{
 	public:
-		// WARNING Працює тільки з масивами типу int
 		BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
 		void bead_sort()
 		{
@@ -672,22 +721,22 @@ namespace Distribution_Sorts
 		unsigned char *beads;
 	};
 
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
 	class BucketSort
 	{
 	public:
 		// https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
-		BucketSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+		BucketSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
 		void bucket_sort()
 		{
-			min = Core<type_array>::getMin(Array, array_size);
-			max = Core<type_array>::getMax(Array, array_size);
-			range = (max - min) / array_size;
+			min = Core<int>::minimum(Array, array_size);
+			max = Core<int>::maximum(Array, array_size);
+			range = (max - min) / (int)array_size;
+			range++;
 
-			bucket = new type_array *[array_size];
+			bucket = new int *[array_size];
 			for (asize_t i = 0; i < array_size; i++)
 			{
-				bucket[i] = new type_array[1];
+				bucket[i] = new int[1];
 				bucket[i][0] = 1;
 			}
 
@@ -698,7 +747,7 @@ namespace Distribution_Sorts
 				{
 					bucket_index--;
 				}
-				bucket[bucket_index] = push_back(bucket[bucket_index], Array[i]);
+				push_back(bucket[bucket_index], Array[i]);
 			}
 
 			for (asize_t i = 0; i < array_size; i++)
@@ -725,10 +774,10 @@ namespace Distribution_Sorts
 		}
 
 	private:
-		type_array *Array, **bucket, min, max, range;
+		int *Array, **bucket, min, max, range;
 		asize_t array_size, bucket_index, array_index = 0;
 
-		type_array *push_back(type_array *bucket, type_array value)
+		void push_back(int *&bucket, const int &value)
 		{
 			//Суть алгоритму наступна: я не можу створити структуру структур через
 			//невиразну помилку, яка незрозуміло звідки береться (в інших місцях
@@ -759,16 +808,17 @@ namespace Distribution_Sorts
 			//масиву. Ось і все. Коли тимчасовий масив сформовано, пам'ять від
 			//старого звільняється й повертається адреса на тимчасовий масив. Тепер
 			//тимчасовий і є підмасивом. Все просто.
-			type_array *temp = new type_array[bucket[0] + 1];
-			temp[0] = bucket[0] + 1;
+			int new_size = bucket[0] + 1;
+			int *temp = new int[new_size];
+			temp[0] = new_size;
 			for (asize_t i = 0; i < (asize_t)bucket[0]; i++)
 			{
-				i != 0 ? temp[i] = bucket[i] : temp[bucket[0]] = value;
+				i != 0 ? temp[i] = bucket[i] : temp[(asize_t)bucket[0]] = value;
 			}
 			delete[] bucket;
-			return temp;
+			bucket = temp;
 		}
-		void bubble_sort(type_array *bucket)
+		void bubble_sort(int *bucket)
 		{
 			// NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
 			for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
@@ -777,26 +827,52 @@ namespace Distribution_Sorts
 				{
 					if (bucket[j] > bucket[j + 1])
 					{
-						Core<type_array>::swap(bucket[j], bucket[j + 1]);
+						Core<int>::swap(bucket[j], bucket[j + 1]);
 					}
 				}
 			}
 		}
 	};
 
-	class CountingSort : public ArrayBase<int>
+	class CountingSort
 	{
 	public:
-		// WARNING Працює тільки з масивами типу int
-		CountingSort(Array<int> *&Array) : ArrayBase<int>(Array){};
-		void start_sort();
+		CountingSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+		void counting_sort()
+		{
+			// verification(this->ARRAY->array_size);
+			int min = Core<int>::minimum(Array, array_size),
+				max = Core<int>::maximum(Array, array_size);
+			int *tempArray = new int[max - min + 1];
+			for (int i = 0; i < max - min + 1; i++)
+			{
+				tempArray[i] = 0;
+			}
+			for (unsigned int i = 0; i < array_size; i++)
+			{
+				tempArray[Array[i] - min] = tempArray[Array[i] - min] + 1;
+			}
+			for (int i = 0, j = min; j < max + 1; j++)
+			{
+				while (tempArray[j - min] != 0)
+				{
+					Array[i] = j;
+					tempArray[j - min]--;
+					i++;
+				}
+			}
+			delete[] tempArray;
+		}
+
+	private:
+		int *Array;
+		asize_t array_size;
 	};
 
 	class InterpolationSort
 	{
 	public:
 		// https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h
-		//  WARNING Працює тільки з масивами типу int
 		InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
 		void interpolation_sort()
 		{
@@ -929,47 +1005,102 @@ namespace Distribution_Sorts
 		}
 	};
 
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
 	class PigeonholeSort
 	{
 	public:
-		// WARNING Не тестувався на float, але цей алгоритм знаходиться
-		//у категорії, що підтримує тільки int значення
-		PigeonholeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+		PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
 		void pigeonhole_sort()
 		{
-			min = Core<type_array>::minimum(Array, array_size);
-			max = Core<type_array>::maximum(Array, array_size);
+			min = Core<int>::minimum(Array, array_size);
+			max = Core<int>::maximum(Array, array_size);
 			range = (asize_t)max - (asize_t)min + 1;
-			hole = new type_array[range]{0};
+
+			hole = new int *[range];
+			for (asize_t i = 0; i < range; i++)
+			{
+				hole[i] = new int[1];
+				hole[i][0] = 1;
+			}
 
 			for (asize_t i = 0; i < array_size; i++)
 			{
-				hole[Array[i] - min] = Array[i];
+				push_back(hole[Array[i] - min], Array[i]);
 			}
 			for (asize_t i = 0; i < range; i++)
 			{
-				while (hole[i] != '\0')
+				for (asize_t j = 1; j < (asize_t)hole[i][0]; j++)
 				{
-					Array[count] = hole[i];
-					hole[i] = {};
+					Array[count] = hole[i][j];
 					count++;
 				}
+			}
+			for (asize_t i = 0; i < range; i++)
+			{
+				delete[] hole[i];
 			}
 			delete[] hole;
 		}
 
 	private:
-		type_array *Array, *hole, min, max;
+		int *Array, **hole, min, max;
 		asize_t array_size, range, count = 0;
+
+		void push_back(int *&hole, const int &value)
+		{
+			asize_t new_size = hole[0] + 1;
+			int *temp = new int[new_size];
+			temp[0] = new_size;
+			for (asize_t i = 0; i < (asize_t)hole[0]; i++)
+			{
+				i != 0 ? temp[i] = hole[i] : temp[(asize_t)hole[0]] = value;
+			}
+			delete[] hole;
+			hole = temp;
+		}
 	};
 
-	class RadixSort : public ArrayBase<int>
+	class RadixSort
 	{
 	public:
-		// WARNING Працює тільки з масивами типу int
-		RadixSort(Array<int> *&Array) : ArrayBase<int>(Array){};
-		void start_sort();
+		RadixSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+		void radix_sort()
+		{
+			// verification(this->ARRAY->array_size);
+			int exp = 1, bit = 10, max = Core<int>::maximum(Array, array_size);
+			int *tempArray = new int[array_size], *bucket = new int[bit];
+			while (max / exp > 0)
+			{
+				for (int i = 0; i < bit; i++)
+				{
+					bucket[i] = 0;
+				}
+				for (unsigned int i = 0; i < array_size; i++)
+				{
+					bucket[(Array[i] / exp) % bit]++;
+				}
+				for (int i = 1; i < bit; i++)
+				{
+					bucket[i] += bucket[i - 1];
+				}
+				for (int i = array_size - 1; i >= 0; i--)
+				{
+					int current = (Array[i] % (exp * bit)) / exp;
+					bucket[current]--;
+					tempArray[bucket[current]] = Array[i];
+				}
+				for (unsigned int i = 0; i < array_size; i++)
+				{
+					Array[i] = tempArray[i];
+				}
+				exp *= bit;
+			}
+			delete[] bucket;
+			delete[] tempArray;
+		}
+
+	private:
+		int *Array;
+		asize_t array_size;
 	};
 
 	class FlashSort
@@ -1078,7 +1209,7 @@ namespace Distribution_Sorts
 		int *Array, *L, flash;
 		asize_t array_size, min = 0, max = 0, move = 0, j = 0, k;
 	};
-}
+};
 
 namespace Concurrent_Sort
 {

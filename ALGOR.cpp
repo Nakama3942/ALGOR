@@ -1348,66 +1348,15 @@ void Merge_Sorts<type_array>::MergeSort::merge(const asize_t &left_limit, const 
 	delete[] tempArray;
 }
 
-void Distribution_Sorts::CountingSort::start_sort()
-{
-	verification(this->ARRAY->array_size);
-	int min = Core<int>::minimum(ARRAY->array, ARRAY->array_size),
-		max = Core<int>::maximum(ARRAY->array, ARRAY->array_size);
-	int *tempArray = new int[max - min + 1];
-	for (int i = 0; i < max - min + 1; i++)
-	{
-		tempArray[i] = 0;
-	}
-	for (unsigned int i = 0; i < ARRAY->array_size; i++)
-	{
-		tempArray[ARRAY->array[i] - min] = tempArray[ARRAY->array[i] - min] + 1;
-	}
-	for (int i = 0, j = min; j < max + 1; j++)
-	{
-		while (tempArray[j - min] != 0)
-		{
-			ARRAY->array[i] = j;
-			tempArray[j - min]--;
-			i++;
-		}
-	}
-	delete[] tempArray;
-}
+// void Distribution_Sorts::CountingSort::start_sort()
+//{
 
-void Distribution_Sorts::RadixSort::start_sort()
-{
-	verification(this->ARRAY->array_size);
-	int exp = 1, bit = 10, max = Core<int>::maximum(ARRAY->array, ARRAY->array_size);
-	int *tempArray = new int[ARRAY->array_size], *bucket = new int[bit];
-	while (max / exp > 0)
-	{
-		for (int i = 0; i < bit; i++)
-		{
-			bucket[i] = 0;
-		}
-		for (unsigned int i = 0; i < ARRAY->array_size; i++)
-		{
-			bucket[(ARRAY->array[i] / exp) % bit]++;
-		}
-		for (int i = 1; i < bit; i++)
-		{
-			bucket[i] += bucket[i - 1];
-		}
-		for (int i = ARRAY->array_size - 1; i >= 0; i--)
-		{
-			int current = (ARRAY->array[i] % (exp * bit)) / exp;
-			bucket[current]--;
-			tempArray[bucket[current]] = ARRAY->array[i];
-		}
-		for (unsigned int i = 0; i < ARRAY->array_size; i++)
-		{
-			ARRAY->array[i] = tempArray[i];
-		}
-		exp *= bit;
-	}
-	delete[] bucket;
-	delete[] tempArray;
-}
+//}
+
+// void Distribution_Sorts::RadixSort::start_sort()
+//{
+
+//}
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
