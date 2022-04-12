@@ -20,6 +20,8 @@
 
 #include "ALGOR.hpp"
 
+using namespace ALGOR;
+
 void verification(const asize_t &array_size)
 {
 	if (array_size == 0)
@@ -73,7 +75,7 @@ memcell_t getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
 }
 
 template <typename type_array>
-void Core<type_array>::swap(type_array &firstNumber, type_array &secondNumber)
+void swap(type_array &firstNumber, type_array &secondNumber)
 {
 	type_array temp = firstNumber;
 	firstNumber = secondNumber;
@@ -81,7 +83,7 @@ void Core<type_array>::swap(type_array &firstNumber, type_array &secondNumber)
 }
 
 template <typename type_array>
-type_array Core<type_array>::minimum(const type_array *Array, const asize_t &array_size)
+type_array ArrayCore::minimum(const type_array *Array, const asize_t &array_size)
 {
 	verification(array_size);
 	type_array point_min = Array[0];
@@ -96,7 +98,7 @@ type_array Core<type_array>::minimum(const type_array *Array, const asize_t &arr
 }
 
 template <typename type_array>
-type_array Core<type_array>::minimum(type_array firstNumber, type_array secondNumber)
+type_array minimum(type_array firstNumber, type_array secondNumber)
 {
 	return firstNumber < secondNumber ? firstNumber : secondNumber;
 }
