@@ -18,20 +18,21 @@
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
- *                              Version: 2.1.0-dev                              *
+ *                               Version: 2.2-dev                               *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
  *                                                                              *
  *                              Project Structure:                              *
- * 1. ALGOR_CORE - basic structures and functions of the library                *
- * 2. ALGOR_EXCEPTION - class for working with exceptions                       *
- * 3. ALGOR_RANDOM - own random number generators                               *
- * 4. AlGOR_SORTING - set of sorting methods                                    *
- * 5. AlGOR_ARRAY - class for working with arrays                               *
- * 6. ALGOR_MATRIX - class for working with matrices                            *
- * 7. AlGOR_HEAP - class for working with trees                                 *
- * 8. AlGOR_LIST - class for working with lists                                 *
+ * 1. SETTINGS - including components to compile                                *
+ * 2. ALGOR_CORE - basic structures and functions of the library                *
+ * 3. ALGOR_EXCEPTION - class for working with exceptions                       *
+ * 4. ALGOR_RANDOM - own random number generators                               *
+ * 5. ALGOR_ARRAY - class for working with arrays                               *
+ * 6. ALGOR_SORTING - sets of sorting methods                                   *
+ * 7. ALGOR_MATRIX - class for working with matrices                            *
+ * 8. ALGOR_HEAP - class for working with trees                                 *
+ * 9. ALGOR_LIST - class for working with lists                                 *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -65,96 +66,50 @@
 
 #define STANDARDS_SWITCH 0
 
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                              ALGOR_CORE                             <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
 namespace ALGOR
 {
-	using int8_t = signed char; ///< Alias for signed char
-	using int16_t = short;		///< Alias for short
-	using int32_t = int;		///< Alias for int
-	using int64_t = long long;	///< Alias for long long
+	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+	 * #*-*%*-*+                                                         +*-*%*-*# *
+	 * %%%%%                       $------------------$                      %%%%% *
+	 * -->                              ALGOR_CORE                             <-- *
+	 * %%%%%                       $------------------$                      %%%%% *
+	 * #*-*%*-*+                                                         +*-*%*-*# *
+	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	using uint8_t = unsigned char;		 ///< Alias for unsigned char
-	using uint16_t = unsigned short;	 ///< Alias for unsigned short
-	using uint32_t = unsigned int;		 ///< Alias for unsigned int
-	using uint64_t = unsigned long long; ///< Alias for unsigned long long
+	using sbit8_t = signed char;	   ///< Alias for signed char
+	using sbit16_t = signed short;	   ///< Alias for signed short
+	using sbit32_t = signed long;	   ///< Alias for signed long
+	using sbit64_t = signed long long; ///< Alias for signed long long
 
-	using asize_t = unsigned int; ///< Alias for specifying the type "array size"
-	using memcell_t = long long;  //Тип, хранящий расчитаную ячейку памяти
+	using ubit8_t = unsigned char;		 ///< Alias for unsigned char
+	using ubit16_t = unsigned short;	 ///< Alias for unsigned short
+	using ubit32_t = unsigned long;		 ///< Alias for unsigned long
+	using ubit64_t = unsigned long long; ///< Alias for unsigned long long
+
+	using fbit32_t = float;	 ///< Alias for float
+	using fbit64_t = double; ///< Alias for double
+
+	using asize_t = unsigned int;		///< Alias for specifying the type "array size"
+	using memcell_t = signed long long; ///< Alias for calculated memory cell
+
+	template <typename type_value>
+	void swap(type_value &firstNumber, type_value &secondNumber);
+	template <typename type_value>
+	type_value minimum(type_value firstNumber, type_value secondNumber);
+	template <typename type_value>
+	type_value maximum(type_value firstNumber, type_value secondNumber);
 
 	memcell_t getMemoryCell(); //Заместо time(NULL)
 	memcell_t getMemoryCell(memcell_t right_adjust, memcell_t left_adjust);
-	template <typename type>
-	void swap(type &firstNumber, type &secondNumber);
-	template <typename type>
-	type minimum(type firstNumber, type secondNumber);
-	template <typename type>
-	type maximum(type firstNumber, type secondNumber);
 
 	template <typename type>
-	class Printer
+	class Printer // Template interface
 	{
 	public:
 		virtual void print() = 0;
 	};
-
-	namespace ArrayCore
-	{
-		template <typename type_array>
-		type_array minimum(const type_array *Array, const asize_t &array_size);
-		template <typename type_array>
-		type_array maximum(const type_array *Array, const asize_t &array_size);
-		template <typename type_array>
-		bool isOrderliness(const type_array *Array, const asize_t &array_size)
-		{
-			for (asize_t i = 0; i < array_size - 1; i++)
-			{
-				if (Array[i] > Array[i + 1])
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		template <typename type_array>
-		void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
-		template <typename type_array>
-		void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
-		template <typename type_array>
-		void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
-		template <typename type_array>
-		void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
-
-		template <typename type_array>
-		struct Array
-		{
-			type_array *array;
-			asize_t array_size = 0;
-		};
-		template <typename type_array>
-		Array<type_array> *create_struct(const asize_t &SIZE);
-		template <typename type_array>
-		void remove_struct(Array<type_array> *&Array);
-
-		template <typename type_array>
-		class ArrayBase
-		{
-		protected:
-			ArrayBase(Array<type_array> *&Array);
-			ArrayBase(const asize_t &SIZE);
-			ArrayBase();
-
-			Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
-		};
-	}
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -189,7 +144,7 @@ namespace ALGOR
 	class division_by_zero : public Exception
 	{
 	public:
-		division_by_zero() : Exception(101, "A division by zero has occurred - an undefined result of the program execution") {}
+		division_by_zero();
 	};
 
 	class position_failure : public Exception
@@ -234,7 +189,7 @@ namespace ALGOR
 		void crypto_rand(char *output, int size);
 
 	private:
-		uint8_t Sbox[256];
+		ubit8_t Sbox[256];
 	};
 
 	class MersenneTwister
@@ -245,14 +200,114 @@ namespace ALGOR
 		int IRandom(int min, int max);
 		int IRandomX(int min, int max);
 		double Random();
-		uint32_t BRandom();
+		ubit32_t BRandom();
 
 	private:
 		void Init0(int seed);
-		uint32_t mersenne_twister[624]; // State vector
+		ubit32_t mersenne_twister[624]; // State vector
 		int mersenne_twister_index;		// Index into mersenne_twister
-		uint32_t LastInterval;			// Last interval length for IRandomX
-		uint32_t RejectionLimit;		// Rejection limit used by IRandomX
+		ubit32_t LastInterval;			// Last interval length for IRandomX
+		ubit32_t RejectionLimit;		// Rejection limit used by IRandomX
+	};
+
+	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+	 * #*-*%*-*+                                                         +*-*%*-*# *
+	 * %%%%%                      $-------------------$                      %%%%% *
+	 * -->                             ALGOR_ARRAY                             <-- *
+	 * %%%%%                      $-------------------$                      %%%%% *
+	 * #*-*%*-*+                                                         +*-*%*-*# *
+	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+	template <typename type_array>
+	class ArrayProcessing
+	{
+	public:
+		static type_array minimum(const type_array *Array, const asize_t &array_size);
+		static type_array maximum(const type_array *Array, const asize_t &array_size);
+		static bool isOrderliness(const type_array *Array, const asize_t &array_size);
+		static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
+		static void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
+		static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
+		static void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
+	};
+
+	template <typename type_array>
+	struct Array
+	{
+		type_array *array = nullptr;
+		asize_t array_size = 0;
+	};
+	template <typename type_array>
+	Array<type_array> *create_struct(const asize_t &SIZE);
+	template <typename type_array>
+	void remove_struct(Array<type_array> *&Array);
+
+	template <typename type_array>
+	class ArrayBase
+	{
+	protected:
+		ArrayBase(Array<type_array> *&Array);
+		ArrayBase(const asize_t &SIZE);
+		ArrayBase();
+
+		Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
+	};
+
+	template <typename type_array>
+	class ARRAYDATA : public ArrayBase<type_array>
+	{
+	public:
+		ARRAYDATA(Array<type_array> *&Array);
+		ARRAYDATA(const asize_t &SIZE);
+		~ARRAYDATA();
+
+		enum class ArrayType /// A set of array types
+		{
+			NUMBER, ///< Indicates that the array stores numbers
+			STRING	///< Indicates that the array stores strings
+		};
+
+		void generatedData(const int &min_limit, const int &max_limit);
+		void setNewData(Array<type_array> *&Array);
+		void setData(Array<type_array> *&Array);
+		void cloneData(Array<type_array> *&CloningArray);
+		void cloneData(ARRAYDATA<type_array> *&CloningObject);
+		void getData(Array<type_array> *&DATA);
+		Array<type_array> *getData();
+
+		void reset();
+		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
+		void replace(const unsigned int &position, const type_array &value);
+		void reverse();
+		void respawn();
+
+		type_array getMin();
+		type_array getMax();
+
+		Array<int> *lenear_searcher(const type_array &required_element);
+		int binary_searcher(const type_array &required_element);
+		Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
+
+		type_array average();
+		type_array mediana();
+		type_array moda(int &highest_frequency);
+		Array<type_array> *modas(int &highest_frequency);
+
+		void operator&&(const type_array &value);
+		void operator!();
+		void operator||(const type_array &value);
+		void operator<<(ARRAYDATA<type_array> *&appendingArray);
+		void operator>>(ARRAYDATA<type_array> *&appendingArray);
+		void operator+(const asize_t &addSize);
+		void operator-(const asize_t &subtractSize);
+		void operator*(const asize_t &multiplySize);
+		void operator/(const asize_t &divideSize);
+
+	private:
+		void remove();
+		void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -266,10 +321,10 @@ namespace ALGOR
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Exchange_Sorts : public ArrayCore::ArrayBase<type_array>
+	class Exchange_Sorts : public ArrayBase<type_array>
 	{
 	public:
-		Exchange_Sorts(ArrayCore::Array<type_array> *&Array);
+		Exchange_Sorts(Array<type_array> *&Array);
 		void Bubble_Sort();
 		void Cocktail_Shaker_Sort();
 		void Odd_Even_Sort();
@@ -386,10 +441,10 @@ namespace ALGOR
 	};
 
 	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Selection_Sorts : public ArrayCore::ArrayBase<type_array>
+	class Selection_Sorts : public ArrayBase<type_array>
 	{
 	public:
-		Selection_Sorts(ArrayCore::Array<type_array> *&Array);
+		Selection_Sorts(Array<type_array> *&Array);
 		void Selection_Sort();
 		void Heap_Sort();
 		void Smooth_Sort();
@@ -458,10 +513,10 @@ namespace ALGOR
 	};
 
 	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Insertion_Sorts : public ArrayCore::ArrayBase<type_array>
+	class Insertion_Sorts : public ArrayBase<type_array>
 	{
 	public:
-		Insertion_Sorts(ArrayCore::Array<type_array> *&Array);
+		Insertion_Sorts(Array<type_array> *&Array);
 		void Insert_Sort();
 		void Shell_Sort();
 		void Tree_Sort();
@@ -529,10 +584,10 @@ namespace ALGOR
 	};
 
 	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Merge_Sorts : public ArrayCore::ArrayBase<type_array>
+	class Merge_Sorts : public ArrayBase<type_array>
 	{
 	public:
-		Merge_Sorts(ArrayCore::Array<type_array> *&Array);
+		Merge_Sorts(Array<type_array> *&Array);
 		void Merge_Sort();
 
 		class MergeSort
@@ -550,74 +605,25 @@ namespace ALGOR
 		};
 	};
 
-	class Distribution_Sorts : public ArrayCore::ArrayBase<int>
+	class Distribution_Sorts : public ArrayBase<int>
 	{
 	public:
-		Distribution_Sorts(ArrayCore::Array<int> *&Array) : ArrayBase<int>(Array) {}
-		void AmericanFlag_Sort()
-		{
-			AmericanFlagSort *sort = new AmericanFlagSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->american_flag_sort();
-			delete (sort);
-		}
-		void Bead_Sort()
-		{
-			BeadSort *sort = new BeadSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->bead_sort();
-			delete (sort);
-		}
-		void Bucket_Sort()
-		{
-			BucketSort *sort = new BucketSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->bucket_sort();
-			delete (sort);
-		}
-		void Counting_Sort()
-		{
-			CountingSort *sort = new CountingSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->counting_sort();
-			delete (sort);
-		}
-		void Interpolation_Sort()
-		{
-			InterpolationSort *sort = new InterpolationSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->interpolation_sort();
-			delete (sort);
-		}
-		void Pigeonhole_Sort()
-		{
-			PigeonholeSort *sort = new PigeonholeSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->pigeonhole_sort();
-			delete (sort);
-		}
-		void Radix_Sort()
-		{
-			RadixSort *sort = new RadixSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->radix_sort();
-			delete (sort);
-		}
-		void Flash_Sort()
-		{
-			FlashSort *sort = new FlashSort(this->ARRAY->array, this->ARRAY->array_size);
-			sort->flash_sort();
-			delete (sort);
-		}
+		Distribution_Sorts(Array<int> *&Array);
+		void AmericanFlag_Sort();
+		void Bead_Sort();
+		void Bucket_Sort();
+		void Counting_Sort();
+		void Interpolation_Sort();
+		void Pigeonhole_Sort();
+		void Radix_Sort();
+		void Flash_Sort();
 
 		class AmericanFlagSort
 		{
 		public:
 			// https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
-			AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void american_flag_sort()
-			{
-				int numberOfDigits = getMaxNumberOfDigits(); // Max number of digits
-				int max = 1;
-				for (int i = 0; i < numberOfDigits - 1; i++)
-				{
-					max *= 10;
-				}
-				recursive_american_flag_sort(0, (int)array_size, max);
-			}
+			AmericanFlagSort(int *array, asize_t asize);
+			void american_flag_sort();
 
 		private:
 			int *Array;
@@ -625,121 +631,16 @@ namespace ALGOR
 
 			const int NUMBER_OF_BUCKETS = 10; // 10 for base 10 numbers
 
-			void recursive_american_flag_sort(int start, int length, int divisor)
-			{
-				int *count = new int[NUMBER_OF_BUCKETS]{0};
-				int digit = 0;
-
-				for (int i = start; i < (int)length; i++)
-				{
-					int array_digit = Array[i];
-					digit = getDigit(array_digit, divisor);
-					count[digit]++;
-				}
-
-				int *offset = new int[NUMBER_OF_BUCKETS];
-				offset[0] = start + 0;
-				for (int i = 1; i < NUMBER_OF_BUCKETS; i++)
-				{
-					offset[i] = count[i - 1] + offset[i - 1];
-				}
-
-				for (int bucket = 0; bucket < NUMBER_OF_BUCKETS; bucket++)
-				{
-					while (count[bucket] > 0)
-					{
-						int origin = offset[bucket];
-						int from = origin;
-						int num = Array[from];
-						Array[from] = -1;
-						do
-						{
-							digit = getDigit(num, divisor);
-							int to = offset[digit]++;
-							count[digit]--;
-							int temp = Array[to];
-							Array[to] = num;
-							num = temp;
-							from = to;
-						} while (from != origin);
-					}
-				}
-				if (divisor > 1)
-				{
-					for (int i = 0; i < NUMBER_OF_BUCKETS; i++)
-					{
-						int begin = (i > 0) ? offset[i - 1] : start;
-						int end = offset[i];
-						if (end - begin > 1)
-						{
-							recursive_american_flag_sort(begin, end, divisor / 10);
-						}
-					}
-				}
-			}
-			int getMaxNumberOfDigits()
-			{
-				int count = 1;
-				int value = ArrayCore::maximum<int>(Array, array_size);
-				while (true)
-				{
-					value /= 10;
-					if (value != 0)
-					{
-						count++;
-					}
-					else
-					{
-						break;
-					}
-				}
-				return count;
-			}
-			int getDigit(int integer, int divisor)
-			{
-				return (integer / divisor) % 10;
-			}
+			void recursive_american_flag_sort(int start, int length, int divisor);
+			int getMaxNumberOfDigits();
+			int getDigit(int integer, int divisor);
 		};
 
 		class BeadSort
 		{
 		public:
-			BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void bead_sort()
-			{
-				max = ArrayCore::maximum<int>(Array, array_size);
-				beads = new unsigned char[max * array_size]{0};
-
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					for (int j = 0; j < Array[i]; j++)
-					{
-						beads[i * max + j] = 1;
-					}
-				}
-				for (int j = 0; j < max; j++)
-				{
-					int sum = 0;
-					for (asize_t i = 0; i < array_size; i++)
-					{
-						sum += beads[i * max + j];
-						beads[i * max + j] = 0;
-					}
-					for (asize_t i = array_size - sum; i < array_size; i++)
-					{
-						beads[i * max + j] = 1;
-					}
-				}
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					int j = 0;
-					for (; j < max && beads[i * max + j]; j++)
-						;
-					Array[i] = j;
-				}
-
-				delete[] beads;
-			}
+			BeadSort(int *array, asize_t asize);
+			void bead_sort();
 
 		private:
 			int *Array, max;
@@ -752,147 +653,25 @@ namespace ALGOR
 		{
 		public:
 			// https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
-			BucketSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void bucket_sort()
-			{
-				min = ArrayCore::minimum<int>(Array, array_size);
-				max = ArrayCore::maximum<int>(Array, array_size);
-				range = (max - min) / (int)array_size;
-				range++;
-
-				bucket = new int *[array_size];
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					bucket[i] = new int[1];
-					bucket[i][0] = 1;
-				}
-
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					bucket_index = asize_t((Array[i] - min) / range);
-					if (bucket_index == array_size)
-					{
-						bucket_index--;
-					}
-					push_back(bucket[bucket_index], Array[i]);
-				}
-
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					if (bucket[i][0] > 2)
-					{
-						bubble_sort(bucket[i]);
-					}
-				}
-
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					for (asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
-					{
-						Array[array_index++] = bucket[i][j];
-					}
-				}
-
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					delete[] bucket[i];
-				}
-				delete[] bucket;
-			}
+			BucketSort(int *array, asize_t asize);
+			void bucket_sort();
 
 		private:
 			int *Array, **bucket, min, max, range;
 			asize_t array_size, bucket_index, array_index = 0;
 
-			void push_back(int *&bucket, const int &value)
-			{
-				//Суть алгоритму наступна: я не можу створити структуру структур через
-				//невиразну помилку, яка незрозуміло звідки береться (в інших місцях
-				//коду все працює - воно не хоче тільки тут працювати чомусь) й
-				//у окремих змінних зберігати не вийде, оскільки постає питання: скільки
-				//їх потрібно? Отже треба буде оголошувати окремий масив для зберігання
-				//розмірів кожного підмасиву. Це запарно, тому я вирішив вписати їх у
-				//самі підмасиви (хоча потім може виникнути плутанина в інших місцях
-				//коду). Так як люди рахують з одиниці, а комп'ютери з нуля - я вирішив
-				//зберігати розмір у нульовій позиції, а так як для зберігання самого
-				//розміру тепер теж потрібна пам'ять у масиві - він (розмір) завжди
-				//буде більшим на одиницю. Наприклад, при розмірі масиву 6 там,
-				//насправді, масив складається з 5 елементів.
-				//Цей метод працює наступним чином: він дивиться розмір поданого
-				//підмасиву й створює тимчасовий масив, розмір якого на одиницю більше
-				//підмасиву; потім він (розмір) записується на нульове місце й так як у
-				//підмасиві на 1 елемент менше, ніж було зазначено, зі збільшенням
-				//тимчасово масиву різниця стане у два елементи. Тому для полегшення
-				//розуміння коду я вирішив у циклі використовувати оригінальний
-				//розмір, а під нульовим елементом можна уявити новий елемент. Тобто, у
-				//масиві з 5 елементів (насправді їх 4) нульовий елемент можна замінити
-				//новим й почати їх записувати у тимчасовий масив, який на одиницю
-				//більше (насправді, він тепер вміщує тих самих 5 елементів),
-				//починаючи не з нульового, а з першого номера. Що відбувається
-				//насправді? Спочатку у тимчасовий масив зазначається його розмір,
-				//потім на останню комірку заноситься нове значення й потім
-				//переносяться всі інші елементи з підмасиву до тимчасового
-				//масиву. Ось і все. Коли тимчасовий масив сформовано, пам'ять від
-				//старого звільняється й повертається адреса на тимчасовий масив. Тепер
-				//тимчасовий і є підмасивом. Все просто.
-				int new_size = bucket[0] + 1;
-				int *temp = new int[new_size];
-				temp[0] = new_size;
-				for (asize_t i = 0; i < (asize_t)bucket[0]; i++)
-				{
-					i != 0 ? temp[i] = bucket[i] : temp[(asize_t)bucket[0]] = value;
-				}
-				delete[] bucket;
-				bucket = temp;
-			}
-			void bubble_sort(int *bucket)
-			{
-				// NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
-				for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
-				{
-					for (asize_t j = 1; j < (asize_t)bucket[0] - 1; j++)
-					{
-						if (bucket[j] > bucket[j + 1])
-						{
-							swap<int>(bucket[j], bucket[j + 1]);
-						}
-					}
-				}
-			}
+			void push_back(int *&bucket, const int &value);
+			void bubble_sort(int *bucket);
 		};
 
 		class CountingSort
 		{
 		public:
-			CountingSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void counting_sort()
-			{
-				// verification(this->ARRAY->array_size);
-				int min = ArrayCore::minimum<int>(Array, array_size),
-					max = ArrayCore::maximum<int>(Array, array_size);
-				int *tempArray = new int[max - min + 1];
-				for (int i = 0; i < max - min + 1; i++)
-				{
-					tempArray[i] = 0;
-				}
-				for (unsigned int i = 0; i < array_size; i++)
-				{
-					tempArray[Array[i] - min] = tempArray[Array[i] - min] + 1;
-				}
-				for (int i = 0, j = min; j < max + 1; j++)
-				{
-					while (tempArray[j - min] != 0)
-					{
-						Array[i] = j;
-						tempArray[j - min]--;
-						i++;
-					}
-				}
-				delete[] tempArray;
-			}
+			CountingSort(int *array, asize_t asize);
+			void counting_sort();
 
 		private:
-			int *Array;
+			int *Array, *tempArray, min, max;
 			asize_t array_size;
 		};
 
@@ -900,101 +679,8 @@ namespace ALGOR
 		{
 		public:
 			// https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h
-			InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void interpolation_sort()
-			{
-				getMin();
-
-				if (index_min != 0)
-				{
-					Array[index_min] = Array[0];
-					Array[0] = nArray_min;
-				}
-
-				if (array_size >= MIN_SORTABLE_LENGTH)
-				{
-					getMax();
-
-					ifac = (nArray_max - nArray_min) / (array_size - 1);
-
-					if (ifac <= 0)
-					{
-						ifac = 1;
-					}
-					else
-					{
-						while (((nArray_max - nArray_min) / ifac) > ((int)array_size - 1))
-						{
-							ifac++;
-						}
-					}
-
-					space = new int[2 * array_size + 1];
-
-					if (!space)
-					{
-						return;
-					}
-
-					cmp_index = space;
-					cum = space + array_size;
-					hist = cum + 1;
-					sorted = hist;
-
-					for (asize_t i = 0; i <= array_size; i++)
-					{
-						cum[i] = 0;
-					}
-
-					for (int i = array_size; --i >= 0;)
-					{
-						hist[cmp_index[i] = (Array[i] - nArray_min) / ifac] += 1;
-						ComplexityCount++;
-					}
-
-					for (asize_t i = 1; i < array_size; i++)
-					{
-						cum[i] += cum[i - 1];
-						ComplexityCount++;
-					}
-
-					for (asize_t i = 0; i < array_size; i++)
-					{
-						cmp_index[i] = cum[cmp_index[i]]++;
-						ComplexityCount++;
-					}
-
-					for (asize_t i = array_size; i > 0; i--)
-					{
-						sorted[cmp_index[i - 1]] = Array[i - 1];
-						ComplexityCount++;
-					}
-
-					ArrayCore::copy<int>(Array, sorted, array_size);
-
-					delete[] space;
-				}
-
-				for (asize_t i = 1; i < array_size; i++)
-				{
-					ComplexityCount++;
-
-					if (Array[i] >= Array[i - 1])
-					{
-						continue;
-					}
-
-					temp = Array[i];
-					Array[i] = Array[i - 1];
-
-					asize_t j;
-					for (j = i - 2; temp < Array[j]; j--)
-					{
-						Array[j + 1] = Array[j];
-					}
-					Array[j + 1] = temp;
-				}
-			}
+			InterpolationSort(int *array, asize_t asize);
+			void interpolation_sort();
 
 		private:
 			int *Array;
@@ -1007,126 +693,31 @@ namespace ALGOR
 			int *space, *cmp_index, *cum, *hist, *sorted;
 			int ComplexityCount = 0;
 
-			void getMin()
-			{
-				nArray_min = Array[0];
-				for (asize_t i = 1; i < array_size; i++)
-				{
-					if (nArray_min > Array[i])
-					{
-						nArray_min = Array[i];
-						index_min = i;
-					}
-				}
-			}
-			void getMax()
-			{
-				nArray_max = Array[0];
-				for (asize_t i = 1; i < array_size; i++)
-				{
-					if (nArray_max < Array[i])
-					{
-						nArray_max = Array[i];
-					}
-				}
-			}
+			void getMin();
+			void getMax();
 		};
 
 		class PigeonholeSort
 		{
 		public:
-			PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void pigeonhole_sort()
-			{
-				min = ArrayCore::minimum<int>(Array, array_size);
-				max = ArrayCore::maximum<int>(Array, array_size);
-				range = (asize_t)max - (asize_t)min + 1;
-
-				hole = new int *[range];
-				for (asize_t i = 0; i < range; i++)
-				{
-					hole[i] = new int[1];
-					hole[i][0] = 1;
-				}
-
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					push_back(hole[Array[i] - min], Array[i]);
-				}
-				for (asize_t i = 0; i < range; i++)
-				{
-					for (asize_t j = 1; j < (asize_t)hole[i][0]; j++)
-					{
-						Array[count] = hole[i][j];
-						count++;
-					}
-				}
-				for (asize_t i = 0; i < range; i++)
-				{
-					delete[] hole[i];
-				}
-				delete[] hole;
-			}
+			PigeonholeSort(int *array, asize_t asize);
+			void pigeonhole_sort();
 
 		private:
 			int *Array, **hole, min, max;
 			asize_t array_size, range, count = 0;
 
-			void push_back(int *&hole, const int &value)
-			{
-				asize_t new_size = hole[0] + 1;
-				int *temp = new int[new_size];
-				temp[0] = new_size;
-				for (asize_t i = 0; i < (asize_t)hole[0]; i++)
-				{
-					i != 0 ? temp[i] = hole[i] : temp[(asize_t)hole[0]] = value;
-				}
-				delete[] hole;
-				hole = temp;
-			}
+			void push_back(int *&hole, const int &value);
 		};
 
 		class RadixSort
 		{
 		public:
-			RadixSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void radix_sort()
-			{
-				// verification(this->ARRAY->array_size);
-				int exp = 1, bit = 10, max = ArrayCore::maximum<int>(Array, array_size);
-				int *tempArray = new int[array_size], *bucket = new int[bit];
-				while (max / exp > 0)
-				{
-					for (int i = 0; i < bit; i++)
-					{
-						bucket[i] = 0;
-					}
-					for (unsigned int i = 0; i < array_size; i++)
-					{
-						bucket[(Array[i] / exp) % bit]++;
-					}
-					for (int i = 1; i < bit; i++)
-					{
-						bucket[i] += bucket[i - 1];
-					}
-					for (int i = array_size - 1; i >= 0; i--)
-					{
-						int current = (Array[i] % (exp * bit)) / exp;
-						bucket[current]--;
-						tempArray[bucket[current]] = Array[i];
-					}
-					for (unsigned int i = 0; i < array_size; i++)
-					{
-						Array[i] = tempArray[i];
-					}
-					exp *= bit;
-				}
-				delete[] bucket;
-				delete[] tempArray;
-			}
+			RadixSort(int *array, asize_t asize);
+			void radix_sort();
 
 		private:
-			int *Array;
+			int *Array, *tempArray, *bucket, exp = 1, bit = 10, max, current;
 			asize_t array_size;
 		};
 
@@ -1134,103 +725,8 @@ namespace ALGOR
 		{
 		public:
 			// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
-			FlashSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-			void flash_sort()
-			{
-				const asize_t m = (int)(0.45 * array_size);
-
-				//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
-				//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
-				//розмір == 2 та перший елемент більше другого (так як сортування
-				//іде в напрямку збільшення, тому перший елемент має бути найменшим),
-				//тоді необхідно змінити ці два елементи місцями - це і є все
-				//сортування; інакше (тобто якщо розмір == 1 чи масив з 2 елементів
-				//відсортовано (перший елемент менше другого)) - відразу завершати
-				//сортування, так як там нічого сортувати. Розмір не може
-				//дорівнювати 0, так як конструктор класу викликає верифікацію, де
-				//перевіряється масив на пустотність. При всіх інших розмірах
-				//(тобто >= 3) m буде дорівнювати 1 чи більше, а тому до k не зможе
-				//потрапити значення -1 й викликати помилку.
-				// WARNING Обов'язково треба додати верифікацію до конструктору!
-				if (m == 0)
-				{
-					if (array_size == 2 && Array[0] > Array[1])
-					{
-						swap<int>(Array[0], Array[1]);
-					}
-					return;
-				}
-
-				L = new int[m];
-
-				for (asize_t i = 0; i < array_size; i++)
-				{
-					if (Array[i] < Array[min])
-					{
-						min = i;
-					}
-					if (Array[i] > Array[max])
-					{
-						max = i;
-					}
-				}
-
-				//Якщо всі елементи мають одне значення, то при знаходженні
-				//константи c1 виникне ділення на 0, а тому треба завчасно робити
-				//перевірку і в випадку рівності значень - кидати виключення.
-				if (Array[min] == Array[max])
-				{
-					throw division_by_zero();
-				}
-
-				const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
-
-				for (asize_t i = 0; i < m; i++)
-				{
-					L[i] = 0;
-				}
-				for (asize_t i = 0; i < array_size; ++i)
-				{
-					++L[c1 * (Array[i] - min)];
-				}
-				for (asize_t i = 1; i < m; ++i)
-				{
-					L[i] = L[i] + L[i - 1];
-				}
-
-				swap<int>(Array[max], Array[0]);
-
-				k = m - 1;
-
-				while (move < array_size - 1)
-				{
-					while ((int)j > L[k] - 1)
-					{
-						++j;
-						k = c1 * (Array[j] - min);
-					}
-					flash = Array[j];
-					while ((int)j != L[k])
-					{
-						k = c1 * (flash - Array[min]);
-						swap<int>(Array[L[k] - 1], flash);
-						L[k]--;
-						move++;
-					}
-				}
-
-				for (j = 1; j < array_size; j++)
-				{
-					flash = Array[j];
-					int i = j - 1;
-					while (i >= 0 && Array[i] > flash)
-					{
-						Array[i + 1] = Array[i];
-						i--;
-					}
-					Array[i + 1] = flash;
-				}
-			}
+			FlashSort(int *array, asize_t asize);
+			void flash_sort();
 
 		private:
 			int *Array, *L, flash;
@@ -1422,76 +918,6 @@ namespace ALGOR
 
 		// class SpaghettiSort{};
 	}
-
-	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
-	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
-	 * #*-*%*-*+                                                         +*-*%*-*# *
-	 * %%%%%                      $-------------------$                      %%%%% *
-	 * -->                             ALGOR_ARRAY                             <-- *
-	 * %%%%%                      $-------------------$                      %%%%% *
-	 * #*-*%*-*+                                                         +*-*%*-*# *
-	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
-	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-	template <typename type_array>
-	class ARRAYDATA : public ArrayCore::ArrayBase<type_array>
-	{
-	public:
-		ARRAYDATA(ArrayCore::Array<type_array> *&Array);
-		ARRAYDATA(const asize_t &SIZE);
-		~ARRAYDATA();
-
-		enum class ArrayStatus /// Set of array statuses
-		{
-			SORTED,	 ///< Indicates that the array is sorted
-			UNSORTED ///< Indicates that the array is unsorted
-		};
-		enum class ArrayType /// A set of array types
-		{
-			NUMBER, ///< Indicates that the array stores numbers
-			STRING	///< Indicates that the array stores strings
-		};
-
-		void generatedData(const int &min_limit, const int &max_limit);
-		void setNewData(ArrayCore::Array<type_array> *&Array);
-		void setData(ArrayCore::Array<type_array> *&Array);
-		void cloneData(ArrayCore::Array<type_array> *&CloningArray);
-		void cloneData(ARRAYDATA<type_array> *&CloningObject);
-		void getData(ArrayCore::Array<type_array> *&DATA);
-		ArrayCore::Array<type_array> *getData();
-
-		void reset();
-		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
-		void replace(const unsigned int &position, const type_array &value);
-		void reverse();
-		void respawn();
-
-		type_array getMin(ArrayStatus ArrStat = ArrayStatus::UNSORTED);
-		type_array getMax(ArrayStatus ArrStat = ArrayStatus::UNSORTED);
-
-		ArrayCore::Array<int> *lenear_searcher(const type_array &required_element);
-		int binary_searcher(const type_array &required_element);
-		ArrayCore::Array<int> *searcherOccurrencesOfSubstring(ArrayCore::Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
-
-		type_array average();
-		type_array mediana();
-		type_array moda(int &highest_frequency);
-		ArrayCore::Array<type_array> *modas(int &highest_frequency);
-
-		void operator&&(const type_array &value);
-		void operator!();
-		void operator||(const type_array &value);
-		void operator<<(ARRAYDATA<type_array> *&appendingArray);
-		void operator>>(ARRAYDATA<type_array> *&appendingArray);
-		void operator+(const asize_t &addSize);
-		void operator-(const asize_t &subtractSize);
-		void operator*(const asize_t &multiplySize);
-		void operator/(const asize_t &divideSize);
-
-	private:
-		void remove();
-		void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
-	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
