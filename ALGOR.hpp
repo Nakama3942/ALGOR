@@ -78,21 +78,21 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	using sbit8_t = signed char;	   ///< Alias for signed char
-	using sbit16_t = signed short;	   ///< Alias for signed short
-	using sbit32_t = signed long;	   ///< Alias for signed long
-	using sbit64_t = signed long long; ///< Alias for signed long long
+	using sbit8_t = signed char;			///< Alias for signed char
+	using sbit16_t = signed short;			///< Alias for signed short
+	using sbit32_t = signed long;			///< Alias for signed long
+	using sbit64_t = signed long long;		///< Alias for signed long long
 
-	using ubit8_t = unsigned char;		 ///< Alias for unsigned char
-	using ubit16_t = unsigned short;	 ///< Alias for unsigned short
-	using ubit32_t = unsigned long;		 ///< Alias for unsigned long
-	using ubit64_t = unsigned long long; ///< Alias for unsigned long long
+	using ubit8_t = unsigned char;			///< Alias for unsigned char
+	using ubit16_t = unsigned short;		///< Alias for unsigned short
+	using ubit32_t = unsigned long;			///< Alias for unsigned long
+	using ubit64_t = unsigned long long;	///< Alias for unsigned long long
 
-	using fbit32_t = float;	 ///< Alias for float
-	using fbit64_t = double; ///< Alias for double
+	using fbit32_t = float;					///< Alias for float
+	using fbit64_t = double;				///< Alias for double
 
-	using asize_t = unsigned int;		///< Alias for specifying the type "array size"
-	using memcell_t = signed long long; ///< Alias for calculated memory cell
+	using asize_t = unsigned long;			///< Alias for specifying the type "array size"
+	using memcell_t = unsigned long long;	///< Alias for calculated memory cell
 
 	template <typename type_value>
 	void swap(type_value &firstNumber, type_value &secondNumber);

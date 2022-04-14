@@ -470,7 +470,9 @@ ALGOR::ARRAYDATA<type_array>::~ARRAYDATA()
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
 {
-	MersenneTwister RanGen(getMemoryCell());
+	memcell_t cell = getMemoryCell();
+	cell >>= 32;
+	MersenneTwister RanGen(cell);
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit);
@@ -1779,15 +1781,628 @@ void ALGOR::Merge_Sorts<type_array>::MergeSort::merge(const asize_t &left_limit,
 	delete[] tempArray;
 }
 
-// void Distribution_Sorts::CountingSort::start_sort()
-//{
+Distribution_Sorts::Distribution_Sorts(Array<int> *&Array) : ArrayBase<int>(Array) {}
 
-//}
+void Distribution_Sorts::AmericanFlag_Sort()
+{
+	AmericanFlagSort *sort = new AmericanFlagSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->american_flag_sort();
+	delete (sort);
+}
 
-// void Distribution_Sorts::RadixSort::start_sort()
-//{
+void Distribution_Sorts::Bead_Sort()
+{
+	BeadSort *sort = new BeadSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->bead_sort();
+	delete (sort);
+}
 
-//}
+void Distribution_Sorts::Bucket_Sort()
+{
+	BucketSort *sort = new BucketSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->bucket_sort();
+	delete (sort);
+}
+
+void Distribution_Sorts::Counting_Sort()
+{
+	CountingSort *sort = new CountingSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->counting_sort();
+	delete (sort);
+}
+
+void Distribution_Sorts::Interpolation_Sort()
+{
+	InterpolationSort *sort = new InterpolationSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->interpolation_sort();
+	delete (sort);
+}
+
+void Distribution_Sorts::Pigeonhole_Sort()
+{
+	PigeonholeSort *sort = new PigeonholeSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->pigeonhole_sort();
+	delete (sort);
+}
+
+void Distribution_Sorts::Radix_Sort()
+{
+	RadixSort *sort = new RadixSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->radix_sort();
+	delete (sort);
+}
+
+void Distribution_Sorts::Flash_Sort()
+{
+	FlashSort *sort = new FlashSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->flash_sort();
+	delete (sort);
+}
+
+Distribution_Sorts::AmericanFlagSort::AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::AmericanFlagSort::american_flag_sort()
+{
+	int max = 1;
+	for (int i = 0; i < getMaxNumberOfDigits() - 1; i++)
+	{
+		max *= 10;
+	}
+	recursive_american_flag_sort(0, (int)array_size, max);
+}
+
+void Distribution_Sorts::AmericanFlagSort::recursive_american_flag_sort(int start, int length, int divisor)
+{
+	int *count = new int[NUMBER_OF_BUCKETS]{0};
+	int digit = 0;
+
+	for (int i = start; i < (int)length; i++)
+	{
+		int array_digit = Array[i];
+		digit = getDigit(array_digit, divisor);
+		count[digit]++;
+	}
+
+	int *offset = new int[NUMBER_OF_BUCKETS];
+	offset[0] = start + 0;
+	for (int i = 1; i < NUMBER_OF_BUCKETS; i++)
+	{
+		offset[i] = count[i - 1] + offset[i - 1];
+	}
+
+	for (int bucket = 0; bucket < NUMBER_OF_BUCKETS; bucket++)
+	{
+		while (count[bucket] > 0)
+		{
+			int origin = offset[bucket];
+			int from = origin;
+			int num = Array[from];
+			Array[from] = -1;
+			do
+			{
+				digit = getDigit(num, divisor);
+				int to = offset[digit]++;
+				count[digit]--;
+				int temp = Array[to];
+				Array[to] = num;
+				num = temp;
+				from = to;
+			} while (from != origin);
+		}
+	}
+	if (divisor > 1)
+	{
+		for (int i = 0; i < NUMBER_OF_BUCKETS; i++)
+		{
+			int begin = (i > 0) ? offset[i - 1] : start;
+			int end = offset[i];
+			if (end - begin > 1)
+			{
+				recursive_american_flag_sort(begin, end, divisor / 10);
+			}
+		}
+	}
+}
+
+int Distribution_Sorts::AmericanFlagSort::getMaxNumberOfDigits()
+{
+	int count = 1;
+	int value = ArrayProcessing<int>::maximum(Array, array_size);
+	while (true)
+	{
+		value /= 10;
+		if (value != 0)
+		{
+			count++;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return count;
+}
+
+int Distribution_Sorts::AmericanFlagSort::getDigit(int integer, int divisor)
+{
+	return (integer / divisor) % 10;
+}
+
+Distribution_Sorts::BeadSort::BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::BeadSort::bead_sort()
+{
+	max = ArrayProcessing<int>::maximum(Array, array_size);
+	beads = new unsigned char[max * array_size]{0};
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		for (int j = 0; j < Array[i]; j++)
+		{
+			beads[i * max + j] = 1;
+		}
+	}
+	for (int j = 0; j < max; j++)
+	{
+		int sum = 0;
+		for (asize_t i = 0; i < array_size; i++)
+		{
+			sum += beads[i * max + j];
+			beads[i * max + j] = 0;
+		}
+		for (asize_t i = array_size - sum; i < array_size; i++)
+		{
+			beads[i * max + j] = 1;
+		}
+	}
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		int j = 0;
+		for (; j < max && beads[i * max + j]; j++)
+			;
+		Array[i] = j;
+	}
+
+	delete[] beads;
+}
+
+Distribution_Sorts::BucketSort::BucketSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::BucketSort::bucket_sort()
+{
+	min = ArrayProcessing<int>::minimum(Array, array_size);
+	max = ArrayProcessing<int>::maximum(Array, array_size);
+	range = (max - min) / (int)array_size;
+	range++;
+
+	bucket = new int *[array_size];
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		bucket[i] = new int[1];
+		bucket[i][0] = 1;
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		bucket_index = asize_t((Array[i] - min) / range);
+		if (bucket_index == array_size)
+		{
+			bucket_index--;
+		}
+		push_back(bucket[bucket_index], Array[i]);
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		if (bucket[i][0] > 2)
+		{
+			bubble_sort(bucket[i]);
+		}
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		for (asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
+		{
+			Array[array_index++] = bucket[i][j];
+		}
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		delete[] bucket[i];
+	}
+	delete[] bucket;
+}
+
+void Distribution_Sorts::BucketSort::push_back(int *&bucket, const int &value)
+{
+	//Суть алгоритму наступна: я не можу створити структуру структур через
+	//невиразну помилку, яка незрозуміло звідки береться (в інших місцях
+	//коду все працює - воно не хоче тільки тут працювати чомусь) й
+	//у окремих змінних зберігати не вийде, оскільки постає питання: скільки
+	//їх потрібно? Отже треба буде оголошувати окремий масив для зберігання
+	//розмірів кожного підмасиву. Це запарно, тому я вирішив вписати їх у
+	//самі підмасиви (хоча потім може виникнути плутанина в інших місцях
+	//коду). Так як люди рахують з одиниці, а комп'ютери з нуля - я вирішив
+	//зберігати розмір у нульовій позиції, а так як для зберігання самого
+	//розміру тепер теж потрібна пам'ять у масиві - він (розмір) завжди
+	//буде більшим на одиницю. Наприклад, при розмірі масиву 6 там,
+	//насправді, масив складається з 5 елементів.
+	//Цей метод працює наступним чином: він дивиться розмір поданого
+	//підмасиву й створює тимчасовий масив, розмір якого на одиницю більше
+	//підмасиву; потім він (розмір) записується на нульове місце й так як у
+	//підмасиві на 1 елемент менше, ніж було зазначено, зі збільшенням
+	//тимчасово масиву різниця стане у два елементи. Тому для полегшення
+	//розуміння коду я вирішив у циклі використовувати оригінальний
+	//розмір, а під нульовим елементом можна уявити новий елемент. Тобто, у
+	//масиві з 5 елементів (насправді їх 4) нульовий елемент можна замінити
+	//новим й почати їх записувати у тимчасовий масив, який на одиницю
+	//більше (насправді, він тепер вміщує тих самих 5 елементів),
+	//починаючи не з нульового, а з першого номера. Що відбувається
+	//насправді? Спочатку у тимчасовий масив зазначається його розмір,
+	//потім на останню комірку заноситься нове значення й потім
+	//переносяться всі інші елементи з підмасиву до тимчасового
+	//масиву. Ось і все. Коли тимчасовий масив сформовано, пам'ять від
+	//старого звільняється й повертається адреса на тимчасовий масив. Тепер
+	//тимчасовий і є підмасивом. Все просто.
+	int *temp = new int[bucket[0] + 1];
+	temp[0] = bucket[0] + 1;
+	for (asize_t i = 0; i < (asize_t)bucket[0]; i++)
+	{
+		i != 0 ? temp[i] = bucket[i] : temp[(asize_t)bucket[0]] = value;
+	}
+	delete[] bucket;
+	bucket = temp;
+}
+
+void Distribution_Sorts::BucketSort::bubble_sort(int *bucket)
+{
+	// NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
+	for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
+	{
+		for (asize_t j = 1; j < (asize_t)bucket[0] - 1; j++)
+		{
+			if (bucket[j] > bucket[j + 1])
+			{
+				swap<int>(bucket[j], bucket[j + 1]);
+			}
+		}
+	}
+}
+
+Distribution_Sorts::CountingSort::CountingSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::CountingSort::counting_sort()
+{
+	// verification(this->ARRAY->array_size);
+	min = ArrayProcessing<int>::minimum(Array, array_size);
+	max = ArrayProcessing<int>::maximum(Array, array_size);
+	tempArray = new int[max - min + 1];
+	for (int i = 0; i < max - min + 1; i++)
+	{
+		tempArray[i] = 0;
+	}
+	for (unsigned int i = 0; i < array_size; i++)
+	{
+		tempArray[Array[i] - min] = tempArray[Array[i] - min] + 1;
+	}
+	for (int i = 0, j = min; j < max + 1; j++)
+	{
+		while (tempArray[j - min] != 0)
+		{
+			Array[i] = j;
+			tempArray[j - min]--;
+			i++;
+		}
+	}
+	delete[] tempArray;
+}
+
+Distribution_Sorts::InterpolationSort::InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::InterpolationSort::interpolation_sort()
+{
+	getMin();
+
+	if (index_min != 0)
+	{
+		Array[index_min] = Array[0];
+		Array[0] = nArray_min;
+	}
+
+	if (array_size >= MIN_SORTABLE_LENGTH)
+	{
+		getMax();
+
+		ifac = (nArray_max - nArray_min) / (array_size - 1);
+
+		if (ifac <= 0)
+		{
+			ifac = 1;
+		}
+		else
+		{
+			while (((nArray_max - nArray_min) / ifac) > ((int)array_size - 1))
+			{
+				ifac++;
+			}
+		}
+
+		space = new int[2 * array_size + 1];
+
+		if (!space)
+		{
+			return;
+		}
+
+		cmp_index = space;
+		cum = space + array_size;
+		hist = cum + 1;
+		sorted = hist;
+
+		for (asize_t i = 0; i <= array_size; i++)
+		{
+			cum[i] = 0;
+		}
+
+		for (int i = array_size; --i >= 0;)
+		{
+			hist[cmp_index[i] = (Array[i] - nArray_min) / ifac] += 1;
+			ComplexityCount++;
+		}
+
+		for (asize_t i = 1; i < array_size; i++)
+		{
+			cum[i] += cum[i - 1];
+			ComplexityCount++;
+		}
+
+		for (asize_t i = 0; i < array_size; i++)
+		{
+			cmp_index[i] = cum[cmp_index[i]]++;
+			ComplexityCount++;
+		}
+
+		for (asize_t i = array_size; i > 0; i--)
+		{
+			sorted[cmp_index[i - 1]] = Array[i - 1];
+			ComplexityCount++;
+		}
+
+		ArrayProcessing<int>::copy(Array, sorted, array_size);
+
+		delete[] space;
+	}
+
+	for (asize_t i = 1; i < array_size; i++)
+	{
+		ComplexityCount++;
+
+		if (Array[i] >= Array[i - 1])
+		{
+			continue;
+		}
+
+		temp = Array[i];
+		Array[i] = Array[i - 1];
+
+		asize_t j;
+		for (j = i - 2; temp < Array[j]; j--)
+		{
+			Array[j + 1] = Array[j];
+		}
+		Array[j + 1] = temp;
+	}
+}
+
+void Distribution_Sorts::InterpolationSort::getMin()
+{
+	nArray_min = Array[0];
+	for (asize_t i = 1; i < array_size; i++)
+	{
+		if (nArray_min > Array[i])
+		{
+			nArray_min = Array[i];
+			index_min = i;
+		}
+	}
+}
+
+void Distribution_Sorts::InterpolationSort::getMax()
+{
+	nArray_max = Array[0];
+	for (asize_t i = 1; i < array_size; i++)
+	{
+		if (nArray_max < Array[i])
+		{
+			nArray_max = Array[i];
+		}
+	}
+}
+
+Distribution_Sorts::PigeonholeSort::PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
+{
+	min = ArrayProcessing<int>::minimum(Array, array_size);
+	max = ArrayProcessing<int>::maximum(Array, array_size);
+	range = (asize_t)max - (asize_t)min + 1;
+
+	hole = new int *[range];
+	for (asize_t i = 0; i < range; i++)
+	{
+		hole[i] = new int[1];
+		hole[i][0] = 1;
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		push_back(hole[Array[i] - min], Array[i]);
+	}
+	for (asize_t i = 0; i < range; i++)
+	{
+		for (asize_t j = 1; j < (asize_t)hole[i][0]; j++)
+		{
+			Array[count] = hole[i][j];
+			count++;
+		}
+	}
+	for (asize_t i = 0; i < range; i++)
+	{
+		delete[] hole[i];
+	}
+	delete[] hole;
+}
+
+void Distribution_Sorts::PigeonholeSort::push_back(int *&hole, const int &value)
+{
+	int *temp = new int[hole[0] + 1];
+	temp[0] = hole[0] + 1;
+	for (asize_t i = 0; i < (asize_t)hole[0]; i++)
+	{
+		i != 0 ? temp[i] = hole[i] : temp[(asize_t)hole[0]] = value;
+	}
+	delete[] hole;
+	hole = temp;
+}
+
+Distribution_Sorts::RadixSort::RadixSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::RadixSort::radix_sort()
+{
+	// verification(this->ARRAY->array_size);
+	max = ArrayProcessing<int>::maximum(Array, array_size);
+	tempArray = new int[array_size];
+	bucket = new int[bit];
+	while (max / exp > 0)
+	{
+		for (int i = 0; i < bit; i++)
+		{
+			bucket[i] = 0;
+		}
+		for (unsigned int i = 0; i < array_size; i++)
+		{
+			bucket[(Array[i] / exp) % bit]++;
+		}
+		for (int i = 1; i < bit; i++)
+		{
+			bucket[i] += bucket[i - 1];
+		}
+		for (int i = array_size - 1; i >= 0; i--)
+		{
+			current = (Array[i] % (exp * bit)) / exp;
+			bucket[current]--;
+			tempArray[bucket[current]] = Array[i];
+		}
+		for (unsigned int i = 0; i < array_size; i++)
+		{
+			Array[i] = tempArray[i];
+		}
+		exp *= bit;
+	}
+	delete[] bucket;
+	delete[] tempArray;
+}
+
+Distribution_Sorts::FlashSort::FlashSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+
+void Distribution_Sorts::FlashSort::flash_sort()
+{
+	const asize_t m = (int)(0.45 * array_size);
+
+	//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
+	//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
+	//розмір == 2 та перший елемент більше другого (так як сортування
+	//іде в напрямку збільшення, тому перший елемент має бути найменшим),
+	//тоді необхідно змінити ці два елементи місцями - це і є все
+	//сортування; інакше (тобто якщо розмір == 1 чи масив з 2 елементів
+	//відсортовано (перший елемент менше другого)) - відразу завершати
+	//сортування, так як там нічого сортувати. Розмір не може
+	//дорівнювати 0, так як конструктор класу викликає верифікацію, де
+	//перевіряється масив на пустотність. При всіх інших розмірах
+	//(тобто >= 3) m буде дорівнювати 1 чи більше, а тому до k не зможе
+	//потрапити значення -1 й викликати помилку.
+	// WARNING Обов'язково треба додати верифікацію до конструктору!
+	if (m == 0)
+	{
+		if (array_size == 2 && Array[0] > Array[1])
+		{
+			swap<int>(Array[0], Array[1]);
+		}
+		return;
+	}
+
+	L = new int[m];
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		if (Array[i] < Array[min])
+		{
+			min = i;
+		}
+		if (Array[i] > Array[max])
+		{
+			max = i;
+		}
+	}
+
+	//Якщо всі елементи мають одне значення, то при знаходженні
+	//константи c1 виникне ділення на 0, а тому треба завчасно робити
+	//перевірку і в випадку рівності значень - кидати виключення.
+	if (Array[min] == Array[max])
+	{
+		throw division_by_zero();
+	}
+
+	const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
+
+	for (asize_t i = 0; i < m; i++)
+	{
+		L[i] = 0;
+	}
+	for (asize_t i = 0; i < array_size; ++i)
+	{
+		++L[c1 * (Array[i] - min)];
+	}
+	for (asize_t i = 1; i < m; ++i)
+	{
+		L[i] = L[i] + L[i - 1];
+	}
+
+	swap<int>(Array[max], Array[0]);
+
+	k = m - 1;
+
+	while (move < array_size - 1)
+	{
+		while ((int)j > L[k] - 1)
+		{
+			++j;
+			k = c1 * (Array[j] - min);
+		}
+		flash = Array[j];
+		while ((int)j != L[k])
+		{
+			k = c1 * (flash - Array[min]);
+			swap<int>(Array[L[k] - 1], flash);
+			L[k]--;
+			move++;
+		}
+	}
+
+	for (j = 1; j < array_size; j++)
+	{
+		flash = Array[j];
+		int i = j - 1;
+		while (i >= 0 && Array[i] > flash)
+		{
+			Array[i + 1] = Array[i];
+			i--;
+		}
+		Array[i + 1] = flash;
+	}
+}
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -2498,628 +3113,3 @@ template void st_SortingAlgorithms<float>::LibrarySort::finalization();
 template void st_SortingAlgorithms<char>::LibrarySort::finalization();
 
 #endif // STANDARDS_SWITCH
-
-Distribution_Sorts::Distribution_Sorts(Array<int> *&Array) : ArrayBase<int>(Array)
-{
-}
-
-void Distribution_Sorts::AmericanFlag_Sort()
-{
-	AmericanFlagSort *sort = new AmericanFlagSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->american_flag_sort();
-	delete (sort);
-}
-
-void Distribution_Sorts::Bead_Sort()
-{
-	BeadSort *sort = new BeadSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->bead_sort();
-	delete (sort);
-}
-
-void Distribution_Sorts::Bucket_Sort()
-{
-	BucketSort *sort = new BucketSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->bucket_sort();
-	delete (sort);
-}
-
-void Distribution_Sorts::Counting_Sort()
-{
-	CountingSort *sort = new CountingSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->counting_sort();
-	delete (sort);
-}
-
-void Distribution_Sorts::Interpolation_Sort()
-{
-	InterpolationSort *sort = new InterpolationSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->interpolation_sort();
-	delete (sort);
-}
-
-void Distribution_Sorts::Pigeonhole_Sort()
-{
-	PigeonholeSort *sort = new PigeonholeSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->pigeonhole_sort();
-	delete (sort);
-}
-
-void Distribution_Sorts::Radix_Sort()
-{
-	RadixSort *sort = new RadixSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->radix_sort();
-	delete (sort);
-}
-
-void Distribution_Sorts::Flash_Sort()
-{
-	FlashSort *sort = new FlashSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->flash_sort();
-	delete (sort);
-}
-
-Distribution_Sorts::AmericanFlagSort::AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::AmericanFlagSort::american_flag_sort()
-{
-	int max = 1;
-	for (int i = 0; i < getMaxNumberOfDigits() - 1; i++)
-	{
-		max *= 10;
-	}
-	recursive_american_flag_sort(0, (int)array_size, max);
-}
-
-void Distribution_Sorts::AmericanFlagSort::recursive_american_flag_sort(int start, int length, int divisor)
-{
-	int *count = new int[NUMBER_OF_BUCKETS]{0};
-	int digit = 0;
-
-	for (int i = start; i < (int)length; i++)
-	{
-		int array_digit = Array[i];
-		digit = getDigit(array_digit, divisor);
-		count[digit]++;
-	}
-
-	int *offset = new int[NUMBER_OF_BUCKETS];
-	offset[0] = start + 0;
-	for (int i = 1; i < NUMBER_OF_BUCKETS; i++)
-	{
-		offset[i] = count[i - 1] + offset[i - 1];
-	}
-
-	for (int bucket = 0; bucket < NUMBER_OF_BUCKETS; bucket++)
-	{
-		while (count[bucket] > 0)
-		{
-			int origin = offset[bucket];
-			int from = origin;
-			int num = Array[from];
-			Array[from] = -1;
-			do
-			{
-				digit = getDigit(num, divisor);
-				int to = offset[digit]++;
-				count[digit]--;
-				int temp = Array[to];
-				Array[to] = num;
-				num = temp;
-				from = to;
-			} while (from != origin);
-		}
-	}
-	if (divisor > 1)
-	{
-		for (int i = 0; i < NUMBER_OF_BUCKETS; i++)
-		{
-			int begin = (i > 0) ? offset[i - 1] : start;
-			int end = offset[i];
-			if (end - begin > 1)
-			{
-				recursive_american_flag_sort(begin, end, divisor / 10);
-			}
-		}
-	}
-}
-
-int Distribution_Sorts::AmericanFlagSort::getMaxNumberOfDigits()
-{
-	int count = 1;
-	int value = ArrayProcessing<int>::maximum(Array, array_size);
-	while (true)
-	{
-		value /= 10;
-		if (value != 0)
-		{
-			count++;
-		}
-		else
-		{
-			break;
-		}
-	}
-	return count;
-}
-
-int Distribution_Sorts::AmericanFlagSort::getDigit(int integer, int divisor)
-{
-	return (integer / divisor) % 10;
-}
-
-Distribution_Sorts::BeadSort::BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::BeadSort::bead_sort()
-{
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	beads = new unsigned char[max * array_size]{0};
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		for (int j = 0; j < Array[i]; j++)
-		{
-			beads[i * max + j] = 1;
-		}
-	}
-	for (int j = 0; j < max; j++)
-	{
-		int sum = 0;
-		for (asize_t i = 0; i < array_size; i++)
-		{
-			sum += beads[i * max + j];
-			beads[i * max + j] = 0;
-		}
-		for (asize_t i = array_size - sum; i < array_size; i++)
-		{
-			beads[i * max + j] = 1;
-		}
-	}
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		int j = 0;
-		for (; j < max && beads[i * max + j]; j++)
-			;
-		Array[i] = j;
-	}
-
-	delete[] beads;
-}
-
-Distribution_Sorts::BucketSort::BucketSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::BucketSort::bucket_sort()
-{
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	range = (max - min) / (int)array_size;
-	range++;
-
-	bucket = new int *[array_size];
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		bucket[i] = new int[1];
-		bucket[i][0] = 1;
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		bucket_index = asize_t((Array[i] - min) / range);
-		if (bucket_index == array_size)
-		{
-			bucket_index--;
-		}
-		push_back(bucket[bucket_index], Array[i]);
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		if (bucket[i][0] > 2)
-		{
-			bubble_sort(bucket[i]);
-		}
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		for (asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
-		{
-			Array[array_index++] = bucket[i][j];
-		}
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		delete[] bucket[i];
-	}
-	delete[] bucket;
-}
-
-void Distribution_Sorts::BucketSort::push_back(int *&bucket, const int &value)
-{
-	//Суть алгоритму наступна: я не можу створити структуру структур через
-	//невиразну помилку, яка незрозуміло звідки береться (в інших місцях
-	//коду все працює - воно не хоче тільки тут працювати чомусь) й
-	//у окремих змінних зберігати не вийде, оскільки постає питання: скільки
-	//їх потрібно? Отже треба буде оголошувати окремий масив для зберігання
-	//розмірів кожного підмасиву. Це запарно, тому я вирішив вписати їх у
-	//самі підмасиви (хоча потім може виникнути плутанина в інших місцях
-	//коду). Так як люди рахують з одиниці, а комп'ютери з нуля - я вирішив
-	//зберігати розмір у нульовій позиції, а так як для зберігання самого
-	//розміру тепер теж потрібна пам'ять у масиві - він (розмір) завжди
-	//буде більшим на одиницю. Наприклад, при розмірі масиву 6 там,
-	//насправді, масив складається з 5 елементів.
-	//Цей метод працює наступним чином: він дивиться розмір поданого
-	//підмасиву й створює тимчасовий масив, розмір якого на одиницю більше
-	//підмасиву; потім він (розмір) записується на нульове місце й так як у
-	//підмасиві на 1 елемент менше, ніж було зазначено, зі збільшенням
-	//тимчасово масиву різниця стане у два елементи. Тому для полегшення
-	//розуміння коду я вирішив у циклі використовувати оригінальний
-	//розмір, а під нульовим елементом можна уявити новий елемент. Тобто, у
-	//масиві з 5 елементів (насправді їх 4) нульовий елемент можна замінити
-	//новим й почати їх записувати у тимчасовий масив, який на одиницю
-	//більше (насправді, він тепер вміщує тих самих 5 елементів),
-	//починаючи не з нульового, а з першого номера. Що відбувається
-	//насправді? Спочатку у тимчасовий масив зазначається його розмір,
-	//потім на останню комірку заноситься нове значення й потім
-	//переносяться всі інші елементи з підмасиву до тимчасового
-	//масиву. Ось і все. Коли тимчасовий масив сформовано, пам'ять від
-	//старого звільняється й повертається адреса на тимчасовий масив. Тепер
-	//тимчасовий і є підмасивом. Все просто.
-	int *temp = new int[bucket[0] + 1];
-	temp[0] = bucket[0] + 1;
-	for (asize_t i = 0; i < (asize_t)bucket[0]; i++)
-	{
-		i != 0 ? temp[i] = bucket[i] : temp[(asize_t)bucket[0]] = value;
-	}
-	delete[] bucket;
-	bucket = temp;
-}
-
-void Distribution_Sorts::BucketSort::bubble_sort(int *bucket)
-{
-	// NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
-	for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
-	{
-		for (asize_t j = 1; j < (asize_t)bucket[0] - 1; j++)
-		{
-			if (bucket[j] > bucket[j + 1])
-			{
-				swap<int>(bucket[j], bucket[j + 1]);
-			}
-		}
-	}
-}
-
-Distribution_Sorts::CountingSort::CountingSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::CountingSort::counting_sort()
-{
-	// verification(this->ARRAY->array_size);
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	tempArray = new int[max - min + 1];
-	for (int i = 0; i < max - min + 1; i++)
-	{
-		tempArray[i] = 0;
-	}
-	for (unsigned int i = 0; i < array_size; i++)
-	{
-		tempArray[Array[i] - min] = tempArray[Array[i] - min] + 1;
-	}
-	for (int i = 0, j = min; j < max + 1; j++)
-	{
-		while (tempArray[j - min] != 0)
-		{
-			Array[i] = j;
-			tempArray[j - min]--;
-			i++;
-		}
-	}
-	delete[] tempArray;
-}
-
-Distribution_Sorts::InterpolationSort::InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::InterpolationSort::interpolation_sort()
-{
-	getMin();
-
-	if (index_min != 0)
-	{
-		Array[index_min] = Array[0];
-		Array[0] = nArray_min;
-	}
-
-	if (array_size >= MIN_SORTABLE_LENGTH)
-	{
-		getMax();
-
-		ifac = (nArray_max - nArray_min) / (array_size - 1);
-
-		if (ifac <= 0)
-		{
-			ifac = 1;
-		}
-		else
-		{
-			while (((nArray_max - nArray_min) / ifac) > ((int)array_size - 1))
-			{
-				ifac++;
-			}
-		}
-
-		space = new int[2 * array_size + 1];
-
-		if (!space)
-		{
-			return;
-		}
-
-		cmp_index = space;
-		cum = space + array_size;
-		hist = cum + 1;
-		sorted = hist;
-
-		for (asize_t i = 0; i <= array_size; i++)
-		{
-			cum[i] = 0;
-		}
-
-		for (int i = array_size; --i >= 0;)
-		{
-			hist[cmp_index[i] = (Array[i] - nArray_min) / ifac] += 1;
-			ComplexityCount++;
-		}
-
-		for (asize_t i = 1; i < array_size; i++)
-		{
-			cum[i] += cum[i - 1];
-			ComplexityCount++;
-		}
-
-		for (asize_t i = 0; i < array_size; i++)
-		{
-			cmp_index[i] = cum[cmp_index[i]]++;
-			ComplexityCount++;
-		}
-
-		for (asize_t i = array_size; i > 0; i--)
-		{
-			sorted[cmp_index[i - 1]] = Array[i - 1];
-			ComplexityCount++;
-		}
-
-		ArrayProcessing<int>::copy(Array, sorted, array_size);
-
-		delete[] space;
-	}
-
-	for (asize_t i = 1; i < array_size; i++)
-	{
-		ComplexityCount++;
-
-		if (Array[i] >= Array[i - 1])
-		{
-			continue;
-		}
-
-		temp = Array[i];
-		Array[i] = Array[i - 1];
-
-		asize_t j;
-		for (j = i - 2; temp < Array[j]; j--)
-		{
-			Array[j + 1] = Array[j];
-		}
-		Array[j + 1] = temp;
-	}
-}
-
-void Distribution_Sorts::InterpolationSort::getMin()
-{
-	nArray_min = Array[0];
-	for (asize_t i = 1; i < array_size; i++)
-	{
-		if (nArray_min > Array[i])
-		{
-			nArray_min = Array[i];
-			index_min = i;
-		}
-	}
-}
-
-void Distribution_Sorts::InterpolationSort::getMax()
-{
-	nArray_max = Array[0];
-	for (asize_t i = 1; i < array_size; i++)
-	{
-		if (nArray_max < Array[i])
-		{
-			nArray_max = Array[i];
-		}
-	}
-}
-
-Distribution_Sorts::PigeonholeSort::PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
-{
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	range = (asize_t)max - (asize_t)min + 1;
-
-	hole = new int *[range];
-	for (asize_t i = 0; i < range; i++)
-	{
-		hole[i] = new int[1];
-		hole[i][0] = 1;
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		push_back(hole[Array[i] - min], Array[i]);
-	}
-	for (asize_t i = 0; i < range; i++)
-	{
-		for (asize_t j = 1; j < (asize_t)hole[i][0]; j++)
-		{
-			Array[count] = hole[i][j];
-			count++;
-		}
-	}
-	for (asize_t i = 0; i < range; i++)
-	{
-		delete[] hole[i];
-	}
-	delete[] hole;
-}
-
-void Distribution_Sorts::PigeonholeSort::push_back(int *&hole, const int &value)
-{
-	int *temp = new int[hole[0] + 1];
-	temp[0] = hole[0] + 1;
-	for (asize_t i = 0; i < (asize_t)hole[0]; i++)
-	{
-		i != 0 ? temp[i] = hole[i] : temp[(asize_t)hole[0]] = value;
-	}
-	delete[] hole;
-	hole = temp;
-}
-
-Distribution_Sorts::RadixSort::RadixSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::RadixSort::radix_sort()
-{
-	// verification(this->ARRAY->array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	tempArray = new int[array_size];
-	bucket = new int[bit];
-	while (max / exp > 0)
-	{
-		for (int i = 0; i < bit; i++)
-		{
-			bucket[i] = 0;
-		}
-		for (unsigned int i = 0; i < array_size; i++)
-		{
-			bucket[(Array[i] / exp) % bit]++;
-		}
-		for (int i = 1; i < bit; i++)
-		{
-			bucket[i] += bucket[i - 1];
-		}
-		for (int i = array_size - 1; i >= 0; i--)
-		{
-			current = (Array[i] % (exp * bit)) / exp;
-			bucket[current]--;
-			tempArray[bucket[current]] = Array[i];
-		}
-		for (unsigned int i = 0; i < array_size; i++)
-		{
-			Array[i] = tempArray[i];
-		}
-		exp *= bit;
-	}
-	delete[] bucket;
-	delete[] tempArray;
-}
-
-Distribution_Sorts::FlashSort::FlashSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::FlashSort::flash_sort()
-{
-	const asize_t m = (int)(0.45 * array_size);
-
-	//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
-	//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
-	//розмір == 2 та перший елемент більше другого (так як сортування
-	//іде в напрямку збільшення, тому перший елемент має бути найменшим),
-	//тоді необхідно змінити ці два елементи місцями - це і є все
-	//сортування; інакше (тобто якщо розмір == 1 чи масив з 2 елементів
-	//відсортовано (перший елемент менше другого)) - відразу завершати
-	//сортування, так як там нічого сортувати. Розмір не може
-	//дорівнювати 0, так як конструктор класу викликає верифікацію, де
-	//перевіряється масив на пустотність. При всіх інших розмірах
-	//(тобто >= 3) m буде дорівнювати 1 чи більше, а тому до k не зможе
-	//потрапити значення -1 й викликати помилку.
-	// WARNING Обов'язково треба додати верифікацію до конструктору!
-	if (m == 0)
-	{
-		if (array_size == 2 && Array[0] > Array[1])
-		{
-			swap<int>(Array[0], Array[1]);
-		}
-		return;
-	}
-
-	L = new int[m];
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		if (Array[i] < Array[min])
-		{
-			min = i;
-		}
-		if (Array[i] > Array[max])
-		{
-			max = i;
-		}
-	}
-
-	//Якщо всі елементи мають одне значення, то при знаходженні
-	//константи c1 виникне ділення на 0, а тому треба завчасно робити
-	//перевірку і в випадку рівності значень - кидати виключення.
-	if (Array[min] == Array[max])
-	{
-		throw division_by_zero();
-	}
-
-	const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
-
-	for (asize_t i = 0; i < m; i++)
-	{
-		L[i] = 0;
-	}
-	for (asize_t i = 0; i < array_size; ++i)
-	{
-		++L[c1 * (Array[i] - min)];
-	}
-	for (asize_t i = 1; i < m; ++i)
-	{
-		L[i] = L[i] + L[i - 1];
-	}
-
-	swap<int>(Array[max], Array[0]);
-
-	k = m - 1;
-
-	while (move < array_size - 1)
-	{
-		while ((int)j > L[k] - 1)
-		{
-			++j;
-			k = c1 * (Array[j] - min);
-		}
-		flash = Array[j];
-		while ((int)j != L[k])
-		{
-			k = c1 * (flash - Array[min]);
-			swap<int>(Array[L[k] - 1], flash);
-			L[k]--;
-			move++;
-		}
-	}
-
-	for (j = 1; j < array_size; j++)
-	{
-		flash = Array[j];
-		int i = j - 1;
-		while (i >= 0 && Array[i] > flash)
-		{
-			Array[i + 1] = Array[i];
-			i--;
-		}
-		Array[i + 1] = flash;
-	}
-}
