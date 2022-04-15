@@ -291,6 +291,10 @@ void ALGOR::MersenneTwister::Init0(int seed)
 	}
 }
 
+#if ARRAYS == 0
+#pragma message("Arrays and sortings are disabled")
+#elif ARRAYS == 1
+#pragma message("Arrays and sortings are enabled")
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -876,88 +880,200 @@ void ALGOR::ARRAYDATA<type_array>::remove()
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::Exchange_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
+template <typename  type_array>
+ALGOR::Comparative_Sorts<type_array>::Comparative_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Bubble_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Bubble_Sort()
 {
 	BubbleSort *sort = new BubbleSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->bubble_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Cocktail_Shaker_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Cocktail_Shaker_Sort()
 {
 	CocktailShakerSort *sort = new CocktailShakerSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->cocktail_shaker_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Odd_Even_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Odd_Even_Sort()
 {
 	OddEvenSort *sort = new OddEvenSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->odd_even_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Comb_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Comb_Sort()
 {
 	CombSort *sort = new CombSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->comb_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Gnome_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Gnome_Sort()
 {
 	GnomeSort *sort = new GnomeSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->gnome_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Quick_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Quick_Sort()
 {
 	QuickSort *sort = new QuickSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->quick_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Slow_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Slow_Sort()
 {
 	SlowSort *sort = new SlowSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->slow_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Stooge_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Stooge_Sort()
 {
 	StoogeSort *sort = new StoogeSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->stooge_sort();
 	delete (sort);
 }
 
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::Bogo_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Bogo_Sort()
 {
 	BogoSort *sort = new BogoSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->bogo_sort();
 	delete (sort);
 }
 
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::BubbleSort::BubbleSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::BubbleSort::bubble_sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Selection_Sort()
 {
-	// verification(array_size);
+	SelectionSort *sort = new SelectionSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->selection_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Heap_Sort()
+{
+	HeapSort *sort = new HeapSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->heap_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Smooth_Sort()
+{
+	SmoothSort sort(this->ARRAY->array, (int)this->ARRAY->array_size);
+	sort.smooth_sort();
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Cycle_Sort()
+{
+	CycleSort *sort = new CycleSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->cycle_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Insert_Sort()
+{
+	InsertSort *sort = new InsertSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->insert_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Shell_Sort()
+{
+	ShellSort *sort = new ShellSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->shell_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Tree_Sort()
+{
+	TreeSort *sort = new TreeSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->tree_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Patience_Sort()
+{
+	PatienceSort *sort = new PatienceSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->patience_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::Merge_Sort()
+{
+	MergeSort *sort = new MergeSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->merge_sort();
+	delete (sort);
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::BogoSort::BogoSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::BogoSort::bogo_sort()
+{
+	while (Correct())
+	{
+		Shuffle();
+	}
+}
+
+template <typename type_array>
+bool ALGOR::Comparative_Sorts<type_array>::BogoSort::Correct()
+{
+	asize_t size = array_size;
+	while (--size > 0)
+	{
+		if (Array[size - 1] > Array[size])
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::BogoSort::Shuffle()
+{
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		MersenneTwister RanGen(getMemoryCell());
+		swap<type_array>(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
+	}
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::BubbleSort::BubbleSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::BubbleSort::bubble_sort()
+{
 	for (asize_t i = 0; i < array_size; i++)
 	{
 		for (asize_t j = 0; j < array_size - 1; j++)
@@ -970,13 +1086,15 @@ void ALGOR::Exchange_Sorts<type_array>::BubbleSort::bubble_sort()
 	}
 }
 
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::CocktailShakerSort::CocktailShakerSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::CocktailShakerSort::CocktailShakerSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	// verification(array_size);
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_sort()
+{
 	asize_t leftMark = 1, rightMark = array_size - 1;
 	while (leftMark <= rightMark)
 	{
@@ -999,31 +1117,14 @@ void ALGOR::Exchange_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_sort
 	}
 }
 
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::OddEvenSort::OddEvenSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::OddEvenSort::odd_even_sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::CombSort::CombSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		asize_t j;
-		i & 1 ? j = 2 : j = 1;
-		for (; j < array_size; j += 2)
-		{
-			if (Array[j] < Array[j - 1])
-			{
-				swap<type_array>(Array[j - 1], Array[j]);
-			}
-		}
-	}
+	verification(array_size);
 }
 
 template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::CombSort::CombSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::CombSort::comb_sort()
+void ALGOR::Comparative_Sorts<type_array>::CombSort::comb_sort()
 {
 	double factor = 1.2473309; //Фактор зменшення
 	int step = array_size - 1; //Шаг
@@ -1041,441 +1142,14 @@ void ALGOR::Exchange_Sorts<type_array>::CombSort::comb_sort()
 	}
 }
 
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::GnomeSort::GnomeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::GnomeSort::gnome_sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::CycleSort::CycleSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	for (asize_t count = 0; count < array_size; count++)
-	{
-		asize_t i = 1, j = 2;
-
-		while (i < array_size)
-		{
-			if (Array[i] > Array[i - 1])
-			{
-				i = j;
-				j++;
-			}
-			else
-			{
-				swap<type_array>(Array[i], Array[i - 1]);
-				i--;
-				if (i == 0)
-				{
-					i = j;
-					j++;
-				}
-			}
-		}
-	}
-}
-
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::QuickSort::QuickSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::QuickSort::quick_sort()
-{
-	// verification(array_size);
-	recursive_quick_sort(0, array_size - 1);
-}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::QuickSort::recursive_quick_sort(const int &left_limit, const int &right_limit)
-{
-	type_array middle = Array[(left_limit + right_limit) / 2];
-	int start = left_limit, finish = right_limit;
-	do
-	{
-		while (Array[start] < middle)
-		{
-			start++;
-		}
-		while (Array[finish] > middle)
-		{
-			finish--;
-		}
-		if (start <= finish)
-		{
-			swap<type_array>(Array[start], Array[finish]);
-			start++;
-			finish--;
-		}
-	} while (start < finish);
-	if (left_limit < finish)
-	{
-		recursive_quick_sort(left_limit, finish);
-	}
-	if (start < right_limit)
-	{
-		recursive_quick_sort(start, right_limit);
-	}
-}
-
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::SlowSort::SlowSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::SlowSort::slow_sort()
-{
-	recursive_slow_sort(0, array_size - 1);
-}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::SlowSort::recursive_slow_sort(const int &left_limit, const int &right_limit)
-{
-	if (left_limit >= right_limit)
-	{
-		return;
-	}
-	int middle = (left_limit + right_limit) / 2;
-	recursive_slow_sort(left_limit, middle);
-	recursive_slow_sort(middle + 1, right_limit);
-	if (Array[middle] > Array[right_limit])
-	{
-		swap<type_array>(Array[middle], Array[right_limit]);
-	}
-	recursive_slow_sort(left_limit, right_limit - 1);
-}
-
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::StoogeSort::StoogeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::StoogeSort::stooge_sort()
-{
-	recursive_stooge_sort(0, array_size - 1);
-}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::StoogeSort::recursive_stooge_sort(const int &left_limit, const int &right_limit)
-{
-	if (Array[left_limit] > Array[right_limit])
-	{
-		swap<type_array>(Array[left_limit], Array[right_limit]);
-	}
-	if (left_limit + 1 >= right_limit)
-	{
-		return;
-	}
-
-	int k = (int)((right_limit - left_limit + 1) / 3);
-	recursive_stooge_sort(left_limit, right_limit - k);
-	recursive_stooge_sort(left_limit + k, right_limit);
-	recursive_stooge_sort(left_limit, right_limit - k);
-}
-
-template <class type_array>
-ALGOR::Exchange_Sorts<type_array>::BogoSort::BogoSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::BogoSort::bogo_sort()
-{
-	while (Correct())
-	{
-		Shuffle();
-	}
-}
-
-template <class type_array>
-bool ALGOR::Exchange_Sorts<type_array>::BogoSort::Correct()
-{
-	asize_t size = array_size;
-	while (--size > 0)
-	{
-		if (Array[size - 1] > Array[size])
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-template <class type_array>
-void ALGOR::Exchange_Sorts<type_array>::BogoSort::Shuffle()
-{
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		MersenneTwister RanGen(getMemoryCell());
-		swap<type_array>(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
-	}
-}
-
-template <class type_array>
-ALGOR::Selection_Sorts<type_array>::Selection_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::Selection_Sort()
-{
-	SelectionSort *sort = new SelectionSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->selection_sort();
-	delete (sort);
-}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::Heap_Sort()
-{
-	HeapSort *sort = new HeapSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->heap_sort();
-	delete (sort);
-}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::Smooth_Sort()
-{
-	SmoothSort sort(this->ARRAY->array, (int)this->ARRAY->array_size);
-	sort.smooth_sort();
-}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::Cycle_Sort()
-{
-	CycleSort *sort = new CycleSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->cycle_sort();
-	delete (sort);
-}
-
-template <class type_array>
-ALGOR::Selection_Sorts<type_array>::SelectionSort::SelectionSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::SelectionSort::selection_sort()
-{
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		asize_t min_index = i;
-		for (asize_t j = i + 1; j < array_size; j++)
-		{
-			if (Array[j] < Array[min_index])
-			{
-				min_index = j;
-			}
-		}
-		if (min_index != i)
-		{
-			swap<type_array>(Array[i], Array[min_index]);
-		}
-	}
-}
-
-template <class type_array>
-ALGOR::Selection_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::HeapSort::heap_sort()
-{
-	//Типи int у циклах ЗАЛИШИТИ! Без них не працює!
 	verification(array_size);
-	for (int right = array_size / 2 - 1; right >= 0; right--)
-	{
-		heapify(Array, right, array_size);
-	}
-	for (int i = array_size - 1; i >= 0; i--)
-	{
-		swap<type_array>(Array[0], Array[i]);
-		heapify(Array, 0, i);
-	}
 }
 
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::HeapSort::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
-{
-	asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
-	if (left < array_size && Array[left] > Array[large])
-	{
-		large = left;
-	}
-	if (right < array_size && Array[right] > Array[large])
-	{
-		large = right;
-	}
-	if (large != count)
-	{
-		swap<type_array>(Array[count], Array[large]);
-		heapify(Array, large, array_size);
-	}
-}
-
-template <class type_array>
-ALGOR::Selection_Sorts<type_array>::SmoothSort::SmoothSort(type_array *array, int asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::SmoothSort::smooth_sort()
-{
-	make_heap_pool();
-
-	for (int i = array_size - 1; i >= 0; i--)
-	{
-		int nextPosHeapItemsAmount;
-		int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
-		if (posMaxTopElem != i)
-		{
-			swap<type_array>(Array[i], Array[posMaxTopElem]);
-			shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
-		}
-		PrevState(curState);
-	}
-}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::SmoothSort::make_heap_pool()
-{
-	for (int i = 0; i < (int)array_size; i++)
-	{
-		int posHeapItemsAmount = NextState(curState);
-		if (posHeapItemsAmount != -1)
-		{
-			shiftDown(posHeapItemsAmount, i);
-		}
-	}
-}
-
-template <class type_array>
-int ALGOR::Selection_Sorts<type_array>::SmoothSort::NextState(int &curState)
-{
-	int posNewTop = -1;
-
-	if ((curState & 7) == 5)
-	{
-		curState += 3;
-		posNewTop = 3;
-	}
-	else
-	{
-		int next = curState;
-		int pos = 0;
-		while (next && (next & 3) != 3)
-		{
-			next >>= 1;
-			pos++;
-		}
-		if ((next & 3) == 3)
-		{
-			curState += 1 << pos;
-			posNewTop = pos + 2;
-		}
-		else if (curState & 1)
-		{
-			curState |= 2;
-		}
-		else
-		{
-			curState |= 1;
-		}
-	}
-	return posNewTop;
-}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItemsAmount, int indexLastTop)
-{
-	int posCurNode = indexLastTop;
-	while (posHeapItemsAmount > 1)
-	{
-		int posR = posCurNode - 1;
-		int posL = posR - LeoNum[posHeapItemsAmount - 2];
-		int posMaxChild = posL;
-		int posNextTop = posHeapItemsAmount - 1;
-		if (Array[posR] > Array[posL])
-		{
-			posMaxChild = posR;
-			posNextTop = posHeapItemsAmount - 2;
-		}
-		if (Array[posCurNode] < Array[posMaxChild])
-		{
-			swap<type_array>(Array[posCurNode], Array[posMaxChild]);
-			posHeapItemsAmount = posNextTop;
-			posCurNode = posMaxChild;
-		}
-		else
-		{
-			break;
-		}
-	}
-}
-
-template <class type_array>
-int ALGOR::Selection_Sorts<type_array>::SmoothSort::findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount)
-{
-	int pos = 0;
-
-	while (!(curState & 1))
-	{
-		curState >>= 1;
-		pos++;
-	}
-
-	int posMaxTopElem = indexLastTop;
-	nextPosHeapItemsAmount = pos;
-	int curTopElem = indexLastTop - LeoNum[pos];
-	curState >>= 1;
-	pos++;
-
-	while (curState)
-	{
-		if (curState & 1)
-		{
-			if (Array[curTopElem] > Array[posMaxTopElem])
-			{
-				posMaxTopElem = curTopElem;
-				nextPosHeapItemsAmount = pos;
-			}
-			curTopElem -= LeoNum[pos];
-		}
-		curState >>= 1;
-		pos++;
-	}
-
-	return posMaxTopElem;
-}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::SmoothSort::PrevState(int &curState)
-{
-	if ((curState & 15) == 8)
-	{
-		curState -= 3;
-	}
-	else if (curState & 1)
-	{
-		if ((curState & 3) == 3)
-		{
-			curState ^= 2;
-		}
-		else
-		{
-			curState ^= 1;
-		}
-	}
-	else
-	{
-		int prev = curState;
-		int pos = 0;
-		while (prev && !(prev & 1))
-		{
-			prev >>= 1;
-			pos++;
-		}
-		if (prev)
-		{
-			curState ^= 1 << pos;
-			curState |= 1 << (pos - 1);
-			curState |= 1 << (pos - 2);
-		}
-		else
-		{
-			curState = 0;
-		}
-	}
-}
-
-template <class type_array>
-ALGOR::Selection_Sorts<type_array>::CycleSort::CycleSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Selection_Sorts<type_array>::CycleSort::cycle_sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::CycleSort::cycle_sort()
 {
 	for (asize_t cycle_start = 0; cycle_start < array_size; cycle_start++)
 	{
@@ -1518,48 +1192,90 @@ void ALGOR::Selection_Sorts<type_array>::CycleSort::cycle_sort()
 	}
 }
 
-template <class type_array>
-ALGOR::Insertion_Sorts<type_array>::Insertion_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
-
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::Insert_Sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::GnomeSort::GnomeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	InsertSort *sort = new InsertSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->insert_sort();
-	delete (sort);
+	verification(array_size);
 }
 
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::Shell_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::GnomeSort::gnome_sort()
 {
-	ShellSort *sort = new ShellSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->shell_sort();
-	delete (sort);
+	for (asize_t count = 0; count < array_size; count++)
+	{
+		asize_t i = 1, j = 2;
+
+		while (i < array_size)
+		{
+			if (Array[i] > Array[i - 1])
+			{
+				i = j;
+				j++;
+			}
+			else
+			{
+				swap<type_array>(Array[i], Array[i - 1]);
+				i--;
+				if (i == 0)
+				{
+					i = j;
+					j++;
+				}
+			}
+		}
+	}
 }
 
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::Tree_Sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	TreeSort *sort = new TreeSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->tree_sort();
-	delete (sort);
+	verification(array_size);
 }
 
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::Patience_Sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::HeapSort::heap_sort()
 {
-	PatienceSort *sort = new PatienceSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->patience_sort();
-	delete (sort);
+	//Типи int у циклах ЗАЛИШИТИ! Без них не працює!
+	verification(array_size);
+	for (int right = array_size / 2 - 1; right >= 0; right--)
+	{
+		heapify(Array, right, array_size);
+	}
+	for (int i = array_size - 1; i >= 0; i--)
+	{
+		swap<type_array>(Array[0], Array[i]);
+		heapify(Array, 0, i);
+	}
 }
 
-template <class type_array>
-ALGOR::Insertion_Sorts<type_array>::InsertSort::InsertSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::InsertSort::insert_sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::HeapSort::heapify(type_array *Array, const asize_t &count, const asize_t &array_size)
 {
-	// verification(array_size);
+	asize_t left = 2 * count + 1, large = count, right = 2 * count + 2;
+	if (left < array_size && Array[left] > Array[large])
+	{
+		large = left;
+	}
+	if (right < array_size && Array[right] > Array[large])
+	{
+		large = right;
+	}
+	if (large != count)
+	{
+		swap<type_array>(Array[count], Array[large]);
+		heapify(Array, large, array_size);
+	}
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::InsertSort::InsertSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::InsertSort::insert_sort()
+{
 	for (asize_t i = 0; i < array_size; i++)
 	{
 		for (asize_t j = i; j > 0 && Array[j - 1] > Array[j]; j--)
@@ -1569,85 +1285,86 @@ void ALGOR::Insertion_Sorts<type_array>::InsertSort::insert_sort()
 	}
 }
 
-template <class type_array>
-ALGOR::Insertion_Sorts<type_array>::ShellSort::ShellSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::ShellSort::shell_sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::MergeSort::MergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	for (asize_t step = array_size / 2; step > 0; step /= 2)
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::MergeSort::merge_sort()
+{
+	recursive_merge_sort(0, array_size - 1);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::MergeSort::recursive_merge_sort(const asize_t &left_limit, const asize_t &right_limit)
+{
+	if (left_limit < right_limit)
 	{
-		for (asize_t i = step; i < array_size; i++)
+		asize_t middle = left_limit + (right_limit - left_limit) / 2;
+		recursive_merge_sort(left_limit, middle);
+		recursive_merge_sort(middle + 1, right_limit);
+		merge(left_limit, middle, right_limit);
+	}
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::MergeSort::merge(const asize_t &left_limit, const asize_t &middle_limit, const asize_t &right_limit)
+{
+	asize_t start = left_limit, finish = middle_limit + 1;
+	type_array *tempArray = new type_array[right_limit - left_limit + 1];
+	for (asize_t i = left_limit; i <= right_limit; i++)
+	{
+		if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
 		{
-			for (int j = (int)i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
+			tempArray[i - left_limit] = Array[start];
+			start++;
+		}
+		else
+		{
+			tempArray[i - left_limit] = Array[finish];
+			finish++;
+		}
+	}
+	for (asize_t i = left_limit; i <= right_limit; i++)
+	{
+		Array[i] = tempArray[i - left_limit];
+	}
+	delete[] tempArray;
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::OddEvenSort::OddEvenSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::OddEvenSort::odd_even_sort()
+{
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		asize_t j;
+		i & 1 ? j = 2 : j = 1;
+		for (; j < array_size; j += 2)
+		{
+			if (Array[j] < Array[j - 1])
 			{
-				swap<type_array>(Array[j], Array[j + step]);
+				swap<type_array>(Array[j - 1], Array[j]);
 			}
 		}
 	}
 }
 
-template <class type_array>
-ALGOR::Insertion_Sorts<type_array>::TreeSort::TreeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::TreeSort::tree_sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::PatienceSort::PatienceSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	Tree *root = nullptr;
-	root = insert(root, Array[0]);
-	for (asize_t i = 1; i < array_size; i++)
-	{
-		insert(root, Array[i]);
-	}
-	asize_t index = 0;
-	store(root, Array, index);
-	delete (root);
+	verification(array_size);
 }
 
-template <class type_array>
-typename Insertion_Sorts<type_array>::TreeSort::Tree *ALGOR::Insertion_Sorts<type_array>::TreeSort::newnode(int key)
-{
-	Tree *temp = new Tree;
-	temp->data = key;
-	temp->left = nullptr;
-	temp->right = nullptr;
-	return temp;
-}
-
-template <class type_array>
-typename Insertion_Sorts<type_array>::TreeSort::Tree *ALGOR::Insertion_Sorts<type_array>::TreeSort::insert(Tree *node, int key)
-{
-	if (node == nullptr)
-	{
-		return newnode(key);
-	}
-	if (key < node->data)
-	{
-		node->left = insert(node->left, key);
-	}
-	else
-	{
-		node->right = insert(node->right, key);
-	}
-	return node;
-}
-
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::TreeSort::store(Tree *root, type_array *Array, asize_t &index)
-{
-	if (root != nullptr)
-	{
-		store(root->left, Array, index);
-		Array[index++] = root->data;
-		store(root->right, Array, index);
-	}
-}
-
-template <class type_array>
-ALGOR::Insertion_Sorts<type_array>::PatienceSort::PatienceSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::PatienceSort::patience_sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::PatienceSort::patience_sort()
 {
 	initialization();
 
@@ -1699,8 +1416,8 @@ void ALGOR::Insertion_Sorts<type_array>::PatienceSort::patience_sort()
 	finalization();
 }
 
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::PatienceSort::initialization()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::PatienceSort::initialization()
 {
 	count = new asize_t[array_size]{0};
 	decks = new type_array *[array_size];
@@ -1711,8 +1428,8 @@ void ALGOR::Insertion_Sorts<type_array>::PatienceSort::initialization()
 	sortedArr = new type_array[array_size]{0};
 }
 
-template <class type_array>
-void ALGOR::Insertion_Sorts<type_array>::PatienceSort::finalization()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::PatienceSort::finalization()
 {
 	delete[] sortedArr;
 	for (asize_t i = 0; i < array_size; i++)
@@ -1723,62 +1440,389 @@ void ALGOR::Insertion_Sorts<type_array>::PatienceSort::finalization()
 	delete[] count;
 }
 
-template <class type_array>
-ALGOR::Merge_Sorts<type_array>::Merge_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
-
-template <class type_array>
-void ALGOR::Merge_Sorts<type_array>::Merge_Sort()
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::QuickSort::QuickSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	MergeSort *sort = new MergeSort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->merge_sort();
-	delete (sort);
+	verification(array_size);
 }
 
-template <class type_array>
-ALGOR::Merge_Sorts<type_array>::MergeSort::MergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void ALGOR::Merge_Sorts<type_array>::MergeSort::merge_sort()
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::QuickSort::quick_sort()
 {
-	// verification(array_size);
-	recursive_merge_sort(0, array_size - 1);
+	recursive_quick_sort(0, array_size - 1);
 }
 
-template <class type_array>
-void ALGOR::Merge_Sorts<type_array>::MergeSort::recursive_merge_sort(const asize_t &left_limit, const asize_t &right_limit)
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::QuickSort::recursive_quick_sort(const int &left_limit, const int &right_limit)
 {
-	if (left_limit < right_limit)
+	type_array middle = Array[(left_limit + right_limit) / 2];
+	int start = left_limit, finish = right_limit;
+	do
 	{
-		asize_t middle = left_limit + (right_limit - left_limit) / 2;
-		recursive_merge_sort(left_limit, middle);
-		recursive_merge_sort(middle + 1, right_limit);
-		merge(left_limit, middle, right_limit);
+		while (Array[start] < middle)
+		{
+			start++;
+		}
+		while (Array[finish] > middle)
+		{
+			finish--;
+		}
+		if (start <= finish)
+		{
+			swap<type_array>(Array[start], Array[finish]);
+			start++;
+			finish--;
+		}
+	} while (start < finish);
+	if (left_limit < finish)
+	{
+		recursive_quick_sort(left_limit, finish);
+	}
+	if (start < right_limit)
+	{
+		recursive_quick_sort(start, right_limit);
 	}
 }
 
-template <class type_array>
-void ALGOR::Merge_Sorts<type_array>::MergeSort::merge(const asize_t &left_limit, const asize_t &middle_limit, const asize_t &right_limit)
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::SelectionSort::SelectionSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	asize_t start = left_limit, finish = middle_limit + 1;
-	type_array *tempArray = new type_array[right_limit - left_limit + 1];
-	for (asize_t i = left_limit; i <= right_limit; i++)
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::SelectionSort::selection_sort()
+{
+	for (asize_t i = 0; i < array_size; i++)
 	{
-		if ((start <= middle_limit) && ((finish > right_limit) || (Array[start] < Array[finish])))
+		asize_t min_index = i;
+		for (asize_t j = i + 1; j < array_size; j++)
 		{
-			tempArray[i - left_limit] = Array[start];
-			start++;
+			if (Array[j] < Array[min_index])
+			{
+				min_index = j;
+			}
+		}
+		if (min_index != i)
+		{
+			swap<type_array>(Array[i], Array[min_index]);
+		}
+	}
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::ShellSort::ShellSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::ShellSort::shell_sort()
+{
+	for (asize_t step = array_size / 2; step > 0; step /= 2)
+	{
+		for (asize_t i = step; i < array_size; i++)
+		{
+			for (int j = (int)i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
+			{
+				swap<type_array>(Array[j], Array[j + step]);
+			}
+		}
+	}
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::SlowSort::SlowSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::SlowSort::slow_sort()
+{
+	recursive_slow_sort(0, array_size - 1);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::SlowSort::recursive_slow_sort(const int &left_limit, const int &right_limit)
+{
+	if (left_limit >= right_limit)
+	{
+		return;
+	}
+	int middle = (left_limit + right_limit) / 2;
+	recursive_slow_sort(left_limit, middle);
+	recursive_slow_sort(middle + 1, right_limit);
+	if (Array[middle] > Array[right_limit])
+	{
+		swap<type_array>(Array[middle], Array[right_limit]);
+	}
+	recursive_slow_sort(left_limit, right_limit - 1);
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::StoogeSort::StoogeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::StoogeSort::stooge_sort()
+{
+	recursive_stooge_sort(0, array_size - 1);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge_sort(const int &left_limit, const int &right_limit)
+{
+	if (Array[left_limit] > Array[right_limit])
+	{
+		swap<type_array>(Array[left_limit], Array[right_limit]);
+	}
+	if (left_limit + 1 >= right_limit)
+	{
+		return;
+	}
+
+	int k = (int)((right_limit - left_limit + 1) / 3);
+	recursive_stooge_sort(left_limit, right_limit - k);
+	recursive_stooge_sort(left_limit + k, right_limit);
+	recursive_stooge_sort(left_limit, right_limit - k);
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::TreeSort::TreeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::TreeSort::tree_sort()
+{
+	Tree *root = nullptr;
+	root = insert(root, Array[0]);
+	for (asize_t i = 1; i < array_size; i++)
+	{
+		insert(root, Array[i]);
+	}
+	asize_t index = 0;
+	store(root, Array, index);
+	delete (root);
+}
+
+template <typename type_array>
+typename Comparative_Sorts<type_array>::TreeSort::Tree *ALGOR::Comparative_Sorts<type_array>::TreeSort::newnode(int key)
+{
+	Tree *temp = new Tree;
+	temp->data = key;
+	temp->left = nullptr;
+	temp->right = nullptr;
+	return temp;
+}
+
+template <typename type_array>
+typename Comparative_Sorts<type_array>::TreeSort::Tree *ALGOR::Comparative_Sorts<type_array>::TreeSort::insert(Tree *node, int key)
+{
+	if (node == nullptr)
+	{
+		return newnode(key);
+	}
+	if (key < node->data)
+	{
+		node->left = insert(node->left, key);
+	}
+	else
+	{
+		node->right = insert(node->right, key);
+	}
+	return node;
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::TreeSort::store(Tree *root, type_array *Array, asize_t &index)
+{
+	if (root != nullptr)
+	{
+		store(root->left, Array, index);
+		Array[index++] = root->data;
+		store(root->right, Array, index);
+	}
+}
+
+template <typename type_array>
+ALGOR::Comparative_Sorts<type_array>::SmoothSort::SmoothSort(type_array *array, int asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::SmoothSort::smooth_sort()
+{
+	make_heap_pool();
+
+	for (int i = array_size - 1; i >= 0; i--)
+	{
+		int nextPosHeapItemsAmount;
+		int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
+		if (posMaxTopElem != i)
+		{
+			swap<type_array>(Array[i], Array[posMaxTopElem]);
+			shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
+		}
+		PrevState(curState);
+	}
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::SmoothSort::make_heap_pool()
+{
+	for (int i = 0; i < (int)array_size; i++)
+	{
+		int posHeapItemsAmount = NextState(curState);
+		if (posHeapItemsAmount != -1)
+		{
+			shiftDown(posHeapItemsAmount, i);
+		}
+	}
+}
+
+template <typename type_array>
+int ALGOR::Comparative_Sorts<type_array>::SmoothSort::NextState(int &curState)
+{
+	int posNewTop = -1;
+
+	if ((curState & 7) == 5)
+	{
+		curState += 3;
+		posNewTop = 3;
+	}
+	else
+	{
+		int next = curState;
+		int pos = 0;
+		while (next && (next & 3) != 3)
+		{
+			next >>= 1;
+			pos++;
+		}
+		if ((next & 3) == 3)
+		{
+			curState += 1 << pos;
+			posNewTop = pos + 2;
+		}
+		else if (curState & 1)
+		{
+			curState |= 2;
 		}
 		else
 		{
-			tempArray[i - left_limit] = Array[finish];
-			finish++;
+			curState |= 1;
 		}
 	}
-	for (asize_t i = left_limit; i <= right_limit; i++)
+	return posNewTop;
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItemsAmount, int indexLastTop)
+{
+	int posCurNode = indexLastTop;
+	while (posHeapItemsAmount > 1)
 	{
-		Array[i] = tempArray[i - left_limit];
+		int posR = posCurNode - 1;
+		int posL = posR - LeoNum[posHeapItemsAmount - 2];
+		int posMaxChild = posL;
+		int posNextTop = posHeapItemsAmount - 1;
+		if (Array[posR] > Array[posL])
+		{
+			posMaxChild = posR;
+			posNextTop = posHeapItemsAmount - 2;
+		}
+		if (Array[posCurNode] < Array[posMaxChild])
+		{
+			swap<type_array>(Array[posCurNode], Array[posMaxChild]);
+			posHeapItemsAmount = posNextTop;
+			posCurNode = posMaxChild;
+		}
+		else
+		{
+			break;
+		}
 	}
-	delete[] tempArray;
+}
+
+template <typename type_array>
+int ALGOR::Comparative_Sorts<type_array>::SmoothSort::findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount)
+{
+	int pos = 0;
+
+	while (!(curState & 1))
+	{
+		curState >>= 1;
+		pos++;
+	}
+
+	int posMaxTopElem = indexLastTop;
+	nextPosHeapItemsAmount = pos;
+	int curTopElem = indexLastTop - LeoNum[pos];
+	curState >>= 1;
+	pos++;
+
+	while (curState)
+	{
+		if (curState & 1)
+		{
+			if (Array[curTopElem] > Array[posMaxTopElem])
+			{
+				posMaxTopElem = curTopElem;
+				nextPosHeapItemsAmount = pos;
+			}
+			curTopElem -= LeoNum[pos];
+		}
+		curState >>= 1;
+		pos++;
+	}
+
+	return posMaxTopElem;
+}
+
+template <typename type_array>
+void ALGOR::Comparative_Sorts<type_array>::SmoothSort::PrevState(int &curState)
+{
+	if ((curState & 15) == 8)
+	{
+		curState -= 3;
+	}
+	else if (curState & 1)
+	{
+		if ((curState & 3) == 3)
+		{
+			curState ^= 2;
+		}
+		else
+		{
+			curState ^= 1;
+		}
+	}
+	else
+	{
+		int prev = curState;
+		int pos = 0;
+		while (prev && !(prev & 1))
+		{
+			prev >>= 1;
+			pos++;
+		}
+		if (prev)
+		{
+			curState ^= 1 << pos;
+			curState |= 1 << (pos - 1);
+			curState |= 1 << (pos - 2);
+		}
+		else
+		{
+			curState = 0;
+		}
+	}
 }
 
 Distribution_Sorts::Distribution_Sorts(Array<int> *&Array) : ArrayBase<int>(Array) {}
@@ -1839,7 +1883,10 @@ void Distribution_Sorts::Flash_Sort()
 	delete (sort);
 }
 
-Distribution_Sorts::AmericanFlagSort::AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::AmericanFlagSort::AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
 
 void Distribution_Sorts::AmericanFlagSort::american_flag_sort()
 {
@@ -1928,7 +1975,10 @@ int Distribution_Sorts::AmericanFlagSort::getDigit(int integer, int divisor)
 	return (integer / divisor) % 10;
 }
 
-Distribution_Sorts::BeadSort::BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::BeadSort::BeadSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
 
 void Distribution_Sorts::BeadSort::bead_sort()
 {
@@ -1966,7 +2016,10 @@ void Distribution_Sorts::BeadSort::bead_sort()
 	delete[] beads;
 }
 
-Distribution_Sorts::BucketSort::BucketSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::BucketSort::BucketSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
 
 void Distribution_Sorts::BucketSort::bucket_sort()
 {
@@ -2071,11 +2124,13 @@ void Distribution_Sorts::BucketSort::bubble_sort(int *bucket)
 	}
 }
 
-Distribution_Sorts::CountingSort::CountingSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::CountingSort::CountingSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
 
 void Distribution_Sorts::CountingSort::counting_sort()
 {
-	// verification(this->ARRAY->array_size);
 	min = ArrayProcessing<int>::minimum(Array, array_size);
 	max = ArrayProcessing<int>::maximum(Array, array_size);
 	tempArray = new int[max - min + 1];
@@ -2099,7 +2154,111 @@ void Distribution_Sorts::CountingSort::counting_sort()
 	delete[] tempArray;
 }
 
-Distribution_Sorts::InterpolationSort::InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::FlashSort::FlashSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+void Distribution_Sorts::FlashSort::flash_sort()
+{
+	const asize_t m = (int)(0.45 * array_size);
+
+	//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
+	//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
+	//розмір == 2 та перший елемент більше другого (так як сортування
+	//іде в напрямку збільшення, тому перший елемент має бути найменшим),
+	//тоді необхідно змінити ці два елементи місцями - це і є все
+	//сортування; інакше (тобто якщо розмір == 1 чи масив з 2 елементів
+	//відсортовано (перший елемент менше другого)) - відразу завершати
+	//сортування, так як там нічого сортувати. Розмір не може
+	//дорівнювати 0, так як конструктор класу викликає верифікацію, де
+	//перевіряється масив на пустотність. При всіх інших розмірах
+	//(тобто >= 3) m буде дорівнювати 1 чи більше, а тому до k не зможе
+	//потрапити значення -1 й викликати помилку.
+	if (m == 0)
+	{
+		if (array_size == 2 && Array[0] > Array[1])
+		{
+			swap<int>(Array[0], Array[1]);
+		}
+		return;
+	}
+
+	L = new int[m];
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		if (Array[i] < Array[min])
+		{
+			min = i;
+		}
+		if (Array[i] > Array[max])
+		{
+			max = i;
+		}
+	}
+
+	//Якщо всі елементи мають одне значення, то при знаходженні
+	//константи c1 виникне ділення на 0, а тому треба завчасно робити
+	//перевірку і в випадку рівності значень - кидати виключення.
+	if (Array[min] == Array[max])
+	{
+		throw division_by_zero();
+	}
+
+	const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
+
+	for (asize_t i = 0; i < m; i++)
+	{
+		L[i] = 0;
+	}
+	for (asize_t i = 0; i < array_size; ++i)
+	{
+		++L[c1 * (Array[i] - min)];
+	}
+	for (asize_t i = 1; i < m; ++i)
+	{
+		L[i] = L[i] + L[i - 1];
+	}
+
+	swap<int>(Array[max], Array[0]);
+
+	k = m - 1;
+
+	while (move < array_size - 1)
+	{
+		while ((int)j > L[k] - 1)
+		{
+			++j;
+			k = c1 * (Array[j] - min);
+		}
+		flash = Array[j];
+		while ((int)j != L[k])
+		{
+			k = c1 * (flash - Array[min]);
+			swap<int>(Array[L[k] - 1], flash);
+			L[k]--;
+			move++;
+		}
+	}
+
+	for (j = 1; j < array_size; j++)
+	{
+		flash = Array[j];
+		int i = j - 1;
+		while (i >= 0 && Array[i] > flash)
+		{
+			Array[i + 1] = Array[i];
+			i--;
+		}
+		Array[i + 1] = flash;
+	}
+}
+
+Distribution_Sorts::InterpolationSort::InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
 
 void Distribution_Sorts::InterpolationSort::interpolation_sort()
 {
@@ -2221,7 +2380,10 @@ void Distribution_Sorts::InterpolationSort::getMax()
 	}
 }
 
-Distribution_Sorts::PigeonholeSort::PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::PigeonholeSort::PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
 
 void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
 {
@@ -2267,11 +2429,13 @@ void Distribution_Sorts::PigeonholeSort::push_back(int *&hole, const int &value)
 	hole = temp;
 }
 
-Distribution_Sorts::RadixSort::RadixSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::RadixSort::RadixSort(int *array, asize_t asize) : Array(array), array_size(asize)
+{
+
+}
 
 void Distribution_Sorts::RadixSort::radix_sort()
 {
-	// verification(this->ARRAY->array_size);
 	max = ArrayProcessing<int>::maximum(Array, array_size);
 	tempArray = new int[array_size];
 	bucket = new int[bit];
@@ -2304,151 +2468,6 @@ void Distribution_Sorts::RadixSort::radix_sort()
 	delete[] bucket;
 	delete[] tempArray;
 }
-
-Distribution_Sorts::FlashSort::FlashSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
-
-void Distribution_Sorts::FlashSort::flash_sort()
-{
-	const asize_t m = (int)(0.45 * array_size);
-
-	//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
-	//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
-	//розмір == 2 та перший елемент більше другого (так як сортування
-	//іде в напрямку збільшення, тому перший елемент має бути найменшим),
-	//тоді необхідно змінити ці два елементи місцями - це і є все
-	//сортування; інакше (тобто якщо розмір == 1 чи масив з 2 елементів
-	//відсортовано (перший елемент менше другого)) - відразу завершати
-	//сортування, так як там нічого сортувати. Розмір не може
-	//дорівнювати 0, так як конструктор класу викликає верифікацію, де
-	//перевіряється масив на пустотність. При всіх інших розмірах
-	//(тобто >= 3) m буде дорівнювати 1 чи більше, а тому до k не зможе
-	//потрапити значення -1 й викликати помилку.
-	// WARNING Обов'язково треба додати верифікацію до конструктору!
-	if (m == 0)
-	{
-		if (array_size == 2 && Array[0] > Array[1])
-		{
-			swap<int>(Array[0], Array[1]);
-		}
-		return;
-	}
-
-	L = new int[m];
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		if (Array[i] < Array[min])
-		{
-			min = i;
-		}
-		if (Array[i] > Array[max])
-		{
-			max = i;
-		}
-	}
-
-	//Якщо всі елементи мають одне значення, то при знаходженні
-	//константи c1 виникне ділення на 0, а тому треба завчасно робити
-	//перевірку і в випадку рівності значень - кидати виключення.
-	if (Array[min] == Array[max])
-	{
-		throw division_by_zero();
-	}
-
-	const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
-
-	for (asize_t i = 0; i < m; i++)
-	{
-		L[i] = 0;
-	}
-	for (asize_t i = 0; i < array_size; ++i)
-	{
-		++L[c1 * (Array[i] - min)];
-	}
-	for (asize_t i = 1; i < m; ++i)
-	{
-		L[i] = L[i] + L[i - 1];
-	}
-
-	swap<int>(Array[max], Array[0]);
-
-	k = m - 1;
-
-	while (move < array_size - 1)
-	{
-		while ((int)j > L[k] - 1)
-		{
-			++j;
-			k = c1 * (Array[j] - min);
-		}
-		flash = Array[j];
-		while ((int)j != L[k])
-		{
-			k = c1 * (flash - Array[min]);
-			swap<int>(Array[L[k] - 1], flash);
-			L[k]--;
-			move++;
-		}
-	}
-
-	for (j = 1; j < array_size; j++)
-	{
-		flash = Array[j];
-		int i = j - 1;
-		while (i >= 0 && Array[i] > flash)
-		{
-			Array[i + 1] = Array[i];
-			i--;
-		}
-		Array[i + 1] = flash;
-	}
-}
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                             ALGOR_MATRIX                            <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-// TODO The implementation of the matrices is scheduled to version 3.0.0
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                              ALGOR_HEAP                             <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-// TODO The implementation of the trees is scheduled to version 4.0.0
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                              ALGOR_LIST                             <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-// TODO The implementation of the lists is scheduled to version 5.0.0
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                    $-----------------------$                    %%%%% *
- * -->                         Forced  compilation                         <-- *
- * %%%%%                    $-----------------------$                    %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 template void ALGOR::swap<int>(int &, int &);
 template void ALGOR::swap<float>(float &, float &);
@@ -2650,309 +2669,359 @@ template void ALGOR::ARRAYDATA<int>::remove();
 template void ALGOR::ARRAYDATA<float>::remove();
 template void ALGOR::ARRAYDATA<char>::remove();
 
-template ALGOR::Exchange_Sorts<int>::Exchange_Sorts(Array<int> *&);
-template ALGOR::Exchange_Sorts<float>::Exchange_Sorts(Array<float> *&);
-template ALGOR::Exchange_Sorts<char>::Exchange_Sorts(Array<char> *&);
-
-template void ALGOR::Exchange_Sorts<int>::Bubble_Sort();
-template void ALGOR::Exchange_Sorts<float>::Bubble_Sort();
-template void ALGOR::Exchange_Sorts<char>::Bubble_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Cocktail_Shaker_Sort();
-template void ALGOR::Exchange_Sorts<float>::Cocktail_Shaker_Sort();
-template void ALGOR::Exchange_Sorts<char>::Cocktail_Shaker_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Odd_Even_Sort();
-template void ALGOR::Exchange_Sorts<float>::Odd_Even_Sort();
-template void ALGOR::Exchange_Sorts<char>::Odd_Even_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Comb_Sort();
-template void ALGOR::Exchange_Sorts<float>::Comb_Sort();
-template void ALGOR::Exchange_Sorts<char>::Comb_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Gnome_Sort();
-template void ALGOR::Exchange_Sorts<float>::Gnome_Sort();
-template void ALGOR::Exchange_Sorts<char>::Gnome_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Quick_Sort();
-template void ALGOR::Exchange_Sorts<float>::Quick_Sort();
-template void ALGOR::Exchange_Sorts<char>::Quick_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Slow_Sort();
-template void ALGOR::Exchange_Sorts<float>::Slow_Sort();
-template void ALGOR::Exchange_Sorts<char>::Slow_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Stooge_Sort();
-template void ALGOR::Exchange_Sorts<float>::Stooge_Sort();
-template void ALGOR::Exchange_Sorts<char>::Stooge_Sort();
-
-template void ALGOR::Exchange_Sorts<int>::Bogo_Sort();
-template void ALGOR::Exchange_Sorts<float>::Bogo_Sort();
-template void ALGOR::Exchange_Sorts<char>::Bogo_Sort();
-
-template ALGOR::Exchange_Sorts<int>::BubbleSort::BubbleSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::BubbleSort::BubbleSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::BubbleSort::BubbleSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::BubbleSort::bubble_sort();
-template void ALGOR::Exchange_Sorts<float>::BubbleSort::bubble_sort();
-template void ALGOR::Exchange_Sorts<char>::BubbleSort::bubble_sort();
-
-template ALGOR::Exchange_Sorts<int>::CocktailShakerSort::CocktailShakerSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::CocktailShakerSort::CocktailShakerSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::CocktailShakerSort::CocktailShakerSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::CocktailShakerSort::cocktail_shaker_sort();
-template void ALGOR::Exchange_Sorts<float>::CocktailShakerSort::cocktail_shaker_sort();
-template void ALGOR::Exchange_Sorts<char>::CocktailShakerSort::cocktail_shaker_sort();
-
-template ALGOR::Exchange_Sorts<int>::OddEvenSort::OddEvenSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::OddEvenSort::OddEvenSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::OddEvenSort::OddEvenSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::OddEvenSort::odd_even_sort();
-template void ALGOR::Exchange_Sorts<float>::OddEvenSort::odd_even_sort();
-template void ALGOR::Exchange_Sorts<char>::OddEvenSort::odd_even_sort();
-
-template ALGOR::Exchange_Sorts<int>::CombSort::CombSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::CombSort::CombSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::CombSort::CombSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::CombSort::comb_sort();
-template void ALGOR::Exchange_Sorts<float>::CombSort::comb_sort();
-template void ALGOR::Exchange_Sorts<char>::CombSort::comb_sort();
-
-template ALGOR::Exchange_Sorts<int>::GnomeSort::GnomeSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::GnomeSort::GnomeSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::GnomeSort::GnomeSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::GnomeSort::gnome_sort();
-template void ALGOR::Exchange_Sorts<float>::GnomeSort::gnome_sort();
-template void ALGOR::Exchange_Sorts<char>::GnomeSort::gnome_sort();
-
-template ALGOR::Exchange_Sorts<int>::QuickSort::QuickSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::QuickSort::QuickSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::QuickSort::QuickSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::QuickSort::quick_sort();
-template void ALGOR::Exchange_Sorts<float>::QuickSort::quick_sort();
-template void ALGOR::Exchange_Sorts<char>::QuickSort::quick_sort();
-
-template void ALGOR::Exchange_Sorts<int>::QuickSort::recursive_quick_sort(const int &, const int &);
-template void ALGOR::Exchange_Sorts<float>::QuickSort::recursive_quick_sort(const int &, const int &);
-template void ALGOR::Exchange_Sorts<char>::QuickSort::recursive_quick_sort(const int &, const int &);
-
-template ALGOR::Exchange_Sorts<int>::SlowSort::SlowSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::SlowSort::SlowSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::SlowSort::SlowSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::SlowSort::slow_sort();
-template void ALGOR::Exchange_Sorts<float>::SlowSort::slow_sort();
-template void ALGOR::Exchange_Sorts<char>::SlowSort::slow_sort();
-
-template void ALGOR::Exchange_Sorts<int>::SlowSort::recursive_slow_sort(const int &, const int &);
-template void ALGOR::Exchange_Sorts<float>::SlowSort::recursive_slow_sort(const int &, const int &);
-template void ALGOR::Exchange_Sorts<char>::SlowSort::recursive_slow_sort(const int &, const int &);
-
-template ALGOR::Exchange_Sorts<int>::StoogeSort::StoogeSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::StoogeSort::StoogeSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::StoogeSort::StoogeSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::StoogeSort::stooge_sort();
-template void ALGOR::Exchange_Sorts<float>::StoogeSort::stooge_sort();
-template void ALGOR::Exchange_Sorts<char>::StoogeSort::stooge_sort();
-
-template void ALGOR::Exchange_Sorts<int>::StoogeSort::recursive_stooge_sort(const int &, const int &);
-template void ALGOR::Exchange_Sorts<float>::StoogeSort::recursive_stooge_sort(const int &, const int &);
-template void ALGOR::Exchange_Sorts<char>::StoogeSort::recursive_stooge_sort(const int &, const int &);
-
-template ALGOR::Exchange_Sorts<int>::BogoSort::BogoSort(int *, asize_t);
-template ALGOR::Exchange_Sorts<float>::BogoSort::BogoSort(float *, asize_t);
-template ALGOR::Exchange_Sorts<char>::BogoSort::BogoSort(char *, asize_t);
-
-template void ALGOR::Exchange_Sorts<int>::BogoSort::bogo_sort();
-template void ALGOR::Exchange_Sorts<float>::BogoSort::bogo_sort();
-template void ALGOR::Exchange_Sorts<char>::BogoSort::bogo_sort();
-
-template bool ALGOR::Exchange_Sorts<int>::BogoSort::Correct();
-template bool ALGOR::Exchange_Sorts<float>::BogoSort::Correct();
-template bool ALGOR::Exchange_Sorts<char>::BogoSort::Correct();
-
-template void ALGOR::Exchange_Sorts<int>::BogoSort::Shuffle();
-template void ALGOR::Exchange_Sorts<float>::BogoSort::Shuffle();
-template void ALGOR::Exchange_Sorts<char>::BogoSort::Shuffle();
-
-template ALGOR::Selection_Sorts<int>::Selection_Sorts(Array<int> *&);
-template ALGOR::Selection_Sorts<float>::Selection_Sorts(Array<float> *&);
-template ALGOR::Selection_Sorts<char>::Selection_Sorts(Array<char> *&);
-
-template void ALGOR::Selection_Sorts<int>::Selection_Sort();
-template void ALGOR::Selection_Sorts<float>::Selection_Sort();
-template void ALGOR::Selection_Sorts<char>::Selection_Sort();
-
-template void ALGOR::Selection_Sorts<int>::Heap_Sort();
-template void ALGOR::Selection_Sorts<float>::Heap_Sort();
-template void ALGOR::Selection_Sorts<char>::Heap_Sort();
-
-template void ALGOR::Selection_Sorts<int>::Smooth_Sort();
-template void ALGOR::Selection_Sorts<float>::Smooth_Sort();
-template void ALGOR::Selection_Sorts<char>::Smooth_Sort();
-
-template void ALGOR::Selection_Sorts<int>::Cycle_Sort();
-template void ALGOR::Selection_Sorts<float>::Cycle_Sort();
-template void ALGOR::Selection_Sorts<char>::Cycle_Sort();
-
-template ALGOR::Selection_Sorts<int>::SelectionSort::SelectionSort(int *, asize_t);
-template ALGOR::Selection_Sorts<float>::SelectionSort::SelectionSort(float *, asize_t);
-template ALGOR::Selection_Sorts<char>::SelectionSort::SelectionSort(char *, asize_t);
-
-template void ALGOR::Selection_Sorts<int>::SelectionSort::selection_sort();
-template void ALGOR::Selection_Sorts<float>::SelectionSort::selection_sort();
-template void ALGOR::Selection_Sorts<char>::SelectionSort::selection_sort();
-
-template ALGOR::Selection_Sorts<int>::HeapSort::HeapSort(int *, asize_t);
-template ALGOR::Selection_Sorts<float>::HeapSort::HeapSort(float *, asize_t);
-template ALGOR::Selection_Sorts<char>::HeapSort::HeapSort(char *, asize_t);
-
-template void ALGOR::Selection_Sorts<int>::HeapSort::heap_sort();
-template void ALGOR::Selection_Sorts<float>::HeapSort::heap_sort();
-template void ALGOR::Selection_Sorts<char>::HeapSort::heap_sort();
-
-template void ALGOR::Selection_Sorts<int>::HeapSort::heapify(int *, const asize_t &, const asize_t &);
-template void ALGOR::Selection_Sorts<float>::HeapSort::heapify(float *, const asize_t &, const asize_t &);
-template void ALGOR::Selection_Sorts<char>::HeapSort::heapify(char *, const asize_t &, const asize_t &);
-
-template ALGOR::Selection_Sorts<int>::SmoothSort::SmoothSort(int *, int);
-template ALGOR::Selection_Sorts<float>::SmoothSort::SmoothSort(float *, int);
-template ALGOR::Selection_Sorts<char>::SmoothSort::SmoothSort(char *, int);
-
-template void ALGOR::Selection_Sorts<int>::SmoothSort::smooth_sort();
-template void ALGOR::Selection_Sorts<float>::SmoothSort::smooth_sort();
-template void ALGOR::Selection_Sorts<char>::SmoothSort::smooth_sort();
-
-template void ALGOR::Selection_Sorts<int>::SmoothSort::make_heap_pool();
-template void ALGOR::Selection_Sorts<float>::SmoothSort::make_heap_pool();
-template void ALGOR::Selection_Sorts<char>::SmoothSort::make_heap_pool();
-
-template int ALGOR::Selection_Sorts<int>::SmoothSort::NextState(int &);
-template int ALGOR::Selection_Sorts<float>::SmoothSort::NextState(int &);
-template int ALGOR::Selection_Sorts<char>::SmoothSort::NextState(int &);
-
-template void ALGOR::Selection_Sorts<int>::SmoothSort::shiftDown(int, int);
-template void ALGOR::Selection_Sorts<float>::SmoothSort::shiftDown(int, int);
-template void ALGOR::Selection_Sorts<char>::SmoothSort::shiftDown(int, int);
-
-template int ALGOR::Selection_Sorts<int>::SmoothSort::findPosMaxElem(int, int, int &);
-template int ALGOR::Selection_Sorts<float>::SmoothSort::findPosMaxElem(int, int, int &);
-template int ALGOR::Selection_Sorts<char>::SmoothSort::findPosMaxElem(int, int, int &);
-
-template void ALGOR::Selection_Sorts<int>::SmoothSort::PrevState(int &);
-template void ALGOR::Selection_Sorts<float>::SmoothSort::PrevState(int &);
-template void ALGOR::Selection_Sorts<char>::SmoothSort::PrevState(int &);
-
-template ALGOR::Selection_Sorts<int>::CycleSort::CycleSort(int *, asize_t);
-template ALGOR::Selection_Sorts<float>::CycleSort::CycleSort(float *, asize_t);
-template ALGOR::Selection_Sorts<char>::CycleSort::CycleSort(char *, asize_t);
-
-template void ALGOR::Selection_Sorts<int>::CycleSort::cycle_sort();
-template void ALGOR::Selection_Sorts<float>::CycleSort::cycle_sort();
-template void ALGOR::Selection_Sorts<char>::CycleSort::cycle_sort();
-
-template ALGOR::Insertion_Sorts<int>::Insertion_Sorts(Array<int> *&);
-template ALGOR::Insertion_Sorts<float>::Insertion_Sorts(Array<float> *&);
-template ALGOR::Insertion_Sorts<char>::Insertion_Sorts(Array<char> *&);
-
-template void ALGOR::Insertion_Sorts<int>::Insert_Sort();
-template void ALGOR::Insertion_Sorts<float>::Insert_Sort();
-template void ALGOR::Insertion_Sorts<char>::Insert_Sort();
-
-template void ALGOR::Insertion_Sorts<int>::Shell_Sort();
-template void ALGOR::Insertion_Sorts<float>::Shell_Sort();
-template void ALGOR::Insertion_Sorts<char>::Shell_Sort();
-
-template void ALGOR::Insertion_Sorts<int>::Tree_Sort();
-template void ALGOR::Insertion_Sorts<float>::Tree_Sort();
-template void ALGOR::Insertion_Sorts<char>::Tree_Sort();
-
-template void ALGOR::Insertion_Sorts<int>::Patience_Sort();
-template void ALGOR::Insertion_Sorts<float>::Patience_Sort();
-template void ALGOR::Insertion_Sorts<char>::Patience_Sort();
-
-template ALGOR::Insertion_Sorts<int>::InsertSort::InsertSort(int *, asize_t);
-template ALGOR::Insertion_Sorts<float>::InsertSort::InsertSort(float *, asize_t);
-template ALGOR::Insertion_Sorts<char>::InsertSort::InsertSort(char *, asize_t);
-
-template void ALGOR::Insertion_Sorts<int>::InsertSort::insert_sort();
-template void ALGOR::Insertion_Sorts<float>::InsertSort::insert_sort();
-template void ALGOR::Insertion_Sorts<char>::InsertSort::insert_sort();
-
-template ALGOR::Insertion_Sorts<int>::ShellSort::ShellSort(int *, asize_t);
-template ALGOR::Insertion_Sorts<float>::ShellSort::ShellSort(float *, asize_t);
-template ALGOR::Insertion_Sorts<char>::ShellSort::ShellSort(char *, asize_t);
-
-template void ALGOR::Insertion_Sorts<int>::ShellSort::shell_sort();
-template void ALGOR::Insertion_Sorts<float>::ShellSort::shell_sort();
-template void ALGOR::Insertion_Sorts<char>::ShellSort::shell_sort();
-
-template ALGOR::Insertion_Sorts<int>::TreeSort::TreeSort(int *, asize_t);
-template ALGOR::Insertion_Sorts<float>::TreeSort::TreeSort(float *, asize_t);
-template ALGOR::Insertion_Sorts<char>::TreeSort::TreeSort(char *, asize_t);
-
-template void ALGOR::Insertion_Sorts<int>::TreeSort::tree_sort();
-template void ALGOR::Insertion_Sorts<float>::TreeSort::tree_sort();
-template void ALGOR::Insertion_Sorts<char>::TreeSort::tree_sort();
-
-template typename ALGOR::Insertion_Sorts<int>::TreeSort::Tree *Insertion_Sorts<int>::TreeSort::newnode(int);
-template typename ALGOR::Insertion_Sorts<float>::TreeSort::Tree *Insertion_Sorts<float>::TreeSort::newnode(int);
-template typename ALGOR::Insertion_Sorts<char>::TreeSort::Tree *Insertion_Sorts<char>::TreeSort::newnode(int);
-
-template typename ALGOR::Insertion_Sorts<int>::TreeSort::Tree *Insertion_Sorts<int>::TreeSort::insert(Tree *, int);
-template typename ALGOR::Insertion_Sorts<float>::TreeSort::Tree *Insertion_Sorts<float>::TreeSort::insert(Tree *, int);
-template typename ALGOR::Insertion_Sorts<char>::TreeSort::Tree *Insertion_Sorts<char>::TreeSort::insert(Tree *, int);
-
-template void ALGOR::Insertion_Sorts<int>::TreeSort::store(Tree *, int *, asize_t &);
-template void ALGOR::Insertion_Sorts<float>::TreeSort::store(Tree *, float *, asize_t &);
-template void ALGOR::Insertion_Sorts<char>::TreeSort::store(Tree *, char *, asize_t &);
-
-template ALGOR::Insertion_Sorts<int>::PatienceSort::PatienceSort(int *, asize_t);
-template ALGOR::Insertion_Sorts<float>::PatienceSort::PatienceSort(float *, asize_t);
-template ALGOR::Insertion_Sorts<char>::PatienceSort::PatienceSort(char *, asize_t);
-
-template void ALGOR::Insertion_Sorts<int>::PatienceSort::patience_sort();
-template void ALGOR::Insertion_Sorts<float>::PatienceSort::patience_sort();
-template void ALGOR::Insertion_Sorts<char>::PatienceSort::patience_sort();
-
-template void ALGOR::Insertion_Sorts<int>::PatienceSort::initialization();
-template void ALGOR::Insertion_Sorts<float>::PatienceSort::initialization();
-template void ALGOR::Insertion_Sorts<char>::PatienceSort::initialization();
-
-template void ALGOR::Insertion_Sorts<int>::PatienceSort::finalization();
-template void ALGOR::Insertion_Sorts<float>::PatienceSort::finalization();
-template void ALGOR::Insertion_Sorts<char>::PatienceSort::finalization();
-
-template ALGOR::Merge_Sorts<int>::Merge_Sorts(Array<int> *&);
-template ALGOR::Merge_Sorts<float>::Merge_Sorts(Array<float> *&);
-template ALGOR::Merge_Sorts<char>::Merge_Sorts(Array<char> *&);
-
-template void ALGOR::Merge_Sorts<int>::Merge_Sort();
-template void ALGOR::Merge_Sorts<float>::Merge_Sort();
-template void ALGOR::Merge_Sorts<char>::Merge_Sort();
-
-template ALGOR::Merge_Sorts<int>::MergeSort::MergeSort(int *, asize_t);
-template ALGOR::Merge_Sorts<float>::MergeSort::MergeSort(float *, asize_t);
-template ALGOR::Merge_Sorts<char>::MergeSort::MergeSort(char *, asize_t);
-
-template void ALGOR::Merge_Sorts<int>::MergeSort::merge_sort();
-template void ALGOR::Merge_Sorts<float>::MergeSort::merge_sort();
-template void ALGOR::Merge_Sorts<char>::MergeSort::merge_sort();
-
-template void ALGOR::Merge_Sorts<int>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
-template void ALGOR::Merge_Sorts<float>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
-template void ALGOR::Merge_Sorts<char>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
-
-template void ALGOR::Merge_Sorts<int>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
-template void ALGOR::Merge_Sorts<float>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
-template void ALGOR::Merge_Sorts<char>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
+template ALGOR::Comparative_Sorts<int>::Comparative_Sorts(Array<int> *&);
+template ALGOR::Comparative_Sorts<float>::Comparative_Sorts(Array<float> *&);
+template ALGOR::Comparative_Sorts<char>::Comparative_Sorts(Array<char> *&);
+
+template void ALGOR::Comparative_Sorts<int>::Bubble_Sort();
+template void ALGOR::Comparative_Sorts<float>::Bubble_Sort();
+template void ALGOR::Comparative_Sorts<char>::Bubble_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Cocktail_Shaker_Sort();
+template void ALGOR::Comparative_Sorts<float>::Cocktail_Shaker_Sort();
+template void ALGOR::Comparative_Sorts<char>::Cocktail_Shaker_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Odd_Even_Sort();
+template void ALGOR::Comparative_Sorts<float>::Odd_Even_Sort();
+template void ALGOR::Comparative_Sorts<char>::Odd_Even_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Comb_Sort();
+template void ALGOR::Comparative_Sorts<float>::Comb_Sort();
+template void ALGOR::Comparative_Sorts<char>::Comb_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Gnome_Sort();
+template void ALGOR::Comparative_Sorts<float>::Gnome_Sort();
+template void ALGOR::Comparative_Sorts<char>::Gnome_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Quick_Sort();
+template void ALGOR::Comparative_Sorts<float>::Quick_Sort();
+template void ALGOR::Comparative_Sorts<char>::Quick_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Slow_Sort();
+template void ALGOR::Comparative_Sorts<float>::Slow_Sort();
+template void ALGOR::Comparative_Sorts<char>::Slow_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Stooge_Sort();
+template void ALGOR::Comparative_Sorts<float>::Stooge_Sort();
+template void ALGOR::Comparative_Sorts<char>::Stooge_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Bogo_Sort();
+template void ALGOR::Comparative_Sorts<float>::Bogo_Sort();
+template void ALGOR::Comparative_Sorts<char>::Bogo_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Selection_Sort();
+template void ALGOR::Comparative_Sorts<float>::Selection_Sort();
+template void ALGOR::Comparative_Sorts<char>::Selection_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Heap_Sort();
+template void ALGOR::Comparative_Sorts<float>::Heap_Sort();
+template void ALGOR::Comparative_Sorts<char>::Heap_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Smooth_Sort();
+template void ALGOR::Comparative_Sorts<float>::Smooth_Sort();
+template void ALGOR::Comparative_Sorts<char>::Smooth_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Cycle_Sort();
+template void ALGOR::Comparative_Sorts<float>::Cycle_Sort();
+template void ALGOR::Comparative_Sorts<char>::Cycle_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Insert_Sort();
+template void ALGOR::Comparative_Sorts<float>::Insert_Sort();
+template void ALGOR::Comparative_Sorts<char>::Insert_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Shell_Sort();
+template void ALGOR::Comparative_Sorts<float>::Shell_Sort();
+template void ALGOR::Comparative_Sorts<char>::Shell_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Tree_Sort();
+template void ALGOR::Comparative_Sorts<float>::Tree_Sort();
+template void ALGOR::Comparative_Sorts<char>::Tree_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Patience_Sort();
+template void ALGOR::Comparative_Sorts<float>::Patience_Sort();
+template void ALGOR::Comparative_Sorts<char>::Patience_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Merge_Sort();
+template void ALGOR::Comparative_Sorts<float>::Merge_Sort();
+template void ALGOR::Comparative_Sorts<char>::Merge_Sort();
+
+template ALGOR::Comparative_Sorts<int>::BogoSort::BogoSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::BogoSort::BogoSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::BogoSort::BogoSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::BogoSort::bogo_sort();
+template void ALGOR::Comparative_Sorts<float>::BogoSort::bogo_sort();
+template void ALGOR::Comparative_Sorts<char>::BogoSort::bogo_sort();
+
+template bool ALGOR::Comparative_Sorts<int>::BogoSort::Correct();
+template bool ALGOR::Comparative_Sorts<float>::BogoSort::Correct();
+template bool ALGOR::Comparative_Sorts<char>::BogoSort::Correct();
+
+template void ALGOR::Comparative_Sorts<int>::BogoSort::Shuffle();
+template void ALGOR::Comparative_Sorts<float>::BogoSort::Shuffle();
+template void ALGOR::Comparative_Sorts<char>::BogoSort::Shuffle();
+
+template ALGOR::Comparative_Sorts<int>::BubbleSort::BubbleSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::BubbleSort::BubbleSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::BubbleSort::BubbleSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::BubbleSort::bubble_sort();
+template void ALGOR::Comparative_Sorts<float>::BubbleSort::bubble_sort();
+template void ALGOR::Comparative_Sorts<char>::BubbleSort::bubble_sort();
+
+template ALGOR::Comparative_Sorts<int>::CocktailShakerSort::CocktailShakerSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::CocktailShakerSort::CocktailShakerSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::CocktailShakerSort::CocktailShakerSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::CocktailShakerSort::cocktail_shaker_sort();
+template void ALGOR::Comparative_Sorts<float>::CocktailShakerSort::cocktail_shaker_sort();
+template void ALGOR::Comparative_Sorts<char>::CocktailShakerSort::cocktail_shaker_sort();
+
+template ALGOR::Comparative_Sorts<int>::CombSort::CombSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::CombSort::CombSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::CombSort::CombSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::CombSort::comb_sort();
+template void ALGOR::Comparative_Sorts<float>::CombSort::comb_sort();
+template void ALGOR::Comparative_Sorts<char>::CombSort::comb_sort();
+
+template ALGOR::Comparative_Sorts<int>::CycleSort::CycleSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::CycleSort::CycleSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::CycleSort::CycleSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::CycleSort::cycle_sort();
+template void ALGOR::Comparative_Sorts<float>::CycleSort::cycle_sort();
+template void ALGOR::Comparative_Sorts<char>::CycleSort::cycle_sort();
+
+template ALGOR::Comparative_Sorts<int>::GnomeSort::GnomeSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::GnomeSort::GnomeSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::GnomeSort::GnomeSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::GnomeSort::gnome_sort();
+template void ALGOR::Comparative_Sorts<float>::GnomeSort::gnome_sort();
+template void ALGOR::Comparative_Sorts<char>::GnomeSort::gnome_sort();
+
+template ALGOR::Comparative_Sorts<int>::HeapSort::HeapSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::HeapSort::HeapSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::HeapSort::HeapSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::HeapSort::heap_sort();
+template void ALGOR::Comparative_Sorts<float>::HeapSort::heap_sort();
+template void ALGOR::Comparative_Sorts<char>::HeapSort::heap_sort();
+
+template void ALGOR::Comparative_Sorts<int>::HeapSort::heapify(int *, const asize_t &, const asize_t &);
+template void ALGOR::Comparative_Sorts<float>::HeapSort::heapify(float *, const asize_t &, const asize_t &);
+template void ALGOR::Comparative_Sorts<char>::HeapSort::heapify(char *, const asize_t &, const asize_t &);
+
+template ALGOR::Comparative_Sorts<int>::InsertSort::InsertSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::InsertSort::InsertSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::InsertSort::InsertSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::InsertSort::insert_sort();
+template void ALGOR::Comparative_Sorts<float>::InsertSort::insert_sort();
+template void ALGOR::Comparative_Sorts<char>::InsertSort::insert_sort();
+
+template ALGOR::Comparative_Sorts<int>::MergeSort::MergeSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::MergeSort::MergeSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::MergeSort::MergeSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::MergeSort::merge_sort();
+template void ALGOR::Comparative_Sorts<float>::MergeSort::merge_sort();
+template void ALGOR::Comparative_Sorts<char>::MergeSort::merge_sort();
+
+template void ALGOR::Comparative_Sorts<int>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
+template void ALGOR::Comparative_Sorts<float>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
+template void ALGOR::Comparative_Sorts<char>::MergeSort::recursive_merge_sort(const asize_t &, const asize_t &);
+
+template void ALGOR::Comparative_Sorts<int>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
+template void ALGOR::Comparative_Sorts<float>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
+template void ALGOR::Comparative_Sorts<char>::MergeSort::merge(const asize_t &, const asize_t &, const asize_t &);
+
+template ALGOR::Comparative_Sorts<int>::OddEvenSort::OddEvenSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::OddEvenSort::OddEvenSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::OddEvenSort::OddEvenSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::OddEvenSort::odd_even_sort();
+template void ALGOR::Comparative_Sorts<float>::OddEvenSort::odd_even_sort();
+template void ALGOR::Comparative_Sorts<char>::OddEvenSort::odd_even_sort();
+
+template ALGOR::Comparative_Sorts<int>::PatienceSort::PatienceSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::PatienceSort::PatienceSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::PatienceSort::PatienceSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::PatienceSort::patience_sort();
+template void ALGOR::Comparative_Sorts<float>::PatienceSort::patience_sort();
+template void ALGOR::Comparative_Sorts<char>::PatienceSort::patience_sort();
+
+template void ALGOR::Comparative_Sorts<int>::PatienceSort::initialization();
+template void ALGOR::Comparative_Sorts<float>::PatienceSort::initialization();
+template void ALGOR::Comparative_Sorts<char>::PatienceSort::initialization();
+
+template void ALGOR::Comparative_Sorts<int>::PatienceSort::finalization();
+template void ALGOR::Comparative_Sorts<float>::PatienceSort::finalization();
+template void ALGOR::Comparative_Sorts<char>::PatienceSort::finalization();
+
+template ALGOR::Comparative_Sorts<int>::QuickSort::QuickSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::QuickSort::QuickSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::QuickSort::QuickSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::QuickSort::quick_sort();
+template void ALGOR::Comparative_Sorts<float>::QuickSort::quick_sort();
+template void ALGOR::Comparative_Sorts<char>::QuickSort::quick_sort();
+
+template void ALGOR::Comparative_Sorts<int>::QuickSort::recursive_quick_sort(const int &, const int &);
+template void ALGOR::Comparative_Sorts<float>::QuickSort::recursive_quick_sort(const int &, const int &);
+template void ALGOR::Comparative_Sorts<char>::QuickSort::recursive_quick_sort(const int &, const int &);
+
+template ALGOR::Comparative_Sorts<int>::SelectionSort::SelectionSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::SelectionSort::SelectionSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::SelectionSort::SelectionSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::SelectionSort::selection_sort();
+template void ALGOR::Comparative_Sorts<float>::SelectionSort::selection_sort();
+template void ALGOR::Comparative_Sorts<char>::SelectionSort::selection_sort();
+
+template ALGOR::Comparative_Sorts<int>::ShellSort::ShellSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::ShellSort::ShellSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::ShellSort::ShellSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::ShellSort::shell_sort();
+template void ALGOR::Comparative_Sorts<float>::ShellSort::shell_sort();
+template void ALGOR::Comparative_Sorts<char>::ShellSort::shell_sort();
+
+template ALGOR::Comparative_Sorts<int>::SlowSort::SlowSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::SlowSort::SlowSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::SlowSort::SlowSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::SlowSort::slow_sort();
+template void ALGOR::Comparative_Sorts<float>::SlowSort::slow_sort();
+template void ALGOR::Comparative_Sorts<char>::SlowSort::slow_sort();
+
+template void ALGOR::Comparative_Sorts<int>::SlowSort::recursive_slow_sort(const int &, const int &);
+template void ALGOR::Comparative_Sorts<float>::SlowSort::recursive_slow_sort(const int &, const int &);
+template void ALGOR::Comparative_Sorts<char>::SlowSort::recursive_slow_sort(const int &, const int &);
+
+template ALGOR::Comparative_Sorts<int>::StoogeSort::StoogeSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::StoogeSort::StoogeSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::StoogeSort::StoogeSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::StoogeSort::stooge_sort();
+template void ALGOR::Comparative_Sorts<float>::StoogeSort::stooge_sort();
+template void ALGOR::Comparative_Sorts<char>::StoogeSort::stooge_sort();
+
+template void ALGOR::Comparative_Sorts<int>::StoogeSort::recursive_stooge_sort(const int &, const int &);
+template void ALGOR::Comparative_Sorts<float>::StoogeSort::recursive_stooge_sort(const int &, const int &);
+template void ALGOR::Comparative_Sorts<char>::StoogeSort::recursive_stooge_sort(const int &, const int &);
+
+template ALGOR::Comparative_Sorts<int>::TreeSort::TreeSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::TreeSort::TreeSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::TreeSort::TreeSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::TreeSort::tree_sort();
+template void ALGOR::Comparative_Sorts<float>::TreeSort::tree_sort();
+template void ALGOR::Comparative_Sorts<char>::TreeSort::tree_sort();
+
+template typename ALGOR::Comparative_Sorts<int>::TreeSort::Tree *Comparative_Sorts<int>::TreeSort::newnode(int);
+template typename ALGOR::Comparative_Sorts<float>::TreeSort::Tree *Comparative_Sorts<float>::TreeSort::newnode(int);
+template typename ALGOR::Comparative_Sorts<char>::TreeSort::Tree *Comparative_Sorts<char>::TreeSort::newnode(int);
+
+template typename ALGOR::Comparative_Sorts<int>::TreeSort::Tree *Comparative_Sorts<int>::TreeSort::insert(Tree *, int);
+template typename ALGOR::Comparative_Sorts<float>::TreeSort::Tree *Comparative_Sorts<float>::TreeSort::insert(Tree *, int);
+template typename ALGOR::Comparative_Sorts<char>::TreeSort::Tree *Comparative_Sorts<char>::TreeSort::insert(Tree *, int);
+
+template void ALGOR::Comparative_Sorts<int>::TreeSort::store(Tree *, int *, asize_t &);
+template void ALGOR::Comparative_Sorts<float>::TreeSort::store(Tree *, float *, asize_t &);
+template void ALGOR::Comparative_Sorts<char>::TreeSort::store(Tree *, char *, asize_t &);
+
+template ALGOR::Comparative_Sorts<int>::SmoothSort::SmoothSort(int *, int);
+template ALGOR::Comparative_Sorts<float>::SmoothSort::SmoothSort(float *, int);
+template ALGOR::Comparative_Sorts<char>::SmoothSort::SmoothSort(char *, int);
+
+template void ALGOR::Comparative_Sorts<int>::SmoothSort::smooth_sort();
+template void ALGOR::Comparative_Sorts<float>::SmoothSort::smooth_sort();
+template void ALGOR::Comparative_Sorts<char>::SmoothSort::smooth_sort();
+
+template void ALGOR::Comparative_Sorts<int>::SmoothSort::make_heap_pool();
+template void ALGOR::Comparative_Sorts<float>::SmoothSort::make_heap_pool();
+template void ALGOR::Comparative_Sorts<char>::SmoothSort::make_heap_pool();
+
+template int ALGOR::Comparative_Sorts<int>::SmoothSort::NextState(int &);
+template int ALGOR::Comparative_Sorts<float>::SmoothSort::NextState(int &);
+template int ALGOR::Comparative_Sorts<char>::SmoothSort::NextState(int &);
+
+template void ALGOR::Comparative_Sorts<int>::SmoothSort::shiftDown(int, int);
+template void ALGOR::Comparative_Sorts<float>::SmoothSort::shiftDown(int, int);
+template void ALGOR::Comparative_Sorts<char>::SmoothSort::shiftDown(int, int);
+
+template int ALGOR::Comparative_Sorts<int>::SmoothSort::findPosMaxElem(int, int, int &);
+template int ALGOR::Comparative_Sorts<float>::SmoothSort::findPosMaxElem(int, int, int &);
+template int ALGOR::Comparative_Sorts<char>::SmoothSort::findPosMaxElem(int, int, int &);
+
+template void ALGOR::Comparative_Sorts<int>::SmoothSort::PrevState(int &);
+template void ALGOR::Comparative_Sorts<float>::SmoothSort::PrevState(int &);
+template void ALGOR::Comparative_Sorts<char>::SmoothSort::PrevState(int &);
+
+#endif // ARRAYS
+
+#if ADDITION == 0
+#pragma message("Additions are disabled")
+#elif ADDITION == 1 and ARRAYS == 1
+
+#if MATRIX == 1
+#pragma message("Matrix are enabled")
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                             ALGOR_MATRIX                            <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+// TODO The implementation of the matrices is scheduled to version 3.0.0
+
+#endif // MATRIX
+
+#if HEAP == 1
+#pragma message("Heap are enabled")
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_HEAP                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+// TODO The implementation of the trees is scheduled to version 4.0.0
+
+#endif // HEAP
+
+#if LIST == 1
+#pragma message("List are enabled")
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_LIST                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+// TODO The implementation of the lists is scheduled to version 5.0.0
+
+#endif // LIST
+
+#endif // ADDITION
+
+#if STANDARDS_SWITCH == 0
+#pragma message("Compilation, which was conceived by the author")
+#elif STANDARDS_SWITCH == 1
+#pragma message("Compilation that includes the standard libraries")
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -2963,8 +3032,6 @@ template void ALGOR::Merge_Sorts<char>::MergeSort::merge(const asize_t &, const 
  * #*-*%*-*+                                                         +*-*%*-*# *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-#if STANDARDS_SWITCH == 1
 
 template <class type_array>
 st_SortingAlgorithms<type_array>::st_SortingAlgorithms(Array<type_array> *&Array) : ArrayBase<type_array>(Array)

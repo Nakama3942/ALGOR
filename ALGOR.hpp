@@ -25,14 +25,14 @@
  *                                                                              *
  *                              Project Structure:                              *
  * 1. SETTINGS - including components to compile                                *
- * 2. ALGOR_CORE - basic structures and functions of the library                *
- * 3. ALGOR_EXCEPTION - class for working with exceptions                       *
- * 4. ALGOR_RANDOM - own random number generators                               *
- * 5. ALGOR_ARRAY - class for working with arrays                               *
- * 6. ALGOR_SORTING - sets of sorting methods                                   *
- * 7. ALGOR_MATRIX - class for working with matrices                            *
- * 8. ALGOR_HEAP - class for working with trees                                 *
- * 9. ALGOR_LIST - class for working with lists                                 *
+ * 2. ALGOR_CORE - basic structures and functions of the library       (ALWAYS) *
+ * 3. ALGOR_EXCEPTION - class for working with exceptions              (ALWAYS) *
+ * 4. ALGOR_RANDOM - own random number generators                      (ALWAYS) *
+ * 5. ALGOR_ARRAY - class for working with arrays                      (ARRAYS) *
+ * 6. ALGOR_SORTING - sets of sorting methods                          (ARRAYS) *
+ * 7. ALGOR_MATRIX - class for working with matrices        (ADDITION & MATRIX) *
+ * 8. ALGOR_HEAP - class for working with trees               (ADDITION & HEAP) *
+ * 9. ALGOR_LIST - class for working with lists               (ADDITION & LIST) *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -63,6 +63,13 @@
  * #*-*%*-*+                                                         +*-*%*-*# *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+#define ARRAYS 1
+
+#define ADDITION 0
+#define MATRIX 0
+#define HEAP 0
+#define LIST 0
 
 #define STANDARDS_SWITCH 0
 
@@ -131,8 +138,8 @@ namespace ALGOR
 		const char *what();
 
 	protected:
-		unsigned int CODE;	 ///< Exception encoding
-		const char *DETAILS; ///< Exception details
+		unsigned int CODE;		///< Exception encoding
+		const char *DETAILS;	///< Exception details
 	};
 
 	class memory_overflow : public Exception
@@ -210,6 +217,7 @@ namespace ALGOR
 		ubit32_t RejectionLimit;		// Rejection limit used by IRandomX
 	};
 
+#if ARRAYS == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -224,13 +232,27 @@ namespace ALGOR
 	class ArrayProcessing
 	{
 	public:
-		static type_array minimum(const type_array *Array, const asize_t &array_size);
-		static type_array maximum(const type_array *Array, const asize_t &array_size);
-		static bool isOrderliness(const type_array *Array, const asize_t &array_size);
-		static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position = 0);
-		static void subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position);
-		static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
-		static void copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array = 0, unsigned int position_in_old_array = 0);
+		static type_array minimum(const type_array *Array,
+								  const asize_t &array_size);
+		static type_array maximum(const type_array *Array,
+								  const asize_t &array_size);
+		static bool isOrderliness(const type_array *Array,
+								  const asize_t &array_size);
+		static void addElement(type_array *&Array,
+							   asize_t &array_size,
+							   const type_array &value,
+							   const unsigned int position = 0);
+		static void subtractElement(type_array *&Array,
+									asize_t &array_size,
+									const unsigned int position);
+		static void subtractValue(type_array *&Array,
+								  asize_t &array_size,
+								  const type_array &value);
+		static void copy(type_array *new_array,
+						 const type_array *old_array,
+						 const unsigned int &size_of_copied,
+						 unsigned int position_in_new_array = 0,
+						 unsigned int position_in_old_array = 0);
 	};
 
 	template <typename type_array>
@@ -288,7 +310,8 @@ namespace ALGOR
 
 		Array<int> *lenear_searcher(const type_array &required_element);
 		int binary_searcher(const type_array &required_element);
-		Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
+		Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY,
+												   ArrayType ArrType = ArrayType::NUMBER);
 
 		type_array average();
 		type_array mediana();
@@ -307,7 +330,10 @@ namespace ALGOR
 
 	private:
 		void remove();
-		void binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit);
+		void binary_searcher(const type_array &required_element,
+							 int &number_point,
+							 int left_limit,
+							 int right_limit);
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -320,113 +346,35 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Exchange_Sorts : public ArrayBase<type_array>
+	template <typename type_array>
+	class Comparative_Sorts : public ArrayBase<type_array>
 	{
 	public:
-		Exchange_Sorts(Array<type_array> *&Array);
-		void Bubble_Sort();
-		void Cocktail_Shaker_Sort();
-		void Odd_Even_Sort();
-		void Comb_Sort();
-		void Gnome_Sort();
-		void Quick_Sort();
-		void Slow_Sort();
-		void Stooge_Sort();
-		void Bogo_Sort();
-
-		class BubbleSort
-		{
-		public:
-			BubbleSort(type_array *array, asize_t asize);
-			void bubble_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class CocktailShakerSort
-		{
-		public:
-			CocktailShakerSort(type_array *array, asize_t asize);
-			void cocktail_shaker_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class OddEvenSort
-		{
-		public:
-			OddEvenSort(type_array *array, asize_t asize);
-			void odd_even_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class CombSort
-		{
-		public:
-			CombSort(type_array *array, asize_t asize);
-			void comb_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class GnomeSort
-		{
-		public:
-			GnomeSort(type_array *array, asize_t asize);
-			void gnome_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class QuickSort
-		{
-		public:
-			QuickSort(type_array *array, asize_t asize);
-			void quick_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-			void recursive_quick_sort(const int &left_limit, const int &right_limit);
-		};
-
-		class SlowSort
-		{
-		public:
-			SlowSort(type_array *array, asize_t asize);
-			void slow_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-			void recursive_slow_sort(const int &left_limit, const int &right_limit);
-		};
-
-		class StoogeSort
-		{
-		public:
-			StoogeSort(type_array *array, asize_t asize);
-			void stooge_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-			void recursive_stooge_sort(const int &left_limit, const int &right_limit);
-		};
-
-		class BogoSort
+		Comparative_Sorts(Array<type_array> *&Array);
+		// <<==		Категорія Exchange_Sorts	==>>
+		void Bubble_Sort();			// №	 2
+		void Cocktail_Shaker_Sort();	// №	 3
+		void Odd_Even_Sort();			// №	10
+		void Comb_Sort();				// №	 4
+		void Gnome_Sort();				// №	 6
+		void Quick_Sort();				// №	12
+		void Slow_Sort();				// №	15
+		void Stooge_Sort();			// №	17
+		void Bogo_Sort();				// №	 1
+		// <<==		Категорія Selection_Sorts	==>>
+		void Selection_Sort();			// №	13
+		void Heap_Sort();				// №	 7
+		void Smooth_Sort();			// №	16 //FIXME на момент тесту все одно не сортує
+		void Cycle_Sort();				// №	 5
+		// <<==		Категорія Insertion_Sorts	==>>
+		void Insert_Sort();			// №	 8
+		void Shell_Sort();				// №	14
+		void Tree_Sort();				// №	18
+		void Patience_Sort();			// №	11
+		// <<==		Категорія Merge_Sorts		==>>
+		void Merge_Sort();				// №	 9
+		// <<==				Classes				==>>
+		class BogoSort //Категорія Exchange_Sorts
 		{
 		public:
 			BogoSort(type_array *array, asize_t asize);
@@ -438,42 +386,41 @@ namespace ALGOR
 			bool Correct();
 			void Shuffle();
 		};
-	};
 
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Selection_Sorts : public ArrayBase<type_array>
-	{
-	public:
-		Selection_Sorts(Array<type_array> *&Array);
-		void Selection_Sort();
-		void Heap_Sort();
-		void Smooth_Sort();
-		void Cycle_Sort();
-
-		class SelectionSort
+		class BubbleSort //Категорія Exchange_Sorts
 		{
 		public:
-			SelectionSort(type_array *array, asize_t asize);
-			void selection_sort();
+			BubbleSort(type_array *array, asize_t asize);
+			void bubble_sort();
 
 		private:
 			type_array *Array;
 			asize_t array_size;
 		};
 
-		class HeapSort
+		class CocktailShakerSort //Категорія Exchange_Sorts
 		{
 		public:
-			HeapSort(type_array *array, asize_t asize);
-			void heap_sort();
+			CocktailShakerSort(type_array *array, asize_t asize);
+			void cocktail_shaker_sort();
 
 		private:
 			type_array *Array;
 			asize_t array_size;
-			void heapify(type_array *Array, const asize_t &count, const asize_t &array_size);
 		};
 
-		class CycleSort
+		class CombSort //Категорія Exchange_Sorts
+		{
+		public:
+			CombSort(type_array *array, asize_t asize);
+			void comb_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+		};
+
+		class CycleSort //Категорія Selection_Sorts
 		{
 		public:
 			CycleSort(type_array *array, asize_t asize);
@@ -484,45 +431,32 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-	private:
-		class SmoothSort
+		class GnomeSort //Категорія Exchange_Sorts
 		{
 		public:
-			//Сирці: http://cppalgo.blogspot.com/2010/10/smoothsort.html
-			// WARNING Алгоритм не хоче працювати при динамічному виділенні пам'яті:
-			//з'являється помилка сегментації, а при статичному оголошенні все працює.
-			//Щоб користувач Не міг динамічно оголосити об'єкт даного класу, я вимушено
-			//закрив цей клас, щоб його можна було використати тільки через метод
-			//зовнішнього класу
-			// WARNING Алгоритм протестовано тільки на масиві з int числами. З іншими
-			//типами алгоритм може не працювати
-			SmoothSort(type_array *array, int asize);
-			void smooth_sort();
+			GnomeSort(type_array *array, asize_t asize);
+			void gnome_sort();
 
 		private:
 			type_array *Array;
-			int array_size;
-			int LeoNum[44] = {1, 1, 3, 5, 9, 15, 25, 41, 67, 109, 177, 287, 465, 753, 1219, 1973, 3193, 5167, 8361, 13529, 21891, 35421, 57313, 92735, 150049, 242785, 392835, 635621, 1028457, 1664079, 2692537, 4356617, 7049155, 11405773, 18454929, 29860703, 48315633, 78176337, 126491971, 204668309, 331160281, 535828591, 866988873, 1402817465};
-			int curState;
-			void make_heap_pool();
-			int NextState(int &curState);
-			void shiftDown(int posHeapItemsAmount, int indexLastTop);
-			int findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount);
-			void PrevState(int &curState);
+			asize_t array_size;
 		};
-	};
 
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Insertion_Sorts : public ArrayBase<type_array>
-	{
-	public:
-		Insertion_Sorts(Array<type_array> *&Array);
-		void Insert_Sort();
-		void Shell_Sort();
-		void Tree_Sort();
-		void Patience_Sort();
+		class HeapSort //Категорія Selection_Sorts
+		{
+		public:
+			HeapSort(type_array *array, asize_t asize);
+			void heap_sort();
 
-		class InsertSort
+		private:
+			type_array *Array;
+			asize_t array_size;
+			void heapify(type_array *Array,
+						 const asize_t &count,
+						 const asize_t &array_size);
+		};
+
+		class InsertSort //Категорія Insertion_Sorts
 		{
 		public:
 			InsertSort(type_array *array, asize_t asize);
@@ -533,7 +467,76 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class ShellSort
+		class MergeSort //Категорія Merge_Sorts
+		{
+		public:
+			MergeSort(type_array *array, asize_t asize);
+			void merge_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+
+			void recursive_merge_sort(const asize_t &left_limit,
+									  const asize_t &right_limit);
+			void merge(const asize_t &left_limit,
+					   const asize_t &middle_limit,
+					   const asize_t &right_limit);
+		};
+
+		class OddEvenSort //Категорія Exchange_Sorts
+		{
+		public:
+			OddEvenSort(type_array *array, asize_t asize);
+			void odd_even_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+		};
+
+		class PatienceSort //Категорія Insertion_Sorts
+		{
+		public:
+			PatienceSort(type_array *array, asize_t asize);
+			void patience_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+
+			asize_t *count, pickedRow;
+			type_array **decks, *sortedArr, min;
+
+			void initialization();
+			void finalization();
+		};
+
+		class QuickSort //Категорія Exchange_Sorts
+		{
+		public:
+			QuickSort(type_array *array, asize_t asize);
+			void quick_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+			void recursive_quick_sort(const int &left_limit,
+									  const int &right_limit);
+		};
+
+		class SelectionSort //Категорія Selection_Sorts
+		{
+		public:
+			SelectionSort(type_array *array, asize_t asize);
+			void selection_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+		};
+
+		class ShellSort //Категорія Insertion_Sorts
 		{
 		public:
 			ShellSort(type_array *array, asize_t asize);
@@ -544,7 +547,33 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class TreeSort
+		class SlowSort //Категорія Exchange_Sorts
+		{
+		public:
+			SlowSort(type_array *array, asize_t asize);
+			void slow_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+			void recursive_slow_sort(const int &left_limit,
+									 const int &right_limit);
+		};
+
+		class StoogeSort //Категорія Exchange_Sorts
+		{
+		public:
+			StoogeSort(type_array *array, asize_t asize);
+			void stooge_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+			void recursive_stooge_sort(const int &left_limit,
+									   const int &right_limit);
+		};
+
+		class TreeSort //Категорія Insertion_Sorts
 		{
 		public:
 			TreeSort(type_array *array, asize_t asize);
@@ -565,43 +594,39 @@ namespace ALGOR
 			void store(Tree *root, type_array *Array, asize_t &index);
 		};
 
-		class PatienceSort
+	private:
+		class SmoothSort //Категорія Selection_Sorts
 		{
 		public:
-			PatienceSort(type_array *array, asize_t asize);
-			void patience_sort();
+			//Сирці: http://cppalgo.blogspot.com/2010/10/smoothsort.html
+			// WARNING Алгоритм не хоче працювати при динамічному виділенні пам'яті:
+			//з'являється помилка сегментації, а при статичному оголошенні все працює.
+			//Щоб користувач Не міг динамічно оголосити об'єкт даного класу, я вимушено
+			//закрив цей клас, щоб його можна було використати тільки через метод
+			//зовнішнього класу
+			// WARNING Алгоритм протестовано тільки на масиві з int числами. З іншими
+			//типами алгоритм може не працювати
+			SmoothSort(type_array *array, int asize);
+			void smooth_sort();
 
 		private:
 			type_array *Array;
-			asize_t array_size;
-
-			asize_t *count, pickedRow;
-			type_array **decks, *sortedArr, min;
-
-			void initialization();
-			void finalization();
-		};
-	};
-
-	template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-	class Merge_Sorts : public ArrayBase<type_array>
-	{
-	public:
-		Merge_Sorts(Array<type_array> *&Array);
-		void Merge_Sort();
-
-		class MergeSort
-		{
-		public:
-			MergeSort(type_array *array, asize_t asize);
-			void merge_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			void recursive_merge_sort(const asize_t &left_limit, const asize_t &right_limit);
-			void merge(const asize_t &left_limit, const asize_t &middle_limit, const asize_t &right_limit);
+			int array_size;
+			int LeoNum[44] = {1, 1, 3, 5, 9, 15, 25, 41, 67, 109, 177, 287, 465,
+							  753, 1219, 1973, 3193, 5167, 8361, 13529, 21891,
+							  35421, 57313, 92735, 150049, 242785, 392835, 635621,
+							  1028457, 1664079, 2692537, 4356617, 7049155, 11405773,
+							  18454929, 29860703, 48315633, 78176337, 126491971,
+							  204668309, 331160281, 535828591, 866988873, 1402817465};
+			int curState;
+			void make_heap_pool();
+			int NextState(int &curState);
+			void shiftDown(int posHeapItemsAmount,
+						   int indexLastTop);
+			int findPosMaxElem(int curState,
+							   int indexLastTop,
+							   int &nextPosHeapItemsAmount);
+			void PrevState(int &curState);
 		};
 	};
 
@@ -609,14 +634,14 @@ namespace ALGOR
 	{
 	public:
 		Distribution_Sorts(Array<int> *&Array);
-		void AmericanFlag_Sort();
-		void Bead_Sort();
-		void Bucket_Sort();
-		void Counting_Sort();
-		void Interpolation_Sort();
-		void Pigeonhole_Sort();
-		void Radix_Sort();
-		void Flash_Sort();
+		void AmericanFlag_Sort();		// №	1
+		void Bead_Sort();				// №	2
+		void Bucket_Sort();			// №	3
+		void Counting_Sort();			// №	4
+		void Flash_Sort();				// №	5
+		void Interpolation_Sort();	// №	6
+		void Pigeonhole_Sort();		// №	7
+		void Radix_Sort();				// №	8
 
 		class AmericanFlagSort
 		{
@@ -631,7 +656,9 @@ namespace ALGOR
 
 			const int NUMBER_OF_BUCKETS = 10; // 10 for base 10 numbers
 
-			void recursive_american_flag_sort(int start, int length, int divisor);
+			void recursive_american_flag_sort(int start,
+											  int length,
+											  int divisor);
 			int getMaxNumberOfDigits();
 			int getDigit(int integer, int divisor);
 		};
@@ -673,6 +700,18 @@ namespace ALGOR
 		private:
 			int *Array, *tempArray, min, max;
 			asize_t array_size;
+		};
+
+		class FlashSort
+		{
+		public:
+			// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
+			FlashSort(int *array, asize_t asize);
+			void flash_sort();
+
+		private:
+			int *Array, *L, flash;
+			asize_t array_size, min = 0, max = 0, move = 0, j = 0, k;
 		};
 
 		class InterpolationSort
@@ -719,18 +758,6 @@ namespace ALGOR
 		private:
 			int *Array, *tempArray, *bucket, exp = 1, bit = 10, max, current;
 			asize_t array_size;
-		};
-
-		class FlashSort
-		{
-		public:
-			// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
-			FlashSort(int *array, asize_t asize);
-			void flash_sort();
-
-		private:
-			int *Array, *L, flash;
-			asize_t array_size, min = 0, max = 0, move = 0, j = 0, k;
 		};
 	};
 
@@ -918,7 +945,11 @@ namespace ALGOR
 
 		// class SpaghettiSort{};
 	}
+#endif // ARRAYS
 
+#if ADDITION == 1
+
+#if MATRIX == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -935,7 +966,9 @@ namespace ALGOR
 	//     Matrix();
 	// protected:
 	// };
+#endif // MATRIX
 
+#if HEAP == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -952,7 +985,9 @@ namespace ALGOR
 	//     Heap();
 	// protected:
 	// };
+#endif // HEAP
 
+#if LIST == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -969,7 +1004,12 @@ namespace ALGOR
 	//     List();
 	// protected:
 	// };
-}
+#endif // LIST
+
+#endif // ADDITION
+} // ALGOR namespace end
+
+#if STANDARDS_SWITCH == 1
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -981,18 +1021,14 @@ namespace ALGOR
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-#if STANDARDS_SWITCH == 0
-#pragma message("Compilation, which was conceived by the author")
-#elif STANDARDS_SWITCH == 1
-#pragma message("Compilation that includes the standard libraries")
 #include <iterator>
 using namespace std;
 
 template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-class st_SortingAlgorithms : public ArrayBase<type_array>
+class st_SortingAlgorithms : public ALGOR::ArrayBase<type_array>
 {
 public:
-	st_SortingAlgorithms(Array<type_array> *&Array);
+	st_SortingAlgorithms(ALGOR::Array<type_array> *&Array);
 	void Library_Sort();
 
 	// class ProportionExtendSort //Категорія Exchange_Sorts
@@ -1008,15 +1044,15 @@ public:
 	class LibrarySort //Категорія Insertion_Sorts
 	{
 	public:
-		LibrarySort(type_array *array, asize_t asize);
+		LibrarySort(type_array *array, ALGOR::asize_t asize);
 		void library_sort();
 
 	private:
 		type_array *Array;
-		asize_t array_size;
+		ALGOR::asize_t array_size;
 
 		type_array *gaps, *library[2];
-		asize_t lib_size = 0, index_pos = 0, insert, index_pos_for_output = 0;
+		ALGOR::asize_t lib_size = 0, index_pos = 0, insert, index_pos_for_output = 0;
 		bool target_lib = false, *numbered;
 
 		void initialization();
@@ -1036,7 +1072,6 @@ public:
 
 	// class ProxmapSort{}; //Категорія Distribution_Sorts
 };
-
 #endif // STANDARDS_SWITCH
 
 #endif // ALGOR_HPP
