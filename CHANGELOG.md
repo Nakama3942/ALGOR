@@ -20,30 +20,46 @@
 ---
 -->
 
+## v2.2.0 (15.04.2022)
+
+#### Enhancements:
+- Since version 1.0.0, only _CountingSort_ and _RadixSort_ have been implemented from the Distribution_Sorts category. Finally, I completed the last group of those algorithms that were present from the very beginning. I've implemented _AmericanFlagSort_, _BeadSort_, _BucketSort_, _FlashSort_, _InterpolationSort_, _PigeonholeSort_ and deprecated _BurstSort_ and _ProxmapSort_. It remains for me to implement the 3 remaining categories that have not been implemented from the very beginning and to this day in no way at all: Concurrent_Sort, Hybrid_Sorts and Other_Sorts.
+- With the implementation of this category, I came up with a function that is designed to replace **time(NULL)** (well, finally), and also redefined the **minimum()** and **maximum()** functions - now they return not only the smallest/largest number found in the array, but also just the smallest/largest of two given values. The proliferation of non-array functions led to the splitting of functions from the kernel into array-related and non-array-releated functions. The latter remained in the core, while the former moved to the array processing subsection, and since the base sorting classes (such as categories) are inherited from the base array class, the array processing subsection as a whole moved from the subsection of sorting algorithms to the oversubsection of sortings.
+- Then I combined all the general classes of sorting algorithms that can sort not only int-arrays into one class. Now in the subsection of sorting algorithms there are only two classes of sorting algorithms: those that support any type of arrays and only int-arrays. Temporarily, at the time of the implementation of the last categories of sorting algorithms, the last three classes with the subsequent three updates will be released in separate classes, but after that it is planned to merge them with the first class.
+- And finally, I finalized the settings system. Now the library core, exceptions and randomizers cannot be turned off for the compiler, however, it is already possible to turn off the array processing and sorting subsections. It will also be possible to turn on and off for compilation subsequent algorithms and data structures that will be implemented in the future. At the end of releases with implementations of sorting algorithms, I plan to return to LibrarySort and still implement my own analogues of **std::distance()** and **std::lower_bound()** to return this algorithm to the library permanently and give full access to him. If I manage to pull it off - I can completely abandon the subsection with standard libraries (which was the original idea of the project), if a few more sorting algorithms do not get there...
+- I almost forgot - since a new project structure was introduced in v2.1.3, we can assume that now it has been completely finalized. Then LibrarySort was added, and in order to avoid name conflicts, I had to return the basic functions to the class. However, now I have added the entire library in general to my own ALGOR namespace (as in version 1.0.0 it was with SortingAlgorithms, in which the ArrayProcessing class was nested with static methods and 8 sorting algorithms (3 from Exchange_Sorts, 1 from Selection_Sorts, 1 from Insertion_Sorts, 1 from Merge_Sorts and 2 from Distribution_Sorts) - this is very similar to the structure from this version). I moved the basic functions outside the core class, and this class remained to store the basic array processing functions and moved to the array processing subsection. Now, in order to use my library, you either need to constantly specify the ALGOR namespace identifier or declare it the main one at the beginning of the project and use std to a minimum, for example, to print text to the console or use functionality whose is not in my library.
+
+Now it is not possible to use:
+```cpp
+using namespace std;
+using namespace ALGOR;
+```
+It does not depend on the order. You only need to choose one of them! This is the completion of structural renewal.
+
 ## v2.1.4 (04.04.2022)
 
 #### Enhancements:
-- I tried to read CascadeMergeSort, OscillatingMergeSort and PolyphaseMergeSort, but there is almost no information on them (even on Wikipedia). I decided to abandon these algorithms and it turned out that in this category there is only one algorithm that has already been implemented. I rewrote it to a new standard and released a new release.
+- I tried to read _CascadeMergeSort_, _OscillatingMergeSort_ and _PolyphaseMergeSort_, but there is almost no information on them (even on Wikipedia). I decided to abandon these algorithms and it turned out that in this category there is only one algorithm that has already been implemented. I rewrote it to a new standard and released a new release.
 
 ## v2.1.3+NPS (01.04.2022)
 
 - NPS - New Project Structure
 
 #### Enhancements:
-- I implemented the following sorting algorithms: ShellSort, TreeSort, PatienceSort and LibrarySort and combined them with InsertSort (except LibrarySort) into one class. Since I can't do without the standard libraries in LibrarySort, I decided to make it a separate class. This has complicated the structure and division of the library into two versions - with and without standard libraries. There will now be settings on top of the header. Depending on the value of #define STANDARDS_SWITCH, the library will be compiled with or without these algorithms, which require standard libraries. "0" - without libraries, "1" - with libraries. Since the library was originally conceived as a clean project without the use of any standard or any other library - I am not going to further develop this area. This section will collect some sorting algorithms that these standard libraries require and no more. Everything else I will have to implement myself. Since there are already a lot of implemented sorting algorithms, I can afford it. It is possible that in the future, due to the introduction of a system of settings, the structure of the project will become increasingly complex. Of course, I will not release this product with standard libraries, but I will leave them in case of need. If a programmer needs exactly the algorithm that uses standard libraries - he can always download the repository and build a library with the necessary settings.
+- I implemented the following sorting algorithms: _TreeSort_, _PatienceSort_ and _LibrarySort_ and combined them with _InsertSort_ (except _LibrarySort_) into one class. Since I can't do without the standard libraries in _LibrarySort_, I decided to make it a separate class. This has complicated the structure and division of the library into two versions - with and without standard libraries. There will now be settings on top of the header. Depending on the value of #define STANDARDS_SWITCH, the library will be compiled with or without these algorithms, which require standard libraries. "0" - without libraries, "1" - with libraries. Since the library was originally conceived as a clean project without the use of any standard or any other library - I am not going to further develop this area. This section will collect some sorting algorithms that these standard libraries require and no more. Everything else I will have to implement myself. Since there are already a lot of implemented sorting algorithms, I can afford it. It is possible that in the future, due to the introduction of a system of settings, the structure of the project will become increasingly complex. Of course, I will not release this product with standard libraries, but I will leave them in case of need. If a programmer needs exactly the algorithm that uses standard libraries - he can always download the repository and build a library with the necessary settings.
 - In case the programmer used a section with standard libraries, I had to place some of the standard functions in the Core class to avoid conflicts.
 
 ## v2.1.2 (30.03.2022)
 
 #### Enhancements:
-- Made the following sorting algorithms: Selection_Sort, Smooth_Sort, Cycle_Sort; combined them together with Heap_Sort (only four algorithms) into one class - Selection_Sorts.
-- I refused Cartesian_Tree_Sort, Tournament_Sort, WeakHeap_Sort due to their very complicated implementation and lack of templates. Maybe someday I will implement them.
+- Made the following sorting algorithms: _CycleSort_; combined them together with Heap_Sort (only four algorithms) into one class - Selection_Sorts.
+- I refused _CartesianTreeSort_, _TournamentSort_, _WeakHeapSort_ due to their very complicated implementation and lack of templates. Maybe someday I will implement them.
 - I will not mention all other algorithms yet, because they are not yet ready for use. When their category of algorithms is prepared, then I will remember them.
 
 ## v2.1.1 (26.03.2022)
 
 #### Enhancements:
-- Added SelectionSort and SmoothSort to the Selection_Sorts namespace; ShellSort in Insertion_Sorts and all remaining algorithms with Exchange_Sorts, namely OddEvenSort, CombSort, GnomeSort, SlowSort, StoogeSort and BogoSort. After implementing all the algorithms with Exchange_Sorts, I finally got the opportunity to combine them into one class.
+- Added _SelectionSort_ and _SmoothSort_ to the Selection_Sorts namespace; _ShellSort_ in Insertion_Sorts and all remaining algorithms with Exchange_Sorts, namely _OddEvenSort_, _CombSort_, _GnomeSort_, _SlowSort_, _StoogeSort_ and _BogoSort_. After implementing all the algorithms with Exchange_Sorts, I finally got the opportunity to combine them into one class.
 
 Now, to call, you do NOT need to write a long command like
 ```cpp
@@ -60,11 +76,11 @@ As you can see, now it is enough to create a class object and select the desired
 ## v2.1.0 (11.01.2022)
 
 #### Bug Fixes:
-- The remove () method is now private. Now the ARRAYDATA class cannot store a pointer to nullptr, therefore the object will constantly store some kind of array, which will increase the fault tolerance of the ARRAYDATA class.
+- The **remove()** method is now private. Now the ARRAYDATA class cannot store a pointer to nullptr, therefore the object will constantly store some kind of array, which will increase the fault tolerance of the ARRAYDATA class.
 - Added more checks and now, in case of an error, the program will not crash, but throw exceptions that the programmer can catch.
 
 #### Documenting:
-- I started documenting the library. True, the documentation is not yet available and is under development. At the moment, the sorting algorithms are generally undocumented, and everything else is documented at the brief and param levels. All warnings, notes, details, etc. will be described after the completion of the development of the second version of the library, i.e. before version 3.0.0.
+- I started documenting the library. True, the documentation is not yet available and is under development. At the moment, the sorting algorithms are generally undocumented, and everything else is documented at the brief and param levels. All warnings, notes, details, etc. will be described after the completion of the development of the second version of the library, i.e. before v3.0.0.
 
 #### Enhancements:
 - Written class for working with exceptions - Exception. All exceptions that are thrown by the library now throw objects inherited from Exception, which stores information about the error and can return this information at the request of the programmer. The programmer can also create his own exception classes inherited from Exception.
