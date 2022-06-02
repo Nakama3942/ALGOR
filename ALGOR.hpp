@@ -24,15 +24,14 @@
  * ---------------------------------------------------------------------------- *
  *                                                                              *
  *                              Project Structure:                              *
- * 1. SETTINGS - including components to compile                                *
- * 2. ALGOR_CORE - basic structures and functions of the library       (ALWAYS) *
- * 3. ALGOR_EXCEPTION - class for working with exceptions              (ALWAYS) *
- * 4. ALGOR_RANDOM - own random number generators                      (ALWAYS) *
- * 5. ALGOR_ARRAY - class for working with arrays                      (ARRAYS) *
- * 6. ALGOR_SORTING - sets of sorting methods                          (ARRAYS) *
- * 7. ALGOR_MATRIX - class for working with matrices        (ADDITION & MATRIX) *
- * 8. ALGOR_HEAP - class for working with trees               (ADDITION & HEAP) *
- * 9. ALGOR_LIST - class for working with lists               (ADDITION & LIST) *
+ * 1. ALGOR_CORE - basic structures and functions of the library                *
+ * 2. ALGOR_EXCEPTION - class for working with exceptions                       *
+ * 3. ALGOR_RANDOM - own random number generators                               *
+ * 4. ALGOR_ARRAY - class for working with arrays                               *
+ * 5. ALGOR_SORTING - sets of sorting methods                                   *
+ * 6. ALGOR_MATRIX - class for working with matrices                            *
+ * 7. ALGOR_HEAP - class for working with trees                                 *
+ * 8. ALGOR_LIST - class for working with lists                                 *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -53,25 +52,6 @@
 
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                               SETTINGS                              <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-#define ARRAYS 1
-
-#define ADDITION 0
-#define MATRIX 0
-#define HEAP 0
-#define LIST 0
-
-#define STANDARDS_SWITCH 0
 
 namespace ALGOR
 {
@@ -217,7 +197,6 @@ namespace ALGOR
 		ubit32_t RejectionLimit;		// Rejection limit used by IRandomX
 	};
 
-#if ARRAYS == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -346,34 +325,84 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+	 *                      Список нереалізованих алгоритмів:                      *
+	 * ProportionExtendSort		Категорія Exchange_Sorts                           *
+	 * CartesianTreeSort		Категорія Selection_Sorts                          *
+	 * TournamentSort			Категорія Selection_Sorts                          *
+	 * WeakHeapSort				Категорія Selection_Sorts                          *
+	 * SplaySort				Категорія Insertion_Sorts                          *
+	 * CascadeMergeSort			Категорія Merge_Sorts                              *
+	 * OscillatingMergeSort		Категорія Merge_Sorts                              *
+	 * PolyphaseMergeSort		Категорія Merge_Sorts                              *
+	 * BurstSort				Категорія Distribution_Sorts                       *
+	 * ProxmapSort				Категорія Distribution_Sorts                       *
+	 * BatcherOddEvenMergeSort	Категорія Concurrent_Sort                          *
+	 * PairwiseSortingNetwork	Категорія Concurrent_Sort                          *
+	 * SampleSort				Категорія Concurrent_Sort                          *
+	 * BlockMergeSort			Категорія Hybrid_Sorts                             *
+	 * KirkpatrickReischSort	Категорія Hybrid_Sorts                             *
+	 * IntroSort				Категорія Hybrid_Sorts                             *
+	 * SpreadSort				Категорія Hybrid_Sorts                             *
+	 * MergeInsertionSort		Категорія Hybrid_Sorts                             *
+	 * TopologicalSort			Категорія Other_Sorts                              *
+	 * SpaghettiSort			Категорія Other_Sorts                              *
+	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
 	template <typename type_array>
 	class Comparative_Sorts : public ArrayBase<type_array>
 	{
 	public:
 		Comparative_Sorts(Array<type_array> *&Array);
+
 		// <<==		Категорія Exchange_Sorts	==>>
-		void Bubble_Sort();			// №	 2
-		void Cocktail_Shaker_Sort();	// №	 3
-		void Odd_Even_Sort();			// №	10
-		void Comb_Sort();				// №	 4
-		void Gnome_Sort();				// №	 6
-		void Quick_Sort();				// №	12
-		void Slow_Sort();				// №	15
-		void Stooge_Sort();			// №	17
-		void Bogo_Sort();				// №	 1
+		void Bubble_Sort();				// №	 3
+		void Cocktail_Shaker_Sort();	// №	 4
+		void Odd_Even_Sort();			// №	12
+		void Comb_Sort();				// №	 5
+		void Gnome_Sort();				// №	 7
+		void Quick_Sort();				// №	15
+		void Slow_Sort();				// №	18
+		void Stooge_Sort();				// №	20
+		void Bogo_Sort();				// №	 2
+
 		// <<==		Категорія Selection_Sorts	==>>
-		void Selection_Sort();			// №	13
-		void Heap_Sort();				// №	 7
-		void Smooth_Sort();			// №	16 //FIXME на момент тесту все одно не сортує
-		void Cycle_Sort();				// №	 5
+		void Selection_Sort();			// №	16
+		void Heap_Sort();				// №	 8
+		void Smooth_Sort();				// №	19 //FIXME на момент тесту все одно не сортує
+		void Cycle_Sort();				// №	 6
+
 		// <<==		Категорія Insertion_Sorts	==>>
-		void Insert_Sort();			// №	 8
-		void Shell_Sort();				// №	14
-		void Tree_Sort();				// №	18
-		void Patience_Sort();			// №	11
+		void Insert_Sort();				// №	 9
+		void Shell_Sort();				// №	17
+		void Tree_Sort();				// №	22
+		void Library_Sort();			// №	10
+		void Patience_Sort();			// №	14
+
 		// <<==		Категорія Merge_Sorts		==>>
-		void Merge_Sort();				// №	 9
+		void Merge_Sort();				// №	11
+
+		// <<==		Категорія Concurrent_Sort	==>>
+		void Bitonic_Sorter();			// №	 1
+
+		// <<==		Категорія Hybrid_Sorts		==>>
+		void Tim_Sort();				// №	21
+
+		// <<==		Категорія Other_Sorts		==>>
+		void Pancake_Sort();			// №	13
+
 		// <<==				Classes				==>>
+		class BitonicSorter //Категорія Concurrent_Sort
+		{
+		public:
+			BitonicSorter(type_array *array, asize_t asize);
+			void bitonic_sorter();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+		};
+
 		class BogoSort //Категорія Exchange_Sorts
 		{
 		public:
@@ -467,6 +496,27 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
+		class LibrarySort //Категорія Insertion_Sorts
+		{
+		public:
+			LibrarySort(type_array *array, asize_t asize);
+			void library_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+
+			type_array *gaps, *library[2];
+			asize_t lib_size = 0, index_pos = 0, insert, index_pos_for_output = 0;
+			bool target_lib = false, *numbered;
+
+			void initialization();
+			void binarysearch();
+			void insertion();
+			void rebalancing();
+			void finalization();
+		};
+
 		class MergeSort //Категорія Merge_Sorts
 		{
 		public:
@@ -493,6 +543,20 @@ namespace ALGOR
 		private:
 			type_array *Array;
 			asize_t array_size;
+		};
+
+		class PancakeSort //Категорія Other_Sorts
+		{
+		public:
+			PancakeSort(type_array *array, asize_t asize);
+			void pancake_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+
+			asize_t max_index();
+			void flip(asize_t index);
 		};
 
 		class PatienceSort //Категорія Insertion_Sorts
@@ -573,6 +637,22 @@ namespace ALGOR
 									   const int &right_limit);
 		};
 
+		class TimSort //Категорія Hybrid_Sorts
+		{
+		public:
+			TimSort(type_array *array, asize_t asize);
+			void tim_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+
+			const asize_t RUN = 32;
+
+			void insertionSort(asize_t left_limit, asize_t right_limit);
+			void merge(asize_t left_limit, asize_t middle, asize_t right_limit);
+		};
+
 		class TreeSort //Категорія Insertion_Sorts
 		{
 		public:
@@ -634,14 +714,14 @@ namespace ALGOR
 	{
 	public:
 		Distribution_Sorts(Array<int> *&Array);
-		void AmericanFlag_Sort();		// №	1
-		void Bead_Sort();				// №	2
+		void AmericanFlag_Sort();	// №	1
+		void Bead_Sort();			// №	2
 		void Bucket_Sort();			// №	3
-		void Counting_Sort();			// №	4
-		void Flash_Sort();				// №	5
+		void Counting_Sort();		// №	4
+		void Flash_Sort();			// №	5
 		void Interpolation_Sort();	// №	6
 		void Pigeonhole_Sort();		// №	7
-		void Radix_Sort();				// №	8
+		void Radix_Sort();			// №	8
 
 		class AmericanFlagSort
 		{
@@ -761,195 +841,6 @@ namespace ALGOR
 		};
 	};
 
-	namespace Concurrent_Sort
-	{
-		template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-		class BitonicSorter
-		{
-		public:
-			static void bitonic_sorter(type_array *Array, int array_size)
-			{
-				for (int k = 2; k <= array_size; k *= 2)
-				{
-					for (int j = k / 2; j > 0; j /= 2)
-					{
-						for (int i = 0; i < array_size; i++)
-						{
-							int l = i ^ j;
-							if (l > i)
-							{
-								if ((((i & k) == 0) && (Array[i] > Array[l])) || (((i & k) != 0) && (Array[i] < Array[l])))
-								{
-									swap<int>(Array[i], Array[l]);
-								}
-							}
-						}
-					}
-				}
-			}
-		};
-
-		// class BatcherOddEvenMergeSort{};
-
-		// class PairwiseSortingNetwork{};
-
-		// class SampleSort{};
-	}
-
-	namespace Hybrid_Sorts
-	{
-		// class BlockMergeSort{};
-
-		// class KirkpatrickReischSort
-
-		template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-		class TimSort
-		{
-		public:
-			TimSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-			void tim_sort()
-			{
-				for (asize_t i = 0; i < array_size; i += RUN)
-				{
-					insertionSort(i, minimum<asize_t>((i + 31), (array_size - 1)));
-				}
-				for (asize_t size = RUN; size < array_size; size *= 2)
-				{
-					for (asize_t left = 0; left < array_size; left += 2 * size)
-					{
-						asize_t middle = left + size - 1;
-						asize_t right = minimum<asize_t>((left + 2 * size - 1), (array_size - 1));
-						merge(left, middle, right);
-					}
-				}
-			}
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			const asize_t RUN = 32;
-
-			void insertionSort(asize_t left_limit, asize_t right_limit)
-			{
-				for (asize_t i = left_limit + 1; i <= right_limit; i++)
-				{
-					type_array temp = Array[i];
-					int j = i - 1;
-					while (Array[j] > temp && j >= (int)left_limit)
-					{
-						Array[j + 1] = Array[j];
-						j--;
-					}
-					Array[j + 1] = temp;
-				}
-			}
-			void merge(asize_t left_limit, asize_t middle, asize_t right_limit)
-			{
-				asize_t len1 = middle - left_limit + 1, len2 = right_limit - middle;
-				asize_t *left = new asize_t[len1], *right = new asize_t[len2];
-
-				for (asize_t i = 0; i < len1; i++)
-				{
-					left[i] = Array[left_limit + i];
-				}
-				for (asize_t i = 0; i < len2; i++)
-				{
-					right[i] = Array[middle + 1 + i];
-				}
-
-				asize_t i = 0, j = 0, k = left_limit;
-
-				while (i < len1 && j < len2)
-				{
-					if (left[i] <= right[j])
-					{
-						Array[k] = left[i];
-						i++;
-					}
-					else
-					{
-						Array[k] = right[j];
-						j++;
-					}
-					k++;
-				}
-				while (i < len1)
-				{
-					Array[k] = left[i];
-					k++;
-					i++;
-				}
-				while (j < len2)
-				{
-					Array[k] = right[j];
-					k++;
-					j++;
-				}
-
-				delete[] left;
-				delete[] right;
-			}
-		};
-
-		// class IntroSort{};
-
-		// class SpreadSort{};
-
-		// class MergeInsertionSort{};
-	}
-
-	namespace Other_Sorts
-	{
-		// class TopologicalSort{};
-
-		template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-		class PancakeSort
-		{
-		public:
-			static void pancake_sort(type_array *Array, int array_size)
-			{
-				while (array_size > 1)
-				{
-					int maxIndex = max_index(Array, array_size);
-					flip(Array, maxIndex);
-					flip(Array, array_size - 1);
-					array_size--;
-				}
-			}
-
-		private:
-			static int max_index(type_array *Array, int array_size)
-			{
-				int index = 0;
-				for (int i = 0; i < array_size; i++)
-				{
-					if (Array[index] < Array[i])
-					{
-						index = i;
-					}
-				}
-				return index;
-			}
-			static void flip(type_array *Array, int index)
-			{
-				int left = 0;
-				while (left < index)
-				{
-					swap<type_array>(Array[left], Array[index]);
-					index--;
-					left++;
-				}
-			}
-		};
-
-		// class SpaghettiSort{};
-	}
-#endif // ARRAYS
-
-#if ADDITION == 1
-
-#if MATRIX == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -966,9 +857,7 @@ namespace ALGOR
 	//     Matrix();
 	// protected:
 	// };
-#endif // MATRIX
 
-#if HEAP == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -985,9 +874,7 @@ namespace ALGOR
 	//     Heap();
 	// protected:
 	// };
-#endif // HEAP
 
-#if LIST == 1
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * #*-*%*-*+                                                         +*-*%*-*# *
@@ -1004,74 +891,6 @@ namespace ALGOR
 	//     List();
 	// protected:
 	// };
-#endif // LIST
-
-#endif // ADDITION
 } // ALGOR namespace end
-
-#if STANDARDS_SWITCH == 1
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                               STANDART                              <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-#include <iterator>
-using namespace std;
-
-template <class type_array> // NOTE Тут може бути й клас - треба тестувати
-class st_SortingAlgorithms : public ALGOR::ArrayBase<type_array>
-{
-public:
-	st_SortingAlgorithms(ALGOR::Array<type_array> *&Array);
-	void Library_Sort();
-
-	// class ProportionExtendSort //Категорія Exchange_Sorts
-
-	// class CartesianTreeSort //Категорія Selection_Sorts
-
-	// class TournamentSort //Категорія Selection_Sorts
-
-	// class WeakHeapSort //Категорія Selection_Sorts
-
-	// class SplaySort //Категорія Insertion_Sorts
-
-	class LibrarySort //Категорія Insertion_Sorts
-	{
-	public:
-		LibrarySort(type_array *array, ALGOR::asize_t asize);
-		void library_sort();
-
-	private:
-		type_array *Array;
-		ALGOR::asize_t array_size;
-
-		type_array *gaps, *library[2];
-		ALGOR::asize_t lib_size = 0, index_pos = 0, insert, index_pos_for_output = 0;
-		bool target_lib = false, *numbered;
-
-		void initialization();
-		void binarysearch();
-		void insertion();
-		void rebalancing();
-		void finalization();
-	};
-
-	// class CascadeMergeSort //Категорія Merge_Sorts
-
-	// class OscillatingMergeSort //Категорія Merge_Sorts
-
-	// class PolyphaseMergeSort //Категорія Merge_Sorts
-
-	// class BurstSort{}; //Категорія Distribution_Sorts
-
-	// class ProxmapSort{}; //Категорія Distribution_Sorts
-};
-#endif // STANDARDS_SWITCH
 
 #endif // ALGOR_HPP

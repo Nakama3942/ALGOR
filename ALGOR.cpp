@@ -30,6 +30,35 @@ void verification(const asize_t &array_size)
 	}
 }
 
+template <class type_array>
+asize_t distance(type_array *first, type_array *last)
+{
+	return last - first;
+}
+
+template <class type_array>
+type_array *lower_bound(type_array *first, type_array *last, const type_array &value)
+{
+	asize_t count, step, iterator = 0;
+	count = distance(first, last);
+	while (count > 0)
+	{
+		//iterator = first;
+		step = count / 2;
+		iterator = step;
+		if (first[iterator] < value)
+		{
+			first = &first[++iterator];
+			count -= step + 1;
+		}
+		else
+		{
+			count = step;
+		}
+	}
+	return first;
+}
+
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -291,10 +320,6 @@ void ALGOR::MersenneTwister::Init0(int seed)
 	}
 }
 
-#if ARRAYS == 0
-#pragma message("Arrays and sortings are disabled")
-#elif ARRAYS == 1
-#pragma message("Arrays and sortings are enabled")
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -1010,6 +1035,14 @@ void ALGOR::Comparative_Sorts<type_array>::Tree_Sort()
 	delete (sort);
 }
 
+template <class type_array>
+void Comparative_Sorts<type_array>::Library_Sort()
+{
+	LibrarySort *sort = new LibrarySort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->library_sort();
+	delete (sort);
+}
+
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::Patience_Sort()
 {
@@ -1024,6 +1057,58 @@ void ALGOR::Comparative_Sorts<type_array>::Merge_Sort()
 	MergeSort *sort = new MergeSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->merge_sort();
 	delete (sort);
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::Bitonic_Sorter()
+{
+	BitonicSorter *sort = new BitonicSorter(this->ARRAY->array, this->ARRAY->array_size);
+	sort->bitonic_sorter();
+	delete (sort);
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::Tim_Sort()
+{
+	TimSort *sort = new TimSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->tim_sort();
+	delete (sort);
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::Pancake_Sort()
+{
+	PancakeSort *sort = new PancakeSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->pancake_sort();
+	delete (sort);
+}
+
+template<typename type_array>
+Comparative_Sorts<type_array>::BitonicSorter::BitonicSorter(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
+{
+	for (asize_t k = 2; k <= array_size; k *= 2)
+	{
+		for (asize_t j = k / 2; j > 0; j /= 2)
+		{
+			for (asize_t i = 0; i < array_size; i++)
+			{
+				asize_t l = i ^ j;
+				if (l > i)
+				{
+					if ( ( ((i & k) == 0) && (Array[i] > Array[l]) ) || ( ((i & k) != 0) && (Array[i] < Array[l]) ) )
+					{
+						swap<type_array>(Array[i], Array[l]);
+					}
+				}
+			}
+		}
+	}
 }
 
 template <typename type_array>
@@ -1285,6 +1370,107 @@ void ALGOR::Comparative_Sorts<type_array>::InsertSort::insert_sort()
 	}
 }
 
+template <class type_array>
+Comparative_Sorts<type_array>::LibrarySort::LibrarySort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template <class type_array>
+void Comparative_Sorts<type_array>::LibrarySort::library_sort()
+{
+	initialization();
+	while (index_pos < array_size)
+	{
+		binarysearch();
+		insertion();
+	}
+	rebalancing();
+	finalization();
+}
+
+template <class type_array>
+void Comparative_Sorts<type_array>::LibrarySort::initialization()
+{
+	gaps = new type_array[array_size + 1]{0};
+	for (asize_t i = 0; i < 2; i++)
+	{
+		library[i] = new type_array[array_size + 1]{0};
+	}
+	numbered = new bool[array_size + 1]{0};
+	library[target_lib][0] = Array[0];
+}
+
+template <class type_array>
+void Comparative_Sorts<type_array>::LibrarySort::binarysearch()
+{
+	//insert = (asize_t)std::distance(library[target_lib], std::lower_bound(library[target_lib], library[target_lib] + lib_size, Array[index_pos]));
+	insert = distance(library[target_lib], lower_bound(library[target_lib], library[target_lib] + lib_size, Array[index_pos]));
+}
+
+template <class type_array>
+void Comparative_Sorts<type_array>::LibrarySort::insertion()
+{
+	if (numbered[insert] == true)
+	{
+		asize_t prov_size = 0, next_target_lib = !target_lib;
+
+		for (asize_t i = 0; i <= array_size; i++)
+		{
+			if (numbered[i] == true)
+			{
+				library[next_target_lib][prov_size] = gaps[i];
+				prov_size++;
+				numbered[i] = false;
+			}
+			if (i <= lib_size)
+			{
+				library[next_target_lib][prov_size] = library[target_lib][i];
+				prov_size++;
+			}
+		}
+
+		target_lib = next_target_lib;
+		lib_size = prov_size - 1;
+	}
+	else
+	{
+		numbered[insert] = true;
+		gaps[insert] = Array[index_pos];
+		index_pos++;
+	}
+}
+
+template <class type_array>
+void Comparative_Sorts<type_array>::LibrarySort::rebalancing()
+{
+	for (asize_t i = 0; index_pos_for_output < array_size; i++)
+	{
+		if (numbered[i] == true)
+		{
+			Array[index_pos_for_output] = gaps[i];
+			index_pos_for_output++;
+		}
+
+		if (i < lib_size)
+		{
+			Array[index_pos_for_output] = library[target_lib][i];
+			index_pos_for_output++;
+		}
+	}
+}
+
+template <class type_array>
+void Comparative_Sorts<type_array>::LibrarySort::finalization()
+{
+	delete[] numbered;
+	for (asize_t i = 0; i < 2; i++)
+	{
+		delete[] library[i];
+	}
+	delete[] gaps;
+}
+
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::MergeSort::MergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
@@ -1354,6 +1540,51 @@ void ALGOR::Comparative_Sorts<type_array>::OddEvenSort::odd_even_sort()
 				swap<type_array>(Array[j - 1], Array[j]);
 			}
 		}
+	}
+}
+
+template<typename type_array>
+Comparative_Sorts<type_array>::PancakeSort::PancakeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::PancakeSort::pancake_sort()
+{
+	while (array_size > 1)
+	{
+		asize_t maxIndex = max_index();
+		flip(maxIndex);
+		//flip(array_size - 1);
+		flip(--array_size);
+		//array_size--;
+	}
+}
+
+template<typename type_array>
+asize_t Comparative_Sorts<type_array>::PancakeSort::max_index()
+{
+	asize_t index = 0;
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		if (Array[index] < Array[i])
+		{
+			index = i;
+		}
+	}
+	return index;
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::PancakeSort::flip(asize_t index)
+{
+	asize_t left = 0;
+	while (left < index)
+	{
+		swap<type_array>(Array[left], Array[index]);
+		index--;
+		left++;
 	}
 }
 
@@ -1588,6 +1819,94 @@ void ALGOR::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge_sort(con
 	recursive_stooge_sort(left_limit, right_limit - k);
 	recursive_stooge_sort(left_limit + k, right_limit);
 	recursive_stooge_sort(left_limit, right_limit - k);
+}
+
+template<typename type_array>
+Comparative_Sorts<type_array>::TimSort::TimSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
+{
+	verification(array_size);
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::TimSort::tim_sort()
+{
+	for (asize_t i = 0; i < array_size; i += RUN)
+	{
+		insertionSort(i, minimum<asize_t>((i + 31), (array_size - 1)));
+	}
+	for (asize_t size = RUN; size < array_size; size *= 2)
+	{
+		for (asize_t left = 0; left < array_size; left += 2 * size)
+		{
+			asize_t middle = left + size - 1;
+			asize_t right = minimum<asize_t>((left + 2 * size - 1), (array_size - 1));
+			merge(left, middle, right);
+		}
+	}
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::TimSort::insertionSort(asize_t left_limit, asize_t right_limit)
+{
+	for (asize_t i = left_limit + 1; i <= right_limit; i++)
+	{
+		type_array temp = Array[i];
+		int j = i - 1;
+		while (Array[j] > temp && j >= (int)left_limit)
+		{
+			Array[j + 1] = Array[j];
+			j--;
+		}
+		Array[j + 1] = temp;
+	}
+}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::TimSort::merge(asize_t left_limit, asize_t middle, asize_t right_limit)
+{
+	asize_t len1 = middle - left_limit + 1, len2 = right_limit - middle;
+	asize_t *left = new asize_t[len1], *right = new asize_t[len2];
+
+	for (asize_t i = 0; i < len1; i++)
+	{
+		left[i] = Array[left_limit + i];
+	}
+	for (asize_t i = 0; i < len2; i++)
+	{
+		right[i] = Array[middle + 1 + i];
+	}
+
+	asize_t i = 0, j = 0, k = left_limit;
+
+	while (i < len1 && j < len2)
+	{
+		if (left[i] <= right[j])
+		{
+			Array[k] = left[i];
+			i++;
+		}
+		else
+		{
+			Array[k] = right[j];
+			j++;
+		}
+		k++;
+	}
+	while (i < len1)
+	{
+		Array[k] = left[i];
+		k++;
+		i++;
+	}
+	while (j < len2)
+	{
+		Array[k] = right[j];
+		k++;
+		j++;
+	}
+
+	delete[] left;
+	delete[] right;
 }
 
 template <typename type_array>
@@ -2737,6 +3056,10 @@ template void ALGOR::Comparative_Sorts<int>::Tree_Sort();
 template void ALGOR::Comparative_Sorts<float>::Tree_Sort();
 template void ALGOR::Comparative_Sorts<char>::Tree_Sort();
 
+template void ALGOR::Comparative_Sorts<int>::Library_Sort();
+template void ALGOR::Comparative_Sorts<float>::Library_Sort();
+template void ALGOR::Comparative_Sorts<char>::Library_Sort();
+
 template void ALGOR::Comparative_Sorts<int>::Patience_Sort();
 template void ALGOR::Comparative_Sorts<float>::Patience_Sort();
 template void ALGOR::Comparative_Sorts<char>::Patience_Sort();
@@ -2744,6 +3067,26 @@ template void ALGOR::Comparative_Sorts<char>::Patience_Sort();
 template void ALGOR::Comparative_Sorts<int>::Merge_Sort();
 template void ALGOR::Comparative_Sorts<float>::Merge_Sort();
 template void ALGOR::Comparative_Sorts<char>::Merge_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Bitonic_Sorter();
+template void ALGOR::Comparative_Sorts<float>::Bitonic_Sorter();
+template void ALGOR::Comparative_Sorts<char>::Bitonic_Sorter();
+
+template void ALGOR::Comparative_Sorts<int>::Tim_Sort();
+template void ALGOR::Comparative_Sorts<float>::Tim_Sort();
+template void ALGOR::Comparative_Sorts<char>::Tim_Sort();
+
+template void ALGOR::Comparative_Sorts<int>::Pancake_Sort();
+template void ALGOR::Comparative_Sorts<float>::Pancake_Sort();
+template void ALGOR::Comparative_Sorts<char>::Pancake_Sort();
+
+template ALGOR::Comparative_Sorts<int>::BitonicSorter::BitonicSorter(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::BitonicSorter::BitonicSorter(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::BitonicSorter::BitonicSorter(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::BitonicSorter::bitonic_sorter();
+template void ALGOR::Comparative_Sorts<float>::BitonicSorter::bitonic_sorter();
+template void ALGOR::Comparative_Sorts<char>::BitonicSorter::bitonic_sorter();
 
 template ALGOR::Comparative_Sorts<int>::BogoSort::BogoSort(int *, asize_t);
 template ALGOR::Comparative_Sorts<float>::BogoSort::BogoSort(float *, asize_t);
@@ -2821,6 +3164,34 @@ template void ALGOR::Comparative_Sorts<int>::InsertSort::insert_sort();
 template void ALGOR::Comparative_Sorts<float>::InsertSort::insert_sort();
 template void ALGOR::Comparative_Sorts<char>::InsertSort::insert_sort();
 
+template ALGOR::Comparative_Sorts<int>::LibrarySort::LibrarySort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::LibrarySort::LibrarySort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::LibrarySort::LibrarySort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::LibrarySort::library_sort();
+template void ALGOR::Comparative_Sorts<float>::LibrarySort::library_sort();
+template void ALGOR::Comparative_Sorts<char>::LibrarySort::library_sort();
+
+template void ALGOR::Comparative_Sorts<int>::LibrarySort::initialization();
+template void ALGOR::Comparative_Sorts<float>::LibrarySort::initialization();
+template void ALGOR::Comparative_Sorts<char>::LibrarySort::initialization();
+
+template void ALGOR::Comparative_Sorts<int>::LibrarySort::binarysearch();
+template void ALGOR::Comparative_Sorts<float>::LibrarySort::binarysearch();
+template void ALGOR::Comparative_Sorts<char>::LibrarySort::binarysearch();
+
+template void ALGOR::Comparative_Sorts<int>::LibrarySort::insertion();
+template void ALGOR::Comparative_Sorts<float>::LibrarySort::insertion();
+template void ALGOR::Comparative_Sorts<char>::LibrarySort::insertion();
+
+template void ALGOR::Comparative_Sorts<int>::LibrarySort::rebalancing();
+template void ALGOR::Comparative_Sorts<float>::LibrarySort::rebalancing();
+template void ALGOR::Comparative_Sorts<char>::LibrarySort::rebalancing();
+
+template void ALGOR::Comparative_Sorts<int>::LibrarySort::finalization();
+template void ALGOR::Comparative_Sorts<float>::LibrarySort::finalization();
+template void ALGOR::Comparative_Sorts<char>::LibrarySort::finalization();
+
 template ALGOR::Comparative_Sorts<int>::MergeSort::MergeSort(int *, asize_t);
 template ALGOR::Comparative_Sorts<float>::MergeSort::MergeSort(float *, asize_t);
 template ALGOR::Comparative_Sorts<char>::MergeSort::MergeSort(char *, asize_t);
@@ -2844,6 +3215,22 @@ template ALGOR::Comparative_Sorts<char>::OddEvenSort::OddEvenSort(char *, asize_
 template void ALGOR::Comparative_Sorts<int>::OddEvenSort::odd_even_sort();
 template void ALGOR::Comparative_Sorts<float>::OddEvenSort::odd_even_sort();
 template void ALGOR::Comparative_Sorts<char>::OddEvenSort::odd_even_sort();
+
+template ALGOR::Comparative_Sorts<int>::PancakeSort::PancakeSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::PancakeSort::PancakeSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::PancakeSort::PancakeSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::PancakeSort::pancake_sort();
+template void ALGOR::Comparative_Sorts<float>::PancakeSort::pancake_sort();
+template void ALGOR::Comparative_Sorts<char>::PancakeSort::pancake_sort();
+
+template asize_t ALGOR::Comparative_Sorts<int>::PancakeSort::max_index();
+template asize_t ALGOR::Comparative_Sorts<float>::PancakeSort::max_index();
+template asize_t ALGOR::Comparative_Sorts<char>::PancakeSort::max_index();
+
+template void ALGOR::Comparative_Sorts<int>::PancakeSort::flip(asize_t);
+template void ALGOR::Comparative_Sorts<float>::PancakeSort::flip(asize_t);
+template void ALGOR::Comparative_Sorts<char>::PancakeSort::flip(asize_t);
 
 template ALGOR::Comparative_Sorts<int>::PatienceSort::PatienceSort(int *, asize_t);
 template ALGOR::Comparative_Sorts<float>::PatienceSort::PatienceSort(float *, asize_t);
@@ -2913,6 +3300,22 @@ template void ALGOR::Comparative_Sorts<int>::StoogeSort::recursive_stooge_sort(c
 template void ALGOR::Comparative_Sorts<float>::StoogeSort::recursive_stooge_sort(const int &, const int &);
 template void ALGOR::Comparative_Sorts<char>::StoogeSort::recursive_stooge_sort(const int &, const int &);
 
+template ALGOR::Comparative_Sorts<int>::TimSort::TimSort(int *, asize_t);
+template ALGOR::Comparative_Sorts<float>::TimSort::TimSort(float *, asize_t);
+template ALGOR::Comparative_Sorts<char>::TimSort::TimSort(char *, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::TimSort::tim_sort();
+template void ALGOR::Comparative_Sorts<float>::TimSort::tim_sort();
+template void ALGOR::Comparative_Sorts<char>::TimSort::tim_sort();
+
+template void ALGOR::Comparative_Sorts<int>::TimSort::insertionSort(asize_t, asize_t);
+template void ALGOR::Comparative_Sorts<float>::TimSort::insertionSort(asize_t, asize_t);
+template void ALGOR::Comparative_Sorts<char>::TimSort::insertionSort(asize_t, asize_t);
+
+template void ALGOR::Comparative_Sorts<int>::TimSort::merge(asize_t, asize_t, asize_t);
+template void ALGOR::Comparative_Sorts<float>::TimSort::merge(asize_t, asize_t, asize_t);
+template void ALGOR::Comparative_Sorts<char>::TimSort::merge(asize_t, asize_t, asize_t);
+
 template ALGOR::Comparative_Sorts<int>::TreeSort::TreeSort(int *, asize_t);
 template ALGOR::Comparative_Sorts<float>::TreeSort::TreeSort(float *, asize_t);
 template ALGOR::Comparative_Sorts<char>::TreeSort::TreeSort(char *, asize_t);
@@ -2961,14 +3364,6 @@ template void ALGOR::Comparative_Sorts<int>::SmoothSort::PrevState(int &);
 template void ALGOR::Comparative_Sorts<float>::SmoothSort::PrevState(int &);
 template void ALGOR::Comparative_Sorts<char>::SmoothSort::PrevState(int &);
 
-#endif // ARRAYS
-
-#if ADDITION == 0
-#pragma message("Additions are disabled")
-#elif ADDITION == 1 and ARRAYS == 1
-
-#if MATRIX == 1
-#pragma message("Matrix are enabled")
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -2981,10 +3376,6 @@ template void ALGOR::Comparative_Sorts<char>::SmoothSort::PrevState(int &);
 
 // TODO The implementation of the matrices is scheduled to version 3.0.0
 
-#endif // MATRIX
-
-#if HEAP == 1
-#pragma message("Heap are enabled")
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -2997,11 +3388,6 @@ template void ALGOR::Comparative_Sorts<char>::SmoothSort::PrevState(int &);
 
 // TODO The implementation of the trees is scheduled to version 4.0.0
 
-#endif // HEAP
-
-#if LIST == 1
-#pragma message("List are enabled")
-
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -3013,170 +3399,3 @@ template void ALGOR::Comparative_Sorts<char>::SmoothSort::PrevState(int &);
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 // TODO The implementation of the lists is scheduled to version 5.0.0
-
-#endif // LIST
-
-#endif // ADDITION
-
-#if STANDARDS_SWITCH == 0
-#pragma message("Compilation, which was conceived by the author")
-#elif STANDARDS_SWITCH == 1
-#pragma message("Compilation that includes the standard libraries")
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                               STANDART                              <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-template <class type_array>
-st_SortingAlgorithms<type_array>::st_SortingAlgorithms(Array<type_array> *&Array) : ArrayBase<type_array>(Array)
-{
-}
-
-template <class type_array>
-void st_SortingAlgorithms<type_array>::Library_Sort()
-{
-	LibrarySort *sort = new LibrarySort(this->ARRAY->array, this->ARRAY->array_size);
-	sort->library_sort();
-	delete (sort);
-}
-
-template <class type_array>
-st_SortingAlgorithms<type_array>::LibrarySort::LibrarySort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
-
-template <class type_array>
-void st_SortingAlgorithms<type_array>::LibrarySort::library_sort()
-{
-	initialization();
-	while (index_pos < array_size)
-	{
-		binarysearch();
-		insertion();
-	}
-	rebalancing();
-	finalization();
-}
-
-template <class type_array>
-void st_SortingAlgorithms<type_array>::LibrarySort::initialization()
-{
-	gaps = new type_array[array_size + 1]{0};
-	for (asize_t i = 0; i < 2; i++)
-	{
-		library[i] = new type_array[array_size + 1]{0};
-	}
-	numbered = new bool[array_size + 1]{0};
-	library[target_lib][0] = Array[0];
-}
-
-template <class type_array>
-void st_SortingAlgorithms<type_array>::LibrarySort::binarysearch()
-{
-	insert = (asize_t)std::distance(library[target_lib], std::lower_bound(library[target_lib], library[target_lib] + lib_size, Array[index_pos]));
-}
-
-template <class type_array>
-void st_SortingAlgorithms<type_array>::LibrarySort::insertion()
-{
-	if (numbered[insert] == true)
-	{
-		asize_t prov_size = 0, next_target_lib = !target_lib;
-
-		for (asize_t i = 0; i <= array_size; i++)
-		{
-			if (numbered[i] == true)
-			{
-				library[next_target_lib][prov_size] = gaps[i];
-				prov_size++;
-				numbered[i] = false;
-			}
-			if (i <= lib_size)
-			{
-				library[next_target_lib][prov_size] = library[target_lib][i];
-				prov_size++;
-			}
-		}
-
-		target_lib = next_target_lib;
-		lib_size = prov_size - 1;
-	}
-	else
-	{
-		numbered[insert] = true;
-		gaps[insert] = Array[index_pos];
-		index_pos++;
-	}
-}
-
-template <class type_array>
-void st_SortingAlgorithms<type_array>::LibrarySort::rebalancing()
-{
-	for (asize_t i = 0; index_pos_for_output < array_size; i++)
-	{
-		if (numbered[i] == true)
-		{
-			Array[index_pos_for_output] = gaps[i];
-			index_pos_for_output++;
-		}
-
-		if (i < lib_size)
-		{
-			Array[index_pos_for_output] = library[target_lib][i];
-			index_pos_for_output++;
-		}
-	}
-}
-
-template <class type_array>
-void st_SortingAlgorithms<type_array>::LibrarySort::finalization()
-{
-	delete[] numbered;
-	for (asize_t i = 0; i < 2; i++)
-	{
-		delete[] library[i];
-	}
-	delete[] gaps;
-}
-
-template st_SortingAlgorithms<int>::st_SortingAlgorithms(Array<int> *&);
-template st_SortingAlgorithms<float>::st_SortingAlgorithms(Array<float> *&);
-template st_SortingAlgorithms<char>::st_SortingAlgorithms(Array<char> *&);
-
-template void st_SortingAlgorithms<int>::Library_Sort();
-template void st_SortingAlgorithms<float>::Library_Sort();
-template void st_SortingAlgorithms<char>::Library_Sort();
-
-template st_SortingAlgorithms<int>::LibrarySort::LibrarySort(int *, asize_t);
-template st_SortingAlgorithms<float>::LibrarySort::LibrarySort(float *, asize_t);
-template st_SortingAlgorithms<char>::LibrarySort::LibrarySort(char *, asize_t);
-
-template void st_SortingAlgorithms<int>::LibrarySort::library_sort();
-template void st_SortingAlgorithms<float>::LibrarySort::library_sort();
-template void st_SortingAlgorithms<char>::LibrarySort::library_sort();
-
-template void st_SortingAlgorithms<int>::LibrarySort::initialization();
-template void st_SortingAlgorithms<float>::LibrarySort::initialization();
-template void st_SortingAlgorithms<char>::LibrarySort::initialization();
-
-template void st_SortingAlgorithms<int>::LibrarySort::binarysearch();
-template void st_SortingAlgorithms<float>::LibrarySort::binarysearch();
-template void st_SortingAlgorithms<char>::LibrarySort::binarysearch();
-
-template void st_SortingAlgorithms<int>::LibrarySort::insertion();
-template void st_SortingAlgorithms<float>::LibrarySort::insertion();
-template void st_SortingAlgorithms<char>::LibrarySort::insertion();
-
-template void st_SortingAlgorithms<int>::LibrarySort::rebalancing();
-template void st_SortingAlgorithms<float>::LibrarySort::rebalancing();
-template void st_SortingAlgorithms<char>::LibrarySort::rebalancing();
-
-template void st_SortingAlgorithms<int>::LibrarySort::finalization();
-template void st_SortingAlgorithms<float>::LibrarySort::finalization();
-template void st_SortingAlgorithms<char>::LibrarySort::finalization();
-
-#endif // STANDARDS_SWITCH
