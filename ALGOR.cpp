@@ -22,43 +22,6 @@
 
 using namespace ALGOR;
 
-void verification(const asize_t &array_size)
-{
-	if (array_size == 0)
-	{
-		throw void_data();
-	}
-}
-
-template <class type_array>
-asize_t distance(type_array *first, type_array *last)
-{
-	return last - first;
-}
-
-template <class type_array>
-type_array *lower_bound(type_array *first, type_array *last, const type_array &value)
-{
-	asize_t count, step, iterator = 0;
-	count = distance(first, last);
-	while (count > 0)
-	{
-		//iterator = first;
-		step = count / 2;
-		iterator = step;
-		if (first[iterator] < value)
-		{
-			first = &first[++iterator];
-			count -= step + 1;
-		}
-		else
-		{
-			count = step;
-		}
-	}
-	return first;
-}
-
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -330,10 +293,18 @@ void ALGOR::MersenneTwister::Init0(int seed)
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template <typename type_array>
-type_array ALGOR::ArrayProcessing<type_array>::minimum(const type_array *Array, const asize_t &array_size)
+void ALGOR::array_size_verification(const asize_t &asize)
 {
-	verification(array_size);
+	if (asize == 0)
+	{
+		throw void_data();
+	}
+}
+
+template <typename type_array>
+type_array ALGOR::ArrayProcessing::minimum(const type_array *Array, const asize_t &array_size)
+{
+	array_size_verification(array_size);
 	type_array point_min = Array[0];
 	for (unsigned int i = 1; i < array_size; i++)
 	{
@@ -346,9 +317,9 @@ type_array ALGOR::ArrayProcessing<type_array>::minimum(const type_array *Array, 
 }
 
 template <typename type_array>
-type_array ALGOR::ArrayProcessing<type_array>::maximum(const type_array *Array, const asize_t &array_size)
+type_array ALGOR::ArrayProcessing::maximum(const type_array *Array, const asize_t &array_size)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 	type_array point_max = Array[0];
 	for (unsigned int i = 1; i < array_size; i++)
 	{
@@ -361,9 +332,9 @@ type_array ALGOR::ArrayProcessing<type_array>::maximum(const type_array *Array, 
 }
 
 template <typename type_array>
-bool ALGOR::ArrayProcessing<type_array>::isOrderliness(const type_array *Array, const asize_t &array_size)
+bool ALGOR::ArrayProcessing::isOrderliness(const type_array *Array, const asize_t &array_size)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 	for (asize_t i = 0; i < array_size - 1; i++)
 	{
 		if (Array[i] > Array[i + 1])
@@ -375,7 +346,58 @@ bool ALGOR::ArrayProcessing<type_array>::isOrderliness(const type_array *Array, 
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
+asize_t ALGOR::ArrayProcessing::distance(type_array *first, type_array *last)
+{
+	//http://www.cplusplus.com/reference/iterator/distance/?kw=distance
+	return last - first;
+}
+
+template <typename type_array>
+type_array *ALGOR::ArrayProcessing::lower_bound(type_array *first, type_array *last, const type_array &value)
+{
+	//http://www.cplusplus.com/reference/algorithm/lower_bound/
+	asize_t count = distance(first, last), step = 0, iterator = 0;
+	while (count > 0)
+	{
+		step = count / 2;
+		iterator = step;
+		if (first[iterator] < value)
+		{
+			first = &first[++iterator];
+			count -= (step + 1);
+		}
+		else
+		{
+			count = step;
+		}
+	}
+	return first;
+}
+
+template<typename type_array>
+type_array *ArrayProcessing::upper_bound(type_array *first, type_array *last, const type_array &value)
+{
+	//http://www.cplusplus.com/reference/algorithm/upper_bound/
+	asize_t count = distance(first, last), step = 0, iterator = 0;
+	while (count > 0)
+	{
+		step = count / 2;
+		iterator = step;
+		if (!(value < first[iterator]))
+		{
+			first = &first[++iterator];
+			count -= (step + 1);
+		}
+		else
+		{
+			count = step;
+		}
+	}
+	return first;
+}
+
+template <typename type_array>
+void ALGOR::ArrayProcessing::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
 {
 	array_size++;
 	if (array_size > 0xffffffff)
@@ -399,9 +421,9 @@ void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t 
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
+void ALGOR::ArrayProcessing::subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 	if (array_size == 1)
 	{
 		delete[] Array;
@@ -423,9 +445,9 @@ void ALGOR::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asi
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
+void ALGOR::ArrayProcessing::subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 	int counter = 0;
 	type_array *temp_Array = new type_array[array_size];
 	for (unsigned int i = 0; i < array_size; i++)
@@ -445,7 +467,7 @@ void ALGOR::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
+void ALGOR::ArrayProcessing::copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
 {
 	for (unsigned int i = 0; i < size_of_copied; i++)
 	{
@@ -456,7 +478,7 @@ void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_
 template <typename type_array>
 Array<type_array> *ALGOR::create_struct(const asize_t &SIZE)
 {
-	verification(SIZE);
+	array_size_verification(SIZE);
 	Array<type_array> *ARRAY = new Array<type_array>;
 	ARRAY->array_size = SIZE;
 	ARRAY->array = new type_array[SIZE];
@@ -476,7 +498,7 @@ void ALGOR::remove_struct(Array<type_array> *&Array)
 }
 
 template <typename type_array>
-ALGOR::ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array) : ARRAY(Array) { verification(ARRAY->array_size); }
+ALGOR::ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array) : ARRAY(Array) { array_size_verification(ARRAY->array_size); }
 
 template <typename type_array>
 ALGOR::ArrayBase<type_array>::ArrayBase(const asize_t &SIZE) { ARRAY = create_struct<type_array>(SIZE); }
@@ -511,7 +533,7 @@ void ALGOR::ARRAYDATA<type_array>::generatedData(const int &min_limit, const int
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 {
-	verification(Array->array_size);
+	array_size_verification(Array->array_size);
 	remove();
 	this->ARRAY = Array;
 }
@@ -519,20 +541,20 @@ void ALGOR::ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 {
-	verification(Array->array_size);
+	array_size_verification(Array->array_size);
 	this->ARRAY = Array;
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
 {
-	verification(CloningArray->array_size);
+	array_size_verification(CloningArray->array_size);
 	if (CloningArray->array_size != this->ARRAY->array_size)
 	{
 		remove();
 		this->ARRAY = create_struct<type_array>(CloningArray->array_size);
 	}
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
+	ArrayProcessing::copy<type_array>(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
 }
 
 template <typename type_array>
@@ -543,7 +565,7 @@ void ALGOR::ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObje
 		remove();
 		this->ARRAY = create_struct<type_array>(CloningObject->getData()->array_size);
 	}
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
+	ArrayProcessing::copy<type_array>(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
 }
 
 template <typename type_array>
@@ -574,7 +596,7 @@ void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_ar
 	Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
 	if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
 	{
-		ArrayProcessing<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
+		ArrayProcessing::copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
 		for (asize_t i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
 		{
 			NEW_ARRAY->array[i] = setElement;
@@ -582,7 +604,7 @@ void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_ar
 	}
 	else
 	{
-		ArrayProcessing<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
+		ArrayProcessing::copy<type_array>(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
 	}
 	this->ARRAY = NEW_ARRAY;
 	remove_struct<type_array>(OLD_ARRAY);
@@ -617,13 +639,13 @@ void ALGOR::ARRAYDATA<type_array>::respawn()
 template <typename type_array>
 type_array ALGOR::ARRAYDATA<type_array>::getMin()
 {
-	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[0] : ArrayProcessing<type_array>::minimum(this->ARRAY->array, this->ARRAY->array_size);
+	return ArrayProcessing::isOrderliness<type_array>(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[0] : ArrayProcessing::minimum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
 }
 
 template <typename type_array>
 type_array ALGOR::ARRAYDATA<type_array>::getMax()
 {
-	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[this->ARRAY->array_size - 1] : ArrayProcessing<type_array>::maximum(this->ARRAY->array, this->ARRAY->array_size);
+	return ArrayProcessing::isOrderliness<type_array>(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[this->ARRAY->array_size - 1] : ArrayProcessing::maximum<type_array>(this->ARRAY->array, this->ARRAY->array_size);
 }
 
 template <typename type_array>
@@ -634,7 +656,7 @@ Array<int> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &requ
 	{
 		if (required_element == this->ARRAY->array[i])
 		{
-			ArrayProcessing<int>::addElement(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
+			ArrayProcessing::addElement<int>(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
 		}
 	}
 	if (NumberPoints->array_size == 0)
@@ -689,13 +711,13 @@ Array<int> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<t
 				case ARRAYDATA::ArrayType::NUMBER:
 					if (SUBARRAY->array_size - j == 1)
 					{
-						ArrayProcessing<int>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+						ArrayProcessing::addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 					}
 					break;
 				case ARRAYDATA::ArrayType::STRING:
 					if (SUBARRAY->array_size - j == 2)
 					{
-						ArrayProcessing<int>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+						ArrayProcessing::addElement<int>(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 					}
 					break;
 				}
@@ -759,7 +781,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::modas(int &highest_frequency)
 	highest_frequency = 0;
 	int current_frequency = 0;
 	type_array most_frequent = moda(highest_frequency);
-	ArrayProcessing<type_array>::addElement(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
+	ArrayProcessing::addElement<type_array>(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		if (most_frequent == this->ARRAY->array[i])
@@ -771,7 +793,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::modas(int &highest_frequency)
 				{
 					if (current_frequency == highest_frequency)
 					{
-						ArrayProcessing<type_array>::addElement(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
+						ArrayProcessing::addElement<type_array>(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
 					}
 					current_frequency = 0;
 				}
@@ -785,19 +807,19 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::modas(int &highest_frequency)
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator&&(const type_array &value)
 {
-	ArrayProcessing<type_array>::addElement(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
+	ArrayProcessing::addElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator!()
 {
-	ArrayProcessing<type_array>::subtractElement(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
+	ArrayProcessing::subtractElement<type_array>(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator||(const type_array &value)
 {
-	ArrayProcessing<type_array>::subtractValue(this->ARRAY->array, this->ARRAY->array_size, value);
+	ArrayProcessing::subtractValue<type_array>(this->ARRAY->array, this->ARRAY->array_size, value);
 }
 
 template <typename type_array>
@@ -811,7 +833,7 @@ void ALGOR::ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingA
 	}
 	remove();
 	this->ARRAY = create_struct<type_array>(newSize);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, newSize);
+	ArrayProcessing::copy<type_array>(this->ARRAY->array, temp->array, newSize);
 	remove_struct<type_array>(temp);
 }
 
@@ -825,7 +847,7 @@ void ALGOR::ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingA
 		i < appendingArray->getData()->array_size ? temp->array[i] = appendingArray->getData()->array[i] : temp->array[i] = this->ARRAY->array[i - appendingArray->getData()->array_size];
 	}
 	appendingArray->resize(newSize, 1);
-	ArrayProcessing<type_array>::copy(appendingArray->getData()->array, temp->array, newSize);
+	ArrayProcessing::copy<type_array>(appendingArray->getData()->array, temp->array, newSize);
 	remove_struct<type_array>(temp);
 }
 
@@ -839,9 +861,9 @@ void ALGOR::ARRAYDATA<type_array>::operator+(const asize_t &addSize)
 		throw memory_overflow();
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	ArrayProcessing::copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size + addSize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, temp->array_size);
+	ArrayProcessing::copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -854,9 +876,9 @@ void ALGOR::ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
 		return;
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	ArrayProcessing::copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size - subtractSize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+	ArrayProcessing::copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -868,9 +890,9 @@ void ALGOR::ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
 		throw memory_overflow();
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	ArrayProcessing::copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size * multiplySize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, temp->array_size);
+	ArrayProcessing::copy<type_array>(this->ARRAY->array, temp->array, temp->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -883,9 +905,9 @@ void ALGOR::ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
 		return;
 	}
 	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
+	ArrayProcessing::copy<type_array>(temp->array, this->ARRAY->array, this->ARRAY->array_size);
 	resize(temp->array_size / divideSize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, this->ARRAY->array_size);
+	ArrayProcessing::copy<type_array>(this->ARRAY->array, temp->array, this->ARRAY->array_size);
 	remove_struct<type_array>(temp);
 }
 
@@ -1086,7 +1108,7 @@ void Comparative_Sorts<type_array>::Pancake_Sort()
 template<typename type_array>
 Comparative_Sorts<type_array>::BitonicSorter::BitonicSorter(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template<typename type_array>
@@ -1114,7 +1136,7 @@ void Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::BogoSort::BogoSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1153,7 +1175,7 @@ void ALGOR::Comparative_Sorts<type_array>::BogoSort::Shuffle()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::BubbleSort::BubbleSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1174,7 +1196,7 @@ void ALGOR::Comparative_Sorts<type_array>::BubbleSort::bubble_sort()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::CocktailShakerSort::CocktailShakerSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1205,7 +1227,7 @@ void ALGOR::Comparative_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_s
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::CombSort::CombSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <class type_array>
@@ -1230,7 +1252,7 @@ void ALGOR::Comparative_Sorts<type_array>::CombSort::comb_sort()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::CycleSort::CycleSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1280,7 +1302,7 @@ void ALGOR::Comparative_Sorts<type_array>::CycleSort::cycle_sort()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::GnomeSort::GnomeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1314,14 +1336,14 @@ void ALGOR::Comparative_Sorts<type_array>::GnomeSort::gnome_sort()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::HeapSort::heap_sort()
 {
 	//Типи int у циклах ЗАЛИШИТИ! Без них не працює!
-	verification(array_size);
+	array_size_verification(array_size);
 	for (int right = array_size / 2 - 1; right >= 0; right--)
 	{
 		heapify(Array, right, array_size);
@@ -1355,7 +1377,7 @@ void ALGOR::Comparative_Sorts<type_array>::HeapSort::heapify(type_array *Array, 
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::InsertSort::InsertSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1373,7 +1395,7 @@ void ALGOR::Comparative_Sorts<type_array>::InsertSort::insert_sort()
 template <class type_array>
 Comparative_Sorts<type_array>::LibrarySort::LibrarySort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <class type_array>
@@ -1405,7 +1427,7 @@ template <class type_array>
 void Comparative_Sorts<type_array>::LibrarySort::binarysearch()
 {
 	//insert = (asize_t)std::distance(library[target_lib], std::lower_bound(library[target_lib], library[target_lib] + lib_size, Array[index_pos]));
-	insert = distance(library[target_lib], lower_bound(library[target_lib], library[target_lib] + lib_size, Array[index_pos]));
+	insert = ArrayProcessing::distance(library[target_lib], ArrayProcessing::lower_bound(library[target_lib], library[target_lib] + lib_size, Array[index_pos]));
 }
 
 template <class type_array>
@@ -1474,7 +1496,7 @@ void Comparative_Sorts<type_array>::LibrarySort::finalization()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::MergeSort::MergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1523,7 +1545,7 @@ void ALGOR::Comparative_Sorts<type_array>::MergeSort::merge(const asize_t &left_
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::OddEvenSort::OddEvenSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1546,7 +1568,7 @@ void ALGOR::Comparative_Sorts<type_array>::OddEvenSort::odd_even_sort()
 template<typename type_array>
 Comparative_Sorts<type_array>::PancakeSort::PancakeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template<typename type_array>
@@ -1591,7 +1613,7 @@ void Comparative_Sorts<type_array>::PancakeSort::flip(asize_t index)
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::PatienceSort::PatienceSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1674,7 +1696,7 @@ void ALGOR::Comparative_Sorts<type_array>::PatienceSort::finalization()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::QuickSort::QuickSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1718,7 +1740,7 @@ void ALGOR::Comparative_Sorts<type_array>::QuickSort::recursive_quick_sort(const
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::SelectionSort::SelectionSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1744,7 +1766,7 @@ void ALGOR::Comparative_Sorts<type_array>::SelectionSort::selection_sort()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::ShellSort::ShellSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1765,7 +1787,7 @@ void ALGOR::Comparative_Sorts<type_array>::ShellSort::shell_sort()
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::SlowSort::SlowSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1794,7 +1816,7 @@ void ALGOR::Comparative_Sorts<type_array>::SlowSort::recursive_slow_sort(const i
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::StoogeSort::StoogeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1824,7 +1846,7 @@ void ALGOR::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge_sort(con
 template<typename type_array>
 Comparative_Sorts<type_array>::TimSort::TimSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template<typename type_array>
@@ -1912,7 +1934,7 @@ void Comparative_Sorts<type_array>::TimSort::merge(asize_t left_limit, asize_t m
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::TreeSort::TreeSort(type_array *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -1971,7 +1993,7 @@ void ALGOR::Comparative_Sorts<type_array>::TreeSort::store(Tree *root, type_arra
 template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::SmoothSort::SmoothSort(type_array *array, int asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 template <typename type_array>
@@ -2204,7 +2226,7 @@ void Distribution_Sorts::Flash_Sort()
 
 Distribution_Sorts::AmericanFlagSort::AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::AmericanFlagSort::american_flag_sort()
@@ -2273,7 +2295,7 @@ void Distribution_Sorts::AmericanFlagSort::recursive_american_flag_sort(int star
 int Distribution_Sorts::AmericanFlagSort::getMaxNumberOfDigits()
 {
 	int count = 1;
-	int value = ArrayProcessing<int>::maximum(Array, array_size);
+	int value = ArrayProcessing::maximum<int>(Array, array_size);
 	while (true)
 	{
 		value /= 10;
@@ -2296,12 +2318,12 @@ int Distribution_Sorts::AmericanFlagSort::getDigit(int integer, int divisor)
 
 Distribution_Sorts::BeadSort::BeadSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::BeadSort::bead_sort()
 {
-	max = ArrayProcessing<int>::maximum(Array, array_size);
+	max = ArrayProcessing::maximum<int>(Array, array_size);
 	beads = new unsigned char[max * array_size]{0};
 
 	for (asize_t i = 0; i < array_size; i++)
@@ -2337,13 +2359,13 @@ void Distribution_Sorts::BeadSort::bead_sort()
 
 Distribution_Sorts::BucketSort::BucketSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::BucketSort::bucket_sort()
 {
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
+	min = ArrayProcessing::minimum<int>(Array, array_size);
+	max = ArrayProcessing::maximum<int>(Array, array_size);
 	range = (max - min) / (int)array_size;
 	range++;
 
@@ -2445,13 +2467,13 @@ void Distribution_Sorts::BucketSort::bubble_sort(int *bucket)
 
 Distribution_Sorts::CountingSort::CountingSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::CountingSort::counting_sort()
 {
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
+	min = ArrayProcessing::minimum<int>(Array, array_size);
+	max = ArrayProcessing::maximum<int>(Array, array_size);
 	tempArray = new int[max - min + 1];
 	for (int i = 0; i < max - min + 1; i++)
 	{
@@ -2475,7 +2497,7 @@ void Distribution_Sorts::CountingSort::counting_sort()
 
 Distribution_Sorts::FlashSort::FlashSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::FlashSort::flash_sort()
@@ -2576,7 +2598,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 
 Distribution_Sorts::InterpolationSort::InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::InterpolationSort::interpolation_sort()
@@ -2648,7 +2670,7 @@ void Distribution_Sorts::InterpolationSort::interpolation_sort()
 			ComplexityCount++;
 		}
 
-		ArrayProcessing<int>::copy(Array, sorted, array_size);
+		ArrayProcessing::copy<int>(Array, sorted, array_size);
 
 		delete[] space;
 	}
@@ -2701,13 +2723,13 @@ void Distribution_Sorts::InterpolationSort::getMax()
 
 Distribution_Sorts::PigeonholeSort::PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-	verification(array_size);
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
 {
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
+	min = ArrayProcessing::minimum<int>(Array, array_size);
+	max = ArrayProcessing::maximum<int>(Array, array_size);
 	range = (asize_t)max - (asize_t)min + 1;
 
 	hole = new int *[range];
@@ -2750,12 +2772,12 @@ void Distribution_Sorts::PigeonholeSort::push_back(int *&hole, const int &value)
 
 Distribution_Sorts::RadixSort::RadixSort(int *array, asize_t asize) : Array(array), array_size(asize)
 {
-
+	array_size_verification(array_size);
 }
 
 void Distribution_Sorts::RadixSort::radix_sort()
 {
-	max = ArrayProcessing<int>::maximum(Array, array_size);
+	max = ArrayProcessing::maximum<int>(Array, array_size);
 	tempArray = new int[array_size];
 	bucket = new int[bit];
 	while (max / exp > 0)
@@ -2788,6 +2810,42 @@ void Distribution_Sorts::RadixSort::radix_sort()
 	delete[] tempArray;
 }
 
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                             ALGOR_MATRIX                            <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+// TODO The implementation of the matrices is scheduled to version 3.0.0
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_HEAP                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+// TODO The implementation of the trees is scheduled to version 4.0.0
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_LIST                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+// TODO The implementation of the lists is scheduled to version 5.0.0
+
 template void ALGOR::swap<int>(int &, int &);
 template void ALGOR::swap<float>(float &, float &);
 template void ALGOR::swap<char>(char &, char &);
@@ -2800,33 +2858,45 @@ template int ALGOR::maximum<int>(int, int);
 template float ALGOR::maximum<float>(float, float);
 template char ALGOR::maximum<char>(char, char);
 
-template int ALGOR::ArrayProcessing<int>::minimum(const int *, const asize_t &);
-template float ALGOR::ArrayProcessing<float>::minimum(const float *, const asize_t &);
-template char ALGOR::ArrayProcessing<char>::minimum(const char *, const asize_t &);
+template int ALGOR::ArrayProcessing::minimum<int>(const int *, const asize_t &);
+template float ALGOR::ArrayProcessing::minimum<float>(const float *, const asize_t &);
+template char ALGOR::ArrayProcessing::minimum<char>(const char *, const asize_t &);
 
-template int ALGOR::ArrayProcessing<int>::maximum(const int *, const asize_t &);
-template float ALGOR::ArrayProcessing<float>::maximum(const float *, const asize_t &);
-template char ALGOR::ArrayProcessing<char>::maximum(const char *, const asize_t &);
+template int ALGOR::ArrayProcessing::maximum<int>(const int *, const asize_t &);
+template float ALGOR::ArrayProcessing::maximum<float>(const float *, const asize_t &);
+template char ALGOR::ArrayProcessing::maximum<char>(const char *, const asize_t &);
 
-template bool ALGOR::ArrayProcessing<int>::isOrderliness(const int *, const asize_t &);
-template bool ALGOR::ArrayProcessing<float>::isOrderliness(const float *, const asize_t &);
-template bool ALGOR::ArrayProcessing<char>::isOrderliness(const char *, const asize_t &);
+template bool ALGOR::ArrayProcessing::isOrderliness<int>(const int *, const asize_t &);
+template bool ALGOR::ArrayProcessing::isOrderliness<float>(const float *, const asize_t &);
+template bool ALGOR::ArrayProcessing::isOrderliness<char>(const char *, const asize_t &);
 
-template void ALGOR::ArrayProcessing<int>::addElement(int *&, asize_t &, const int &, const unsigned int);
-template void ALGOR::ArrayProcessing<float>::addElement(float *&, asize_t &, const float &, const unsigned int);
-template void ALGOR::ArrayProcessing<char>::addElement(char *&, asize_t &, const char &, const unsigned int);
+template asize_t ALGOR::ArrayProcessing::distance<int>(int *, int *);
+template asize_t ALGOR::ArrayProcessing::distance<float>(float *, float *);
+template asize_t ALGOR::ArrayProcessing::distance<char>(char *, char *);
 
-template void ALGOR::ArrayProcessing<int>::subtractElement(int *&, asize_t &, const unsigned int);
-template void ALGOR::ArrayProcessing<float>::subtractElement(float *&, asize_t &, const unsigned int);
-template void ALGOR::ArrayProcessing<char>::subtractElement(char *&, asize_t &, const unsigned int);
+template int *ALGOR::ArrayProcessing::lower_bound<int>(int *, int *, const int &);
+template float *ALGOR::ArrayProcessing::lower_bound<float>(float *, float *, const float &);
+template char *ALGOR::ArrayProcessing::lower_bound<char>(char *, char *, const char &);
 
-template void ALGOR::ArrayProcessing<int>::subtractValue(int *&, asize_t &, const int &);
-template void ALGOR::ArrayProcessing<float>::subtractValue(float *&, asize_t &, const float &);
-template void ALGOR::ArrayProcessing<char>::subtractValue(char *&, asize_t &, const char &);
+template int *ALGOR::ArrayProcessing::upper_bound<int>(int *, int *, const int &);
+template float *ALGOR::ArrayProcessing::upper_bound<float>(float *, float *, const float &);
+template char *ALGOR::ArrayProcessing::upper_bound<char>(char *, char *, const char &);
 
-template void ALGOR::ArrayProcessing<int>::copy(int *, const int *, const unsigned int &, unsigned int, unsigned int);
-template void ALGOR::ArrayProcessing<float>::copy(float *, const float *, const unsigned int &, unsigned int, unsigned int);
-template void ALGOR::ArrayProcessing<char>::copy(char *, const char *, const unsigned int &, unsigned int, unsigned int);
+template void ALGOR::ArrayProcessing::addElement<int>(int *&, asize_t &, const int &, const unsigned int);
+template void ALGOR::ArrayProcessing::addElement<float>(float *&, asize_t &, const float &, const unsigned int);
+template void ALGOR::ArrayProcessing::addElement<char>(char *&, asize_t &, const char &, const unsigned int);
+
+template void ALGOR::ArrayProcessing::subtractElement<int>(int *&, asize_t &, const unsigned int);
+template void ALGOR::ArrayProcessing::subtractElement<float>(float *&, asize_t &, const unsigned int);
+template void ALGOR::ArrayProcessing::subtractElement<char>(char *&, asize_t &, const unsigned int);
+
+template void ALGOR::ArrayProcessing::subtractValue<int>(int *&, asize_t &, const int &);
+template void ALGOR::ArrayProcessing::subtractValue<float>(float *&, asize_t &, const float &);
+template void ALGOR::ArrayProcessing::subtractValue<char>(char *&, asize_t &, const char &);
+
+template void ALGOR::ArrayProcessing::copy<int>(int *, const int *, const unsigned int &, unsigned int, unsigned int);
+template void ALGOR::ArrayProcessing::copy<float>(float *, const float *, const unsigned int &, unsigned int, unsigned int);
+template void ALGOR::ArrayProcessing::copy<char>(char *, const char *, const unsigned int &, unsigned int, unsigned int);
 
 template Array<int> *ALGOR::create_struct<int>(const asize_t &);
 template Array<float> *ALGOR::create_struct<float>(const asize_t &);
@@ -3363,39 +3433,3 @@ template int ALGOR::Comparative_Sorts<char>::SmoothSort::findPosMaxElem(int, int
 template void ALGOR::Comparative_Sorts<int>::SmoothSort::PrevState(int &);
 template void ALGOR::Comparative_Sorts<float>::SmoothSort::PrevState(int &);
 template void ALGOR::Comparative_Sorts<char>::SmoothSort::PrevState(int &);
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                             ALGOR_MATRIX                            <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-// TODO The implementation of the matrices is scheduled to version 3.0.0
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                              ALGOR_HEAP                             <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-// TODO The implementation of the trees is scheduled to version 4.0.0
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                              ALGOR_LIST                             <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-// TODO The implementation of the lists is scheduled to version 5.0.0

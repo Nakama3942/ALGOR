@@ -207,31 +207,58 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	template <typename type_array>
-	class ArrayProcessing
+	void array_size_verification(const asize_t &array_size);
+
+	namespace ArrayProcessing
 	{
-	public:
-		static type_array minimum(const type_array *Array,
-								  const asize_t &array_size);
-		static type_array maximum(const type_array *Array,
-								  const asize_t &array_size);
-		static bool isOrderliness(const type_array *Array,
-								  const asize_t &array_size);
-		static void addElement(type_array *&Array,
-							   asize_t &array_size,
-							   const type_array &value,
-							   const unsigned int position = 0);
-		static void subtractElement(type_array *&Array,
-									asize_t &array_size,
-									const unsigned int position);
-		static void subtractValue(type_array *&Array,
-								  asize_t &array_size,
-								  const type_array &value);
-		static void copy(type_array *new_array,
-						 const type_array *old_array,
-						 const unsigned int &size_of_copied,
-						 unsigned int position_in_new_array = 0,
-						 unsigned int position_in_old_array = 0);
+		template <typename type_array>
+		type_array minimum(const type_array *Array,
+						   const asize_t &array_size);
+
+		template <typename type_array>
+		type_array maximum(const type_array *Array,
+						   const asize_t &array_size);
+
+		template <typename type_array>
+		bool isOrderliness(const type_array *Array,
+						   const asize_t &array_size);
+
+		template <typename type_array>
+		asize_t distance(type_array *first,
+						 type_array *last);
+
+		template <typename type_array>
+		type_array *lower_bound(type_array *first,
+								type_array *last,
+								const type_array &value);
+
+		template <typename type_array>
+		type_array *upper_bound(type_array *first,
+								type_array *last,
+								const type_array &value);
+
+		template <typename type_array>
+		void addElement(type_array *&Array,
+						asize_t &array_size,
+						const type_array &value,
+						const unsigned int position = 0);
+
+		template <typename type_array>
+		void subtractElement(type_array *&Array,
+							 asize_t &array_size,
+							 const unsigned int position);
+
+		template <typename type_array>
+		void subtractValue(type_array *&Array,
+						   asize_t &array_size,
+						   const type_array &value);
+
+		template <typename type_array>
+		void copy(type_array *new_array,
+				  const type_array *old_array,
+				  const unsigned int &size_of_copied,
+				  unsigned int position_in_new_array = 0,
+				  unsigned int position_in_old_array = 0);
 	};
 
 	template <typename type_array>
@@ -327,26 +354,26 @@ namespace ALGOR
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 *                      Список нереалізованих алгоритмів:                      *
-	 * ProportionExtendSort		Категорія Exchange_Sorts                           *
-	 * CartesianTreeSort		Категорія Selection_Sorts                          *
-	 * TournamentSort			Категорія Selection_Sorts                          *
-	 * WeakHeapSort				Категорія Selection_Sorts                          *
-	 * SplaySort				Категорія Insertion_Sorts                          *
-	 * CascadeMergeSort			Категорія Merge_Sorts                              *
-	 * OscillatingMergeSort		Категорія Merge_Sorts                              *
-	 * PolyphaseMergeSort		Категорія Merge_Sorts                              *
-	 * BurstSort				Категорія Distribution_Sorts                       *
-	 * ProxmapSort				Категорія Distribution_Sorts                       *
-	 * BatcherOddEvenMergeSort	Категорія Concurrent_Sort                          *
-	 * PairwiseSortingNetwork	Категорія Concurrent_Sort                          *
-	 * SampleSort				Категорія Concurrent_Sort                          *
-	 * BlockMergeSort			Категорія Hybrid_Sorts                             *
-	 * KirkpatrickReischSort	Категорія Hybrid_Sorts                             *
-	 * IntroSort				Категорія Hybrid_Sorts                             *
-	 * SpreadSort				Категорія Hybrid_Sorts                             *
-	 * MergeInsertionSort		Категорія Hybrid_Sorts                             *
-	 * TopologicalSort			Категорія Other_Sorts                              *
-	 * SpaghettiSort			Категорія Other_Sorts                              *
+	 * 1)  ProportionExtendSort		Категорія Exchange_Sorts                       *
+	 * 2)  CartesianTreeSort		Категорія Selection_Sorts                      *
+	 * 3)  TournamentSort			Категорія Selection_Sorts                      *
+	 * 4)  WeakHeapSort				Категорія Selection_Sorts                      *
+	 * 5)  SplaySort				Категорія Insertion_Sorts                      *
+	 * 6)  CascadeMergeSort			Категорія Merge_Sorts                          *
+	 * 7)  OscillatingMergeSort		Категорія Merge_Sorts                          *
+	 * 8)  PolyphaseMergeSort		Категорія Merge_Sorts                          *
+	 * 9)  BurstSort				Категорія Distribution_Sorts                   *
+	 * 10) ProxmapSort				Категорія Distribution_Sorts                   *
+	 * 11) BatcherOddEvenMergeSort	Категорія Concurrent_Sort                      *
+	 * 12) PairwiseSortingNetwork	Категорія Concurrent_Sort                      *
+	 * 13) SampleSort				Категорія Concurrent_Sort                      *
+	 * 14) BlockMergeSort			Категорія Hybrid_Sorts                         *
+	 * 15) KirkpatrickReischSort	Категорія Hybrid_Sorts                         *
+	 * 16) IntroSort				Категорія Hybrid_Sorts                         *
+	 * 17) SpreadSort				Категорія Hybrid_Sorts                         *
+	 * 18) MergeInsertionSort		Категорія Hybrid_Sorts                         *
+	 * 19) TopologicalSort			Категорія Other_Sorts                          *
+	 * 20) SpaghettiSort			Категорія Other_Sorts                          *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 	template <typename type_array>
