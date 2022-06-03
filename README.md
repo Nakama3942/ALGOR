@@ -25,10 +25,10 @@ The library implements the following functionality:
     - Section of the implementation of exceptions
 - _ALGOR_RANDOM_ ✔
     - Section of the implementation of randomizers
-- _AlGOR_SORTING_ ✔ (The functionality will be expanded from versions 2.1.1 to 2.1.X)
-    - Section of the implementation of sorting algorithms
 - _AlGOR_ARRAY_ ✔
     - Section of the implementation of classes of working with arrays
+- _AlGOR_SORTING_ ✔
+    - Section of the implementation of sorting algorithms
 - _ALGOR_MATRIX_ ⧖ (will be released in version 3.0.0)
     - Section of the implementation of classes of working with matrices
 - _AlGOR_HEAP_ ⧖ (will be released in version 4.0.0)

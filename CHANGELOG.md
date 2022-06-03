@@ -20,6 +20,23 @@
 ---
 -->
 
+## v2.2.1 (03.06.2022)
+
+#### Enhancements:
+- I forgot that at the beginning of sorting updates I sometimes made simple algorithms from the following categories of sorting algorithms. I thought I had only 26 sorting algorithms, forgetting about the 3 sorting algorithms that have already been implemented but not rewritten to the latest version of the design standard, and the algorithm that uses two standard functions. I'm just tired and wanted to release 30-35 sorting algorithms, and only 26 officially completed algorithms, ie I have 4-9 algorithms left to implement from a list of 10 unrealized algorithms. Remembering that I have 4 implemented but not completed algorithms, I just get 30 algorithms, which I planned. I decided to stop there. To implement the **Library_Sort** sorting algorithm, I needed to write my own implementations of the standard **distance()** and **lower_bound()** functions. I've tried to do it before, but I didn't succeed then. I then spent two days on it. Time passed, I learned a lot and I decided to try to write these functions again. And to my great surprise, I wrote their implementation for the first time. Then I tested these functions, made available the hidden function **verification()**, which I called **array_size_verification()**. And in the end I decided to implement a function similar to **lower_bound()**, namely **upper_bound()**. In result:
+    - I am implementing new features:
+        1. **array_size_verification()** - throws an exception if the array is empty (its size is zero)
+        2. **distance()** - returns the distance between the beginning and end of the specified array range
+        3. **lower_bound()** - returns the pointer to the first occurrence of the specified value in the specified range (the array must be sorted; the function is similar to binary search)
+        4. **upper_bound()** - returns the pointer to the first occurrence of the next value after the specified in the specified range (the array must be sorted; a function similar to binary search)
+    - I finished:
+        - **Bitonic_Sorter** sorting algorithm from category _ConcurrentSort_
+        - **Tim_Sort** sorting algorithm from category _HybridSorts_
+        - **Pancake_Sort** sorting algorithm from category _OtherSorts_
+        - **Library_Sort** sorting algorithm from category _InsertionSorts_
+    - I deleted the settings: since I no longer have a partition with standard libraries - I no longer have a goal to divide the project into partitions, which can be included and disabled for compilation.
+- I will note that sorting algorithms were already implemented at the time of release of the v2.0.0 update, and therefore the ten that remained to be implemented after the release of that update will no longer be implemented. Ten unrealized sorting algorithms: **BatcherOddEvenMergeSort** from _ConcurrentSort_, **PairwiseSortingNetwork** from _ConcurrentSort_, **SampleSort** from _ConcurrentSort_, **BlockMergeSort** from _HybridSorts_, **KirkpatrickReischSort** from _HybridSorts_, **IntroSort** from _HybridSorts_, **SpreadSort** from _HybridSorts_, **MergeInsertionSort** from _HybridSorts_, **TopologicalSort** from _OtherSorts_, **SpaghettiSort** from _OtherSorts_. I'm just tired of it. I want something new.
+
 ## v2.2.0 (15.04.2022)
 
 #### Enhancements:
