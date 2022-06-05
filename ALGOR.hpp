@@ -336,10 +336,6 @@ namespace ALGOR
 
 	private:
 		void remove();
-		void binary_searcher(const type_array &required_element,
-							 int &number_point,
-							 int left_limit,
-							 int right_limit);
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *

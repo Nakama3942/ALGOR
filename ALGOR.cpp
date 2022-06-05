@@ -415,9 +415,7 @@ void ALGOR::ArrayProcessing::addElement(type_array *&Array, asize_t &array_size,
 		position > i ? temp_Array[i] = Array[i] : (position == i ? temp_Array[i] = value : temp_Array[i] = Array[i - 1]);
 	}
 	delete[] Array;
-	Array = new type_array[array_size];
-	copy(Array, temp_Array, array_size);
-	delete[] temp_Array;
+	Array = temp_Array;
 }
 
 template <typename type_array>
@@ -669,36 +667,18 @@ Array<int> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &requ
 template <typename type_array>
 int ALGOR::ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
-	int position = 0;
-	binary_searcher(required_element, position, 0, this->ARRAY->array_size - 1);
-	return position;
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::binary_searcher(const type_array &required_element, int &number_point, int left_limit, int right_limit)
-{
-	if (left_limit > right_limit)
+	asize_t position = ArrayProcessing::distance(&this->ARRAY->array[0], ArrayProcessing::lower_bound<type_array>(&this->ARRAY->array[0], &this->ARRAY->array[this->ARRAY->array_size - 1], required_element));
+	if(this->ARRAY->array[position] != required_element)
 	{
 		throw not_found();
 	}
-	int middle = left_limit + (right_limit - left_limit) / 2;
-	if (this->ARRAY->array[middle] == required_element)
-	{
-		number_point = middle;
-	}
-	if (this->ARRAY->array[middle] > required_element)
-	{
-		binary_searcher(required_element, number_point, left_limit, middle - 1);
-	}
-	if (this->ARRAY->array[middle] < required_element)
-	{
-		binary_searcher(required_element, number_point, middle + 1, right_limit);
-	}
+	return (int)position;
 }
 
 template <typename type_array>
 Array<int> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
+	//FIXME Не работает
 	Array<int> *Occurrences = new Array<int>;
 	for (asize_t i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
 	{
@@ -2993,10 +2973,6 @@ template Array<int> *ALGOR::ARRAYDATA<char>::lenear_searcher(const char &);
 template int ALGOR::ARRAYDATA<int>::binary_searcher(const int &);
 template int ALGOR::ARRAYDATA<float>::binary_searcher(const float &);
 template int ALGOR::ARRAYDATA<char>::binary_searcher(const char &);
-
-template void ALGOR::ARRAYDATA<int>::binary_searcher(const int &, int &, int, int);
-template void ALGOR::ARRAYDATA<float>::binary_searcher(const float &, int &, int, int);
-template void ALGOR::ARRAYDATA<char>::binary_searcher(const char &, int &, int, int);
 
 template Array<int> *ALGOR::ARRAYDATA<int>::searcherOccurrencesOfSubstring(Array<int> *&, ArrayType);
 template Array<int> *ALGOR::ARRAYDATA<float>::searcherOccurrencesOfSubstring(Array<float> *&, ArrayType);
