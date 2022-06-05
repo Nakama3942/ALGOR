@@ -35,10 +35,9 @@ using namespace ALGOR;
 template <typename type_value>
 void ALGOR::swap(type_value &firstNumber, type_value &secondNumber)
 {
-	type_value *temp = new type_value(firstNumber);
+	type_value temp = firstNumber;
 	firstNumber = secondNumber;
-	secondNumber = *temp;
-	delete (temp);
+	secondNumber = temp;
 }
 
 template <typename type_value>
