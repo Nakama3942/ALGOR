@@ -209,56 +209,48 @@ namespace ALGOR
 
 	void array_size_verification(const asize_t &array_size);
 
-	namespace ArrayProcessing
+	template <typename type_array>
+	class ArrayProcessing
 	{
-		template <typename type_array>
-		type_array minimum(const type_array *Array,
-						   const asize_t &array_size);
+	public:
+		static type_array minimum(const type_array *Array,
+								  const asize_t &array_size);
 
-		template <typename type_array>
-		type_array maximum(const type_array *Array,
-						   const asize_t &array_size);
+		static type_array maximum(const type_array *Array,
+								  const asize_t &array_size);
 
-		template <typename type_array>
-		bool isOrderliness(const type_array *Array,
-						   const asize_t &array_size);
+		static bool isOrderliness(const type_array *Array,
+								  const asize_t &array_size);
 
-		template <typename type_array>
-		asize_t distance(type_array *first,
-						 type_array *last);
+		static asize_t distance(type_array *first,
+								type_array *last);
 
-		template <typename type_array>
-		type_array *lower_bound(type_array *first,
-								type_array *last,
-								const type_array &value);
+		static type_array *lower_bound(type_array *first,
+									   type_array *last,
+									   const type_array &value);
 
-		template <typename type_array>
-		type_array *upper_bound(type_array *first,
-								type_array *last,
-								const type_array &value);
+		static type_array *upper_bound(type_array *first,
+									   type_array *last,
+									   const type_array &value);
 
-		template <typename type_array>
-		void addElement(type_array *&Array,
-						asize_t &array_size,
-						const type_array &value,
-						const unsigned int position = 0);
+		static void addElement(type_array *&Array,
+							   asize_t &array_size,
+							   const type_array &value,
+							   const unsigned int position = 0);
 
-		template <typename type_array>
-		void subtractElement(type_array *&Array,
-							 asize_t &array_size,
-							 const unsigned int position);
+		static void subtractElement(type_array *&Array,
+									asize_t &array_size,
+									const unsigned int position);
 
-		template <typename type_array>
-		void subtractValue(type_array *&Array,
-						   asize_t &array_size,
-						   const type_array &value);
+		static void subtractValue(type_array *&Array,
+								  asize_t &array_size,
+								  const type_array &value);
 
-		template <typename type_array>
-		void copy(type_array *new_array,
-				  const type_array *old_array,
-				  const unsigned int &size_of_copied,
-				  unsigned int position_in_new_array = 0,
-				  unsigned int position_in_old_array = 0);
+		static void copy(type_array *new_array,
+						 const type_array *old_array,
+						 const unsigned int &size_of_copied,
+						 unsigned int position_in_new_array = 0,
+						 unsigned int position_in_old_array = 0);
 	};
 
 	template <typename type_array>
@@ -310,6 +302,7 @@ namespace ALGOR
 		void replace(const unsigned int &position, const type_array &value);
 		void reverse();
 		void respawn();
+		void remove(); //WARNING Необхідно перевірити приватність-публичність цього методу
 
 		type_array getMin();
 		type_array getMax();
@@ -333,9 +326,6 @@ namespace ALGOR
 		void operator-(const asize_t &subtractSize);
 		void operator*(const asize_t &multiplySize);
 		void operator/(const asize_t &divideSize);
-
-	private:
-		void remove();
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
