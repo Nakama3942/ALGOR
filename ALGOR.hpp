@@ -82,11 +82,13 @@ namespace ALGOR
 	using memcell_t = unsigned long long;	///< Alias for calculated memory cell
 
 	template <typename type_value>
-	void swap(type_value &firstNumber, type_value &secondNumber);
-	template <typename type_value>
-	type_value minimum(type_value firstNumber, type_value secondNumber);
-	template <typename type_value>
-	type_value maximum(type_value firstNumber, type_value secondNumber);
+	class CORE
+	{
+	public:
+		static void swap(type_value &firstNumber, type_value &secondNumber) noexcept;
+		static type_value minimum(type_value firstNumber, type_value secondNumber) noexcept;
+		static type_value maximum(type_value firstNumber, type_value secondNumber) noexcept;
+	};
 
 	memcell_t getMemoryCell(); //Заместо time(NULL)
 	memcell_t getMemoryCell(memcell_t right_adjust, memcell_t left_adjust);
@@ -111,14 +113,14 @@ namespace ALGOR
 	class Exception
 	{
 	public:
-		Exception(unsigned int CODE, const char *DETAILS);
-		Exception(unsigned int CODE);
+		Exception(ubit16_t CODE, const char *DETAILS);
+		Exception(ubit16_t CODE);
 		Exception(const char *DETAILS);
-		unsigned int code();
+		ubit16_t code();
 		const char *what();
 
 	protected:
-		unsigned int CODE;		///< Exception encoding
+		ubit16_t CODE;			///< Exception encoding
 		const char *DETAILS;	///< Exception details
 	};
 

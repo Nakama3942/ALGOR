@@ -32,22 +32,22 @@ using namespace ALGOR;
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template <typename type_value>
-void ALGOR::swap(type_value &firstNumber, type_value &secondNumber)
+template<typename type_value>
+void ALGOR::CORE<type_value>::swap(type_value &firstNumber, type_value &secondNumber) noexcept
 {
 	type_value temp = firstNumber;
 	firstNumber = secondNumber;
 	secondNumber = temp;
 }
 
-template <typename type_value>
-type_value ALGOR::minimum(type_value firstNumber, type_value secondNumber)
+template<typename type_value>
+type_value ALGOR::CORE<type_value>::minimum(type_value firstNumber, type_value secondNumber) noexcept
 {
 	return firstNumber < secondNumber ? firstNumber : secondNumber;
 }
 
-template <typename type_value>
-type_value ALGOR::maximum(type_value firstNumber, type_value secondNumber)
+template<typename type_value>
+type_value ALGOR::CORE<type_value>::maximum(type_value firstNumber, type_value secondNumber) noexcept
 {
 	return firstNumber > secondNumber ? firstNumber : secondNumber;
 }
@@ -96,13 +96,13 @@ memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-ALGOR::Exception::Exception(unsigned int CODE, const char *DETAILS)
+ALGOR::Exception::Exception(ubit16_t CODE, const char *DETAILS)
 {
 	this->CODE = CODE;
 	this->DETAILS = DETAILS;
 }
 
-ALGOR::Exception::Exception(unsigned int CODE)
+ALGOR::Exception::Exception(ubit16_t CODE)
 {
 	this->CODE = CODE;
 	this->DETAILS = "No information given";
@@ -110,11 +110,11 @@ ALGOR::Exception::Exception(unsigned int CODE)
 
 ALGOR::Exception::Exception(const char *DETAILS)
 {
-	this->CODE = 0xffffffff;
+	this->CODE = 0xffff;
 	this->DETAILS = DETAILS;
 }
 
-unsigned int ALGOR::Exception::code()
+ubit16_t ALGOR::Exception::code()
 {
 	return CODE;
 }
@@ -163,7 +163,7 @@ void ALGOR::RC4::crypto_srand(const char *key, int ksize)
 	for (int i = 0; i < 256; i++)
 	{
 		j = j + Sbox[i] + (ubit8_t)key[i % ksize];
-		swap(Sbox[i], Sbox[j]);
+		CORE<ubit8_t>::swap(Sbox[i], Sbox[j]);
 	}
 }
 
@@ -174,7 +174,7 @@ void ALGOR::RC4::crypto_rand(char *output, int size)
 	{
 		i += 1;
 		j += Sbox[i];
-		swap(Sbox[i], Sbox[j]);
+		CORE<ubit8_t>::swap(Sbox[i], Sbox[j]);
 		t = Sbox[i] + Sbox[j];
 		output[k] = (unsigned int)Sbox[t];
 	}
@@ -619,7 +619,7 @@ void ALGOR::ARRAYDATA<type_array>::reverse()
 	int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
 	for (asize_t i = 0; i < this->ARRAY->array_size / 2; i++)
 	{
-		swap<type_array>(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
+		CORE<type_array>::swap(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
 		left_limit++;
 		right_limit--;
 	}
@@ -1104,7 +1104,7 @@ void Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
 				{
 					if ( ( ((i & k) == 0) && (Array[i] > Array[l]) ) || ( ((i & k) != 0) && (Array[i] < Array[l]) ) )
 					{
-						swap<type_array>(Array[i], Array[l]);
+						CORE<type_array>::swap(Array[i], Array[l]);
 					}
 				}
 			}
@@ -1147,7 +1147,7 @@ void ALGOR::Comparative_Sorts<type_array>::BogoSort::Shuffle()
 	for (asize_t i = 0; i < array_size; i++)
 	{
 		MersenneTwister RanGen(getMemoryCell());
-		swap<type_array>(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
+		CORE<type_array>::swap(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
 	}
 }
 
@@ -1166,7 +1166,7 @@ void ALGOR::Comparative_Sorts<type_array>::BubbleSort::bubble_sort()
 		{
 			if (Array[j] > Array[j + 1])
 			{
-				swap<type_array>(Array[j], Array[j + 1]);
+				CORE<type_array>::swap(Array[j], Array[j + 1]);
 			}
 		}
 	}
@@ -1188,7 +1188,7 @@ void ALGOR::Comparative_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_s
 		{
 			if (Array[i - 1] > Array[i])
 			{
-				swap<type_array>(Array[i], Array[i - 1]);
+				CORE<type_array>::swap(Array[i], Array[i - 1]);
 			}
 		}
 		leftMark++;
@@ -1196,7 +1196,7 @@ void ALGOR::Comparative_Sorts<type_array>::CocktailShakerSort::cocktail_shaker_s
 		{
 			if (Array[i - 1] > Array[i])
 			{
-				swap<type_array>(Array[i], Array[i - 1]);
+				CORE<type_array>::swap(Array[i], Array[i - 1]);
 			}
 		}
 		rightMark--;
@@ -1221,7 +1221,7 @@ void ALGOR::Comparative_Sorts<type_array>::CombSort::comb_sort()
 		{
 			if (Array[i] > Array[i + step])
 			{
-				swap<type_array>(Array[i], Array[i + step]);
+				CORE<type_array>::swap(Array[i], Array[i + step]);
 			}
 		}
 		step /= factor;
@@ -1257,7 +1257,7 @@ void ALGOR::Comparative_Sorts<type_array>::CycleSort::cycle_sort()
 		{
 			pos += 1;
 		}
-		swap<type_array>(Array[pos], item);
+		CORE<type_array>::swap(Array[pos], item);
 
 		while (pos != cycle_start)
 		{
@@ -1273,7 +1273,7 @@ void ALGOR::Comparative_Sorts<type_array>::CycleSort::cycle_sort()
 			{
 				pos += 1;
 			}
-			swap<type_array>(Array[pos], item);
+			CORE<type_array>::swap(Array[pos], item);
 		}
 	}
 }
@@ -1300,7 +1300,7 @@ void ALGOR::Comparative_Sorts<type_array>::GnomeSort::gnome_sort()
 			}
 			else
 			{
-				swap<type_array>(Array[i], Array[i - 1]);
+				CORE<type_array>::swap(Array[i], Array[i - 1]);
 				i--;
 				if (i == 0)
 				{
@@ -1329,7 +1329,7 @@ void ALGOR::Comparative_Sorts<type_array>::HeapSort::heap_sort()
 	}
 	for (int i = array_size - 1; i >= 0; i--)
 	{
-		swap<type_array>(Array[0], Array[i]);
+		CORE<type_array>::swap(Array[0], Array[i]);
 		heapify(Array, 0, i);
 	}
 }
@@ -1348,7 +1348,7 @@ void ALGOR::Comparative_Sorts<type_array>::HeapSort::heapify(type_array *Array, 
 	}
 	if (large != count)
 	{
-		swap<type_array>(Array[count], Array[large]);
+		CORE<type_array>::swap(Array[count], Array[large]);
 		heapify(Array, large, array_size);
 	}
 }
@@ -1366,7 +1366,7 @@ void ALGOR::Comparative_Sorts<type_array>::InsertSort::insert_sort()
 	{
 		for (asize_t j = i; j > 0 && Array[j - 1] > Array[j]; j--)
 		{
-			swap<type_array>(Array[j - 1], Array[j]);
+			CORE<type_array>::swap(Array[j - 1], Array[j]);
 		}
 	}
 }
@@ -1538,7 +1538,7 @@ void ALGOR::Comparative_Sorts<type_array>::OddEvenSort::odd_even_sort()
 		{
 			if (Array[j] < Array[j - 1])
 			{
-				swap<type_array>(Array[j - 1], Array[j]);
+				CORE<type_array>::swap(Array[j - 1], Array[j]);
 			}
 		}
 	}
@@ -1583,7 +1583,7 @@ void Comparative_Sorts<type_array>::PancakeSort::flip(asize_t index)
 	asize_t left = 0;
 	while (left < index)
 	{
-		swap<type_array>(Array[left], Array[index]);
+		CORE<type_array>::swap(Array[left], Array[index]);
 		index--;
 		left++;
 	}
@@ -1701,7 +1701,7 @@ void ALGOR::Comparative_Sorts<type_array>::QuickSort::recursive_quick_sort(const
 		}
 		if (start <= finish)
 		{
-			swap<type_array>(Array[start], Array[finish]);
+			CORE<type_array>::swap(Array[start], Array[finish]);
 			start++;
 			finish--;
 		}
@@ -1737,7 +1737,7 @@ void ALGOR::Comparative_Sorts<type_array>::SelectionSort::selection_sort()
 		}
 		if (min_index != i)
 		{
-			swap<type_array>(Array[i], Array[min_index]);
+			CORE<type_array>::swap(Array[i], Array[min_index]);
 		}
 	}
 }
@@ -1757,7 +1757,7 @@ void ALGOR::Comparative_Sorts<type_array>::ShellSort::shell_sort()
 		{
 			for (int j = (int)i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
 			{
-				swap<type_array>(Array[j], Array[j + step]);
+				CORE<type_array>::swap(Array[j], Array[j + step]);
 			}
 		}
 	}
@@ -1787,7 +1787,7 @@ void ALGOR::Comparative_Sorts<type_array>::SlowSort::recursive_slow_sort(const i
 	recursive_slow_sort(middle + 1, right_limit);
 	if (Array[middle] > Array[right_limit])
 	{
-		swap<type_array>(Array[middle], Array[right_limit]);
+		CORE<type_array>::swap(Array[middle], Array[right_limit]);
 	}
 	recursive_slow_sort(left_limit, right_limit - 1);
 }
@@ -1809,7 +1809,7 @@ void ALGOR::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge_sort(con
 {
 	if (Array[left_limit] > Array[right_limit])
 	{
-		swap<type_array>(Array[left_limit], Array[right_limit]);
+		CORE<type_array>::swap(Array[left_limit], Array[right_limit]);
 	}
 	if (left_limit + 1 >= right_limit)
 	{
@@ -1833,14 +1833,14 @@ void Comparative_Sorts<type_array>::TimSort::tim_sort()
 {
 	for (asize_t i = 0; i < array_size; i += RUN)
 	{
-		insertionSort(i, minimum<asize_t>((i + 31), (array_size - 1)));
+		insertionSort(i, CORE<asize_t>::minimum((i + 31), (array_size - 1)));
 	}
 	for (asize_t size = RUN; size < array_size; size *= 2)
 	{
 		for (asize_t left = 0; left < array_size; left += 2 * size)
 		{
 			asize_t middle = left + size - 1;
-			asize_t right = minimum<asize_t>((left + 2 * size - 1), (array_size - 1));
+			asize_t right = CORE<asize_t>::minimum((left + 2 * size - 1), (array_size - 1));
 			merge(left, middle, right);
 		}
 	}
@@ -1986,7 +1986,7 @@ void ALGOR::Comparative_Sorts<type_array>::SmoothSort::smooth_sort()
 		int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
 		if (posMaxTopElem != i)
 		{
-			swap<type_array>(Array[i], Array[posMaxTopElem]);
+			CORE<type_array>::swap(Array[i], Array[posMaxTopElem]);
 			shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
 		}
 		PrevState(curState);
@@ -2059,7 +2059,7 @@ void ALGOR::Comparative_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItem
 		}
 		if (Array[posCurNode] < Array[posMaxChild])
 		{
-			swap<type_array>(Array[posCurNode], Array[posMaxChild]);
+			CORE<type_array>::swap(Array[posCurNode], Array[posMaxChild]);
 			posHeapItemsAmount = posNextTop;
 			posCurNode = posMaxChild;
 		}
@@ -2438,7 +2438,7 @@ void Distribution_Sorts::BucketSort::bubble_sort(int *bucket)
 		{
 			if (bucket[j] > bucket[j + 1])
 			{
-				swap<int>(bucket[j], bucket[j + 1]);
+				CORE<int>::swap(bucket[j], bucket[j + 1]);
 			}
 		}
 	}
@@ -2499,7 +2499,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 	{
 		if (array_size == 2 && Array[0] > Array[1])
 		{
-			swap<int>(Array[0], Array[1]);
+			CORE<int>::swap(Array[0], Array[1]);
 		}
 		return;
 	}
@@ -2541,7 +2541,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 		L[i] = L[i] + L[i - 1];
 	}
 
-	swap<int>(Array[max], Array[0]);
+	CORE<int>::swap(Array[max], Array[0]);
 
 	k = m - 1;
 
@@ -2556,7 +2556,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 		while ((int)j != L[k])
 		{
 			k = c1 * (flash - Array[min]);
-			swap<int>(Array[L[k] - 1], flash);
+			CORE<int>::swap(Array[L[k] - 1], flash);
 			L[k]--;
 			move++;
 		}
@@ -2825,17 +2825,9 @@ void Distribution_Sorts::RadixSort::radix_sort()
 
 // TODO The implementation of the lists is scheduled to version 5.0.0
 
-template void ALGOR::swap<int>(int &, int &);
-template void ALGOR::swap<float>(float &, float &);
-template void ALGOR::swap<char>(char &, char &);
-
-template int ALGOR::minimum<int>(int, int);
-template float ALGOR::minimum<float>(float, float);
-template char ALGOR::minimum<char>(char, char);
-
-template int ALGOR::maximum<int>(int, int);
-template float ALGOR::maximum<float>(float, float);
-template char ALGOR::maximum<char>(char, char);
+template class ALGOR::CORE<int>;
+template class ALGOR::CORE<float>;
+template class ALGOR::CORE<char>;
 
 template class ALGOR::ArrayProcessing<int>;
 template class ALGOR::ArrayProcessing<float>;
