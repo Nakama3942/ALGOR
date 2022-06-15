@@ -1,0 +1,4 @@
+g++ ../ALGOR.cpp -s -shared -o ALGOR2.dll
+g++ -s -o test.exe test.cpp -L. -lALGOR2
+./test.exe
+cat ./test_report.txt

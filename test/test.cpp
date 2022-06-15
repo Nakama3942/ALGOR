@@ -1,5 +1,20 @@
-#include <iostream>
-using std::cout;
+/* ********************************************************************* *
+ * Тестування бібліотеки (можна самому скомпілювати бібліотеку           *
+ *  (перший варіант) чи використати IDE-шну версію (другий варіант)).    *
+ *                                                                       *
+ *	№1) g++ ../ALGOR.cpp -s -shared -o ALGOR2.dll                        *
+ *	№2) cp ../../build-ALGOR-TDM_GCC-Debug/debug/ALGOR2.dll ./ALGOR2.dll *
+ *                                                                       *
+ *  Далі просто компілюється програма тесту, запускається                *
+ *  та виводиться результат роботи:                                      *
+ *                                                                       *
+ *	g++ -s -o test.exe test.cpp -L. -lALGOR2                             *
+ *	./test.exe                                                           *
+ *	cat ./test_report.txt                                                *
+ * ********************************************************************* */
+
+#include <fstream>
+using std::fstream;
 
 #include "N:/ALGOR/ALGOR.hpp"
 using namespace ALGOR;
@@ -12,26 +27,35 @@ public:
 	{
 		Array = ARRAY;
 	}
+	void setFile(fstream *report_file)
+	{
+		this->report_file = report_file;
+	}
 	void print() override
 	{
 		for (asize_t i = 0; i < (*Array)->array_size; i++)
 		{
-			cout << " " << (*Array)->array[i];
+			*report_file << " " << (*Array)->array[i];
 		}
-		cout << "\n";
+		*report_file << "\n";
 	}
 private:
 	Array<type_array> **Array;
+	fstream *report_file;
 };
 
 int main()
 {
+	//Файл з результатом роботи
+	fstream report("test_report.txt", std::ios_base::out | std::ios_base::trunc);
+
 	//Структура для вытягивания массива из объекта
 	Array<int> *ArrayStruct = nullptr;
 
 	//Об'єкт для друку
 	printer<int> pr;
 	pr.setData(&ArrayStruct);
+	pr.setFile(&report);
 
 	//Генерация (заполнение) массива
 	ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
@@ -63,7 +87,7 @@ int main()
 	//Вывод на экран отсортированного массива
 	pr.print();
 
-	ArrayProcessing<int>::isOrderliness(ArrayStruct->array, ArrayStruct->array_size) ? cout << "Масив отсортовано\n" : cout << "Масив НЕ отсортовано\n" ;
+	ArrayProcessing<int>::isOrderliness(ArrayStruct->array, ArrayStruct->array_size) ? report << "Масив отсортовано\n" : report << "Масив НЕ отсортовано\n" ;
 
 	//Изменение размера массива
 	array->resize(7, 1);
@@ -72,33 +96,33 @@ int main()
 
 	//Нахождение максимального и минимального элемента
 	//cout << "Минимальный элемент: " << minimum(array->getData()->array, array->getData()->array_size) << "; Максимальный: " << maximum(copy_array->getData()->array, copy_array->getData()->array_size) << "\n";
-	cout << "Минимальный элемент: " << array->getMin() << "; Максимальный: " << copy_array->getMax() << "\n";
+	report << "Минимальный элемент: " << array->getMin() << "; Максимальный: " << copy_array->getMax() << "\n";
 
 	//Нахождение определённого элемента в неотсортированном массиве
 	try
 	{
 		Array<int> *NumberPoints = array->lenear_searcher(5);
-		cout << "Элемент \"5\" встречается на местах: \n";
+		report << "Элемент \"5\" встречается на местах: \n";
 		for (asize_t i = 0; i < NumberPoints->array_size; i++)
 		{
-			cout << NumberPoints->array[i] + 1 << " ";
+			report << NumberPoints->array[i] + 1 << " ";
 		}
-		cout << "\n";
+		report << "\n";
 		remove_struct<int>(NumberPoints);
 	}
 	catch (Exception)
 	{
-		cout << "Элемент \"5\" не найден...\n";
+		report << "Элемент \"5\" не найден...\n";
 	}
 
 	//Нахождение определённого элемента в отсортированном массиве
 	try
 	{
-		cout << "Элемент \"7\" впервые встратился на месте " << copy_array->binary_searcher(7) + 1 << "\n";
+		report << "Элемент \"7\" впервые встратился на месте " << copy_array->binary_searcher(7) + 1 << "\n";
 	}
 	catch (Exception)
 	{
-		cout << "Элемент \"7\" не найден...\n";
+		report << "Элемент \"7\" не найден...\n";
 	}
 
 	//Нахождение последовательности
@@ -108,39 +132,39 @@ int main()
 	try
 	{
 		Array<int> *Occurrence = copy_array->searcherOccurrencesOfSubstring(Sequence);
-		cout << "Последовательность \"5, 6\" встречается на местах: \n";
+		report << "Последовательность \"5, 6\" встречается на местах: \n";
 		for (asize_t i = 0; i < Occurrence->array_size; i++)
 		{
-			cout << Occurrence->array[i] + 1 << " ";
+			report << Occurrence->array[i] + 1 << " ";
 		}
-		cout << "\n";
+		report << "\n";
 		remove_struct<int>(Occurrence);
 	}
 	catch (Exception)
 	{
-		cout << "Последовательность \"5, 6\" не найдена...\n";
+		report << "Последовательность \"5, 6\" не найдена...\n";
 	}
 	remove_struct<int>(Sequence);
 
 	//Нахождение среднего арифметического
-	cout << "Среднее арифметическое: " << copy_array->average() << "\n";
+	report << "Среднее арифметическое: " << copy_array->average() << "\n";
 
 	//Нахождение медианы
-	cout << "Медиана: " << copy_array->mediana() << "\n";
+	report << "Медиана: " << copy_array->mediana() << "\n";
 
 	//Нахождение моды с количеством
 	int moda_count, moda = copy_array->moda(moda_count);
-	cout << "Чаще всего встречается элемент: " << moda << ", а именно " << moda_count << " раз.\n";
+	report << "Чаще всего встречается элемент: " << moda << ", а именно " << moda_count << " раз.\n";
 
 	//Нахождение мод с количеством
 	int modas_count;
 	Array<int> *Modas = copy_array->modas(modas_count);
-	cout << "Чаще всего встречаются элементы: ";
+	report << "Чаще всего встречаются элементы: ";
 	for (unsigned int i = 0; i < Modas->array_size; i++)
 	{
-		cout << Modas->array[i] << " ";
+		report << Modas->array[i] << " ";
 	}
-	cout << ", а именно " << modas_count << " раз.\n";
+	report << ", а именно " << modas_count << " раз.\n";
 	remove_struct<int>(Modas);
 
 	//Тест операторов
@@ -167,11 +191,11 @@ int main()
 	Comparative_Sorts<int> *tsort = new Comparative_Sorts<int>(ArrayStruct);
 	tsort->Library_Sort();
 	delete (tsort);
-	cout << "Distance = " << ArrayProcessing<int>::distance(&ArrayStruct->array[2], &ArrayStruct->array[8]) << "\n";
+	report << "Distance = " << ArrayProcessing<int>::distance(&ArrayStruct->array[2], &ArrayStruct->array[8]) << "\n";
 	pr.setData(&ArrayStruct);
 	pr.print();
-	cout << "ArrayStruct address " << &ArrayStruct->array[0] << " and lower_bound = " << ArrayProcessing<int>::lower_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
-	cout << "ArrayStruct address " << &ArrayStruct->array[0] << " and upper_bound = " << ArrayProcessing<int>::upper_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
+	report << "ArrayStruct address " << &ArrayStruct->array[0] << " and lower_bound = " << ArrayProcessing<int>::lower_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
+	report << "ArrayStruct address " << &ArrayStruct->array[0] << " and upper_bound = " << ArrayProcessing<int>::upper_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
 	delete (test);
 
 	//Выход из программы

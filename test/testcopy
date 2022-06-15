@@ -1,0 +1,4 @@
+cp ../../build-ALGOR-TDM_GCC-Debug/debug/ALGOR2.dll ./ALGOR2.dll
+g++ -s -o test.exe test.cpp -L. -lALGOR2
+./test.exe
+cat ./test_report.txt
