@@ -35,7 +35,7 @@ int main()
 
 	//Генерация (заполнение) массива
 	ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
-	array->generatedData(1, 100);
+	array->generatedData(1, 10);
 
 	//Вывод на экран неотсортированного массива
 	ArrayStruct = array->getData();
@@ -63,7 +63,7 @@ int main()
 	//Вывод на экран отсортированного массива
 	pr.print();
 
-	ArrayProcessing::isOrderliness(ArrayStruct->array, ArrayStruct->array_size) ? cout << "Масив отсортовано\n" : cout << "Масив НЕ отсортовано\n" ;
+	ArrayProcessing<int>::isOrderliness(ArrayStruct->array, ArrayStruct->array_size) ? cout << "Масив отсортовано\n" : cout << "Масив НЕ отсортовано\n" ;
 
 	//Изменение размера массива
 	array->resize(7, 1);
@@ -79,7 +79,7 @@ int main()
 	{
 		Array<int> *NumberPoints = array->lenear_searcher(5);
 		cout << "Элемент \"5\" встречается на местах: \n";
-		for (unsigned int i = 0; i < NumberPoints->array_size; i++)
+		for (asize_t i = 0; i < NumberPoints->array_size; i++)
 		{
 			cout << NumberPoints->array[i] + 1 << " ";
 		}
@@ -103,13 +103,13 @@ int main()
 
 	//Нахождение последовательности
 	Array<int> *Sequence = new Array<int>;
-	ArrayProcessing::addElement<int>(Sequence->array, Sequence->array_size, 5);
-	ArrayProcessing::addElement<int>(Sequence->array, Sequence->array_size, 6);
+	ArrayProcessing<int>::addElement(Sequence->array, Sequence->array_size, 5);
+	ArrayProcessing<int>::addElement(Sequence->array, Sequence->array_size, 6);
 	try
 	{
 		Array<int> *Occurrence = copy_array->searcherOccurrencesOfSubstring(Sequence);
 		cout << "Последовательность \"5, 6\" встречается на местах: \n";
-		for (unsigned int i = 0; i < Occurrence->array_size; i++)
+		for (asize_t i = 0; i < Occurrence->array_size; i++)
 		{
 			cout << Occurrence->array[i] + 1 << " ";
 		}
@@ -167,11 +167,11 @@ int main()
 	Comparative_Sorts<int> *tsort = new Comparative_Sorts<int>(ArrayStruct);
 	tsort->Library_Sort();
 	delete (tsort);
-	cout << "Distance = " << ArrayProcessing::distance(&ArrayStruct->array[2], &ArrayStruct->array[8]) << "\n";
+	cout << "Distance = " << ArrayProcessing<int>::distance(&ArrayStruct->array[2], &ArrayStruct->array[8]) << "\n";
 	pr.setData(&ArrayStruct);
 	pr.print();
-	cout << "ArrayStruct address " << &ArrayStruct->array[0] << " and lower_bound = " << ArrayProcessing::lower_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
-	cout << "ArrayStruct address " << &ArrayStruct->array[0] << " and upper_bound = " << ArrayProcessing::upper_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
+	cout << "ArrayStruct address " << &ArrayStruct->array[0] << " and lower_bound = " << ArrayProcessing<int>::lower_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
+	cout << "ArrayStruct address " << &ArrayStruct->array[0] << " and upper_bound = " << ArrayProcessing<int>::upper_bound(&ArrayStruct->array[0], &ArrayStruct->array[8], 3) << "\n";
 	delete (test);
 
 	//Выход из программы
