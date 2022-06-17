@@ -79,8 +79,8 @@ namespace ALGOR
 	using fbit64_t = double;				///< Alias for double
 	using fbit128_t = long double;
 
-	using asize_t = unsigned long;			///< Alias for specifying the type "array size"
-	using memcell_t = unsigned long long;	///< Alias for calculated memory cell
+	using asize_t = ubit32_t;				///< Alias for specifying the type "array size"
+	using memcell_t = ubit64_t;				///< Alias for calculated memory cell
 
 	template <typename type_value>
 	class CORE
@@ -210,8 +210,6 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	void array_size_verification(const asize_t &array_size);
-
 	template <typename type_array>
 	class ArrayProcessing
 	{
@@ -282,9 +280,9 @@ namespace ALGOR
 	class ARRAYDATA : public ArrayBase<type_array>
 	{
 	public:
+		ARRAYDATA(ARRAYDATA<type_array> *&Array);
 		ARRAYDATA(Array<type_array> *&Array);
 		ARRAYDATA(const asize_t &SIZE);
-		~ARRAYDATA();
 
 		enum class ArrayType /// A set of array types
 		{
