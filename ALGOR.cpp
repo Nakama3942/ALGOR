@@ -305,7 +305,7 @@ type_array ALGOR::ArrayProcessing<type_array>::minimum(const type_array *Array, 
 {
 	array_size_verification(array_size);
 	type_array point_min = Array[0];
-	for (unsigned int i = 1; i < array_size; i++)
+	for (asize_t i = 1; i < array_size; i++)
 	{
 		if (point_min > Array[i])
 		{
@@ -320,7 +320,7 @@ type_array ALGOR::ArrayProcessing<type_array>::maximum(const type_array *Array, 
 {
 	array_size_verification(array_size);
 	type_array point_max = Array[0];
-	for (unsigned int i = 1; i < array_size; i++)
+	for (asize_t i = 1; i < array_size; i++)
 	{
 		if (point_max < Array[i])
 		{
@@ -396,7 +396,7 @@ type_array *ArrayProcessing<type_array>::upper_bound(type_array *first, type_arr
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const unsigned int position)
+void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position)
 {
 	array_size++;
 	if (array_size > 0xffffffff)
@@ -409,7 +409,7 @@ void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t 
 		return;
 	}
 	type_array *temp_Array = new type_array[array_size];
-	for (unsigned int i = 0; i < array_size; i++)
+	for (asize_t i = 0; i < array_size; i++)
 	{
 		position > i ? temp_Array[i] = Array[i] : (position == i ? temp_Array[i] = value : temp_Array[i] = Array[i - 1]);
 	}
@@ -418,55 +418,54 @@ void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t 
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asize_t &array_size, const unsigned int position)
+void ALGOR::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asize_t &array_size, const asize_t position)
 {
 	array_size_verification(array_size);
-	if (array_size == 1)
-	{
-		delete[] Array;
-		return;
-	}
 	if (position >= array_size)
 	{
 		throw position_failure();
 	}
-	type_array *temp_Array = new type_array[array_size];
-	for (unsigned int i = 0; i < array_size; i++)
+	array_size--;
+	if (array_size == 0)
 	{
-		position > i ? temp_Array[i] = Array[i] : (position < i ? temp_Array[i - 1] = Array[i] : 0);
+		delete[] Array;
+		return;
+	}
+	type_array *temp_Array = new type_array[array_size];
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		position > i ? temp_Array[i] = Array[i] : temp_Array[i] = Array[i + 1];
 	}
 	delete[] Array;
-	Array = new type_array[array_size--];
-	copy(Array, temp_Array, array_size);
-	delete[] temp_Array;
+	Array = temp_Array;
 }
 
 template <typename type_array>
 void ALGOR::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
 	array_size_verification(array_size);
-	int counter = 0;
+	ubit32_t deletions_count = 0;
 	type_array *temp_Array = new type_array[array_size];
-	for (unsigned int i = 0; i < array_size; i++)
+	for (asize_t i = 0; i < array_size; i++)
 	{
-		Array[i] != value ? temp_Array[i - counter] = Array[i] : counter++;
+		Array[i] != value ? temp_Array[i - deletions_count] = Array[i] : deletions_count++;
 	}
-	if (counter == 0)
+	if (deletions_count == 0)
 	{
 		delete[] temp_Array;
 		throw value_failure();
 	}
 	delete[] Array;
-	array_size -= counter;
+	array_size -= deletions_count;
 	Array = new type_array[array_size];
 	copy(Array, temp_Array, array_size);
 	delete[] temp_Array;
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_array *old_array, const unsigned int &size_of_copied, unsigned int position_in_new_array, unsigned int position_in_old_array)
+void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array, asize_t position_in_old_array)
 {
-	for (unsigned int i = 0; i < size_of_copied; i++)
+	for (asize_t i = 0; i < size_of_copied; i++)
 	{
 		new_array[i + position_in_new_array] = old_array[i + position_in_old_array];
 	}
@@ -516,7 +515,7 @@ ALGOR::ARRAYDATA<type_array>::~ARRAYDATA()
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::generatedData(const int &min_limit, const int &max_limit)
+void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit)
 {
 	memcell_t cell = getMemoryCell();
 	cell >>= 32;
@@ -2828,23 +2827,29 @@ void Distribution_Sorts::RadixSort::radix_sort()
 template class ALGOR::CORE<int>;
 template class ALGOR::CORE<float>;
 template class ALGOR::CORE<char>;
+template class ALGOR::CORE<fbit128_t>;
 
 template class ALGOR::ArrayProcessing<int>;
 template class ALGOR::ArrayProcessing<float>;
 template class ALGOR::ArrayProcessing<char>;
+template class ALGOR::ArrayProcessing<fbit128_t>;
 
 template Array<int> *ALGOR::create_struct<int>(const asize_t &);
 template Array<float> *ALGOR::create_struct<float>(const asize_t &);
 template Array<char> *ALGOR::create_struct<char>(const asize_t &);
+template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &);
 
 template void ALGOR::remove_struct<int>(Array<int> *&);
 template void ALGOR::remove_struct<float>(Array<float> *&);
 template void ALGOR::remove_struct<char>(Array<char> *&);
+template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
 
 template class ALGOR::ARRAYDATA<int>;
 template class ALGOR::ARRAYDATA<float>;
 template class ALGOR::ARRAYDATA<char>;
+template class ALGOR::ARRAYDATA<fbit128_t>;
 
 template class ALGOR::Comparative_Sorts<int>;
 template class ALGOR::Comparative_Sorts<float>;
 template class ALGOR::Comparative_Sorts<char>;
+template class ALGOR::Comparative_Sorts<fbit128_t>;

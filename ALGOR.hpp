@@ -24,14 +24,14 @@
  * ---------------------------------------------------------------------------- *
  *                                                                              *
  *                              Project Structure:                              *
- * 1. ALGOR_CORE - basic structures and functions of the library                *
- * 2. ALGOR_EXCEPTION - class for working with exceptions                       *
- * 3. ALGOR_RANDOM - own random number generators                               *
- * 4. ALGOR_ARRAY - class for working with arrays                               *
- * 5. ALGOR_SORTING - sets of sorting methods                                   *
- * 6. ALGOR_MATRIX - class for working with matrices                            *
- * 7. ALGOR_HEAP - class for working with trees                                 *
- * 8. ALGOR_LIST - class for working with lists                                 *
+ * 1. ALGOR_CORE		-> basic structures and functions of the library        *
+ * 2. ALGOR_EXCEPTION	-> class for working with exceptions                    *
+ * 3. ALGOR_RANDOM		-> own random number generators                         *
+ * 4. ALGOR_ARRAY		-> class for working with arrays                        *
+ * 5. ALGOR_SORTING		-> sets of sorting methods                              *
+ * 6. ALGOR_MATRIX		-> class for working with matrices                      *
+ * 7. ALGOR_HEAP		-> class for working with trees                         *
+ * 8. ALGOR_LIST		-> class for working with lists                         *
  *                                                                              *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** */
@@ -77,6 +77,7 @@ namespace ALGOR
 
 	using fbit32_t = float;					///< Alias for float
 	using fbit64_t = double;				///< Alias for double
+	using fbit128_t = long double;
 
 	using asize_t = unsigned long;			///< Alias for specifying the type "array size"
 	using memcell_t = unsigned long long;	///< Alias for calculated memory cell
@@ -238,11 +239,11 @@ namespace ALGOR
 		static void addElement(type_array *&Array,
 							   asize_t &array_size,
 							   const type_array &value,
-							   const unsigned int position = 0);
+							   const asize_t position = 0);
 
 		static void subtractElement(type_array *&Array,
 									asize_t &array_size,
-									const unsigned int position);
+									const asize_t position);
 
 		static void subtractValue(type_array *&Array,
 								  asize_t &array_size,
@@ -250,9 +251,9 @@ namespace ALGOR
 
 		static void copy(type_array *new_array,
 						 const type_array *old_array,
-						 const unsigned int &size_of_copied,
-						 unsigned int position_in_new_array = 0,
-						 unsigned int position_in_old_array = 0);
+						 const asize_t &size_of_copied,
+						 asize_t position_in_new_array = 0,
+						 asize_t position_in_old_array = 0);
 	};
 
 	template <typename type_array>
@@ -291,7 +292,7 @@ namespace ALGOR
 			STRING	///< Indicates that the array stores strings
 		};
 
-		void generatedData(const int &min_limit, const int &max_limit);
+		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit);
 		void setNewData(Array<type_array> *&Array);
 		void setData(Array<type_array> *&Array);
 		void cloneData(Array<type_array> *&CloningArray);
