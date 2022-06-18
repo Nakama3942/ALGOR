@@ -56,7 +56,7 @@ memcell_t ALGOR::getMemoryCell()
 {
 	memcell_t *cells = new memcell_t[10];
 	memcell_t *cell = new memcell_t(cells[0]);
-	for (int i = 1; i < 8; i++)
+	for (ubit32_t i = 1; i < 8; i++)
 	{
 		*cell >>= (memcell_t)cells[i];
 		*cell <<= (memcell_t)cells[i + 1];
@@ -69,7 +69,7 @@ memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
 {
 	memcell_t *cells = new memcell_t[10];
 	memcell_t *cell = new memcell_t(cells[0]);
-	for (int i = 1; i < 8; i++)
+	for (ubit32_t i = 1; i < 8; i++)
 	{
 		*cell >>= (memcell_t)cells[i];
 		*cell <<= (memcell_t)cells[i + 1];
@@ -96,22 +96,32 @@ memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+ALGOR::Exception::Exception(ubit16_t CODE, const char *DETAILS, const char *EXPLANATION)
+{
+	this->CODE = CODE;
+	this->DETAILS = DETAILS;
+	this->EXPLANATION = EXPLANATION;
+}
+
 ALGOR::Exception::Exception(ubit16_t CODE, const char *DETAILS)
 {
 	this->CODE = CODE;
 	this->DETAILS = DETAILS;
+	this->EXPLANATION = "No information given";
 }
 
 ALGOR::Exception::Exception(ubit16_t CODE)
 {
 	this->CODE = CODE;
 	this->DETAILS = "No information given";
+	this->EXPLANATION = "No information given";
 }
 
 ALGOR::Exception::Exception(const char *DETAILS)
 {
 	this->CODE = 0xffff;
 	this->DETAILS = DETAILS;
+	this->EXPLANATION = "No information given";
 }
 
 ubit16_t ALGOR::Exception::code()
@@ -124,17 +134,31 @@ const char *ALGOR::Exception::what()
 	return DETAILS;
 }
 
-ALGOR::memory_overflow::memory_overflow() : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes.") {}
+const char *Exception::why()
+{
+	return EXPLANATION;
+}
+
+ALGOR::memory_overflow::memory_overflow() : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes") {}
+ALGOR::memory_overflow::memory_overflow(const char *explanation) : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes", explanation) {}
 
 ALGOR::division_by_zero::division_by_zero() : Exception(101, "A division by zero has occurred - an undefined result of the program execution") {}
+ALGOR::division_by_zero::division_by_zero(const char *explanation) : Exception(101, "A division by zero has occurred - an undefined result of the program execution", explanation) {}
 
 ALGOR::position_failure::position_failure() : Exception(254, "Position failure - position is missing in the array") {}
+ALGOR::position_failure::position_failure(const char *explanation) : Exception(254, "Position failure - position is missing in the array", explanation) {}
 
 ALGOR::value_failure::value_failure() : Exception(255, "Value failure - value is missing in the array") {}
+ALGOR::value_failure::value_failure(const char *explanation) : Exception(255, "Value failure - value is missing in the array", explanation) {}
+
+ALGOR::size_failure::size_failure() : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized") {}
+ALGOR::size_failure::size_failure(const char *explanation) : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized", explanation) {}
 
 ALGOR::void_data::void_data() : Exception(400, "Geted empty data structure") {}
+ALGOR::void_data::void_data(const char *explanation) : Exception(400, "Geted empty data structure", explanation) {}
 
 ALGOR::not_found::not_found() : Exception(404, "Search error - item not found") {}
+ALGOR::not_found::not_found(const char *explanation) : Exception(404, "Search error - item not found", explanation) {}
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -467,7 +491,7 @@ void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::create_struct(const asize_t &SIZE)
+Array<type_array> *ALGOR::create_struct(const asize_t &SIZE, bool mem_allocation)
 {
 	if (SIZE == 0)
 	{
@@ -475,14 +499,17 @@ Array<type_array> *ALGOR::create_struct(const asize_t &SIZE)
 	}
 	Array<type_array> *ARRAY = new Array<type_array>;
 	ARRAY->array_size = SIZE;
-	ARRAY->array = new type_array[SIZE];
+	if (mem_allocation)
+	{
+		ARRAY->array = new type_array[SIZE];
+	}
 	return ARRAY;
 }
 
 template <typename type_array>
 void ALGOR::remove_struct(Array<type_array> *&Array)
 {
-	if (Array == nullptr)
+	if (Array == nullptr || Array->array == nullptr)
 	{
 		throw void_data();
 	}
@@ -494,10 +521,7 @@ void ALGOR::remove_struct(Array<type_array> *&Array)
 template <typename type_array>
 ALGOR::ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array)
 {
-	if (Array->array_size == 0)
-	{
-		throw void_data();
-	}
+	verification(Array);
 	ARRAY = Array;
 }
 
@@ -510,10 +534,13 @@ ALGOR::ArrayBase<type_array>::ArrayBase(const asize_t &SIZE)
 template<typename type_array>
 ArrayBase<type_array>::ArrayBase() {}
 
-template <typename type_array>
-ALGOR::ARRAYDATA<type_array>::ARRAYDATA(ARRAYDATA<type_array> *&Array)
+template<typename type_array>
+void ArrayBase<type_array>::verification(Array<type_array> *Array)
 {
-	Array->getData() == nullptr ? throw void_data() : this->ARRAY = Array->getData();
+	if (Array == nullptr || Array->array_size == 0 || Array->array == nullptr)
+	{
+		throw void_data();
+	}
 }
 
 template <typename type_array>
@@ -523,24 +550,21 @@ template <typename type_array>
 ALGOR::ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit)
+void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator)
 {
 	memcell_t cell = getMemoryCell();
 	cell >>= 32;
 	MersenneTwister RanGen(cell);
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
-		this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit);
+		this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit) / denominator;
 	}
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 {
-	if (Array->array_size == 0)
-	{
-		throw void_data();
-	}
+	this->verification(Array);
 	remove();
 	this->ARRAY = Array;
 }
@@ -548,47 +572,20 @@ void ALGOR::ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 {
-	if (Array->array_size == 0)
-	{
-		throw void_data();
-	}
+	this->verification(Array);
 	this->ARRAY = Array;
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::cloneData(Array<type_array> *&CloningArray)
+void ALGOR::ARRAYDATA<type_array>::cloneData(Array<type_array> *&Array)
 {
-	if (CloningArray->array_size == 0)
-	{
-		throw void_data();
-	}
-	if (CloningArray->array_size != this->ARRAY->array_size)
+	this->verification(Array);
+	if (Array->array_size != this->ARRAY->array_size)
 	{
 		remove();
-		this->ARRAY = create_struct<type_array>(CloningArray->array_size);
+		this->ARRAY = create_struct<type_array>(Array->array_size);
 	}
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, CloningArray->array, CloningArray->array_size);
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::cloneData(ARRAYDATA<type_array> *&CloningObject)
-{
-	if (CloningObject->getData() == nullptr)
-	{
-		throw void_data();
-	}
-	if (CloningObject->getData()->array_size != this->ARRAY->array_size)
-	{
-		remove();
-		this->ARRAY = create_struct<type_array>(CloningObject->getData()->array_size);
-	}
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, CloningObject->getData()->array, CloningObject->getData()->array_size);
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::getData(Array<type_array> *&DATA)
-{
-	DATA = this->ARRAY;
+	ArrayProcessing<type_array>::copy(this->ARRAY->array, Array->array, Array->array_size);
 }
 
 template <typename type_array>
@@ -601,34 +598,31 @@ template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::reset()
 {
 	asize_t SIZE = this->ARRAY->array_size;
-	type_array min = getMin(), max = getMax();
 	remove();
 	this->ARRAY = create_struct<type_array>(SIZE);
-	generatedData(min, max);
+
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
 {
-	Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
-	if (OLD_ARRAY->array_size < NEW_ARRAY->array_size)
+	if (NEW_SIZE == this->ARRAY->array_size)
 	{
-		ArrayProcessing<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, OLD_ARRAY->array_size);
-		for (asize_t i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
-		{
-			NEW_ARRAY->array[i] = setElement;
-		}
+		throw size_failure();
 	}
-	else
+	Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
+	asize_t min_size = CORE<type_array>::minimum(OLD_ARRAY->array_size, NEW_ARRAY->array_size);
+	ArrayProcessing<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, min_size);
+	for (asize_t i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
 	{
-		ArrayProcessing<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, NEW_ARRAY->array_size);
+		NEW_ARRAY->array[i] = setElement;
 	}
 	this->ARRAY = NEW_ARRAY;
 	remove_struct<type_array>(OLD_ARRAY);
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::replace(const unsigned int &position, const type_array &value)
+void ALGOR::ARRAYDATA<type_array>::replace(const asize_t &position, const type_array &value)
 {
 	this->ARRAY->array[position] = value;
 }
@@ -636,7 +630,7 @@ void ALGOR::ARRAYDATA<type_array>::replace(const unsigned int &position, const t
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::reverse()
 {
-	int left_limit = 0, right_limit = this->ARRAY->array_size - 1;
+	asize_t left_limit = 0, right_limit = this->ARRAY->array_size - 1;
 	for (asize_t i = 0; i < this->ARRAY->array_size / 2; i++)
 	{
 		CORE<type_array>::swap(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
@@ -648,9 +642,9 @@ void ALGOR::ARRAYDATA<type_array>::reverse()
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::respawn()
 {
-	asize_t size = this->ARRAY->array_size;
-	remove();
-	this->ARRAY = create_struct<type_array>(size);
+	type_array min = getMin(), max = getMax();
+	reset();
+	generatedData(min, max);
 }
 
 template <typename type_array>
@@ -672,14 +666,14 @@ type_array ALGOR::ARRAYDATA<type_array>::getMax()
 }
 
 template <typename type_array>
-Array<int> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
+Array<asize_t> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
-	Array<int> *NumberPoints = new Array<int>;
+	Array<asize_t> *NumberPoints = new Array<asize_t>;
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		if (required_element == this->ARRAY->array[i])
 		{
-			ArrayProcessing<int>::addElement(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
+			ArrayProcessing<asize_t>::addElement(NumberPoints->array, NumberPoints->array_size, i, NumberPoints->array_size);
 		}
 	}
 	if (NumberPoints->array_size == 0)
@@ -690,21 +684,20 @@ Array<int> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &requ
 }
 
 template <typename type_array>
-int ALGOR::ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
+asize_t ALGOR::ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
 	asize_t position = ArrayProcessing<type_array>::distance(&this->ARRAY->array[0], ArrayProcessing<type_array>::lower_bound(&this->ARRAY->array[0], &this->ARRAY->array[this->ARRAY->array_size - 1], required_element));
 	if(this->ARRAY->array[position] != required_element)
 	{
 		throw not_found();
 	}
-	return (int)position;
+	return position;
 }
 
 template <typename type_array>
-Array<int> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
+Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
-	//FIXME Не работает
-	Array<int> *Occurrences = new Array<int>;
+	Array<asize_t> *Occurrences = new Array<asize_t>;
 	for (asize_t i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
 	{
 		for (asize_t j = 0; j < SUBARRAY->array_size; j++)
@@ -716,20 +709,16 @@ Array<int> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<t
 				case ARRAYDATA::ArrayType::NUMBER:
 					if (SUBARRAY->array_size - j == 1)
 					{
-						ArrayProcessing<int>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+						ArrayProcessing<asize_t>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 					}
 					break;
 				case ARRAYDATA::ArrayType::STRING:
 					if (SUBARRAY->array_size - j == 2)
 					{
-						ArrayProcessing<int>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
+						ArrayProcessing<asize_t>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 					}
 					break;
 				}
-			}
-			else
-			{
-				break;
 			}
 		}
 	}
@@ -748,13 +737,17 @@ type_array ALGOR::ARRAYDATA<type_array>::average()
 	{
 		average += this->ARRAY->array[i];
 	}
-	return average / (type_array)this->ARRAY->array_size;
+	if (this->ARRAY->array_size == 0)
+	{
+		throw division_by_zero("Any non-empty array can get into the class, or the class itself can create it. However, you can get the array structure from the class and access the data directly. The author has only one explanation: you somehow reset the size of the array through the structure and now the class works with broken data - in the average() method, the division by the size of the array takes place, which became equal to zero...");
+	}
+	return average / this->ARRAY->array_size;
 }
 
 template <typename type_array>
 type_array ALGOR::ARRAYDATA<type_array>::mediana()
 {
-	return this->ARRAY->array_size % 2 == 0 ? (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2 : (this->ARRAY->array[this->ARRAY->array_size / 2]);
+	return this->ARRAY->array_size & 1 ? (this->ARRAY->array[this->ARRAY->array_size / 2]) : (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2;
 }
 
 template <typename type_array>
@@ -2759,16 +2752,19 @@ template class ALGOR::CORE<fbit128_t>;
 template class ALGOR::ArrayProcessing<int>;
 template class ALGOR::ArrayProcessing<float>;
 template class ALGOR::ArrayProcessing<char>;
+template class ALGOR::ArrayProcessing<asize_t>;
 template class ALGOR::ArrayProcessing<fbit128_t>;
 
-template Array<int> *ALGOR::create_struct<int>(const asize_t &);
-template Array<float> *ALGOR::create_struct<float>(const asize_t &);
-template Array<char> *ALGOR::create_struct<char>(const asize_t &);
-template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &);
+template Array<int> *ALGOR::create_struct<int>(const asize_t &, bool);
+template Array<float> *ALGOR::create_struct<float>(const asize_t &, bool);
+template Array<char> *ALGOR::create_struct<char>(const asize_t &, bool);
+template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
+template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
 
 template void ALGOR::remove_struct<int>(Array<int> *&);
 template void ALGOR::remove_struct<float>(Array<float> *&);
 template void ALGOR::remove_struct<char>(Array<char> *&);
+template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
 template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
 
 template class ALGOR::ARRAYDATA<int>;

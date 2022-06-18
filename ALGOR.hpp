@@ -114,51 +114,67 @@ namespace ALGOR
 	class Exception
 	{
 	public:
+		Exception(ubit16_t CODE, const char *DETAILS, const char *EXPLANATION);
 		Exception(ubit16_t CODE, const char *DETAILS);
 		Exception(ubit16_t CODE);
 		Exception(const char *DETAILS);
 		ubit16_t code();
 		const char *what();
+		const char *why();
 
 	protected:
-		ubit16_t CODE;			///< Exception encoding
-		const char *DETAILS;	///< Exception details
+		ubit16_t CODE;				///< Exception encoding
+		const char *DETAILS;		///< Exception details
+		const char *EXPLANATION;	///< Exception explanation
 	};
 
 	class memory_overflow : public Exception
 	{
 	public:
 		memory_overflow();
+		memory_overflow(const char *explanation);
 	};
 
 	class division_by_zero : public Exception
 	{
 	public:
 		division_by_zero();
+		division_by_zero(const char *explanation);
 	};
 
 	class position_failure : public Exception
 	{
 	public:
 		position_failure();
+		position_failure(const char *explanation);
 	};
 
 	class value_failure : public Exception
 	{
 	public:
 		value_failure();
+		value_failure(const char *explanation);
+	};
+
+	class size_failure : public Exception
+	{
+	public:
+		size_failure();
+		size_failure(const char *explanation);
 	};
 
 	class void_data : public Exception
 	{
 	public:
 		void_data();
+		void_data(const char *explanation);
 	};
 
 	class not_found : public Exception
 	{
 	public:
 		not_found();
+		not_found(const char *explanation);
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -261,7 +277,7 @@ namespace ALGOR
 		asize_t array_size = 0;
 	};
 	template <typename type_array>
-	Array<type_array> *create_struct(const asize_t &SIZE);
+	Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
 	template <typename type_array>
 	void remove_struct(Array<type_array> *&Array);
 
@@ -273,6 +289,8 @@ namespace ALGOR
 		ArrayBase(const asize_t &SIZE);
 		ArrayBase();
 
+		void verification(Array<type_array> *Array);
+
 		Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
 	};
 
@@ -280,7 +298,6 @@ namespace ALGOR
 	class ARRAYDATA : public ArrayBase<type_array>
 	{
 	public:
-		ARRAYDATA(ARRAYDATA<type_array> *&Array);
 		ARRAYDATA(Array<type_array> *&Array);
 		ARRAYDATA(const asize_t &SIZE);
 
@@ -290,28 +307,25 @@ namespace ALGOR
 			STRING	///< Indicates that the array stores strings
 		};
 
-		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit);
+		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator = 1);
 		void setNewData(Array<type_array> *&Array);
 		void setData(Array<type_array> *&Array);
 		void cloneData(Array<type_array> *&CloningArray);
-		void cloneData(ARRAYDATA<type_array> *&CloningObject);
-		void getData(Array<type_array> *&DATA);
 		Array<type_array> *getData();
 
 		void reset();
 		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
-		void replace(const unsigned int &position, const type_array &value);
+		void replace(const asize_t &position, const type_array &value);
 		void reverse();
 		void respawn();
-		void remove(); //WARNING Необхідно перевірити приватність-публичність цього методу
 
 		type_array getMin();
 		type_array getMax();
 
-		Array<int> *lenear_searcher(const type_array &required_element);
-		int binary_searcher(const type_array &required_element);
-		Array<int> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY,
-												   ArrayType ArrType = ArrayType::NUMBER);
+		Array<asize_t> *lenear_searcher(const type_array &required_element);
+		asize_t binary_searcher(const type_array &required_element);
+		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY,
+													   ArrayType ArrType = ArrayType::NUMBER);
 
 		type_array average();
 		type_array mediana();
@@ -327,6 +341,9 @@ namespace ALGOR
 		void operator-(const asize_t &subtractSize);
 		void operator*(const asize_t &multiplySize);
 		void operator/(const asize_t &divideSize);
+
+	private:
+		void remove();
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
