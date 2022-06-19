@@ -532,10 +532,10 @@ ALGOR::ArrayBase<type_array>::ArrayBase(const asize_t &SIZE)
 }
 
 template<typename type_array>
-ArrayBase<type_array>::ArrayBase() {}
+ALGOR::ArrayBase<type_array>::ArrayBase() {}
 
 template<typename type_array>
-void ArrayBase<type_array>::verification(Array<type_array> *Array)
+void ALGOR::ArrayBase<type_array>::verification(Array<type_array> *Array)
 {
 	if (Array == nullptr || Array->array_size == 0 || Array->array == nullptr)
 	{
@@ -720,6 +720,10 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Arr
 					break;
 				}
 			}
+			else
+			{
+				break;
+			}
 		}
 	}
 	if (Occurrences->array_size == 0)
@@ -733,7 +737,7 @@ template <typename type_array>
 type_array ALGOR::ARRAYDATA<type_array>::average()
 {
 	type_array average = 0;
-	for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		average += this->ARRAY->array[i];
 	}
@@ -751,47 +755,51 @@ type_array ALGOR::ARRAYDATA<type_array>::mediana()
 }
 
 template <typename type_array>
-type_array ALGOR::ARRAYDATA<type_array>::moda(int &highest_frequency)
+typename ARRAYDATA<type_array>::mode *ARRAYDATA<type_array>::moda()
 {
-	type_array most_frequent = 0;
-	highest_frequency = 0;
-	int current_frequency = 0;
-	for (unsigned int i = 0; i < this->ARRAY->array_size; i++)
+	//Выделение памяти под данные
+	mode *modes = new mode;
+	modes->array_size = 1;
+	modes->array = new type_array[1];
+	ubit32_t current_frequency = 0;
+
+	//Нахождение первого элемента с максимальной частотой
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		current_frequency++;
 		if (i == this->ARRAY->array_size - 1 || this->ARRAY->array[i] != this->ARRAY->array[i + 1])
 		{
-			if (current_frequency > highest_frequency)
+			if (modes->highest_frequency < current_frequency)
 			{
-				highest_frequency = current_frequency;
-				most_frequent = this->ARRAY->array[i];
+				modes->highest_frequency = current_frequency;
+				modes->array[0] = this->ARRAY->array[i];
 			}
 			current_frequency = 0;
 		}
 	}
-	return most_frequent;
-}
 
-template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::modas(int &highest_frequency)
-{
-	Array<type_array> *MostFrequents = new Array<type_array>;
-	highest_frequency = 0;
-	int current_frequency = 0;
-	type_array most_frequent = moda(highest_frequency);
-	ArrayProcessing<type_array>::addElement(MostFrequents->array, MostFrequents->array_size, most_frequent, MostFrequents->array_size);
+	//Если все значения уникальны - бросается исключение
+	if (modes->highest_frequency == 1)
+	{
+		delete[] modes->array;
+		delete(modes);
+		throw value_failure("And to be precise: there is missing value with the maximum frequency. All elements in the array are unique and repeated once, so to save resources and time, an exception is thrown so that the method does not create a copy of the array further");
+	}
+
+	//Нахождение всех последующих элементов с этой частотой
+	current_frequency = 0;
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
-		if (most_frequent == this->ARRAY->array[i])
+		if (modes->array[0] == this->ARRAY->array[i])
 		{
-			for (asize_t j = i + highest_frequency; j < this->ARRAY->array_size; j++)
+			for (asize_t j = i + modes->highest_frequency; j < this->ARRAY->array_size; j++)
 			{
 				current_frequency++;
 				if (j == this->ARRAY->array_size - 1 || this->ARRAY->array[j] != this->ARRAY->array[j + 1])
 				{
-					if (current_frequency == highest_frequency)
+					if (current_frequency == modes->highest_frequency)
 					{
-						ArrayProcessing<type_array>::addElement(MostFrequents->array, MostFrequents->array_size, this->ARRAY->array[j], MostFrequents->array_size);
+						ArrayProcessing<type_array>::addElement(modes->array, modes->array_size, this->ARRAY->array[j], modes->array_size);
 					}
 					current_frequency = 0;
 				}
@@ -799,7 +807,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::modas(int &highest_frequency)
 			break;
 		}
 	}
-	return MostFrequents;
+	return modes;
 }
 
 template <typename type_array>
@@ -2770,6 +2778,7 @@ template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
 template class ALGOR::ARRAYDATA<int>;
 template class ALGOR::ARRAYDATA<float>;
 template class ALGOR::ARRAYDATA<char>;
+template class ALGOR::ARRAYDATA<ubit32_t>;
 template class ALGOR::ARRAYDATA<fbit128_t>;
 
 template class ALGOR::Comparative_Sorts<int>;

@@ -307,6 +307,11 @@ namespace ALGOR
 			STRING	///< Indicates that the array stores strings
 		};
 
+		struct mode : Array<type_array>
+		{
+			ubit32_t highest_frequency = 0;
+		};
+
 		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator = 1);
 		void setNewData(Array<type_array> *&Array);
 		void setData(Array<type_array> *&Array);
@@ -329,8 +334,7 @@ namespace ALGOR
 
 		type_array average();
 		type_array mediana();
-		type_array moda(int &highest_frequency);
-		Array<type_array> *modas(int &highest_frequency);
+		mode *moda();
 
 		void operator&&(const type_array &value);
 		void operator!();
