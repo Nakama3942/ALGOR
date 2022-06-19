@@ -151,8 +151,8 @@ ALGOR::position_failure::position_failure(const char *explanation) : Exception(2
 ALGOR::value_failure::value_failure() : Exception(255, "Value failure - value is missing in the array") {}
 ALGOR::value_failure::value_failure(const char *explanation) : Exception(255, "Value failure - value is missing in the array", explanation) {}
 
-ALGOR::size_failure::size_failure() : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized") {}
-ALGOR::size_failure::size_failure(const char *explanation) : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized", explanation) {}
+ALGOR::size_failure::size_failure() : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes") {}
+ALGOR::size_failure::size_failure(const char *explanation) : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes", explanation) {}
 
 ALGOR::void_data::void_data() : Exception(400, "Geted empty data structure") {}
 ALGOR::void_data::void_data(const char *explanation) : Exception(400, "Geted empty data structure", explanation) {}
@@ -850,20 +850,10 @@ void ALGOR::ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingA
 	ArrayProcessing<type_array>::copy(appendingArray->getData()->array, this->ARRAY->array, this->ARRAY->array_size, old_size);
 }
 
-// TODO Optimize operators + - * /
-
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator+(const asize_t &addSize)
 {
-	if (this->ARRAY->array_size + addSize > 0xffffffff)
-	{
-		throw memory_overflow();
-	}
-	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-	resize(temp->array_size + addSize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, temp->array_size);
-	remove_struct<type_array>(temp);
+	resize(this->ARRAY->array_size + addSize, 1);
 }
 
 template <typename type_array>
@@ -871,43 +861,25 @@ void ALGOR::ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
 {
 	if (subtractSize >= this->ARRAY->array_size)
 	{
-		remove();
-		return;
+		throw size_failure("In this case, the size is less than zero. Previously, in this case, the array was simply deleted and the pointer began to point to empty unallocated memory, and there is no and will not be a method for allocating memory in the class. In addition, the security architecture of the ARRAYDATA class does not allow you to store a pointer to an empty memory area. Therefore, now, in this case, deletion of the array is prohibited and this exception is thrown. THE SUBTRACTED ARRAY SIZE MUST NOT BE GREATER THAN OR EQUAL TO THE CURRENT ARRAY SIZE!");
 	}
-	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-	resize(temp->array_size - subtractSize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, this->ARRAY->array_size);
-	remove_struct<type_array>(temp);
+	resize(this->ARRAY->array_size - subtractSize, 1);
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
 {
-	if (this->ARRAY->array_size * multiplySize > 0xffffffff)
-	{
-		throw memory_overflow();
-	}
-	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-	resize(temp->array_size * multiplySize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, temp->array_size);
-	remove_struct<type_array>(temp);
+	resize(this->ARRAY->array_size * multiplySize, 1);
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
 {
-	if (divideSize >= this->ARRAY->array_size)
+	if (divideSize > this->ARRAY->array_size)
 	{
-		remove();
-		return;
+		throw size_failure("In this case, the size is zero. Previously, in this case, the array was simply deleted and the pointer began to point to empty unallocated memory, and there is no and will not be a method for allocating memory in the class. In addition, the security architecture of the ARRAYDATA class does not allow you to store a pointer to an empty memory area. Therefore, now, in this case, deletion of the array is prohibited and this exception is thrown. THE SUBTRACTED ARRAY SIZE MUST NOT BE GREATER THAN OR EQUAL TO THE CURRENT ARRAY SIZE!");
 	}
-	Array<type_array> *temp = create_struct<type_array>(this->ARRAY->array_size);
-	ArrayProcessing<type_array>::copy(temp->array, this->ARRAY->array, this->ARRAY->array_size);
-	resize(temp->array_size / divideSize, 1);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, this->ARRAY->array_size);
-	remove_struct<type_array>(temp);
+	resize(this->ARRAY->array_size / divideSize, 1);
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
