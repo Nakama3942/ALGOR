@@ -594,6 +594,12 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::getData()
 	return this->ARRAY;
 }
 
+template<typename type_array>
+asize_t ARRAYDATA<type_array>::getSize()
+{
+	return this->ARRAY->array_size;
+}
+
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::reset()
 {
@@ -831,30 +837,17 @@ void ALGOR::ARRAYDATA<type_array>::operator||(const type_array &value)
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
 {
-	asize_t newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
-	Array<type_array> *temp = create_struct<type_array>(newSize);
-	for (asize_t i = 0; i < newSize; i++)
-	{
-		i < this->ARRAY->array_size ? temp->array[i] = this->ARRAY->array[i] : temp->array[i] = appendingArray->getData()->array[i - this->ARRAY->array_size];
-	}
-	remove();
-	this->ARRAY = create_struct<type_array>(newSize);
-	ArrayProcessing<type_array>::copy(this->ARRAY->array, temp->array, newSize);
-	remove_struct<type_array>(temp);
+	asize_t old_size = this->ARRAY->array_size;
+	resize(old_size + appendingArray->getSize(), 1);
+	ArrayProcessing<type_array>::copy(this->ARRAY->array, appendingArray->getData()->array, appendingArray->getSize(), old_size);
 }
 
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
 {
-	asize_t newSize = this->ARRAY->array_size + appendingArray->getData()->array_size;
-	Array<type_array> *temp = create_struct<type_array>(newSize);
-	for (asize_t i = 0; i < newSize; i++)
-	{
-		i < appendingArray->getData()->array_size ? temp->array[i] = appendingArray->getData()->array[i] : temp->array[i] = this->ARRAY->array[i - appendingArray->getData()->array_size];
-	}
-	appendingArray->resize(newSize, 1);
-	ArrayProcessing<type_array>::copy(appendingArray->getData()->array, temp->array, newSize);
-	remove_struct<type_array>(temp);
+	asize_t old_size = appendingArray->getSize();
+	appendingArray->resize(old_size + this->ARRAY->array_size, 1);
+	ArrayProcessing<type_array>::copy(appendingArray->getData()->array, this->ARRAY->array, this->ARRAY->array_size, old_size);
 }
 
 // TODO Optimize operators + - * /

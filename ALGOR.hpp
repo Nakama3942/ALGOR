@@ -317,6 +317,7 @@ namespace ALGOR
 		void setData(Array<type_array> *&Array);
 		void cloneData(Array<type_array> *&CloningArray);
 		Array<type_array> *getData();
+		asize_t getSize();
 
 		void reset();
 		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
