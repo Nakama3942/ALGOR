@@ -302,6 +302,7 @@ namespace ALGOR
 	public:
 		ARRAYDATA(Array<type_array> *&Array);
 		ARRAYDATA(const asize_t &SIZE);
+		~ARRAYDATA();
 
 		enum class ArrayType /// A set of array types
 		{
@@ -320,9 +321,8 @@ namespace ALGOR
 		void cloneData(Array<type_array> *&CloningArray);
 		Array<type_array> *getData();
 		asize_t getSize();
-		
-		//getValue(position);
-		//getPosition(value);
+		Array<asize_t> *getPosition(const type_array &value);
+		type_array getValue(const asize_t &position);
 
 		void reset();
 		void resize(const asize_t &NEW_SIZE, const type_array &setElement);

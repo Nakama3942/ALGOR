@@ -549,6 +549,12 @@ ALGOR::ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<t
 template <typename type_array>
 ALGOR::ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
 
+template<typename type_array>
+ARRAYDATA<type_array>::~ARRAYDATA()
+{
+	remove();
+}
+
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator)
 {
@@ -598,6 +604,35 @@ template<typename type_array>
 asize_t ARRAYDATA<type_array>::getSize()
 {
 	return this->ARRAY->array_size;
+}
+
+template<typename type_array>
+Array<asize_t> *ALGOR::ARRAYDATA<type_array>::getPosition(const type_array &value)
+{
+	Array<asize_t> *positions = new Array<asize_t>;
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		if (this->ARRAY->array[i] == value)
+		{
+			ArrayProcessing<asize_t>::addElement(positions->array, positions->array_size, i, positions->array_size);
+		}
+	}
+	if (positions->array_size == 0)
+	{
+		delete (positions);
+		throw not_found();
+	}
+	return positions;
+}
+
+template<typename type_array>
+type_array ALGOR::ARRAYDATA<type_array>::getValue(const asize_t &position)
+{
+	if (position >= this->ARRAY->array_size)
+	{
+		throw memory_overflow();
+	}
+	return this->ARRAY->array[position];
 }
 
 template <typename type_array>
