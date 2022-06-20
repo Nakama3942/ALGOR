@@ -170,6 +170,17 @@ ALGOR::not_found::not_found(const char *explanation) : Exception(404, "Search er
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+LCM::LCM(ubit32_t seed)
+{
+	this->seed = seed;
+}
+
+ubit32_t LCM::rand()
+{
+	seed = (a * seed + c) % m;
+	return seed;
+}
+
 // int RC4::crypto_entropy()
 //{
 //     //Collects entropy
@@ -208,6 +219,11 @@ ALGOR::MersenneTwister::MersenneTwister(int seed)
 {
 	RandomInit(seed);
 	LastInterval = 0;
+}
+
+sbit32_t MersenneTwister::rand()
+{
+	return IRandom(0x80000000, 0x79999999);
 }
 
 void ALGOR::MersenneTwister::RandomInit(int seed)
@@ -304,6 +320,51 @@ void ALGOR::MersenneTwister::Init0(int seed)
 	{
 		mersenne_twister[mersenne_twister_index] = (factor * (mersenne_twister[mersenne_twister_index - 1] ^ (mersenne_twister[mersenne_twister_index - 1] >> 30)) + mersenne_twister_index);
 	}
+}
+
+template <class Generator>
+fbit64_t ALGOR::tester(ubit32_t left_limit, ubit32_t right_limit)
+{
+	//Створюю об'єкт генератора
+	memcell_t cell = getMemoryCell();
+	cell >>= 32;
+	Generator gen(cell);
+
+	//Генерую масив
+	fbit64_t *arr = new fbit64_t[1000000];
+	for (ubit32_t i = 0; i < 1000000; i++)
+	{
+		arr[i] = (left_limit + (gen.rand() % (right_limit - left_limit))) / 1000000.;
+	}
+
+	//Створюю 100 піддіапазонів
+	fbit64_t *bucket = new fbit64_t[100];
+	for (ubit32_t i = 0; i < 100; i++)
+	{
+		bucket[i] = 0;
+	}
+
+	//Розраховую 100 піддіапазонів
+	for (ubit32_t i = 0; i < 1000000; i++)
+	{
+		ubit32_t bucket_index = (ubit32_t)(arr[i] * 100);
+		bucket[bucket_index] += 1;
+	}
+
+	//Розраховую критерій узгодженості Пірсона та найбільші відхилення
+	//в меншу та більшу сторони; записую дані до LOG-файлу
+	fbit64_t Pj = 10000;
+	fbit64_t pX = 0;
+	for (ubit8_t i = 0; i < 100; i++)
+	{
+		pX += ((bucket[i] - Pj) * (bucket[i] - Pj)) / Pj;
+	}
+
+	//Звільняю пам'ять
+	delete[] bucket;
+	delete[] arr;
+
+	return pX;
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -490,6 +551,18 @@ void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_
 	}
 }
 
+template<typename type_array>
+void ALGOR::generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator)
+{
+	memcell_t cell = getMemoryCell();
+	cell >>= 32;
+	LCM RanGen(cell);
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		Array[i] = min_limit + (RanGen.rand() % (max_limit - min_limit)) / denominator;
+	}
+}
+
 template <typename type_array>
 Array<type_array> *ALGOR::create_struct(const asize_t &SIZE, bool mem_allocation)
 {
@@ -558,13 +631,7 @@ ARRAYDATA<type_array>::~ARRAYDATA()
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator)
 {
-	memcell_t cell = getMemoryCell();
-	cell >>= 32;
-	MersenneTwister RanGen(cell);
-	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
-	{
-		this->ARRAY->array[i] = RanGen.IRandom(min_limit, max_limit) / denominator;
-	}
+	generate_struct<type_array>(this->ARRAY->array, this->ARRAY->array_size, min_limit, max_limit, denominator);
 }
 
 template <typename type_array>
@@ -641,7 +708,6 @@ void ALGOR::ARRAYDATA<type_array>::reset()
 	asize_t SIZE = this->ARRAY->array_size;
 	remove();
 	this->ARRAY = create_struct<type_array>(SIZE);
-
 }
 
 template <typename type_array>
@@ -1220,8 +1286,9 @@ void ALGOR::Comparative_Sorts<type_array>::BogoSort::Shuffle()
 {
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		MersenneTwister RanGen(getMemoryCell());
-		CORE<type_array>::swap(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
+		LCM RanGen(getMemoryCell());
+		ubit32_t position = RanGen.rand() % array_size - 1;
+		CORE<type_array>::swap(Array[i], Array[position]);
 	}
 }
 
@@ -2815,6 +2882,9 @@ template class ALGOR::CORE<int>;
 template class ALGOR::CORE<float>;
 template class ALGOR::CORE<char>;
 template class ALGOR::CORE<fbit128_t>;
+
+template fbit64_t ALGOR::tester<LCM>(ubit32_t, ubit32_t);
+template fbit64_t ALGOR::tester<MersenneTwister>(ubit32_t, ubit32_t);
 
 template class ALGOR::ArrayProcessing<int>;
 template class ALGOR::ArrayProcessing<float>;

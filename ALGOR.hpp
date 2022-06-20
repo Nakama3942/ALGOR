@@ -189,6 +189,22 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+	class LCM
+	{
+	public:
+		//LCM = LinearCongruentMethod
+		//Source: https://en.wikipedia.org/wiki/Linear_congruential_generator
+		//Paragraph: Parameters in common use
+		//Table row: MMIX by Donald Knuth
+		LCM(ubit32_t seed);
+		ubit32_t rand();
+	private:
+		const ubit64_t a = 0x5851f42d4c957f2d; //6`364`136`223`846`793`005
+		const ubit64_t c = 0x14057b7ef767814f; //1`442`695`040`888`963`407
+		const ubit64_t m = 0xffffffffffffffff; //18`446`744`073`709`551`615
+		ubit32_t seed;
+	};
+
 	class RC4
 	{
 	public:
@@ -204,6 +220,7 @@ namespace ALGOR
 	{
 	public:
 		MersenneTwister(int seed);
+		sbit32_t rand();
 		void RandomInit(int seed);
 		int IRandom(int min, int max);
 		int IRandomX(int min, int max);
@@ -217,6 +234,9 @@ namespace ALGOR
 		ubit32_t LastInterval;			// Last interval length for IRandomX
 		ubit32_t RejectionLimit;		// Rejection limit used by IRandomX
 	};
+
+	template <class Generator>
+	fbit64_t tester(ubit32_t left_limit, ubit32_t right_limit);
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -280,6 +300,8 @@ namespace ALGOR
 	};
 	template <typename type_array>
 	Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
+	template <typename type_array>
+	void generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator = 1);
 	template <typename type_array>
 	void remove_struct(Array<type_array> *&Array);
 
