@@ -44,7 +44,7 @@
  * \date 11.01.2022
  * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
  */
- 
+
 // WARNING Дату написания документации указать тогда, когда будет написана документация
 
 // WARNING Перепровірити код, де у якості максимального значання задається
@@ -67,35 +67,49 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	using sbit8_t = signed char;			///< Alias for signed char
-	using sbit16_t = signed short;			///< Alias for signed short
-	using sbit32_t = signed long;			///< Alias for signed long
-	using sbit64_t = signed long long;		///< Alias for signed long long
+	using sbit8_t = signed char;	   ///< Alias for signed char
+	using sbit16_t = signed short;	   ///< Alias for signed short
+	using sbit32_t = signed long;	   ///< Alias for signed long
+	using sbit64_t = signed long long; ///< Alias for signed long long
 
-	using ubit8_t = unsigned char;			///< Alias for unsigned char
-	using ubit16_t = unsigned short;		///< Alias for unsigned short
-	using ubit32_t = unsigned long;			///< Alias for unsigned long
-	using ubit64_t = unsigned long long;	///< Alias for unsigned long long
+	using ubit8_t = unsigned char;		 ///< Alias for unsigned char
+	using ubit16_t = unsigned short;	 ///< Alias for unsigned short
+	using ubit32_t = unsigned long;		 ///< Alias for unsigned long
+	using ubit64_t = unsigned long long; ///< Alias for unsigned long long
 
-	using fbit32_t = float;					///< Alias for float
-	using fbit64_t = double;				///< Alias for double
-	using fbit128_t = long double;
+	using fbit32_t = float;		   ///< Alias for float
+	using fbit64_t = double;	   ///< Alias for double
+	using fbit128_t = long double; ///< Alias for double
 
-	using asize_t = ubit32_t;				///< Alias for specifying the type "array size"
-	using memcell_t = ubit64_t;				///< Alias for calculated memory cell
+	using asize_t = ubit32_t;	///< Alias for specifying the type "array size"
+	using memcell_t = ubit64_t; ///< Alias for calculated memory cell
 
+	///-
 	template <typename type_value>
 	class CORE
 	{
 	public:
+		/*!
+		\brief Swaps two elements
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in, out] firstNumber First item to replace
+		\param[in, out] secondNumber Second item to replace
+		*/
 		static void swap(type_value &firstNumber, type_value &secondNumber) noexcept;
+
+		///-
 		static type_value minimum(type_value firstNumber, type_value secondNumber) noexcept;
+
+		///-
 		static type_value maximum(type_value firstNumber, type_value secondNumber) noexcept;
 	};
 
+	///-
 	memcell_t getMemoryCell(); //Заместо time(NULL)
+	///-
 	memcell_t getMemoryCell(memcell_t right_adjust, memcell_t left_adjust);
 
+	///-
 	template <typename type>
 	class Printer // Template interface
 	{
@@ -113,69 +127,138 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+	/*!
+	\brief Class for working with exceptions
+	*/
 	class Exception
 	{
 	public:
+		/*!
+		\brief Construct a new Exception::Exception object
+		\details Takes full detailed information on exclusion
+		\param CODE Exception encoding
+		\param MESSAGE Message exception
+		\param DETAILS Exception details
+		*/
 		Exception(ubit16_t CODE, const char *DETAILS, const char *EXPLANATION);
+		/*!
+		\brief Construct a new Exception::Exception object
+		\details Accepts basic exception information
+		\param CODE Exception encoding
+		\param MESSAGE Message exception
+		*/
 		Exception(ubit16_t CODE, const char *DETAILS);
+		/*!
+		\brief Construct a new Exception::Exception object
+		\details Takes cordivity of exception
+		\param CODE Exception encoding
+		*/
 		Exception(ubit16_t CODE);
+		/*!
+		\brief Construct a new Exception::Exception object
+		\details Accepts an exception message
+		\param MESSAGE Message exception
+		*/
 		Exception(const char *DETAILS);
+		/*!
+		\brief Returns exclusion encoding
+		\return <unsigned int> - exception encoding
+		*/
 		ubit16_t code();
+		/*!
+		\brief Returns an exception message
+		\return <const char*> - message exception
+		*/
 		const char *what();
+		/*!
+		\brief Returns exception details
+		\return <const char*> - exception details
+		*/
 		const char *why();
 
 	protected:
-		ubit16_t CODE;				///< Exception encoding
-		const char *DETAILS;		///< Exception details
-		const char *EXPLANATION;	///< Exception explanation
+		ubit16_t CODE;			 ///< Exception encoding
+		const char *DETAILS;	 ///< Exception details
+		const char *EXPLANATION; ///< Exception explanation
 	};
 
+	///-
 	class memory_overflow : public Exception
 	{
 	public:
+		///-
 		memory_overflow();
+		///-
 		memory_overflow(const char *explanation);
 	};
 
+	///-
 	class division_by_zero : public Exception
 	{
 	public:
+		///-
 		division_by_zero();
+		///-
 		division_by_zero(const char *explanation);
 	};
 
+	///-
 	class position_failure : public Exception
 	{
 	public:
+		///-
 		position_failure();
+		///-
 		position_failure(const char *explanation);
 	};
 
+	///-
 	class value_failure : public Exception
 	{
 	public:
+		///-
 		value_failure();
+		///-
 		value_failure(const char *explanation);
 	};
 
+	///-
 	class size_failure : public Exception
 	{
 	public:
+		///-
 		size_failure();
+		///-
 		size_failure(const char *explanation);
 	};
 
+	/*!
+	\brief void_data exception class
+	*/
 	class void_data : public Exception
 	{
 	public:
+		/*!
+		\brief Construct a new void data::void data object
+		\details Geted empty data structure
+		*/
 		void_data();
+		///-
 		void_data(const char *explanation);
 	};
 
+	/*!
+	\brief not_found exception class
+	*/
 	class not_found : public Exception
 	{
 	public:
+		/*!
+		\brief Construct a new not found::not found object
+		\details Search error - item not found
+		*/
 		not_found();
+		///-
 		not_found(const char *explanation);
 	};
 
@@ -189,52 +272,106 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+	///-
 	class LCM
 	{
 	public:
-		//LCM = LinearCongruentMethod
-		//Source: https://en.wikipedia.org/wiki/Linear_congruential_generator
-		//Paragraph: Parameters in common use
-		//Table row: MMIX by Donald Knuth
+		// LCM = LinearCongruentMethod
+		// Source: https://en.wikipedia.org/wiki/Linear_congruential_generator
+		// Paragraph: Parameters in common use
+		// Table row: MMIX by Donald Knuth
+		///-
 		LCM(ubit32_t seed);
+		///-
 		ubit32_t rand();
+
 	private:
-		const ubit64_t a = 0x5851f42d4c957f2d; //6`364`136`223`846`793`005
-		const ubit64_t c = 0x14057b7ef767814f; //1`442`695`040`888`963`407
-		const ubit64_t m = 0xffffffffffffffff; //18`446`744`073`709`551`615
+		const ubit64_t a = 0x5851f42d4c957f2d; // 6`364`136`223`846`793`005
+		const ubit64_t c = 0x14057b7ef767814f; // 1`442`695`040`888`963`407
+		const ubit64_t m = 0xffffffffffffffff; // 18`446`744`073`709`551`615
 		ubit32_t seed;
 	};
 
+	/*!
+	\brief Simple crypto-strong generator
+	\note Taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A
+	*/
 	class RC4
 	{
 	public:
 		// int crypto_entropy();
+		/*!
+		\brief Set up the key
+		\param[in] key The key to be installed
+		\param[in] ksize Key size
+		*/
 		void crypto_srand(const char *key, int ksize);
+		/*!
+		\brief Generates a value
+		\param[out] output Generates an array of elements
+		\param[in] size Array size
+		*/
 		void crypto_rand(char *output, int size);
 
 	private:
 		ubit8_t Sbox[256];
 	};
 
+	/*!
+	\brief Advanced generator based on Marsen primes
+	\note Source URL: www.agner.org/random
+	*/
 	class MersenneTwister
 	{
 	public:
+		/*!
+		\brief Construct a new Mersenne Twister::Mersenne Twister object
+		\details Installs the seed
+		\param[in] seed Generation seed
+		*/
 		MersenneTwister(int seed);
+		///-
 		sbit32_t rand();
+		/*!
+		\brief Re-seed
+		\param seed Generation seed
+		*/
 		void RandomInit(int seed);
+		/*!
+		\brief Output random integer
+		\param min The minimum value that can be generated
+		\param max The maximum value that can be generated
+		\return int
+		*/
 		int IRandom(int min, int max);
+		/*!
+		\brief Output random integer, exact
+		\param min The minimum value that can be generated
+		\param max The maximum value that can be generated
+		\return int
+		*/
 		int IRandomX(int min, int max);
+		/*!
+		\brief Output random float
+		\return double
+		*/
 		double Random();
+		/*!
+		\brief Output random bits
+		\return uint32_t
+		*/
 		ubit32_t BRandom();
 
 	private:
+		///-
 		void Init0(int seed);
-		ubit32_t mersenne_twister[624]; // State vector
-		int mersenne_twister_index;		// Index into mersenne_twister
-		ubit32_t LastInterval;			// Last interval length for IRandomX
-		ubit32_t RejectionLimit;		// Rejection limit used by IRandomX
+		ubit32_t mersenne_twister[624]; /// State vector
+		int mersenne_twister_index;		/// Index into mersenne_twister
+		ubit32_t LastInterval;			/// Last interval length for IRandomX
+		ubit32_t RejectionLimit;		/// Rejection limit used by IRandomX
 	};
 
+	///-
 	template <class Generator>
 	fbit64_t tester(ubit32_t left_limit, ubit32_t right_limit);
 
@@ -248,82 +385,186 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+	///-
 	template <typename type_array>
 	class ArrayProcessing
 	{
 	public:
-		static type_array minimum(const type_array *Array,
-								  const asize_t &array_size);
+		/*!
+		\brief Finds the minimum element in an array by iterating over
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in] Array The array in which to look for the minimum element
+		\param[in] array_size The size of this very array
+		\throw void_data Transferred an empty array
+		\return type_array
+		*/
+		static type_array minimum(const type_array *Array, const asize_t &array_size);
 
-		static type_array maximum(const type_array *Array,
-								  const asize_t &array_size);
+		/*!
+		\brief Finds the maximum element in an array by iterating over
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in] Array The array in which to look for the maximum element
+		\param[in] array_size The size of this very array
+		\throw void_data Transferred an empty array
+		\return type_array
+		*/
+		static type_array maximum(const type_array *Array, const asize_t &array_size);
 
-		static bool isOrderliness(const type_array *Array,
-								  const asize_t &array_size);
+		///-
+		static bool isOrderliness(const type_array *Array, const asize_t &array_size);
 
-		static asize_t distance(type_array *first,
-								type_array *last);
+		///-
+		static asize_t distance(type_array *first, type_array *last);
 
-		static type_array *lower_bound(type_array *first,
-									   type_array *last,
-									   const type_array &value);
+		///-
+		static type_array *lower_bound(type_array *first, type_array *last, const type_array &value);
 
-		static type_array *upper_bound(type_array *first,
-									   type_array *last,
-									   const type_array &value);
+		///-
+		static type_array *upper_bound(type_array *first, type_array *last, const type_array &value);
 
-		static void addElement(type_array *&Array,
-							   asize_t &array_size,
-							   const type_array &value,
-							   const asize_t position = 0);
+		/*!
+		\brief Adds a specific value to an array at a specified position
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in, out] Array The array to which the element is added
+		\param[in] array_size The size of this very array
+		\param[in] value The element to add to the array
+		\param[in] position The position at which the element will be added
+		*/
+		static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position = 0);
 
-		static void subtractElement(type_array *&Array,
-									asize_t &array_size,
-									const asize_t position);
+		/*!
+		\brief Removes the specified position from the array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in, out] Array The array in which the position will be deleted
+		\param[in] array_size The size of this very array
+		\param[in] position The position at which the element will be removed
+		*/
+		static void subtractElement(type_array *&Array, asize_t &array_size, const asize_t position);
 
-		static void subtractValue(type_array *&Array,
-								  asize_t &array_size,
-								  const type_array &value);
+		/*!
+		\brief Removes a specific element from all positions in an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in, out] Array An array in which all elements that match the given value will be removed
+		\param[in] array_size The size of this very array
+		\param[in] value The value to be removed in the entire array
+		*/
+		static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
 
-		static void copy(type_array *new_array,
-						 const type_array *old_array,
-						 const asize_t &size_of_copied,
-						 asize_t position_in_new_array = 0,
-						 asize_t position_in_old_array = 0);
+		/*!
+		\brief Copies an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in, out] new_array The array into which the data is copied
+		\param[in] old_array The array from which to copy
+		\param[in] size_of_copied A parameter that indicates how many items to copy
+		\param[in] position_in_new_array The position from which to start writing in the array to which the data is copied
+		\param[in] position_in_old_array The position from which to start reading from the array, from which the data is copied
+		*/
+		static void copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array = 0, asize_t position_in_old_array = 0);
 	};
 
+	/*!
+	\brief A structure that mimics an array. Designed to store a pointer to a dynamic array and its size
+	\tparam type_array The type of elements that the array stores. For example int or float
+	*/
 	template <typename type_array>
 	struct Array
 	{
 		type_array *array = nullptr;
 		asize_t array_size = 0;
 	};
+
+	/*!
+	\fn Array<type_array> *create_struct(const asize_t &SIZE)
+	\brief Creates a structure with a pointer to an array
+	\tparam type_array The type of elements that the array stores. For example int or float
+	\param[in] SIZE The size of the array to be created
+	\return Array<type_array>* Pointer to array
+	*/
 	template <typename type_array>
 	Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
+
+	///-
 	template <typename type_array>
 	void generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator = 1);
+
+	/*!
+	\fn void remove_struct(Array<type_array> *&Array)
+	\brief Removes an array and structure from heap
+	\tparam type_array The type of elements that the array stores. For example int or float
+	\param[in] Array The array to be deleted
+	*/
 	template <typename type_array>
 	void remove_struct(Array<type_array> *&Array);
 
+	/*!
+	\brief The base class, which is organized for working with arrays - memory allocation, storage, deletion
+	\tparam type_array The type of elements that the array stores. For example int or float
+	*/
 	template <typename type_array>
 	class ArrayBase
 	{
 	protected:
+		/*!
+		\brief Construct a new ArrayBase<type_array>::ArrayBase object
+		\details With this creation of an object, both the structure and the object of the class will point to the same array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in] Array Pointer to a structured array
+		*/
 		ArrayBase(Array<type_array> *&Array);
+		/*!
+		\brief Construct a new ArrayBase<type_array>::ArrayBase object
+		\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in] SIZE The size of the array being created
+		*/
 		ArrayBase(const asize_t &SIZE);
+		/*!
+		\fn ArrayBase<type_array>::ArrayBase()
+		\brief Construct a new ArrayBase<type_array>::ArrayBase object
+		\details With this creation of an object, no memory will be allocated for the array. The object will be empty
+		\tparam type_array The type of elements that the array stores. For example int or float
+		*/
 		ArrayBase();
 
+		///-
 		void verification(Array<type_array> *Array);
 
 		Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
 	};
 
+	/*!
+	\brief Array processing
+	\details This is the main class for working with arrays, the tasks of which
+			 are storing a pointer to an array, the ability to create, delete, modify it,
+			 calculate characteristics, etc.
+	\tparam type_array The type of elements that the array stores. For example int or float
+	*/
 	template <typename type_array>
 	class ARRAYDATA : public ArrayBase<type_array>
 	{
 	public:
+		/*!
+		\brief Construct a new arraydata<type array>::arraydata object
+		\details With this creation of an object, both the structure and the object of the class will point to the same array. An example of an array object announcement:
+		\code
+		Array<int> *arr = create_struct(12);
+		ARRAYDATA<int> *array = new ARRAYDATA<int>(arr);
+		\endcode
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in] Array Pointer to a structured array
+		*/
 		ARRAYDATA(Array<type_array> *&Array);
+		/*!
+		\brief Construct a new arraydata<type array>::arraydata object
+		\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object. An example of an array object announcement:
+		\code
+		ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
+		\endcode
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param[in] SIZE The size of the array being created
+		*/
 		ARRAYDATA(const asize_t &SIZE);
+		///-
 		~ARRAYDATA();
 
 		enum class ArrayType /// A set of array types
@@ -332,52 +573,226 @@ namespace ALGOR
 			STRING	///< Indicates that the array stores strings
 		};
 
+		///-
 		struct mode : Array<type_array>
 		{
 			ubit32_t highest_frequency = 0;
 		};
 
+		/*!
+		\brief A method that fills the entire array with random values
+		\code
+		array->generatedData(1, 100);
+		\endcode
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param min_limit The minimum value that can be generated
+		\param max_limit The maximum value that can be generated
+		*/
 		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator = 1);
+		/*!
+		\brief A method that replaces the previous array with a new one, freeing memory from the previous one
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param Array An array that will replace the previous one in the object
+		*/
 		void setNewData(Array<type_array> *&Array);
+		/*!
+		\brief A method that replaces the previous array with a new one without freeing memory from the previous one
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param Array An array that will replace the previous one in the object
+		*/
 		void setData(Array<type_array> *&Array);
+		/*!
+		\brief Method that replaces the old array by copying the existing one
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param CloningArray The array to be copied to the object
+		*/
 		void cloneData(Array<type_array> *&CloningArray);
+		/*!
+		\brief Returns a pointer to an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\return Array<type_array>*
+		*/
 		Array<type_array> *getData();
+		///-
 		asize_t getSize();
+		///-
 		Array<asize_t> *getPosition(const type_array &value);
+		///-
 		type_array getValue(const asize_t &position);
 
+		/*!
+		\brief The method removes the old array, creates a new one with the same characteristics
+			   (size, minimum and maximum limits) and fills it (unlike respawn (), which does
+			   not generate elements).
+		\tparam type_array The type of elements that the array stores. For example int or float
+		*/
 		void reset();
+		/*!
+		\fn void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
+		\brief Method that resizes the array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param NEW_SIZE New array size
+		\param setElement The value with which new cells of the array are filled
+		\warning In the case of increasing the size of the array after copying,
+				 the new cells remain empty and store "garbage" in themselves.
+				 Sometimes, by accident, a programmer can try to get data without
+				 specifying it, as a result of which, in the best case, an incorrect
+				 result will simply be given, and in the worst case, the program may crash.
+				 For this, the setElement parameter was created, but it must be specified
+				 not only in case of an increase in size, but always when calling the method
+				 for prevention. The programmer may not even know the current size
+				 of the array, therefore, he cannot know whether the array will
+				 be increased or decreased.
+		*/
 		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
+		/*!
+		\brief Changes the value at the specified position
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param position The position at which the value changes
+		\param value The value to be placed in the position
+		*/
 		void replace(const asize_t &position, const type_array &value);
+		/*!
+		\brief Reverses the array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		*/
 		void reverse();
+		/*!
+		\brief The method deletes the old array, however, the memory for the new array
+			   is allocated the same size without filling it, unlike reset()
+		\tparam type_array The type of elements that the array stores. For example int or float
+		*/
 		void respawn();
 
+		/*!
+		\brief Optimized method for finding the minimum element
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param ArrStat Array status
+		\return type_array
+		*/
 		type_array getMin();
+		/*!
+		\brief Optimized method for finding the maximum element
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param ArrStat Array status
+		\return type_array
+		*/
 		type_array getMax();
 
+		/*!
+		\brief Linear item search method
+		\details Returns all occurrences of the found value
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param required_element The value to find
+		\return Array<int>*
+		*/
 		Array<asize_t> *lenear_searcher(const type_array &required_element);
+		/*!
+		\brief Binary item search method
+		\details Returns only one position and is only used in sorted arrays. It is used to
+				 facilitate the programmer's work so that the method does not need to pass a bunch
+				 of parameters that are needed in the algorithm, but the launch is always carried
+				 out by passing the same values.
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param required_element The value to find
+		\return int
+		*/
 		asize_t binary_searcher(const type_array &required_element);
+		/*!
+		\brief Sequence search method that returns all its occurrences
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param SUBARRAY The substring that is searched for in the main array
+		\param ArrType Array type
+		\return Array<int>*
+		*/
 		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY,
 													   ArrayType ArrType = ArrayType::NUMBER);
 
+		/*!
+		\brief Method that returns the arithmetic mean of an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\return type_array
+		*/
 		type_array average();
+		/*!
+		\brief Method that returns the median of an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\return type_array
+		*/
 		type_array mediana();
+		/*!
+		\brief A method that returns all elements with an array mode
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param highest_frequency An indicator of the frequency of occurrence of elements that are most often found
+		\return Array<type_array>*
+		*/
 		mode *moda();
 
+		///-
 		bool operator=(Array<type_array> *&cloningArray);
+		///-
 		bool operator==(Array<type_array> *&anotherArray);
+		///-
 		Array<type_array> *operator^=(const asize_t &NewSize);
+		/*!
+		\brief Operator for increasing an array by a specific size
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param addSize Parameter indicating how much to increase the array
+		*/
 		Array<type_array> *operator+=(const type_array &addValue);
+		/*!
+		\brief Operator for decreasing an array by a specific size
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param subtractSize Parameter indicating how much to reduce the array
+		*/
 		Array<type_array> *operator-=(const type_array &subtractValue);
+		/*!
+		\brief Operator for increasing an array by several times
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param multiplySize Parameter indicating how many times to increase the array
+		*/
 		Array<type_array> *operator*=(const type_array &multiplyValue);
+		/*!
+		\brief Operator for decreasing an array by some times
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param divideSize Параметр, указывающий, во сколько раз следует уменьшить массив
+		*/
 		Array<type_array> *operator/=(const type_array &divideValue);
+		/*!
+		\brief Operator adding an element to the end of an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param value The value to add to the end of the array
+		*/
 		Array<type_array> *operator&=(const type_array &value);
+		/*!
+		\brief An operator that removes all elements with a specified value
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param value The value to be removed
+		*/
 		Array<type_array> *operator|=(const type_array &value);
+		/*!
+		\brief Operator that removes an element from the end of an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		*/
 		Array<type_array> *operator!();
+		/*!
+		\brief Operator for merging two arrays in the current object
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param appendingArray An array to attach from another object
+		*/
 		Array<type_array> *operator<<=(ARRAYDATA<type_array> *&appendingArray);
+		/*!
+		\brief Operator for merging two arrays in a received object
+		\tparam type_array The type of elements that the array stores. For example int or float
+		\param appendingArray An array from another object to which the current array will be passed
+		*/
 		Array<type_array> *operator>>=(ARRAYDATA<type_array> *&appendingArray);
 
 	private:
+		/*!
+		\brief Removes an array
+		\tparam type_array The type of elements that the array stores. For example int or float
+		*/
 		void remove();
 	};
 
@@ -422,40 +837,40 @@ namespace ALGOR
 		Comparative_Sorts(Array<type_array> *&Array);
 
 		// <<==		Категорія Exchange_Sorts	==>>
-		void Bubble_Sort();				// №	 3
-		void Cocktail_Shaker_Sort();	// №	 4
-		void Odd_Even_Sort();			// №	12
-		void Comb_Sort();				// №	 5
-		void Gnome_Sort();				// №	 7
-		void Quick_Sort();				// №	15
-		void Slow_Sort();				// №	18
-		void Stooge_Sort();				// №	20
-		void Bogo_Sort();				// №	 2
+		void Bubble_Sort();			 // №	 3
+		void Cocktail_Shaker_Sort(); // №	 4
+		void Odd_Even_Sort();		 // №	12
+		void Comb_Sort();			 // №	 5
+		void Gnome_Sort();			 // №	 7
+		void Quick_Sort();			 // №	15
+		void Slow_Sort();			 // №	18
+		void Stooge_Sort();			 // №	20
+		void Bogo_Sort();			 // №	 2
 
 		// <<==		Категорія Selection_Sorts	==>>
-		void Selection_Sort();			// №	16
-		void Heap_Sort();				// №	 8
-		void Smooth_Sort();				// №	19 //FIXME на момент тесту все одно не сортує
-		void Cycle_Sort();				// №	 6
+		void Selection_Sort(); // №	16
+		void Heap_Sort();	   // №	 8
+		void Smooth_Sort();	   // №	19 //FIXME на момент тесту все одно не сортує
+		void Cycle_Sort();	   // №	 6
 
 		// <<==		Категорія Insertion_Sorts	==>>
-		void Insert_Sort();				// №	 9
-		void Shell_Sort();				// №	17
-		void Tree_Sort();				// №	22
-		void Library_Sort();			// №	10
-		void Patience_Sort();			// №	14
+		void Insert_Sort();	  // №	 9
+		void Shell_Sort();	  // №	17
+		void Tree_Sort();	  // №	22
+		void Library_Sort();  // №	10
+		void Patience_Sort(); // №	14
 
 		// <<==		Категорія Merge_Sorts		==>>
-		void Merge_Sort();				// №	11
+		void Merge_Sort(); // №	11
 
 		// <<==		Категорія Concurrent_Sort	==>>
-		void Bitonic_Sorter();			// №	 1
+		void Bitonic_Sorter(); // №	 1
 
 		// <<==		Категорія Hybrid_Sorts		==>>
-		void Tim_Sort();				// №	21
+		void Tim_Sort(); // №	21
 
 		// <<==		Категорія Other_Sorts		==>>
-		void Pancake_Sort();			// №	13
+		void Pancake_Sort(); // №	13
 
 		// <<==				Classes				==>>
 		class BitonicSorter //Категорія Concurrent_Sort
@@ -780,14 +1195,14 @@ namespace ALGOR
 	{
 	public:
 		Distribution_Sorts(Array<int> *&Array);
-		void AmericanFlag_Sort();	// №	1
-		void Bead_Sort();			// №	2
-		void Bucket_Sort();			// №	3
-		void Counting_Sort();		// №	4
-		void Flash_Sort();			// №	5
-		void Interpolation_Sort();	// №	6
-		void Pigeonhole_Sort();		// №	7
-		void Radix_Sort();			// №	8
+		void AmericanFlag_Sort();  // №	1
+		void Bead_Sort();		   // №	2
+		void Bucket_Sort();		   // №	3
+		void Counting_Sort();	   // №	4
+		void Flash_Sort();		   // №	5
+		void Interpolation_Sort(); // №	6
+		void Pigeonhole_Sort();	   // №	7
+		void Radix_Sort();		   // №	8
 
 		class AmericanFlagSort
 		{
