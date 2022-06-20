@@ -44,6 +44,8 @@
  * \date 11.01.2022
  * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
  */
+ 
+// WARNING Дату написания документации указать тогда, когда будет написана документация
 
 // WARNING Перепровірити код, де у якості максимального значання задається
 // 0xffffffff, так як для int найменшим є 0x80000000, то число представляє собою
@@ -318,6 +320,9 @@ namespace ALGOR
 		void cloneData(Array<type_array> *&CloningArray);
 		Array<type_array> *getData();
 		asize_t getSize();
+		
+		//getValue(position);
+		//getPosition(value);
 
 		void reset();
 		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
@@ -337,15 +342,18 @@ namespace ALGOR
 		type_array mediana();
 		mode *moda();
 
-		void operator&&(const type_array &value);
-		void operator!();
-		void operator||(const type_array &value);
-		void operator<<(ARRAYDATA<type_array> *&appendingArray);
-		void operator>>(ARRAYDATA<type_array> *&appendingArray);
-		void operator+(const asize_t &addSize);
-		void operator-(const asize_t &subtractSize);
-		void operator*(const asize_t &multiplySize);
-		void operator/(const asize_t &divideSize);
+		bool operator=(Array<type_array> *&cloningArray);
+		bool operator==(Array<type_array> *&anotherArray);
+		Array<type_array> *operator^=(const asize_t &NewSize);
+		Array<type_array> *operator+=(const type_array &addValue);
+		Array<type_array> *operator-=(const type_array &subtractValue);
+		Array<type_array> *operator*=(const type_array &multiplyValue);
+		Array<type_array> *operator/=(const type_array &divideValue);
+		Array<type_array> *operator&=(const type_array &value);
+		Array<type_array> *operator|=(const type_array &value);
+		Array<type_array> *operator!();
+		Array<type_array> *operator<<=(ARRAYDATA<type_array> *&appendingArray);
+		Array<type_array> *operator>>=(ARRAYDATA<type_array> *&appendingArray);
 
 	private:
 		void remove();

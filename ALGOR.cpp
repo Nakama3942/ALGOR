@@ -816,70 +816,129 @@ typename ARRAYDATA<type_array>::mode *ARRAYDATA<type_array>::moda()
 	return modes;
 }
 
+template<typename type_array>
+bool ARRAYDATA<type_array>::operator=(Array<type_array> *&cloningArray)
+{
+	if (cloningArray == this->ARRAY)
+	{
+		return false;
+	}
+	cloneData(cloningArray);
+	return true;
+}
+
+template<typename type_array>
+bool ARRAYDATA<type_array>::operator==(Array<type_array> *&anotherArray)
+{
+	if (anotherArray == this->ARRAY)
+	{
+		return true;
+	}
+	if (anotherArray->array_size == this->ARRAY->array_size)
+	{
+		for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+		{
+			if (anotherArray->array[i] != this->ARRAY->array[i])
+			{
+				break;
+			}
+			if (i == this->ARRAY->array_size - 1)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+template<typename type_array>
+Array<type_array> *ARRAYDATA<type_array>::operator^=(const asize_t &NewSize)
+{
+	if (NewSize == 0)
+	{
+		throw size_failure("The subtracted array size must not be greater than or equal to the current array size!");
+	}
+	resize(NewSize, 1);
+	return this->ARRAY;
+}
+
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator&&(const type_array &value)
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator+=(const type_array &addValue)
+{
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		this->ARRAY->array[i] += addValue;
+	}
+	return this->ARRAY;
+}
+
+template <typename type_array>
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator-=(const type_array &subtractValue)
+{
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		this->ARRAY->array[i] -= subtractValue;
+	}
+	return this->ARRAY;
+}
+
+template <typename type_array>
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator*=(const type_array &multiplyValue)
+{
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		this->ARRAY->array[i] *= multiplyValue;
+	}
+	return this->ARRAY;
+}
+
+template <typename type_array>
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator/=(const type_array &divideValue)
+{
+	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
+	{
+		this->ARRAY->array[i] /= divideValue;
+	}
+	return this->ARRAY;
+}
+
+template <typename type_array>
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator&=(const type_array &value)
 {
 	ArrayProcessing<type_array>::addElement(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
+	return this->ARRAY;
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator!()
-{
-	ArrayProcessing<type_array>::subtractElement(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator||(const type_array &value)
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator|=(const type_array &value)
 {
 	ArrayProcessing<type_array>::subtractValue(this->ARRAY->array, this->ARRAY->array_size, value);
+	return this->ARRAY;
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator<<(ARRAYDATA<type_array> *&appendingArray)
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator!()
+{
+	ArrayProcessing<type_array>::subtractElement(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
+	return this->ARRAY;
+}
+
+template <typename type_array>
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator<<=(ARRAYDATA<type_array> *&appendingArray)
 {
 	asize_t old_size = this->ARRAY->array_size;
 	resize(old_size + appendingArray->getSize(), 1);
 	ArrayProcessing<type_array>::copy(this->ARRAY->array, appendingArray->getData()->array, appendingArray->getSize(), old_size);
+	return this->ARRAY;
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator>>(ARRAYDATA<type_array> *&appendingArray)
+Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator>>=(ARRAYDATA<type_array> *&appendingArray)
 {
 	asize_t old_size = appendingArray->getSize();
 	appendingArray->resize(old_size + this->ARRAY->array_size, 1);
 	ArrayProcessing<type_array>::copy(appendingArray->getData()->array, this->ARRAY->array, this->ARRAY->array_size, old_size);
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator+(const asize_t &addSize)
-{
-	resize(this->ARRAY->array_size + addSize, 1);
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator-(const asize_t &subtractSize)
-{
-	if (subtractSize >= this->ARRAY->array_size)
-	{
-		throw size_failure("In this case, the size is less than zero. Previously, in this case, the array was simply deleted and the pointer began to point to empty unallocated memory, and there is no and will not be a method for allocating memory in the class. In addition, the security architecture of the ARRAYDATA class does not allow you to store a pointer to an empty memory area. Therefore, now, in this case, deletion of the array is prohibited and this exception is thrown. THE SUBTRACTED ARRAY SIZE MUST NOT BE GREATER THAN OR EQUAL TO THE CURRENT ARRAY SIZE!");
-	}
-	resize(this->ARRAY->array_size - subtractSize, 1);
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator*(const asize_t &multiplySize)
-{
-	resize(this->ARRAY->array_size * multiplySize, 1);
-}
-
-template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::operator/(const asize_t &divideSize)
-{
-	if (divideSize > this->ARRAY->array_size)
-	{
-		throw size_failure("In this case, the size is zero. Previously, in this case, the array was simply deleted and the pointer began to point to empty unallocated memory, and there is no and will not be a method for allocating memory in the class. In addition, the security architecture of the ARRAYDATA class does not allow you to store a pointer to an empty memory area. Therefore, now, in this case, deletion of the array is prohibited and this exception is thrown. THE SUBTRACTED ARRAY SIZE MUST NOT BE GREATER THAN OR EQUAL TO THE CURRENT ARRAY SIZE!");
-	}
-	resize(this->ARRAY->array_size / divideSize, 1);
+	return this->ARRAY;
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
