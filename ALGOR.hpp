@@ -67,6 +67,11 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
+	using byte1_t = char;
+	using byte2_t = short;
+	using byte4_t = long;
+	using byte8_t = long long;
+
 	using sbit8_t = signed char;	   ///< Alias for signed char
 	using sbit16_t = signed short;	   ///< Alias for signed short
 	using sbit32_t = signed long;	   ///< Alias for signed long
@@ -485,7 +490,7 @@ namespace ALGOR
 
 	///-
 	template <typename type_array>
-	void generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator = 1);
+	void generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
 
 	/*!
 	\fn void remove_struct(Array<type_array> *&Array)
@@ -588,7 +593,7 @@ namespace ALGOR
 		\param min_limit The minimum value that can be generated
 		\param max_limit The maximum value that can be generated
 		*/
-		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator = 1);
+		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
 		/*!
 		\brief A method that replaces the previous array with a new one, freeing memory from the previous one
 		\tparam type_array The type of elements that the array stores. For example int or float
@@ -705,8 +710,7 @@ namespace ALGOR
 		\param ArrType Array type
 		\return Array<int>*
 		*/
-		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY,
-													   ArrayType ArrType = ArrayType::NUMBER);
+		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
 
 		/*!
 		\brief Method that returns the arithmetic mean of an array
@@ -893,6 +897,7 @@ namespace ALGOR
 		private:
 			type_array *Array;
 			asize_t array_size;
+
 			bool Correct();
 			void Shuffle();
 		};
@@ -961,6 +966,7 @@ namespace ALGOR
 		private:
 			type_array *Array;
 			asize_t array_size;
+
 			void heapify(type_array *Array,
 						 const asize_t &count,
 						 const asize_t &array_size);
@@ -1066,8 +1072,9 @@ namespace ALGOR
 		private:
 			type_array *Array;
 			asize_t array_size;
-			void recursive_quick_sort(const int &left_limit,
-									  const int &right_limit);
+
+			void recursive_quick_sort(const asize_t &left_limit,
+									  const asize_t &right_limit);
 		};
 
 		class SelectionSort //Категорія Selection_Sorts
@@ -1101,8 +1108,9 @@ namespace ALGOR
 		private:
 			type_array *Array;
 			asize_t array_size;
-			void recursive_slow_sort(const int &left_limit,
-									 const int &right_limit);
+
+			void recursive_slow_sort(const asize_t &left_limit,
+									 const asize_t &right_limit);
 		};
 
 		class StoogeSort //Категорія Exchange_Sorts
@@ -1114,8 +1122,9 @@ namespace ALGOR
 		private:
 			type_array *Array;
 			asize_t array_size;
-			void recursive_stooge_sort(const int &left_limit,
-									   const int &right_limit);
+
+			void recursive_stooge_sort(const asize_t &left_limit,
+									   const asize_t &right_limit);
 		};
 
 		class TimSort //Категорія Hybrid_Sorts
@@ -1146,12 +1155,12 @@ namespace ALGOR
 
 			struct Tree
 			{
-				int data;
+				type_array data;
 				Tree *left, *right;
 			};
 
-			Tree *newnode(int key);
-			Tree *insert(Tree *node, int key);
+			Tree *newnode(type_array key);
+			Tree *insert(Tree *node, type_array key);
 			void store(Tree *root, type_array *Array, asize_t &index);
 		};
 

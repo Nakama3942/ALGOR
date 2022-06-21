@@ -55,35 +55,37 @@ type_value ALGOR::CORE<type_value>::maximum(type_value firstNumber, type_value s
 memcell_t ALGOR::getMemoryCell()
 {
 	memcell_t *cells = new memcell_t[10];
-	memcell_t *cell = new memcell_t(cells[0]);
+	memcell_t cell = cells[0];
 	for (ubit32_t i = 1; i < 8; i++)
 	{
-		*cell >>= (memcell_t)cells[i];
-		*cell <<= (memcell_t)cells[i + 1];
-		*cell ^= (memcell_t)cells[i + 2];
+		cell >>= (memcell_t)cells[i];
+		cell <<= (memcell_t)cells[i + 1];
+		cell ^= (memcell_t)cells[i + 2];
 	}
-	return *cell;
+	delete[] cells;
+	return cell;
 }
 
 memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
 {
 	memcell_t *cells = new memcell_t[10];
-	memcell_t *cell = new memcell_t(cells[0]);
+	memcell_t cell = cells[0];
 	for (ubit32_t i = 1; i < 8; i++)
 	{
-		*cell >>= (memcell_t)cells[i];
-		*cell <<= (memcell_t)cells[i + 1];
-		*cell ^= (memcell_t)cells[i + 2];
+		cell >>= (memcell_t)cells[i];
+		cell <<= (memcell_t)cells[i + 1];
+		cell ^= (memcell_t)cells[i + 2];
 		if (right_adjust != 0)
 		{
-			*cell >>= right_adjust;
+			cell >>= right_adjust;
 		}
 		if (left_adjust != 0)
 		{
-			*cell <<= left_adjust;
+			cell <<= left_adjust;
 		}
 	}
-	return *cell;
+	delete[] cells;
+	return cell;
 }
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -552,14 +554,18 @@ void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_
 }
 
 template<typename type_array>
-void ALGOR::generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator)
+void ALGOR::generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
 {
+	if (denominator == 0)
+	{
+		throw division_by_zero("The Denominator variable is designed to convert the generated integer into a fractional number or find its part. It's a divisor, so it can't be zero!");
+	}
 	memcell_t cell = getMemoryCell();
 	cell >>= 32;
 	LCM RanGen(cell);
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		Array[i] = min_limit + (RanGen.rand() % (max_limit - min_limit)) / denominator;
+		Array[i] = (min_limit + (RanGen.rand() % (max_limit - min_limit))) / (fbit32_t)denominator;
 	}
 }
 
@@ -629,7 +635,7 @@ ARRAYDATA<type_array>::~ARRAYDATA()
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit8_t denominator)
+void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
 {
 	generate_struct<type_array>(this->ARRAY->array, this->ARRAY->array_size, min_limit, max_limit, denominator);
 }
@@ -1236,6 +1242,7 @@ Comparative_Sorts<type_array>::BitonicSorter::BitonicSorter(type_array *array, a
 template<typename type_array>
 void Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
 {
+	//NOTE Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
 	for (asize_t k = 2; k <= array_size; k *= 2)
 	{
 		for (asize_t j = k / 2; j > 0; j /= 2)
@@ -1284,9 +1291,9 @@ bool ALGOR::Comparative_Sorts<type_array>::BogoSort::Correct()
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::BogoSort::Shuffle()
 {
+	LCM RanGen(getMemoryCell());
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		LCM RanGen(getMemoryCell());
 		ubit32_t position = RanGen.rand() % array_size - 1;
 		CORE<type_array>::swap(Array[i], Array[position]);
 	}
@@ -1344,8 +1351,8 @@ ALGOR::Comparative_Sorts<type_array>::CombSort::CombSort(type_array *array, asiz
 template <class type_array>
 void ALGOR::Comparative_Sorts<type_array>::CombSort::comb_sort()
 {
-	double factor = 1.2473309; //Фактор зменшення
-	int step = array_size - 1; //Шаг
+	fbit64_t factor = 1.2473309;	//Фактор зменшення
+	ubit32_t step = array_size - 1;	//Шаг
 
 	while (step >= 1)
 	{
@@ -1444,12 +1451,12 @@ ALGOR::Comparative_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asiz
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::HeapSort::heap_sort()
 {
-	//Типи int у циклах ЗАЛИШИТИ! Без них не працює!
-	for (int right = array_size / 2 - 1; right >= 0; right--)
+	// WARNING Типи int у циклах ЗАЛИШИТИ! Без них не працює!
+	for (byte4_t right = array_size / 2 - 1; right >= 0; right--)
 	{
 		heapify(Array, right, array_size);
 	}
-	for (int i = array_size - 1; i >= 0; i--)
+	for (byte4_t i = array_size - 1; i >= 0; i--)
 	{
 		CORE<type_array>::swap(Array[0], Array[i]);
 		heapify(Array, 0, i);
@@ -1783,10 +1790,10 @@ void ALGOR::Comparative_Sorts<type_array>::QuickSort::quick_sort()
 }
 
 template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::QuickSort::recursive_quick_sort(const int &left_limit, const int &right_limit)
+void ALGOR::Comparative_Sorts<type_array>::QuickSort::recursive_quick_sort(const asize_t &left_limit, const asize_t &right_limit)
 {
 	type_array middle = Array[(left_limit + right_limit) / 2];
-	int start = left_limit, finish = right_limit;
+	asize_t start = left_limit, finish = right_limit;
 	do
 	{
 		while (Array[start] < middle)
@@ -1843,11 +1850,12 @@ ALGOR::Comparative_Sorts<type_array>::ShellSort::ShellSort(type_array *array, as
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::ShellSort::shell_sort()
 {
+	// NOTE j = signed, i & step = unsigned; max size = int / 2 = 2 billion
 	for (asize_t step = array_size / 2; step > 0; step /= 2)
 	{
 		for (asize_t i = step; i < array_size; i++)
 		{
-			for (int j = (int)i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
+			for (byte4_t j = i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
 			{
 				CORE<type_array>::swap(Array[j], Array[j + step]);
 			}
@@ -1865,7 +1873,7 @@ void ALGOR::Comparative_Sorts<type_array>::SlowSort::slow_sort()
 }
 
 template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::SlowSort::recursive_slow_sort(const int &left_limit, const int &right_limit)
+void ALGOR::Comparative_Sorts<type_array>::SlowSort::recursive_slow_sort(const asize_t &left_limit, const asize_t &right_limit)
 {
 	if (left_limit >= right_limit)
 	{
@@ -1891,7 +1899,7 @@ void ALGOR::Comparative_Sorts<type_array>::StoogeSort::stooge_sort()
 }
 
 template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge_sort(const int &left_limit, const int &right_limit)
+void ALGOR::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge_sort(const asize_t &left_limit, const asize_t &right_limit)
 {
 	if (Array[left_limit] > Array[right_limit])
 	{
@@ -1935,8 +1943,8 @@ void Comparative_Sorts<type_array>::TimSort::insertionSort(asize_t left_limit, a
 	for (asize_t i = left_limit + 1; i <= right_limit; i++)
 	{
 		type_array temp = Array[i];
-		int j = i - 1;
-		while (Array[j] > temp && j >= (int)left_limit)
+		byte4_t j = i - 1;
+		while (Array[j] > temp && j >= (byte4_t)left_limit)
 		{
 			Array[j + 1] = Array[j];
 			j--;
@@ -2011,7 +2019,7 @@ void ALGOR::Comparative_Sorts<type_array>::TreeSort::tree_sort()
 }
 
 template <typename type_array>
-typename Comparative_Sorts<type_array>::TreeSort::Tree *ALGOR::Comparative_Sorts<type_array>::TreeSort::newnode(int key)
+typename Comparative_Sorts<type_array>::TreeSort::Tree *ALGOR::Comparative_Sorts<type_array>::TreeSort::newnode(type_array key)
 {
 	Tree *temp = new Tree;
 	temp->data = key;
@@ -2021,7 +2029,7 @@ typename Comparative_Sorts<type_array>::TreeSort::Tree *ALGOR::Comparative_Sorts
 }
 
 template <typename type_array>
-typename Comparative_Sorts<type_array>::TreeSort::Tree *ALGOR::Comparative_Sorts<type_array>::TreeSort::insert(Tree *node, int key)
+typename Comparative_Sorts<type_array>::TreeSort::Tree *ALGOR::Comparative_Sorts<type_array>::TreeSort::insert(Tree *node, type_array key)
 {
 	if (node == nullptr)
 	{
