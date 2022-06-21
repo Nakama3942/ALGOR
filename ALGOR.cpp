@@ -2230,7 +2230,7 @@ void ALGOR::Comparative_Sorts<type_array>::SmoothSort::PrevState(int &curState)
 	}
 }
 
-Distribution_Sorts::Distribution_Sorts(Array<int> *&Array) : ArrayBase<int>(Array) {}
+Distribution_Sorts::Distribution_Sorts(Array<byte8_t> *&Array) : ArrayBase<byte8_t>(Array) {}
 
 void Distribution_Sorts::AmericanFlag_Sort()
 {
@@ -2288,51 +2288,51 @@ void Distribution_Sorts::Flash_Sort()
 	delete (sort);
 }
 
-Distribution_Sorts::AmericanFlagSort::AmericanFlagSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::AmericanFlagSort::AmericanFlagSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::AmericanFlagSort::american_flag_sort()
 {
-	int max = 1;
-	for (int i = 0; i < getMaxNumberOfDigits() - 1; i++)
+	byte8_t max = 1;
+	for (byte8_t i = 0; i < getMaxNumberOfDigits() - 1; i++)
 	{
 		max *= 10;
 	}
-	recursive_american_flag_sort(0, (int)array_size, max);
+	recursive_american_flag_sort(0, (byte8_t)array_size, max);
 }
 
-void Distribution_Sorts::AmericanFlagSort::recursive_american_flag_sort(int start, int length, int divisor)
+void Distribution_Sorts::AmericanFlagSort::recursive_american_flag_sort(byte8_t start, byte8_t length, byte8_t divisor)
 {
-	int *count = new int[NUMBER_OF_BUCKETS]{0};
-	int digit = 0;
+	byte8_t *count = new byte8_t[NUMBER_OF_BUCKETS]{0};
+	byte8_t digit = 0;
 
-	for (int i = start; i < (int)length; i++)
+	for (byte8_t i = start; i < length; i++)
 	{
-		int array_digit = Array[i];
+		byte8_t array_digit = Array[i];
 		digit = getDigit(array_digit, divisor);
 		count[digit]++;
 	}
 
-	int *offset = new int[NUMBER_OF_BUCKETS];
+	byte8_t *offset = new byte8_t[NUMBER_OF_BUCKETS];
 	offset[0] = start + 0;
-	for (int i = 1; i < NUMBER_OF_BUCKETS; i++)
+	for (byte8_t i = 1; i < NUMBER_OF_BUCKETS; i++)
 	{
 		offset[i] = count[i - 1] + offset[i - 1];
 	}
 
-	for (int bucket = 0; bucket < NUMBER_OF_BUCKETS; bucket++)
+	for (byte8_t bucket = 0; bucket < NUMBER_OF_BUCKETS; bucket++)
 	{
 		while (count[bucket] > 0)
 		{
-			int origin = offset[bucket];
-			int from = origin;
-			int num = Array[from];
+			byte8_t origin = offset[bucket];
+			byte8_t from = origin;
+			byte8_t num = Array[from];
 			Array[from] = -1;
 			do
 			{
 				digit = getDigit(num, divisor);
-				int to = offset[digit]++;
+				byte8_t to = offset[digit]++;
 				count[digit]--;
-				int temp = Array[to];
+				byte8_t temp = Array[to];
 				Array[to] = num;
 				num = temp;
 				from = to;
@@ -2341,10 +2341,10 @@ void Distribution_Sorts::AmericanFlagSort::recursive_american_flag_sort(int star
 	}
 	if (divisor > 1)
 	{
-		for (int i = 0; i < NUMBER_OF_BUCKETS; i++)
+		for (byte8_t i = 0; i < NUMBER_OF_BUCKETS; i++)
 		{
-			int begin = (i > 0) ? offset[i - 1] : start;
-			int end = offset[i];
+			byte8_t begin = (i > 0) ? offset[i - 1] : start;
+			byte8_t end = offset[i];
 			if (end - begin > 1)
 			{
 				recursive_american_flag_sort(begin, end, divisor / 10);
@@ -2353,10 +2353,10 @@ void Distribution_Sorts::AmericanFlagSort::recursive_american_flag_sort(int star
 	}
 }
 
-int Distribution_Sorts::AmericanFlagSort::getMaxNumberOfDigits()
+byte8_t Distribution_Sorts::AmericanFlagSort::getMaxNumberOfDigits()
 {
-	int count = 1;
-	int value = ArrayProcessing<int>::maximum(Array, array_size);
+	byte8_t count = 1;
+	byte8_t value = ArrayProcessing<byte8_t>::maximum(Array, array_size);
 	while (true)
 	{
 		value /= 10;
@@ -2372,28 +2372,28 @@ int Distribution_Sorts::AmericanFlagSort::getMaxNumberOfDigits()
 	return count;
 }
 
-int Distribution_Sorts::AmericanFlagSort::getDigit(int integer, int divisor)
+byte8_t Distribution_Sorts::AmericanFlagSort::getDigit(byte8_t integer, byte8_t divisor)
 {
 	return (integer / divisor) % 10;
 }
 
-Distribution_Sorts::BeadSort::BeadSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::BeadSort::BeadSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::BeadSort::bead_sort()
 {
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	beads = new unsigned char[max * array_size]{0};
+	max = ArrayProcessing<byte8_t>::maximum(Array, array_size);
+	beads = new ubit8_t[max * array_size]{0};
 
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		for (int j = 0; j < Array[i]; j++)
+		for (byte8_t j = 0; j < Array[i]; j++)
 		{
 			beads[i * max + j] = 1;
 		}
 	}
-	for (int j = 0; j < max; j++)
+	for (byte8_t j = 0; j < max; j++)
 	{
-		int sum = 0;
+		byte8_t sum = 0;
 		for (asize_t i = 0; i < array_size; i++)
 		{
 			sum += beads[i * max + j];
@@ -2406,7 +2406,7 @@ void Distribution_Sorts::BeadSort::bead_sort()
 	}
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		int j = 0;
+		byte8_t j = 0;
 		for (; j < max && beads[i * max + j]; j++)
 			;
 		Array[i] = j;
@@ -2415,19 +2415,19 @@ void Distribution_Sorts::BeadSort::bead_sort()
 	delete[] beads;
 }
 
-Distribution_Sorts::BucketSort::BucketSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::BucketSort::BucketSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::BucketSort::bucket_sort()
 {
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	range = (max - min) / (int)array_size;
+	min = ArrayProcessing<byte8_t>::minimum(Array, array_size);
+	max = ArrayProcessing<byte8_t>::maximum(Array, array_size);
+	range = (max - min) / (byte8_t)array_size;
 	range++;
 
-	bucket = new int *[array_size];
+	bucket = new byte8_t *[array_size];
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		bucket[i] = new int[1];
+		bucket[i] = new byte8_t[1];
 		bucket[i][0] = 1;
 	}
 
@@ -2464,7 +2464,7 @@ void Distribution_Sorts::BucketSort::bucket_sort()
 	delete[] bucket;
 }
 
-void Distribution_Sorts::BucketSort::push_back(int *&bucket, const int &value)
+void Distribution_Sorts::BucketSort::push_back(byte8_t *&bucket, const byte8_t &value)
 {
 	//Суть алгоритму наступна: я не можу створити структуру структур через
 	//невиразну помилку, яка незрозуміло звідки береться (в інших місцях
@@ -2495,7 +2495,7 @@ void Distribution_Sorts::BucketSort::push_back(int *&bucket, const int &value)
 	//масиву. Ось і все. Коли тимчасовий масив сформовано, пам'ять від
 	//старого звільняється й повертається адреса на тимчасовий масив. Тепер
 	//тимчасовий і є підмасивом. Все просто.
-	int *temp = new int[bucket[0] + 1];
+	byte8_t *temp = new byte8_t[bucket[0] + 1];
 	temp[0] = bucket[0] + 1;
 	for (asize_t i = 0; i < (asize_t)bucket[0]; i++)
 	{
@@ -2505,7 +2505,7 @@ void Distribution_Sorts::BucketSort::push_back(int *&bucket, const int &value)
 	bucket = temp;
 }
 
-void Distribution_Sorts::BucketSort::bubble_sort(int *bucket)
+void Distribution_Sorts::BucketSort::bubble_sort(byte8_t *bucket)
 {
 	// NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
 	for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
@@ -2514,28 +2514,28 @@ void Distribution_Sorts::BucketSort::bubble_sort(int *bucket)
 		{
 			if (bucket[j] > bucket[j + 1])
 			{
-				CORE<int>::swap(bucket[j], bucket[j + 1]);
+				CORE<byte8_t>::swap(bucket[j], bucket[j + 1]);
 			}
 		}
 	}
 }
 
-Distribution_Sorts::CountingSort::CountingSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::CountingSort::CountingSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::CountingSort::counting_sort()
 {
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	tempArray = new int[max - min + 1];
-	for (int i = 0; i < max - min + 1; i++)
+	min = ArrayProcessing<byte8_t>::minimum(Array, array_size);
+	max = ArrayProcessing<byte8_t>::maximum(Array, array_size);
+	tempArray = new byte8_t[max - min + 1];
+	for (byte8_t i = 0; i < max - min + 1; i++)
 	{
 		tempArray[i] = 0;
 	}
-	for (unsigned int i = 0; i < array_size; i++)
+	for (asize_t i = 0; i < array_size; i++)
 	{
 		tempArray[Array[i] - min] = tempArray[Array[i] - min] + 1;
 	}
-	for (int i = 0, j = min; j < max + 1; j++)
+	for (byte8_t i = 0, j = min; j < max + 1; j++)
 	{
 		while (tempArray[j - min] != 0)
 		{
@@ -2547,11 +2547,11 @@ void Distribution_Sorts::CountingSort::counting_sort()
 	delete[] tempArray;
 }
 
-Distribution_Sorts::FlashSort::FlashSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::FlashSort::FlashSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::FlashSort::flash_sort()
 {
-	const asize_t m = (int)(0.45 * array_size);
+	const asize_t m = (byte8_t)(0.45 * array_size);
 
 	//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
 	//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
@@ -2569,12 +2569,12 @@ void Distribution_Sorts::FlashSort::flash_sort()
 	{
 		if (array_size == 2 && Array[0] > Array[1])
 		{
-			CORE<int>::swap(Array[0], Array[1]);
+			CORE<byte8_t>::swap(Array[0], Array[1]);
 		}
 		return;
 	}
 
-	L = new int[m];
+	L = new byte8_t[m];
 
 	for (asize_t i = 0; i < array_size; i++)
 	{
@@ -2611,22 +2611,22 @@ void Distribution_Sorts::FlashSort::flash_sort()
 		L[i] = L[i] + L[i - 1];
 	}
 
-	CORE<int>::swap(Array[max], Array[0]);
+	CORE<byte8_t>::swap(Array[max], Array[0]);
 
 	k = m - 1;
 
 	while (move < array_size - 1)
 	{
-		while ((int)j > L[k] - 1)
+		while ((byte8_t)j > L[k] - 1)
 		{
 			++j;
 			k = c1 * (Array[j] - min);
 		}
 		flash = Array[j];
-		while ((int)j != L[k])
+		while ((byte8_t)j != L[k])
 		{
 			k = c1 * (flash - Array[min]);
-			CORE<int>::swap(Array[L[k] - 1], flash);
+			CORE<byte8_t>::swap(Array[L[k] - 1], flash);
 			L[k]--;
 			move++;
 		}
@@ -2635,7 +2635,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 	for (j = 1; j < array_size; j++)
 	{
 		flash = Array[j];
-		int i = j - 1;
+		byte8_t i = j - 1;
 		while (i >= 0 && Array[i] > flash)
 		{
 			Array[i + 1] = Array[i];
@@ -2645,7 +2645,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 	}
 }
 
-Distribution_Sorts::InterpolationSort::InterpolationSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::InterpolationSort::InterpolationSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::InterpolationSort::interpolation_sort()
 {
@@ -2669,13 +2669,13 @@ void Distribution_Sorts::InterpolationSort::interpolation_sort()
 		}
 		else
 		{
-			while (((nArray_max - nArray_min) / ifac) > ((int)array_size - 1))
+			while (((nArray_max - nArray_min) / ifac) > ((byte8_t)array_size - 1))
 			{
 				ifac++;
 			}
 		}
 
-		space = new int[2 * array_size + 1];
+		space = new byte8_t[2 * array_size + 1];
 
 		if (!space)
 		{
@@ -2692,7 +2692,7 @@ void Distribution_Sorts::InterpolationSort::interpolation_sort()
 			cum[i] = 0;
 		}
 
-		for (int i = array_size; --i >= 0;)
+		for (byte4_t i = array_size; --i >= 0;)
 		{
 			hist[cmp_index[i] = (Array[i] - nArray_min) / ifac] += 1;
 			ComplexityCount++;
@@ -2716,7 +2716,7 @@ void Distribution_Sorts::InterpolationSort::interpolation_sort()
 			ComplexityCount++;
 		}
 
-		ArrayProcessing<int>::copy(Array, sorted, array_size);
+		ArrayProcessing<byte8_t>::copy(Array, sorted, array_size);
 
 		delete[] space;
 	}
@@ -2767,18 +2767,18 @@ void Distribution_Sorts::InterpolationSort::getMax()
 	}
 }
 
-Distribution_Sorts::PigeonholeSort::PigeonholeSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::PigeonholeSort::PigeonholeSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
 {
-	min = ArrayProcessing<int>::minimum(Array, array_size);
-	max = ArrayProcessing<int>::maximum(Array, array_size);
+	min = ArrayProcessing<byte8_t>::minimum(Array, array_size);
+	max = ArrayProcessing<byte8_t>::maximum(Array, array_size);
 	range = (asize_t)max - (asize_t)min + 1;
 
-	hole = new int *[range];
+	hole = new byte8_t *[range];
 	for (asize_t i = 0; i < range; i++)
 	{
-		hole[i] = new int[1];
+		hole[i] = new byte8_t[1];
 		hole[i][0] = 1;
 	}
 
@@ -2801,9 +2801,9 @@ void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
 	delete[] hole;
 }
 
-void Distribution_Sorts::PigeonholeSort::push_back(int *&hole, const int &value)
+void Distribution_Sorts::PigeonholeSort::push_back(byte8_t *&hole, const byte8_t &value)
 {
-	int *temp = new int[hole[0] + 1];
+	byte8_t *temp = new byte8_t[hole[0] + 1];
 	temp[0] = hole[0] + 1;
 	for (asize_t i = 0; i < (asize_t)hole[0]; i++)
 	{
@@ -2813,34 +2813,34 @@ void Distribution_Sorts::PigeonholeSort::push_back(int *&hole, const int &value)
 	hole = temp;
 }
 
-Distribution_Sorts::RadixSort::RadixSort(int *array, asize_t asize) : Array(array), array_size(asize) {}
+Distribution_Sorts::RadixSort::RadixSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
 
 void Distribution_Sorts::RadixSort::radix_sort()
 {
-	max = ArrayProcessing<int>::maximum(Array, array_size);
-	tempArray = new int[array_size];
-	bucket = new int[bit];
+	max = ArrayProcessing<byte8_t>::maximum(Array, array_size);
+	tempArray = new byte8_t[array_size];
+	bucket = new byte8_t[bit];
 	while (max / exp > 0)
 	{
-		for (int i = 0; i < bit; i++)
+		for (byte4_t i = 0; i < bit; i++)
 		{
 			bucket[i] = 0;
 		}
-		for (unsigned int i = 0; i < array_size; i++)
+		for (asize_t i = 0; i < array_size; i++)
 		{
 			bucket[(Array[i] / exp) % bit]++;
 		}
-		for (int i = 1; i < bit; i++)
+		for (byte4_t i = 1; i < bit; i++)
 		{
 			bucket[i] += bucket[i - 1];
 		}
-		for (int i = array_size - 1; i >= 0; i--)
+		for (byte4_t i = array_size - 1; i >= 0; i--)
 		{
 			current = (Array[i] % (exp * bit)) / exp;
 			bucket[current]--;
 			tempArray[bucket[current]] = Array[i];
 		}
-		for (unsigned int i = 0; i < array_size; i++)
+		for (asize_t i = 0; i < array_size; i++)
 		{
 			Array[i] = tempArray[i];
 		}
@@ -2898,6 +2898,7 @@ template class ALGOR::ArrayProcessing<int>;
 template class ALGOR::ArrayProcessing<float>;
 template class ALGOR::ArrayProcessing<char>;
 template class ALGOR::ArrayProcessing<asize_t>;
+template class ALGOR::ArrayProcessing<byte8_t>;
 template class ALGOR::ArrayProcessing<fbit128_t>;
 
 template Array<int> *ALGOR::create_struct<int>(const asize_t &, bool);
@@ -2915,6 +2916,7 @@ template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
 template class ALGOR::ARRAYDATA<int>;
 template class ALGOR::ARRAYDATA<float>;
 template class ALGOR::ARRAYDATA<char>;
+template class ALGOR::ARRAYDATA<byte8_t>;
 template class ALGOR::ARRAYDATA<ubit32_t>;
 template class ALGOR::ARRAYDATA<fbit128_t>;
 

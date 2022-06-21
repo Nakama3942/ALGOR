@@ -1200,10 +1200,10 @@ namespace ALGOR
 		};
 	};
 
-	class Distribution_Sorts : public ArrayBase<int>
+	class Distribution_Sorts : public ArrayBase<byte8_t>
 	{
 	public:
-		Distribution_Sorts(Array<int> *&Array);
+		Distribution_Sorts(Array<byte8_t> *&Array);
 		void AmericanFlag_Sort();  // №	1
 		void Bead_Sort();		   // №	2
 		void Bucket_Sort();		   // №	3
@@ -1217,58 +1217,57 @@ namespace ALGOR
 		{
 		public:
 			// https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
-			AmericanFlagSort(int *array, asize_t asize);
+			AmericanFlagSort(byte8_t *array, asize_t asize);
 			void american_flag_sort();
 
 		private:
-			int *Array;
+			byte8_t *Array;
 			asize_t array_size;
 
-			const int NUMBER_OF_BUCKETS = 10; // 10 for base 10 numbers
+			const byte8_t NUMBER_OF_BUCKETS = 10; // 10 for base 10 numbers
 
-			void recursive_american_flag_sort(int start,
-											  int length,
-											  int divisor);
-			int getMaxNumberOfDigits();
-			int getDigit(int integer, int divisor);
+			void recursive_american_flag_sort(byte8_t start,
+											  byte8_t length,
+											  byte8_t divisor);
+			byte8_t getMaxNumberOfDigits();
+			byte8_t getDigit(byte8_t integer, byte8_t divisor);
 		};
 
 		class BeadSort
 		{
 		public:
-			BeadSort(int *array, asize_t asize);
+			BeadSort(byte8_t *array, asize_t asize);
 			void bead_sort();
 
 		private:
-			int *Array, max;
+			byte8_t *Array, max;
 			asize_t array_size;
-
-			unsigned char *beads;
+			ubit8_t *beads;
 		};
 
 		class BucketSort
 		{
 		public:
 			// https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
-			BucketSort(int *array, asize_t asize);
+			BucketSort(byte8_t *array, asize_t asize);
 			void bucket_sort();
 
 		private:
-			int *Array, **bucket, min, max, range;
+			byte8_t *Array, **bucket, min, max, range;
 			asize_t array_size, bucket_index, array_index = 0;
 
-			void push_back(int *&bucket, const int &value);
-			void bubble_sort(int *bucket);
+			void push_back(byte8_t *&bucket, const byte8_t &value);
+			void bubble_sort(byte8_t *bucket);
 		};
 
 		class CountingSort
 		{
 		public:
-			CountingSort(int *array, asize_t asize);
+			CountingSort(byte8_t *array, asize_t asize);
 			void counting_sort();
 
 		private:
-			int *Array, *tempArray, min, max;
+			byte8_t *Array, *tempArray, min, max;
 			asize_t array_size;
 		};
 
@@ -1276,11 +1275,11 @@ namespace ALGOR
 		{
 		public:
 			// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
-			FlashSort(int *array, asize_t asize);
+			FlashSort(byte8_t *array, asize_t asize);
 			void flash_sort();
 
 		private:
-			int *Array, *L, flash;
+			byte8_t *Array, *L, flash;
 			asize_t array_size, min = 0, max = 0, move = 0, j = 0, k;
 		};
 
@@ -1288,19 +1287,19 @@ namespace ALGOR
 		{
 		public:
 			// https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h
-			InterpolationSort(int *array, asize_t asize);
+			InterpolationSort(byte8_t *array, asize_t asize);
 			void interpolation_sort();
 
 		private:
-			int *Array;
+			byte8_t *Array;
 			asize_t array_size;
 
 			const asize_t MIN_SORTABLE_LENGTH = 128;
 
-			int ifac, temp;
-			int nArray_min, nArray_max, index_min;
-			int *space, *cmp_index, *cum, *hist, *sorted;
-			int ComplexityCount = 0;
+			byte8_t ifac, temp;
+			byte8_t nArray_min, nArray_max, index_min;
+			byte8_t *space, *cmp_index, *cum, *hist, *sorted;
+			byte8_t ComplexityCount = 0;
 
 			void getMin();
 			void getMax();
@@ -1309,24 +1308,24 @@ namespace ALGOR
 		class PigeonholeSort
 		{
 		public:
-			PigeonholeSort(int *array, asize_t asize);
+			PigeonholeSort(byte8_t *array, asize_t asize);
 			void pigeonhole_sort();
 
 		private:
-			int *Array, **hole, min, max;
+			byte8_t *Array, **hole, min, max;
 			asize_t array_size, range, count = 0;
 
-			void push_back(int *&hole, const int &value);
+			void push_back(byte8_t *&hole, const byte8_t &value);
 		};
 
 		class RadixSort
 		{
 		public:
-			RadixSort(int *array, asize_t asize);
+			RadixSort(byte8_t *array, asize_t asize);
 			void radix_sort();
 
 		private:
-			int *Array, *tempArray, *bucket, exp = 1, bit = 10, max, current;
+			byte8_t *Array, *tempArray, *bucket, exp = 1, bit = 10, max, current;
 			asize_t array_size;
 		};
 	};
