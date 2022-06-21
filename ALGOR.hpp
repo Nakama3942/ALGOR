@@ -145,14 +145,14 @@ namespace ALGOR
 		\param MESSAGE Message exception
 		\param DETAILS Exception details
 		*/
-		Exception(ubit16_t CODE, const char *DETAILS, const char *EXPLANATION);
+		Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION);
 		/*!
 		\brief Construct a new Exception::Exception object
 		\details Accepts basic exception information
 		\param CODE Exception encoding
 		\param MESSAGE Message exception
 		*/
-		Exception(ubit16_t CODE, const char *DETAILS);
+		Exception(ubit16_t CODE, const byte1_t *DETAILS);
 		/*!
 		\brief Construct a new Exception::Exception object
 		\details Takes cordivity of exception
@@ -164,7 +164,7 @@ namespace ALGOR
 		\details Accepts an exception message
 		\param MESSAGE Message exception
 		*/
-		Exception(const char *DETAILS);
+		Exception(const byte1_t *DETAILS);
 		/*!
 		\brief Returns exclusion encoding
 		\return <unsigned int> - exception encoding
@@ -174,17 +174,17 @@ namespace ALGOR
 		\brief Returns an exception message
 		\return <const char*> - message exception
 		*/
-		const char *what();
+		const byte1_t *what();
 		/*!
 		\brief Returns exception details
 		\return <const char*> - exception details
 		*/
-		const char *why();
+		const byte1_t *why();
 
 	protected:
 		ubit16_t CODE;			 ///< Exception encoding
-		const char *DETAILS;	 ///< Exception details
-		const char *EXPLANATION; ///< Exception explanation
+		const byte1_t *DETAILS;	 ///< Exception details
+		const byte1_t *EXPLANATION; ///< Exception explanation
 	};
 
 	///-
@@ -194,7 +194,7 @@ namespace ALGOR
 		///-
 		memory_overflow();
 		///-
-		memory_overflow(const char *explanation);
+		memory_overflow(const byte1_t *explanation);
 	};
 
 	///-
@@ -204,7 +204,7 @@ namespace ALGOR
 		///-
 		division_by_zero();
 		///-
-		division_by_zero(const char *explanation);
+		division_by_zero(const byte1_t *explanation);
 	};
 
 	///-
@@ -214,7 +214,7 @@ namespace ALGOR
 		///-
 		position_failure();
 		///-
-		position_failure(const char *explanation);
+		position_failure(const byte1_t *explanation);
 	};
 
 	///-
@@ -224,7 +224,7 @@ namespace ALGOR
 		///-
 		value_failure();
 		///-
-		value_failure(const char *explanation);
+		value_failure(const byte1_t *explanation);
 	};
 
 	///-
@@ -234,7 +234,7 @@ namespace ALGOR
 		///-
 		size_failure();
 		///-
-		size_failure(const char *explanation);
+		size_failure(const byte1_t *explanation);
 	};
 
 	/*!
@@ -249,7 +249,7 @@ namespace ALGOR
 		*/
 		void_data();
 		///-
-		void_data(const char *explanation);
+		void_data(const byte1_t *explanation);
 	};
 
 	/*!
@@ -264,7 +264,7 @@ namespace ALGOR
 		*/
 		not_found();
 		///-
-		not_found(const char *explanation);
+		not_found(const byte1_t *explanation);
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *

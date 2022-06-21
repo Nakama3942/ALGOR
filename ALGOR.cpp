@@ -98,14 +98,14 @@ memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-ALGOR::Exception::Exception(ubit16_t CODE, const char *DETAILS, const char *EXPLANATION)
+ALGOR::Exception::Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION)
 {
 	this->CODE = CODE;
 	this->DETAILS = DETAILS;
 	this->EXPLANATION = EXPLANATION;
 }
 
-ALGOR::Exception::Exception(ubit16_t CODE, const char *DETAILS)
+ALGOR::Exception::Exception(ubit16_t CODE, const byte1_t *DETAILS)
 {
 	this->CODE = CODE;
 	this->DETAILS = DETAILS;
@@ -119,7 +119,7 @@ ALGOR::Exception::Exception(ubit16_t CODE)
 	this->EXPLANATION = "No information given";
 }
 
-ALGOR::Exception::Exception(const char *DETAILS)
+ALGOR::Exception::Exception(const byte1_t *DETAILS)
 {
 	this->CODE = 0xffff;
 	this->DETAILS = DETAILS;
@@ -131,36 +131,36 @@ ubit16_t ALGOR::Exception::code()
 	return CODE;
 }
 
-const char *ALGOR::Exception::what()
+const byte1_t *ALGOR::Exception::what()
 {
 	return DETAILS;
 }
 
-const char *Exception::why()
+const byte1_t *Exception::why()
 {
 	return EXPLANATION;
 }
 
 ALGOR::memory_overflow::memory_overflow() : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes") {}
-ALGOR::memory_overflow::memory_overflow(const char *explanation) : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes", explanation) {}
+ALGOR::memory_overflow::memory_overflow(const byte1_t *explanation) : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes", explanation) {}
 
 ALGOR::division_by_zero::division_by_zero() : Exception(101, "A division by zero has occurred - an undefined result of the program execution") {}
-ALGOR::division_by_zero::division_by_zero(const char *explanation) : Exception(101, "A division by zero has occurred - an undefined result of the program execution", explanation) {}
+ALGOR::division_by_zero::division_by_zero(const byte1_t *explanation) : Exception(101, "A division by zero has occurred - an undefined result of the program execution", explanation) {}
 
 ALGOR::position_failure::position_failure() : Exception(254, "Position failure - position is missing in the array") {}
-ALGOR::position_failure::position_failure(const char *explanation) : Exception(254, "Position failure - position is missing in the array", explanation) {}
+ALGOR::position_failure::position_failure(const byte1_t *explanation) : Exception(254, "Position failure - position is missing in the array", explanation) {}
 
 ALGOR::value_failure::value_failure() : Exception(255, "Value failure - value is missing in the array") {}
-ALGOR::value_failure::value_failure(const char *explanation) : Exception(255, "Value failure - value is missing in the array", explanation) {}
+ALGOR::value_failure::value_failure(const byte1_t *explanation) : Exception(255, "Value failure - value is missing in the array", explanation) {}
 
 ALGOR::size_failure::size_failure() : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes") {}
-ALGOR::size_failure::size_failure(const char *explanation) : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes", explanation) {}
+ALGOR::size_failure::size_failure(const byte1_t *explanation) : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes", explanation) {}
 
 ALGOR::void_data::void_data() : Exception(400, "Geted empty data structure") {}
-ALGOR::void_data::void_data(const char *explanation) : Exception(400, "Geted empty data structure", explanation) {}
+ALGOR::void_data::void_data(const byte1_t *explanation) : Exception(400, "Geted empty data structure", explanation) {}
 
 ALGOR::not_found::not_found() : Exception(404, "Search error - item not found") {}
-ALGOR::not_found::not_found(const char *explanation) : Exception(404, "Search error - item not found", explanation) {}
+ALGOR::not_found::not_found(const byte1_t *explanation) : Exception(404, "Search error - item not found", explanation) {}
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -2886,41 +2886,65 @@ void Distribution_Sorts::RadixSort::radix_sort()
 
 // TODO The implementation of the lists is scheduled to version 5.0.0
 
-template class ALGOR::CORE<int>;
-template class ALGOR::CORE<float>;
-template class ALGOR::CORE<char>;
+//template class ALGOR::CORE<int>;
+//template class ALGOR::CORE<float>;
+//template class ALGOR::CORE<char>;
+template class ALGOR::CORE<byte8_t>;
+//template class ALGOR::CORE<sbit64_t>;
+template class ALGOR::CORE<ubit64_t>;
+template class ALGOR::CORE<fbit64_t>;
 template class ALGOR::CORE<fbit128_t>;
+template class ALGOR::CORE<asize_t>;
 
 template fbit64_t ALGOR::tester<LCM>(ubit32_t, ubit32_t);
 template fbit64_t ALGOR::tester<MersenneTwister>(ubit32_t, ubit32_t);
 
-template class ALGOR::ArrayProcessing<int>;
-template class ALGOR::ArrayProcessing<float>;
-template class ALGOR::ArrayProcessing<char>;
-template class ALGOR::ArrayProcessing<asize_t>;
+//template class ALGOR::ArrayProcessing<int>;
+//template class ALGOR::ArrayProcessing<float>;
+//template class ALGOR::ArrayProcessing<char>;
 template class ALGOR::ArrayProcessing<byte8_t>;
+//template class ALGOR::ArrayProcessing<sbit64_t>;
+template class ALGOR::ArrayProcessing<ubit64_t>;
+template class ALGOR::ArrayProcessing<fbit64_t>;
 template class ALGOR::ArrayProcessing<fbit128_t>;
+template class ALGOR::ArrayProcessing<asize_t>;
 
-template Array<int> *ALGOR::create_struct<int>(const asize_t &, bool);
-template Array<float> *ALGOR::create_struct<float>(const asize_t &, bool);
-template Array<char> *ALGOR::create_struct<char>(const asize_t &, bool);
-template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
+//template Array<int> *ALGOR::create_struct<int>(const asize_t &, bool);
+//template Array<float> *ALGOR::create_struct<float>(const asize_t &, bool);
+//template Array<char> *ALGOR::create_struct<char>(const asize_t &, bool);
+template Array<byte8_t> *ALGOR::create_struct<byte8_t>(const asize_t &, bool);
+//template Array<sbit64_t> *ALGOR::create_struct<sbit64_t>(const asize_t &, bool);
+template Array<ubit64_t> *ALGOR::create_struct<ubit64_t>(const asize_t &, bool);
+template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
 template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
+template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
 
-template void ALGOR::remove_struct<int>(Array<int> *&);
-template void ALGOR::remove_struct<float>(Array<float> *&);
-template void ALGOR::remove_struct<char>(Array<char> *&);
-template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
+//template void ALGOR::remove_struct<int>(Array<int> *&);
+//template void ALGOR::remove_struct<float>(Array<float> *&);
+//template void ALGOR::remove_struct<char>(Array<char> *&);
+template void ALGOR::remove_struct<byte8_t>(Array<byte8_t> *&);
+//template void ALGOR::remove_struct<sbit64_t>(Array<sbit64_t> *&);
+template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
+template void ALGOR::remove_struct<fbit64_t>(Array<fbit64_t> *&);
 template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
+template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
 
-template class ALGOR::ARRAYDATA<int>;
-template class ALGOR::ARRAYDATA<float>;
-template class ALGOR::ARRAYDATA<char>;
+//template class ALGOR::ARRAYDATA<int>;
+//template class ALGOR::ARRAYDATA<float>;
+//template class ALGOR::ARRAYDATA<char>;
 template class ALGOR::ARRAYDATA<byte8_t>;
-template class ALGOR::ARRAYDATA<ubit32_t>;
+//template class ALGOR::ARRAYDATA<sbit64_t>;
+template class ALGOR::ARRAYDATA<ubit64_t>;
+template class ALGOR::ARRAYDATA<fbit64_t>;
 template class ALGOR::ARRAYDATA<fbit128_t>;
+template class ALGOR::ARRAYDATA<asize_t>;
 
-template class ALGOR::Comparative_Sorts<int>;
-template class ALGOR::Comparative_Sorts<float>;
-template class ALGOR::Comparative_Sorts<char>;
+//template class ALGOR::Comparative_Sorts<int>;
+//template class ALGOR::Comparative_Sorts<float>;
+//template class ALGOR::Comparative_Sorts<char>;
+template class ALGOR::Comparative_Sorts<byte8_t>;
+//template class ALGOR::Comparative_Sorts<sbit64_t>;
+template class ALGOR::Comparative_Sorts<ubit64_t>;
+template class ALGOR::Comparative_Sorts<fbit64_t>;
 template class ALGOR::Comparative_Sorts<fbit128_t>;
+template class ALGOR::Comparative_Sorts<asize_t>;
