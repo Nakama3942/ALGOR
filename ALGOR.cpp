@@ -1150,13 +1150,6 @@ void ALGOR::Comparative_Sorts<type_array>::Heap_Sort()
 }
 
 template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::Smooth_Sort()
-{
-	SmoothSort sort(this->ARRAY->array, (int)this->ARRAY->array_size);
-	sort.smooth_sort();
-}
-
-template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::Cycle_Sort()
 {
 	CycleSort *sort = new CycleSort(this->ARRAY->array, this->ARRAY->array_size);
@@ -1221,6 +1214,14 @@ void Comparative_Sorts<type_array>::Bitonic_Sorter()
 }
 
 template<typename type_array>
+void Comparative_Sorts<type_array>::Batcher_OddEven_MergeSort()
+{
+	BatcherOddEvenMergeSort *sort = new BatcherOddEvenMergeSort(this->ARRAY->array, this->ARRAY->array_size);
+	sort->batcher_odd_even_merge_sort();
+	delete (sort);
+}
+
+template<typename type_array>
 void Comparative_Sorts<type_array>::Tim_Sort()
 {
 	TimSort *sort = new TimSort(this->ARRAY->array, this->ARRAY->array_size);
@@ -1234,6 +1235,34 @@ void Comparative_Sorts<type_array>::Pancake_Sort()
 	PancakeSort *sort = new PancakeSort(this->ARRAY->array, this->ARRAY->array_size);
 	sort->pancake_sort();
 	delete (sort);
+}
+
+template<typename type_array>
+Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::BatcherOddEvenMergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
+
+template<typename type_array>
+void Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::batcher_odd_even_merge_sort()
+{
+	//NOTE Деякі тести пройшов тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
+	for (asize_t p = 1; p < array_size; p *= 2)
+	{
+		for (asize_t k = p; k >= 1; k /= 2)
+		{
+			for (asize_t j = k % p; j <= array_size - 1 - k; j += 2 * k)
+			{
+				for (asize_t i = 0; i <= k - 1; i++)
+				{
+					if ((byte4_t)((i + j) / (p * 2)) == (byte4_t)((i + j + k) / (p * 2)))
+					{
+						if (Array[i + j] > Array[i + j + k])
+						{
+							CORE<type_array>::swap(Array[i + j], Array[i + j + k]);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 template<typename type_array>
@@ -2057,179 +2086,6 @@ void ALGOR::Comparative_Sorts<type_array>::TreeSort::store(Tree *root, type_arra
 	}
 }
 
-template <typename type_array>
-ALGOR::Comparative_Sorts<type_array>::SmoothSort::SmoothSort(type_array *array, int asize) : Array(array), array_size(asize) {}
-
-template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::SmoothSort::smooth_sort()
-{
-	make_heap_pool();
-
-	for (int i = array_size - 1; i >= 0; i--)
-	{
-		int nextPosHeapItemsAmount;
-		int posMaxTopElem = findPosMaxElem(curState, i, nextPosHeapItemsAmount);
-		if (posMaxTopElem != i)
-		{
-			CORE<type_array>::swap(Array[i], Array[posMaxTopElem]);
-			shiftDown(nextPosHeapItemsAmount, posMaxTopElem);
-		}
-		PrevState(curState);
-	}
-}
-
-template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::SmoothSort::make_heap_pool()
-{
-	for (int i = 0; i < (int)array_size; i++)
-	{
-		int posHeapItemsAmount = NextState(curState);
-		if (posHeapItemsAmount != -1)
-		{
-			shiftDown(posHeapItemsAmount, i);
-		}
-	}
-}
-
-template <typename type_array>
-int ALGOR::Comparative_Sorts<type_array>::SmoothSort::NextState(int &curState)
-{
-	int posNewTop = -1;
-
-	if ((curState & 7) == 5)
-	{
-		curState += 3;
-		posNewTop = 3;
-	}
-	else
-	{
-		int next = curState;
-		int pos = 0;
-		while (next && (next & 3) != 3)
-		{
-			next >>= 1;
-			pos++;
-		}
-		if ((next & 3) == 3)
-		{
-			curState += 1 << pos;
-			posNewTop = pos + 2;
-		}
-		else if (curState & 1)
-		{
-			curState |= 2;
-		}
-		else
-		{
-			curState |= 1;
-		}
-	}
-	return posNewTop;
-}
-
-template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::SmoothSort::shiftDown(int posHeapItemsAmount, int indexLastTop)
-{
-	int posCurNode = indexLastTop;
-	while (posHeapItemsAmount > 1)
-	{
-		int posR = posCurNode - 1;
-		int posL = posR - LeoNum[posHeapItemsAmount - 2];
-		int posMaxChild = posL;
-		int posNextTop = posHeapItemsAmount - 1;
-		if (Array[posR] > Array[posL])
-		{
-			posMaxChild = posR;
-			posNextTop = posHeapItemsAmount - 2;
-		}
-		if (Array[posCurNode] < Array[posMaxChild])
-		{
-			CORE<type_array>::swap(Array[posCurNode], Array[posMaxChild]);
-			posHeapItemsAmount = posNextTop;
-			posCurNode = posMaxChild;
-		}
-		else
-		{
-			break;
-		}
-	}
-}
-
-template <typename type_array>
-int ALGOR::Comparative_Sorts<type_array>::SmoothSort::findPosMaxElem(int curState, int indexLastTop, int &nextPosHeapItemsAmount)
-{
-	int pos = 0;
-
-	while (!(curState & 1))
-	{
-		curState >>= 1;
-		pos++;
-	}
-
-	int posMaxTopElem = indexLastTop;
-	nextPosHeapItemsAmount = pos;
-	int curTopElem = indexLastTop - LeoNum[pos];
-	curState >>= 1;
-	pos++;
-
-	while (curState)
-	{
-		if (curState & 1)
-		{
-			if (Array[curTopElem] > Array[posMaxTopElem])
-			{
-				posMaxTopElem = curTopElem;
-				nextPosHeapItemsAmount = pos;
-			}
-			curTopElem -= LeoNum[pos];
-		}
-		curState >>= 1;
-		pos++;
-	}
-
-	return posMaxTopElem;
-}
-
-template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::SmoothSort::PrevState(int &curState)
-{
-	if ((curState & 15) == 8)
-	{
-		curState -= 3;
-	}
-	else if (curState & 1)
-	{
-		if ((curState & 3) == 3)
-		{
-			curState ^= 2;
-		}
-		else
-		{
-			curState ^= 1;
-		}
-	}
-	else
-	{
-		int prev = curState;
-		int pos = 0;
-		while (prev && !(prev & 1))
-		{
-			prev >>= 1;
-			pos++;
-		}
-		if (prev)
-		{
-			curState ^= 1 << pos;
-			curState |= 1 << (pos - 1);
-			curState |= 1 << (pos - 2);
-		}
-		else
-		{
-			curState = 0;
-		}
-	}
-}
-
 Distribution_Sorts::Distribution_Sorts(Array<byte8_t> *&Array) : ArrayBase<byte8_t>(Array) {}
 
 void Distribution_Sorts::AmericanFlag_Sort()
@@ -2886,11 +2742,7 @@ void Distribution_Sorts::RadixSort::radix_sort()
 
 // TODO The implementation of the lists is scheduled to version 5.0.0
 
-//template class ALGOR::CORE<int>;
-//template class ALGOR::CORE<float>;
-//template class ALGOR::CORE<char>;
 template class ALGOR::CORE<byte8_t>;
-//template class ALGOR::CORE<sbit64_t>;
 template class ALGOR::CORE<ubit64_t>;
 template class ALGOR::CORE<fbit64_t>;
 template class ALGOR::CORE<fbit128_t>;
@@ -2899,51 +2751,31 @@ template class ALGOR::CORE<asize_t>;
 template fbit64_t ALGOR::tester<LCM>(ubit32_t, ubit32_t);
 template fbit64_t ALGOR::tester<MersenneTwister>(ubit32_t, ubit32_t);
 
-//template class ALGOR::ArrayProcessing<int>;
-//template class ALGOR::ArrayProcessing<float>;
-//template class ALGOR::ArrayProcessing<char>;
 template class ALGOR::ArrayProcessing<byte8_t>;
-//template class ALGOR::ArrayProcessing<sbit64_t>;
 template class ALGOR::ArrayProcessing<ubit64_t>;
 template class ALGOR::ArrayProcessing<fbit64_t>;
 template class ALGOR::ArrayProcessing<fbit128_t>;
 template class ALGOR::ArrayProcessing<asize_t>;
 
-//template Array<int> *ALGOR::create_struct<int>(const asize_t &, bool);
-//template Array<float> *ALGOR::create_struct<float>(const asize_t &, bool);
-//template Array<char> *ALGOR::create_struct<char>(const asize_t &, bool);
 template Array<byte8_t> *ALGOR::create_struct<byte8_t>(const asize_t &, bool);
-//template Array<sbit64_t> *ALGOR::create_struct<sbit64_t>(const asize_t &, bool);
 template Array<ubit64_t> *ALGOR::create_struct<ubit64_t>(const asize_t &, bool);
 template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
 template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
 template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
 
-//template void ALGOR::remove_struct<int>(Array<int> *&);
-//template void ALGOR::remove_struct<float>(Array<float> *&);
-//template void ALGOR::remove_struct<char>(Array<char> *&);
 template void ALGOR::remove_struct<byte8_t>(Array<byte8_t> *&);
-//template void ALGOR::remove_struct<sbit64_t>(Array<sbit64_t> *&);
 template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
 template void ALGOR::remove_struct<fbit64_t>(Array<fbit64_t> *&);
 template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
 template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
 
-//template class ALGOR::ARRAYDATA<int>;
-//template class ALGOR::ARRAYDATA<float>;
-//template class ALGOR::ARRAYDATA<char>;
 template class ALGOR::ARRAYDATA<byte8_t>;
-//template class ALGOR::ARRAYDATA<sbit64_t>;
 template class ALGOR::ARRAYDATA<ubit64_t>;
 template class ALGOR::ARRAYDATA<fbit64_t>;
 template class ALGOR::ARRAYDATA<fbit128_t>;
 template class ALGOR::ARRAYDATA<asize_t>;
 
-//template class ALGOR::Comparative_Sorts<int>;
-//template class ALGOR::Comparative_Sorts<float>;
-//template class ALGOR::Comparative_Sorts<char>;
 template class ALGOR::Comparative_Sorts<byte8_t>;
-//template class ALGOR::Comparative_Sorts<sbit64_t>;
 template class ALGOR::Comparative_Sorts<ubit64_t>;
 template class ALGOR::Comparative_Sorts<fbit64_t>;
 template class ALGOR::Comparative_Sorts<fbit128_t>;

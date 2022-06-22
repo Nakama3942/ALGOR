@@ -67,27 +67,27 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	using byte1_t = char;
-	using byte2_t = short;
-	using byte4_t = long;
-	using byte8_t = long long;
+	using byte1_t = char;					///< Alias for char
+	using byte2_t = short;					///< Alias for short
+	using byte4_t = long;					///< Alias for long
+	using byte8_t = long long;				///< Alias for long long
 
-	using sbit8_t = signed char;	   ///< Alias for signed char
-	using sbit16_t = signed short;	   ///< Alias for signed short
-	using sbit32_t = signed long;	   ///< Alias for signed long
-	using sbit64_t = signed long long; ///< Alias for signed long long
+	using sbit8_t = signed char;			///< Alias for signed char
+	using sbit16_t = signed short;			///< Alias for signed short
+	using sbit32_t = signed long;			///< Alias for signed long
+	using sbit64_t = signed long long;		///< Alias for signed long long
 
-	using ubit8_t = unsigned char;		 ///< Alias for unsigned char
-	using ubit16_t = unsigned short;	 ///< Alias for unsigned short
-	using ubit32_t = unsigned long;		 ///< Alias for unsigned long
-	using ubit64_t = unsigned long long; ///< Alias for unsigned long long
+	using ubit8_t = unsigned char;			///< Alias for unsigned char
+	using ubit16_t = unsigned short;		///< Alias for unsigned short
+	using ubit32_t = unsigned long;			///< Alias for unsigned long
+	using ubit64_t = unsigned long long;	///< Alias for unsigned long long
 
-	using fbit32_t = float;		   ///< Alias for float
-	using fbit64_t = double;	   ///< Alias for double
-	using fbit128_t = long double; ///< Alias for double
+	using fbit32_t = float;					///< Alias for float
+	using fbit64_t = double;				///< Alias for double
+	using fbit128_t = long double;			///< Alias for double
 
-	using asize_t = ubit32_t;	///< Alias for specifying the type "array size"
-	using memcell_t = ubit64_t; ///< Alias for calculated memory cell
+	using asize_t = ubit32_t;				///< Alias for specifying the type "array size"
+	using memcell_t = ubit64_t;				///< Alias for calculated memory cell
 
 	///-
 	template <typename type_value>
@@ -182,8 +182,8 @@ namespace ALGOR
 		const byte1_t *why();
 
 	protected:
-		ubit16_t CODE;			 ///< Exception encoding
-		const byte1_t *DETAILS;	 ///< Exception details
+		ubit16_t CODE;              ///< Exception encoding
+		const byte1_t *DETAILS;     ///< Exception details
 		const byte1_t *EXPLANATION; ///< Exception explanation
 	};
 
@@ -371,9 +371,9 @@ namespace ALGOR
 		///-
 		void Init0(int seed);
 		ubit32_t mersenne_twister[624]; /// State vector
-		int mersenne_twister_index;		/// Index into mersenne_twister
-		ubit32_t LastInterval;			/// Last interval length for IRandomX
-		ubit32_t RejectionLimit;		/// Rejection limit used by IRandomX
+		int mersenne_twister_index;     /// Index into mersenne_twister
+		ubit32_t LastInterval;          /// Last interval length for IRandomX
+		ubit32_t RejectionLimit;        /// Rejection limit used by IRandomX
 	};
 
 	///-
@@ -575,7 +575,7 @@ namespace ALGOR
 		enum class ArrayType /// A set of array types
 		{
 			NUMBER, ///< Indicates that the array stores numbers
-			STRING	///< Indicates that the array stores strings
+			STRING  ///< Indicates that the array stores strings
 		};
 
 		///-
@@ -813,16 +813,16 @@ namespace ALGOR
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 *                      Список нереалізованих алгоритмів:                      *
 	 * 1)  ProportionExtendSort		Категорія Exchange_Sorts                       *
-	 * 2)  CartesianTreeSort		Категорія Selection_Sorts                      *
-	 * 3)  TournamentSort			Категорія Selection_Sorts                      *
-	 * 4)  WeakHeapSort				Категорія Selection_Sorts                      *
-	 * 5)  SplaySort				Категорія Insertion_Sorts                      *
-	 * 6)  CascadeMergeSort			Категорія Merge_Sorts                          *
-	 * 7)  OscillatingMergeSort		Категорія Merge_Sorts                          *
-	 * 8)  PolyphaseMergeSort		Категорія Merge_Sorts                          *
-	 * 9)  BurstSort				Категорія Distribution_Sorts                   *
-	 * 10) ProxmapSort				Категорія Distribution_Sorts                   *
-	 * 11) BatcherOddEvenMergeSort	Категорія Concurrent_Sort                      *
+	 * 2)  Smooth_Sort				Категорія Selection_Sorts                      *
+	 * 3)  CartesianTreeSort		Категорія Selection_Sorts                      *
+	 * 4)  TournamentSort			Категорія Selection_Sorts                      *
+	 * 5)  WeakHeapSort				Категорія Selection_Sorts                      *
+	 * 6)  SplaySort				Категорія Insertion_Sorts                      *
+	 * 7)  CascadeMergeSort			Категорія Merge_Sorts                          *
+	 * 8)  OscillatingMergeSort		Категорія Merge_Sorts                          *
+	 * 9)  PolyphaseMergeSort		Категорія Merge_Sorts                          *
+	 * 10) BurstSort				Категорія Distribution_Sorts                   *
+	 * 11) ProxmapSort				Категорія Distribution_Sorts                   *
 	 * 12) PairwiseSortingNetwork	Категорія Concurrent_Sort                      *
 	 * 13) SampleSort				Категорія Concurrent_Sort                      *
 	 * 14) BlockMergeSort			Категорія Hybrid_Sorts                         *
@@ -841,42 +841,47 @@ namespace ALGOR
 		Comparative_Sorts(Array<type_array> *&Array);
 
 		// <<==		Категорія Exchange_Sorts	==>>
-		void Bubble_Sort();			 // №	 3
-		void Cocktail_Shaker_Sort(); // №	 4
-		void Odd_Even_Sort();		 // №	12
-		void Comb_Sort();			 // №	 5
-		void Gnome_Sort();			 // №	 7
-		void Quick_Sort();			 // №	15
-		void Slow_Sort();			 // №	18
-		void Stooge_Sort();			 // №	20
-		void Bogo_Sort();			 // №	 2
-
+		void Bubble_Sort();					// №	 4	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Cocktail_Shaker_Sort();		// №	 5	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Odd_Even_Sort();				// №	13	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Comb_Sort();					// №	 6	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Gnome_Sort();					// №	 8	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Quick_Sort();					// №	16
+		void Slow_Sort();					// №	19	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Stooge_Sort();					// №	20	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Bogo_Sort();					// №	 3
 		// <<==		Категорія Selection_Sorts	==>>
-		void Selection_Sort(); // №	16
-		void Heap_Sort();	   // №	 8
-		void Smooth_Sort();	   // №	19 //FIXME на момент тесту все одно не сортує
-		void Cycle_Sort();	   // №	 6
-
+		void Selection_Sort();				// №	17	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Heap_Sort();					// №	 9	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Cycle_Sort();					// №	 7	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Insertion_Sorts	==>>
-		void Insert_Sort();	  // №	 9
-		void Shell_Sort();	  // №	17
-		void Tree_Sort();	  // №	22
-		void Library_Sort();  // №	10
-		void Patience_Sort(); // №	14
-
+		void Insert_Sort();					// №	10	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Shell_Sort();					// №	18	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Tree_Sort();					// №	22	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Library_Sort();				// №	11	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Patience_Sort();				// №	15	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Merge_Sorts		==>>
-		void Merge_Sort(); // №	11
-
+		void Merge_Sort();					// №	12	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Concurrent_Sort	==>>
-		void Bitonic_Sorter(); // №	 1
-
+		void Bitonic_Sorter();				// №	 2	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Batcher_OddEven_MergeSort();	// №	 1	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Hybrid_Sorts		==>>
-		void Tim_Sort(); // №	21
-
+		void Tim_Sort();					// №	21	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Other_Sorts		==>>
-		void Pancake_Sort(); // №	13
+		void Pancake_Sort();				// №	14	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 
 		// <<==				Classes				==>>
+		class BatcherOddEvenMergeSort //Категорія Concurrent_Sort
+		{
+		public:
+			BatcherOddEvenMergeSort(type_array *array, asize_t asize);
+			void batcher_odd_even_merge_sort();
+
+		private:
+			type_array *Array;
+			asize_t array_size;
+		};
+
 		class BitonicSorter //Категорія Concurrent_Sort
 		{
 		public:
@@ -1163,55 +1168,20 @@ namespace ALGOR
 			Tree *insert(Tree *node, type_array key);
 			void store(Tree *root, type_array *Array, asize_t &index);
 		};
-
-	private:
-		class SmoothSort //Категорія Selection_Sorts
-		{
-		public:
-			//Сирці: http://cppalgo.blogspot.com/2010/10/smoothsort.html
-			// WARNING Алгоритм не хоче працювати при динамічному виділенні пам'яті:
-			//з'являється помилка сегментації, а при статичному оголошенні все працює.
-			//Щоб користувач Не міг динамічно оголосити об'єкт даного класу, я вимушено
-			//закрив цей клас, щоб його можна було використати тільки через метод
-			//зовнішнього класу
-			// WARNING Алгоритм протестовано тільки на масиві з int числами. З іншими
-			//типами алгоритм може не працювати
-			SmoothSort(type_array *array, int asize);
-			void smooth_sort();
-
-		private:
-			type_array *Array;
-			int array_size;
-			int LeoNum[44] = {1, 1, 3, 5, 9, 15, 25, 41, 67, 109, 177, 287, 465,
-							  753, 1219, 1973, 3193, 5167, 8361, 13529, 21891,
-							  35421, 57313, 92735, 150049, 242785, 392835, 635621,
-							  1028457, 1664079, 2692537, 4356617, 7049155, 11405773,
-							  18454929, 29860703, 48315633, 78176337, 126491971,
-							  204668309, 331160281, 535828591, 866988873, 1402817465};
-			int curState;
-			void make_heap_pool();
-			int NextState(int &curState);
-			void shiftDown(int posHeapItemsAmount,
-						   int indexLastTop);
-			int findPosMaxElem(int curState,
-							   int indexLastTop,
-							   int &nextPosHeapItemsAmount);
-			void PrevState(int &curState);
-		};
 	};
 
 	class Distribution_Sorts : public ArrayBase<byte8_t>
 	{
 	public:
 		Distribution_Sorts(Array<byte8_t> *&Array);
-		void AmericanFlag_Sort();  // №	1
-		void Bead_Sort();		   // №	2
-		void Bucket_Sort();		   // №	3
-		void Counting_Sort();	   // №	4
-		void Flash_Sort();		   // №	5
-		void Interpolation_Sort(); // №	6
-		void Pigeonhole_Sort();	   // №	7
-		void Radix_Sort();		   // №	8
+		void AmericanFlag_Sort();  // №	1	/цілі+ ; вилітає
+		void Bead_Sort();          // №	2	/цілі+ ; обрізає
+		void Bucket_Sort();        // №	3	/цілі+ цілі- цілі+-
+		void Counting_Sort();      // №	4	/цілі+ цілі- цілі+-
+		void Flash_Sort();         // №	5	/цілі+ цілі- цілі+-
+		void Interpolation_Sort(); // №	6	/цілі+ цілі- цілі+-
+		void Pigeonhole_Sort();    // №	7	/цілі+ цілі- цілі+-
+		void Radix_Sort();         // №	8	/цілі+ ; не сортує
 
 		class AmericanFlagSort
 		{
