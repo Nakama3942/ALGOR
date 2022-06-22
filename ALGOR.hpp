@@ -132,140 +132,144 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	/*!
-	\brief Class for working with exceptions
-	*/
-	class Exception
-	{
-	public:
-		/*!
-		\brief Construct a new Exception::Exception object
-		\details Takes full detailed information on exclusion
-		\param CODE Exception encoding
-		\param MESSAGE Message exception
-		\param DETAILS Exception details
-		*/
-		Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION);
-		/*!
-		\brief Construct a new Exception::Exception object
-		\details Accepts basic exception information
-		\param CODE Exception encoding
-		\param MESSAGE Message exception
-		*/
-		Exception(ubit16_t CODE, const byte1_t *DETAILS);
-		/*!
-		\brief Construct a new Exception::Exception object
-		\details Takes cordivity of exception
-		\param CODE Exception encoding
-		*/
-		Exception(ubit16_t CODE);
-		/*!
-		\brief Construct a new Exception::Exception object
-		\details Accepts an exception message
-		\param MESSAGE Message exception
-		*/
-		Exception(const byte1_t *DETAILS);
-		/*!
-		\brief Returns exclusion encoding
-		\return <unsigned int> - exception encoding
-		*/
-		ubit16_t code();
-		/*!
-		\brief Returns an exception message
-		\return <const char*> - message exception
-		*/
-		const byte1_t *what();
-		/*!
-		\brief Returns exception details
-		\return <const char*> - exception details
-		*/
-		const byte1_t *why();
-
-	protected:
-		ubit16_t CODE;              ///< Exception encoding
-		const byte1_t *DETAILS;     ///< Exception details
-		const byte1_t *EXPLANATION; ///< Exception explanation
-	};
-
 	///-
-	class memory_overflow : public Exception
+	namespace Exception_Set
 	{
-	public:
-		///-
-		memory_overflow();
-		///-
-		memory_overflow(const byte1_t *explanation);
-	};
-
-	///-
-	class division_by_zero : public Exception
-	{
-	public:
-		///-
-		division_by_zero();
-		///-
-		division_by_zero(const byte1_t *explanation);
-	};
-
-	///-
-	class position_failure : public Exception
-	{
-	public:
-		///-
-		position_failure();
-		///-
-		position_failure(const byte1_t *explanation);
-	};
-
-	///-
-	class value_failure : public Exception
-	{
-	public:
-		///-
-		value_failure();
-		///-
-		value_failure(const byte1_t *explanation);
-	};
-
-	///-
-	class size_failure : public Exception
-	{
-	public:
-		///-
-		size_failure();
-		///-
-		size_failure(const byte1_t *explanation);
-	};
-
-	/*!
-	\brief void_data exception class
-	*/
-	class void_data : public Exception
-	{
-	public:
 		/*!
-		\brief Construct a new void data::void data object
-		\details Geted empty data structure
+		\brief Class for working with exceptions
 		*/
-		void_data();
-		///-
-		void_data(const byte1_t *explanation);
-	};
+		class Exception
+		{
+		public:
+			/*!
+			\brief Construct a new Exception::Exception object
+			\details Takes full detailed information on exclusion
+			\param CODE Exception encoding
+			\param MESSAGE Message exception
+			\param DETAILS Exception details
+			*/
+			Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION);
+			/*!
+			\brief Construct a new Exception::Exception object
+			\details Accepts basic exception information
+			\param CODE Exception encoding
+			\param MESSAGE Message exception
+			*/
+			Exception(ubit16_t CODE, const byte1_t *DETAILS);
+			/*!
+			\brief Construct a new Exception::Exception object
+			\details Takes cordivity of exception
+			\param CODE Exception encoding
+			*/
+			Exception(ubit16_t CODE);
+			/*!
+			\brief Construct a new Exception::Exception object
+			\details Accepts an exception message
+			\param MESSAGE Message exception
+			*/
+			Exception(const byte1_t *DETAILS);
+			/*!
+			\brief Returns exclusion encoding
+			\return <unsigned int> - exception encoding
+			*/
+			ubit16_t code();
+			/*!
+			\brief Returns an exception message
+			\return <const char*> - message exception
+			*/
+			const byte1_t *what();
+			/*!
+			\brief Returns exception details
+			\return <const char*> - exception details
+			*/
+			const byte1_t *why();
 
-	/*!
-	\brief not_found exception class
-	*/
-	class not_found : public Exception
-	{
-	public:
-		/*!
-		\brief Construct a new not found::not found object
-		\details Search error - item not found
-		*/
-		not_found();
+		protected:
+			ubit16_t CODE;              ///< Exception encoding
+			const byte1_t *DETAILS;     ///< Exception details
+			const byte1_t *EXPLANATION; ///< Exception explanation
+		};
+
 		///-
-		not_found(const byte1_t *explanation);
-	};
+		class memory_overflow : public Exception
+		{
+		public:
+			///-
+			memory_overflow();
+			///-
+			memory_overflow(const byte1_t *explanation);
+		};
+
+		///-
+		class division_by_zero : public Exception
+		{
+		public:
+			///-
+			division_by_zero();
+			///-
+			division_by_zero(const byte1_t *explanation);
+		};
+
+		///-
+		class position_failure : public Exception
+		{
+		public:
+			///-
+			position_failure();
+			///-
+			position_failure(const byte1_t *explanation);
+		};
+
+		///-
+		class value_failure : public Exception
+		{
+		public:
+			///-
+			value_failure();
+			///-
+			value_failure(const byte1_t *explanation);
+		};
+
+		///-
+		class size_failure : public Exception
+		{
+		public:
+			///-
+			size_failure();
+			///-
+			size_failure(const byte1_t *explanation);
+		};
+
+		/*!
+		\brief void_data exception class
+		*/
+		class void_data : public Exception
+		{
+		public:
+			/*!
+			\brief Construct a new void data::void data object
+			\details Geted empty data structure
+			*/
+			void_data();
+			///-
+			void_data(const byte1_t *explanation);
+		};
+
+		/*!
+		\brief not_found exception class
+		*/
+		class not_found : public Exception
+		{
+		public:
+			/*!
+			\brief Construct a new not found::not found object
+			\details Search error - item not found
+			*/
+			not_found();
+			///-
+			not_found(const byte1_t *explanation);
+		};
+	}
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *

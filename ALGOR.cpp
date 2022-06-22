@@ -98,69 +98,69 @@ memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-ALGOR::Exception::Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION)
+ALGOR::Exception_Set::Exception::Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION)
 {
 	this->CODE = CODE;
 	this->DETAILS = DETAILS;
 	this->EXPLANATION = EXPLANATION;
 }
 
-ALGOR::Exception::Exception(ubit16_t CODE, const byte1_t *DETAILS)
+ALGOR::Exception_Set::Exception::Exception(ubit16_t CODE, const byte1_t *DETAILS)
 {
 	this->CODE = CODE;
 	this->DETAILS = DETAILS;
 	this->EXPLANATION = "No information given";
 }
 
-ALGOR::Exception::Exception(ubit16_t CODE)
+ALGOR::Exception_Set::Exception::Exception(ubit16_t CODE)
 {
 	this->CODE = CODE;
 	this->DETAILS = "No information given";
 	this->EXPLANATION = "No information given";
 }
 
-ALGOR::Exception::Exception(const byte1_t *DETAILS)
+ALGOR::Exception_Set::Exception::Exception(const byte1_t *DETAILS)
 {
 	this->CODE = 0xffff;
 	this->DETAILS = DETAILS;
 	this->EXPLANATION = "No information given";
 }
 
-ubit16_t ALGOR::Exception::code()
+ubit16_t ALGOR::Exception_Set::Exception::code()
 {
 	return CODE;
 }
 
-const byte1_t *ALGOR::Exception::what()
+const byte1_t *ALGOR::Exception_Set::Exception::what()
 {
 	return DETAILS;
 }
 
-const byte1_t *Exception::why()
+const byte1_t *ALGOR::Exception_Set::Exception::why()
 {
 	return EXPLANATION;
 }
 
-ALGOR::memory_overflow::memory_overflow() : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes") {}
-ALGOR::memory_overflow::memory_overflow(const byte1_t *explanation) : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes", explanation) {}
+ALGOR::Exception_Set::memory_overflow::memory_overflow() : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes") {}
+ALGOR::Exception_Set::memory_overflow::memory_overflow(const byte1_t *explanation) : Exception(55, "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes", explanation) {}
 
-ALGOR::division_by_zero::division_by_zero() : Exception(101, "A division by zero has occurred - an undefined result of the program execution") {}
-ALGOR::division_by_zero::division_by_zero(const byte1_t *explanation) : Exception(101, "A division by zero has occurred - an undefined result of the program execution", explanation) {}
+ALGOR::Exception_Set::division_by_zero::division_by_zero() : Exception(101, "A division by zero has occurred - an undefined result of the program execution") {}
+ALGOR::Exception_Set::division_by_zero::division_by_zero(const byte1_t *explanation) : Exception(101, "A division by zero has occurred - an undefined result of the program execution", explanation) {}
 
-ALGOR::position_failure::position_failure() : Exception(254, "Position failure - position is missing in the array") {}
-ALGOR::position_failure::position_failure(const byte1_t *explanation) : Exception(254, "Position failure - position is missing in the array", explanation) {}
+ALGOR::Exception_Set::position_failure::position_failure() : Exception(254, "Position failure - position is missing in the array") {}
+ALGOR::Exception_Set::position_failure::position_failure(const byte1_t *explanation) : Exception(254, "Position failure - position is missing in the array", explanation) {}
 
-ALGOR::value_failure::value_failure() : Exception(255, "Value failure - value is missing in the array") {}
-ALGOR::value_failure::value_failure(const byte1_t *explanation) : Exception(255, "Value failure - value is missing in the array", explanation) {}
+ALGOR::Exception_Set::value_failure::value_failure() : Exception(255, "Value failure - value is missing in the array") {}
+ALGOR::Exception_Set::value_failure::value_failure(const byte1_t *explanation) : Exception(255, "Value failure - value is missing in the array", explanation) {}
 
-ALGOR::size_failure::size_failure() : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes") {}
-ALGOR::size_failure::size_failure(const byte1_t *explanation) : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes", explanation) {}
+ALGOR::Exception_Set::size_failure::size_failure() : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes") {}
+ALGOR::Exception_Set::size_failure::size_failure(const byte1_t *explanation) : Exception(256, "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes", explanation) {}
 
-ALGOR::void_data::void_data() : Exception(400, "Geted empty data structure") {}
-ALGOR::void_data::void_data(const byte1_t *explanation) : Exception(400, "Geted empty data structure", explanation) {}
+ALGOR::Exception_Set::void_data::void_data() : Exception(400, "Geted empty data structure") {}
+ALGOR::Exception_Set::void_data::void_data(const byte1_t *explanation) : Exception(400, "Geted empty data structure", explanation) {}
 
-ALGOR::not_found::not_found() : Exception(404, "Search error - item not found") {}
-ALGOR::not_found::not_found(const byte1_t *explanation) : Exception(404, "Search error - item not found", explanation) {}
+ALGOR::Exception_Set::not_found::not_found() : Exception(404, "Search error - item not found") {}
+ALGOR::Exception_Set::not_found::not_found(const byte1_t *explanation) : Exception(404, "Search error - item not found", explanation) {}
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -477,7 +477,7 @@ void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t 
 	array_size++;
 	if (array_size > 0xffffffff)
 	{
-		throw memory_overflow();
+		throw Exception_Set::memory_overflow();
 	}
 	if (array_size == 1)
 	{
@@ -498,11 +498,11 @@ void ALGOR::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asi
 {
 	if (array_size == 0)
 	{
-		throw void_data();
+		throw Exception_Set::void_data();
 	}
 	if (position >= array_size)
 	{
-		throw position_failure();
+		throw Exception_Set::position_failure();
 	}
 	array_size--;
 	if (array_size == 0)
@@ -524,7 +524,7 @@ void ALGOR::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize
 {
 	if (array_size == 0)
 	{
-		throw void_data();
+		throw Exception_Set::void_data();
 	}
 	ubit32_t deletions_count = 0;
 	type_array *temp_Array = new type_array[array_size];
@@ -535,7 +535,7 @@ void ALGOR::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize
 	if (deletions_count == 0)
 	{
 		delete[] temp_Array;
-		throw value_failure();
+		throw Exception_Set::value_failure();
 	}
 	delete[] Array;
 	array_size -= deletions_count;
@@ -558,7 +558,7 @@ void ALGOR::generate_struct(type_array *&Array, asize_t &array_size, const sbit6
 {
 	if (denominator == 0)
 	{
-		throw division_by_zero("The Denominator variable is designed to convert the generated integer into a fractional number or find its part. It's a divisor, so it can't be zero!");
+		throw Exception_Set::division_by_zero("The Denominator variable is designed to convert the generated integer into a fractional number or find its part. It's a divisor, so it can't be zero!");
 	}
 	memcell_t cell = getMemoryCell();
 	cell >>= 32;
@@ -574,7 +574,7 @@ Array<type_array> *ALGOR::create_struct(const asize_t &SIZE, bool mem_allocation
 {
 	if (SIZE == 0)
 	{
-		throw void_data();
+		throw Exception_Set::void_data();
 	}
 	Array<type_array> *ARRAY = new Array<type_array>;
 	ARRAY->array_size = SIZE;
@@ -590,7 +590,7 @@ void ALGOR::remove_struct(Array<type_array> *&Array)
 {
 	if (Array == nullptr || Array->array == nullptr)
 	{
-		throw void_data();
+		throw Exception_Set::void_data();
 	}
 	delete[] Array->array;
 	delete (Array);
@@ -618,7 +618,7 @@ void ALGOR::ArrayBase<type_array>::verification(Array<type_array> *Array)
 {
 	if (Array == nullptr || Array->array_size == 0 || Array->array == nullptr)
 	{
-		throw void_data();
+		throw Exception_Set::void_data();
 	}
 }
 
@@ -693,7 +693,7 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::getPosition(const type_array &valu
 	if (positions->array_size == 0)
 	{
 		delete (positions);
-		throw not_found();
+		throw Exception_Set::not_found();
 	}
 	return positions;
 }
@@ -703,7 +703,7 @@ type_array ALGOR::ARRAYDATA<type_array>::getValue(const asize_t &position)
 {
 	if (position >= this->ARRAY->array_size)
 	{
-		throw memory_overflow();
+		throw Exception_Set::memory_overflow();
 	}
 	return this->ARRAY->array[position];
 }
@@ -721,7 +721,7 @@ void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_ar
 {
 	if (NEW_SIZE == this->ARRAY->array_size)
 	{
-		throw size_failure();
+		throw Exception_Set::size_failure();
 	}
 	Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
 	asize_t min_size = CORE<type_array>::minimum(OLD_ARRAY->array_size, NEW_ARRAY->array_size);
@@ -791,7 +791,7 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &
 	}
 	if (NumberPoints->array_size == 0)
 	{
-		throw not_found();
+		throw Exception_Set::not_found();
 	}
 	return NumberPoints;
 }
@@ -802,7 +802,7 @@ asize_t ALGOR::ARRAYDATA<type_array>::binary_searcher(const type_array &required
 	asize_t position = ArrayProcessing<type_array>::distance(&this->ARRAY->array[0], ArrayProcessing<type_array>::lower_bound(&this->ARRAY->array[0], &this->ARRAY->array[this->ARRAY->array_size - 1], required_element));
 	if(this->ARRAY->array[position] != required_element)
 	{
-		throw not_found();
+		throw Exception_Set::not_found();
 	}
 	return position;
 }
@@ -841,7 +841,7 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Arr
 	}
 	if (Occurrences->array_size == 0)
 	{
-		throw not_found();
+		throw Exception_Set::not_found();
 	}
 	return Occurrences;
 }
@@ -856,7 +856,7 @@ type_array ALGOR::ARRAYDATA<type_array>::average()
 	}
 	if (this->ARRAY->array_size == 0)
 	{
-		throw division_by_zero("Any non-empty array can get into the class, or the class itself can create it. However, you can get the array structure from the class and access the data directly. The author has only one explanation: you somehow reset the size of the array through the structure and now the class works with broken data - in the average() method, the division by the size of the array takes place, which became equal to zero...");
+		throw Exception_Set::division_by_zero("Any non-empty array can get into the class, or the class itself can create it. However, you can get the array structure from the class and access the data directly. The author has only one explanation: you somehow reset the size of the array through the structure and now the class works with broken data - in the average() method, the division by the size of the array takes place, which became equal to zero...");
 	}
 	return average / this->ARRAY->array_size;
 }
@@ -896,7 +896,7 @@ typename ARRAYDATA<type_array>::mode *ARRAYDATA<type_array>::moda()
 	{
 		delete[] modes->array;
 		delete(modes);
-		throw value_failure("And to be precise: there is missing value with the maximum frequency. All elements in the array are unique and repeated once, so to save resources and time, an exception is thrown so that the method does not create a copy of the array further");
+		throw Exception_Set::value_failure("And to be precise: there is missing value with the maximum frequency. All elements in the array are unique and repeated once, so to save resources and time, an exception is thrown so that the method does not create a copy of the array further");
 	}
 
 	//Нахождение всех последующих элементов с этой частотой
@@ -963,7 +963,7 @@ Array<type_array> *ARRAYDATA<type_array>::operator^=(const asize_t &NewSize)
 {
 	if (NewSize == 0)
 	{
-		throw size_failure("The subtracted array size must not be greater than or equal to the current array size!");
+		throw Exception_Set::size_failure("The subtracted array size must not be greater than or equal to the current array size!");
 	}
 	resize(NewSize, 1);
 	return this->ARRAY;
@@ -2449,7 +2449,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 	//перевірку і в випадку рівності значень - кидати виключення.
 	if (Array[min] == Array[max])
 	{
-		throw division_by_zero();
+		throw Exception_Set::division_by_zero();
 	}
 
 	const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
