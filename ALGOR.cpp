@@ -172,7 +172,7 @@ ALGOR::Exception_Set::not_found::not_found(const byte1_t *explanation) : Excepti
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-LCM::LCM(ubit32_t seed)
+LCM::LCM(memcell_t seed)
 {
 	this->seed = seed;
 }
@@ -1297,34 +1297,21 @@ ALGOR::Comparative_Sorts<type_array>::BogoSort::BogoSort(type_array *array, asiz
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::BogoSort::bogo_sort()
 {
-	while (Correct())
+	while (!ArrayProcessing<type_array>::isOrderliness(Array, array_size))
 	{
 		Shuffle();
 	}
 }
 
 template <typename type_array>
-bool ALGOR::Comparative_Sorts<type_array>::BogoSort::Correct()
-{
-	asize_t size = array_size;
-	while (--size > 0)
-	{
-		if (Array[size - 1] > Array[size])
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::BogoSort::Shuffle()
 {
-	LCM RanGen(getMemoryCell());
+	memcell_t cell = getMemoryCell();
+	cell >>= 32;
+	MersenneTwister RanGen(cell);
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		ubit32_t position = RanGen.rand() % array_size - 1;
-		CORE<type_array>::swap(Array[i], Array[position]);
+		CORE<type_array>::swap(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
 	}
 }
 

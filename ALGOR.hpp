@@ -290,7 +290,7 @@ namespace ALGOR
 		// Paragraph: Parameters in common use
 		// Table row: MMIX by Donald Knuth
 		///-
-		LCM(ubit32_t seed);
+		LCM(memcell_t seed);
 		///-
 		ubit32_t rand();
 
@@ -298,7 +298,7 @@ namespace ALGOR
 		const ubit64_t a = 0x5851f42d4c957f2d; // 6`364`136`223`846`793`005
 		const ubit64_t c = 0x14057b7ef767814f; // 1`442`695`040`888`963`407
 		const ubit64_t m = 0xffffffffffffffff; // 18`446`744`073`709`551`615
-		ubit32_t seed;
+		memcell_t seed;
 	};
 
 	/*!
@@ -850,7 +850,7 @@ namespace ALGOR
 		void Odd_Even_Sort();				// №	13	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		void Comb_Sort();					// №	 6	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		void Gnome_Sort();					// №	 8	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Quick_Sort();					// №	16
+		void Quick_Sort();					// №	16	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		void Slow_Sort();					// №	19	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		void Stooge_Sort();					// №	20	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		void Bogo_Sort();					// №	 3
@@ -907,7 +907,6 @@ namespace ALGOR
 			type_array *Array;
 			asize_t array_size;
 
-			bool Correct();
 			void Shuffle();
 		};
 
