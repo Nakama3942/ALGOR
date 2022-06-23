@@ -1243,7 +1243,8 @@ Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::BatcherOddEvenMergeSort(
 template<typename type_array>
 void Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::batcher_odd_even_merge_sort()
 {
-	//NOTE Деякі тести пройшов тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
+	//NOTE Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
+	// але якщо значеня у масиві використовуються цілі+, то алгоритм працює з будь-яким розміром
 	for (asize_t p = 1; p < array_size; p *= 2)
 	{
 		for (asize_t k = p; k >= 1; k /= 2)
