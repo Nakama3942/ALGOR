@@ -868,7 +868,7 @@ namespace ALGOR
 		void Merge_Sort();					// №	12	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Concurrent_Sort	==>>
 		void Bitonic_Sorter();				// №	 2	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Batcher_OddEven_MergeSort();	// №	 1	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Batcher_OddEven_MergeSort();	// №	 1	?/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Hybrid_Sorts		==>>
 		void Tim_Sort();					// №	21	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 		// <<==		Категорія Other_Sorts		==>>
@@ -1082,8 +1082,8 @@ namespace ALGOR
 			type_array *Array;
 			asize_t array_size;
 
-			void recursive_quick_sort(const asize_t &left_limit,
-									  const asize_t &right_limit);
+			void recursive_quick_sort(const byte4_t &left_limit,
+									  const byte4_t &right_limit);
 		};
 
 		class SelectionSort //Категорія Selection_Sorts

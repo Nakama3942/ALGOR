@@ -1819,10 +1819,10 @@ void ALGOR::Comparative_Sorts<type_array>::QuickSort::quick_sort()
 }
 
 template <typename type_array>
-void ALGOR::Comparative_Sorts<type_array>::QuickSort::recursive_quick_sort(const asize_t &left_limit, const asize_t &right_limit)
+void ALGOR::Comparative_Sorts<type_array>::QuickSort::recursive_quick_sort(const byte4_t &left_limit, const byte4_t &right_limit)
 {
 	type_array middle = Array[(left_limit + right_limit) / 2];
-	asize_t start = left_limit, finish = right_limit;
+	byte4_t start = left_limit, finish = right_limit;
 	do
 	{
 		while (Array[start] < middle)
