@@ -1,6 +1,6 @@
 # Changelog
 <!--
-## vX.X.X (DATE)
+## vX.X.X.X (DATE)
 
 #### Bug Fixes:
 - [# XXX](https : / / github . com / XXX) DESCRIPTION
@@ -20,7 +20,49 @@
 ---
 -->
 
-## v2.2.1 (03.06.2022)
+<!--
+## v1.0.0.0 (DATE) Документирование [--- не завершено ---] {завершена основная разработка; проект готов к добавлению нового контента}
+
+#### Bug Fixes:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Invalid Fixed:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Documenting:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Duplicating:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Enhancements:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+---
+-->
+
+<!--
+## v0.1.3.0 (DATE) Оптимизация [--- не завершено ---]
+
+#### Bug Fixes:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Invalid Fixed:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Documenting:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Duplicating:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+#### Enhancements:
+- [# XXX](https : / / github . com / XXX) DESCRIPTION
+
+---
+-->
+
+## v0.1.2.1 (03.06.2022)
 
 #### Enhancements:
 - I forgot that at the beginning of sorting updates I sometimes made simple algorithms from the following categories of sorting algorithms. I thought I had only 26 sorting algorithms, forgetting about the 3 sorting algorithms that have already been implemented but not rewritten to the latest version of the design standard, and the algorithm that uses two standard functions. I'm just tired and wanted to release 30-35 sorting algorithms, and only 26 officially completed algorithms, ie I have 4-9 algorithms left to implement from a list of 10 unrealized algorithms. Remembering that I have 4 implemented but not completed algorithms, I just get 30 algorithms, which I planned. I decided to stop there. To implement the **Library_Sort** sorting algorithm, I needed to write my own implementations of the standard **distance()** and **lower_bound()** functions. I've tried to do it before, but I didn't succeed then. I then spent two days on it. Time passed, I learned a lot and I decided to try to write these functions again. And to my great surprise, I wrote their implementation for the first time. Then I tested these functions, made available the hidden function **verification()**, which I called **array_size_verification()**. And in the end I decided to implement a function similar to **lower_bound()**, namely **upper_bound()**. In result:
@@ -37,7 +79,7 @@
     - I deleted the settings: since I no longer have a partition with standard libraries - I no longer have a goal to divide the project into partitions, which can be included and disabled for compilation.
 - I will note that sorting algorithms were already implemented at the time of release of the v2.0.0 update, and therefore the ten that remained to be implemented after the release of that update will no longer be implemented. Ten unrealized sorting algorithms: **BatcherOddEvenMergeSort** from _ConcurrentSort_, **PairwiseSortingNetwork** from _ConcurrentSort_, **SampleSort** from _ConcurrentSort_, **BlockMergeSort** from _HybridSorts_, **KirkpatrickReischSort** from _HybridSorts_, **IntroSort** from _HybridSorts_, **SpreadSort** from _HybridSorts_, **MergeInsertionSort** from _HybridSorts_, **TopologicalSort** from _OtherSorts_, **SpaghettiSort** from _OtherSorts_. I'm just tired of it. I want something new.
 
-## v2.2.0 (15.04.2022)
+## v0.1.2.0 (15.04.2022)
 
 #### Enhancements:
 - Since version 1.0.0, only _CountingSort_ and _RadixSort_ have been implemented from the Distribution_Sorts category. Finally, I completed the last group of those algorithms that were present from the very beginning. I've implemented _AmericanFlagSort_, _BeadSort_, _BucketSort_, _FlashSort_, _InterpolationSort_, _PigeonholeSort_ and deprecated _BurstSort_ and _ProxmapSort_. It remains for me to implement the 3 remaining categories that have not been implemented from the very beginning and to this day in no way at all: Concurrent_Sort, Hybrid_Sorts and Other_Sorts.
@@ -53,27 +95,25 @@ using namespace ALGOR;
 ```
 It does not depend on the order. You only need to choose one of them! This is the completion of structural renewal.
 
-## v2.1.4 (04.04.2022)
+## v0.1.1.4 (04.04.2022)
 
 #### Enhancements:
 - I tried to read _CascadeMergeSort_, _OscillatingMergeSort_ and _PolyphaseMergeSort_, but there is almost no information on them (even on Wikipedia). I decided to abandon these algorithms and it turned out that in this category there is only one algorithm that has already been implemented. I rewrote it to a new standard and released a new release.
 
-## v2.1.3+NPS (01.04.2022)
-
-- NPS - New Project Structure
+## v0.1.1.3 (01.04.2022)
 
 #### Enhancements:
 - I implemented the following sorting algorithms: _TreeSort_, _PatienceSort_ and _LibrarySort_ and combined them with _InsertSort_ (except _LibrarySort_) into one class. Since I can't do without the standard libraries in _LibrarySort_, I decided to make it a separate class. This has complicated the structure and division of the library into two versions - with and without standard libraries. There will now be settings on top of the header. Depending on the value of #define STANDARDS_SWITCH, the library will be compiled with or without these algorithms, which require standard libraries. "0" - without libraries, "1" - with libraries. Since the library was originally conceived as a clean project without the use of any standard or any other library - I am not going to further develop this area. This section will collect some sorting algorithms that these standard libraries require and no more. Everything else I will have to implement myself. Since there are already a lot of implemented sorting algorithms, I can afford it. It is possible that in the future, due to the introduction of a system of settings, the structure of the project will become increasingly complex. Of course, I will not release this product with standard libraries, but I will leave them in case of need. If a programmer needs exactly the algorithm that uses standard libraries - he can always download the repository and build a library with the necessary settings.
 - In case the programmer used a section with standard libraries, I had to place some of the standard functions in the Core class to avoid conflicts.
 
-## v2.1.2 (30.03.2022)
+## v0.1.1.2 (30.03.2022)
 
 #### Enhancements:
 - Made the following sorting algorithms: _CycleSort_; combined them together with Heap_Sort (only four algorithms) into one class - Selection_Sorts.
 - I refused _CartesianTreeSort_, _TournamentSort_, _WeakHeapSort_ due to their very complicated implementation and lack of templates. Maybe someday I will implement them.
 - I will not mention all other algorithms yet, because they are not yet ready for use. When their category of algorithms is prepared, then I will remember them.
 
-## v2.1.1 (26.03.2022)
+## v0.1.1.1 (26.03.2022)
 
 #### Enhancements:
 - Added _SelectionSort_ and _SmoothSort_ to the Selection_Sorts namespace; _ShellSort_ in Insertion_Sorts and all remaining algorithms with Exchange_Sorts, namely _OddEvenSort_, _CombSort_, _GnomeSort_, _SlowSort_, _StoogeSort_ and _BogoSort_. After implementing all the algorithms with Exchange_Sorts, I finally got the opportunity to combine them into one class.
@@ -90,7 +130,7 @@ sort->Stooge_Sort(); // Or some other
 ```
 As you can see, now it is enough to create a class object and select the desired sorting algorithm in it. Now you do not need, as before, to select a class in the namespace, and start sorting already in it.
 
-## v2.1.0 (11.01.2022)
+## v0.1.1.0 (11.01.2022)
 
 #### Bug Fixes:
 - The **remove()** method is now private. Now the ARRAYDATA class cannot store a pointer to nullptr, therefore the object will constantly store some kind of array, which will increase the fault tolerance of the ARRAYDATA class.
@@ -102,7 +142,7 @@ As you can see, now it is enough to create a class object and select the desired
 #### Enhancements:
 - Written class for working with exceptions - Exception. All exceptions that are thrown by the library now throw objects inherited from Exception, which stores information about the error and can return this information at the request of the programmer. The programmer can also create his own exception classes inherited from Exception.
 
-## v2.0.0 (23.12.2021)
+## v0.1.0.0 (23.12.2021)
 
 #### Enhancements:
 - This is the largest update compared to previous versions. I finally implemented what I had planned from the very beginning, but for which I then two months ago did not have enough experience. I finally decided to split the original header into several. Of course, before that I decided what I want to implement in my library in the future. These were six sections: _Core_ (or _Base_) - the base on which everything else will be based; _Randomizer_ - own implementation of the randomizer (needed to get rid of any plug-in library); _Arrays_ - functions for working with arrays; _Sorting_ - sorting algorithms; _Trees_; _Lists_. As it is already clear, one of the goals was set: "To get rid of any plug-in library - my development should be unique and written only in pure C++ (in the future, assembly language inserts may appear)." True, later, in order to optimize and get rid of errors, another class was planned for working with exceptions, it was planned to implement matrices along with trees and lists, and in general the order changed slightly. And, finally, only at this stage did I understand how it is still possible to implement what I wanted to do two months ago. I rewrote the functions from the namespace for working with arrays into a class and began to extend its methods. A base class has been created, from which all sorting methods and the array processing class are inherited. Yes, sorting algorithms are now also described in the class. In the future, I will rebuild the architecture of the sorting classes, but this does not apply to this update. With the gigantic classification, problems appeared in the form of architecture. The library continues to support the use of not only classes but also structures. To do this, I also implemented basic functions that can be used when working with a structure, and on which most of the methods from the class are built, and some are even used in sorting classes. I ended up with a new library architecture. Further, based on the accumulated knowledge, I was able to separate the implementation from the declaration. I began to separate the implementation into separate .cpp files. Later, all the headers were combined into one common header, and all the implementation files were combined into one file with the implementation. So I was finally able to separate the implementation from the announcement - something that I had planned two months ago, but could not do then.
@@ -170,7 +210,7 @@ As you can see, now it is enough to create a class object and select the desired
         3. **asize_t** - "array size type" - native type for specifying the type "array size"
 - I got a lot of new experiences working on this update.
 
-## v1.1.0 (05.11.2021)
+## v0.0.1.0 (05.11.2021)
 
 #### Bug Fixes:
 - The **getMin()** and **getMax()** methods have been optimized. Now, with large array sizes, there is no need to wait for the algorithm to go through each element of the array, if it is clear that the smallest element in the sorted array will be the first, and the largest will be the last. In these cases, it is sufficient to indicate whether the array is sorted.
@@ -193,7 +233,7 @@ As you can see, now it is enough to create a class object and select the desired
     2. **sum()**
 - I also updated the example to follow the new standards of the library for working with arrays, and now everything is structured in the example itself: now each function is responsible for explaining its library method and is called from the main function. This is done to make it easier to understand this library. From now on it will be more difficult to get confused.
 
-## v1.0.2 (16.10.2021)
+## v0.0.0.3 (16.10.2021)
 
 #### Bug Fixes:
 - And also additionally I:
@@ -214,7 +254,7 @@ As you can see, now it is enough to create a class object and select the desired
         5. Finding the median - **mediana()**
         6. Finding a Moda - **moda()**
 
-## v1.0.1 (01.10.2021)
+## v0.0.0.2 (01.10.2021)
 
 #### Bug Fixes:
 - When the core of the library was built, everything was checked on arrays with integer element types. As a result, all algorithms using the swap method of the _ArrayProcessing_ class would not work. In addition, the last two algorithms are generally sharpened only for use with an integer type. I fixed all these errors:
@@ -222,7 +262,7 @@ As you can see, now it is enough to create a class object and select the desired
     2. Fixed the passed type to the swap method of the _ArrayProcessing_ class
     3. In general, I fixed the passed types where they were incorrectly specified
 
-## v1.0.0 (29.09.2021)
+## v0.0.0.1 (29.09.2021)
 
 #### Release
 - A class has been written with methods for generating an array, displaying it on the screen, replacing two elements with places, finding the maximum and minimum number - _ArrayProcessing_ and classes of the following sorting algorithms:

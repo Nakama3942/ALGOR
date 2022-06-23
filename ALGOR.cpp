@@ -52,20 +52,6 @@ type_value ALGOR::CORE<type_value>::maximum(type_value firstNumber, type_value s
 	return firstNumber > secondNumber ? firstNumber : secondNumber;
 }
 
-memcell_t ALGOR::getMemoryCell()
-{
-	memcell_t *cells = new memcell_t[10];
-	memcell_t cell = cells[0];
-	for (ubit32_t i = 1; i < 8; i++)
-	{
-		cell >>= (memcell_t)cells[i];
-		cell <<= (memcell_t)cells[i + 1];
-		cell ^= (memcell_t)cells[i + 2];
-	}
-	delete[] cells;
-	return cell;
-}
-
 memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
 {
 	memcell_t *cells = new memcell_t[10];
@@ -172,12 +158,12 @@ ALGOR::Exception_Set::not_found::not_found(const byte1_t *explanation) : Excepti
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-LCM::LCM(memcell_t seed)
+ALGOR::LCM::LCM(memcell_t seed)
 {
 	this->seed = seed;
 }
 
-ubit32_t LCM::rand()
+ubit32_t ALGOR::LCM::rand()
 {
 	seed = (a * seed + c) % m;
 	return seed;
@@ -186,7 +172,7 @@ ubit32_t LCM::rand()
 // int RC4::crypto_entropy()
 //{
 //     //Collects entropy
-//     //WARNING Может быть реализован в Линуксе
+//     //NOTE Может быть реализован в Линуксе
 //     return 0;
 // }
 
@@ -223,7 +209,7 @@ ALGOR::MersenneTwister::MersenneTwister(int seed)
 	LastInterval = 0;
 }
 
-sbit32_t MersenneTwister::rand()
+sbit32_t ALGOR::MersenneTwister::rand()
 {
 	return IRandom(0x80000000, 0x79999999);
 }
@@ -474,11 +460,11 @@ type_array *ArrayProcessing<type_array>::upper_bound(type_array *first, type_arr
 template <typename type_array>
 void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position)
 {
-	array_size++;
-	if (array_size > 0xffffffff)
+	if (array_size == 0xffffffff)
 	{
 		throw Exception_Set::memory_overflow();
 	}
+	array_size++;
 	if (array_size == 1)
 	{
 		Array = new type_array[array_size]{value};
@@ -560,9 +546,7 @@ void ALGOR::generate_struct(type_array *&Array, asize_t &array_size, const sbit6
 	{
 		throw Exception_Set::division_by_zero("The Denominator variable is designed to convert the generated integer into a fractional number or find its part. It's a divisor, so it can't be zero!");
 	}
-	memcell_t cell = getMemoryCell();
-	cell >>= 32;
-	LCM RanGen(cell);
+	LCM RanGen(getMemoryCell(32));
 	for (asize_t i = 0; i < array_size; i++)
 	{
 		Array[i] = (min_limit + (RanGen.rand() % (max_limit - min_limit))) / (fbit32_t)denominator;
@@ -1243,7 +1227,7 @@ Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::BatcherOddEvenMergeSort(
 template<typename type_array>
 void Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::batcher_odd_even_merge_sort()
 {
-	//NOTE Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
+	//Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
 	// але якщо значеня у масиві використовуються цілі+, то алгоритм працює з будь-яким розміром
 	for (asize_t p = 1; p < array_size; p *= 2)
 	{
@@ -1272,7 +1256,7 @@ Comparative_Sorts<type_array>::BitonicSorter::BitonicSorter(type_array *array, a
 template<typename type_array>
 void Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
 {
-	//NOTE Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
+	//Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
 	for (asize_t k = 2; k <= array_size; k *= 2)
 	{
 		for (asize_t j = k / 2; j > 0; j /= 2)
@@ -1468,7 +1452,6 @@ ALGOR::Comparative_Sorts<type_array>::HeapSort::HeapSort(type_array *array, asiz
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::HeapSort::heap_sort()
 {
-	// WARNING Типи int у циклах ЗАЛИШИТИ! Без них не працює!
 	for (byte4_t right = array_size / 2 - 1; right >= 0; right--)
 	{
 		heapify(Array, right, array_size);
@@ -1867,7 +1850,7 @@ ALGOR::Comparative_Sorts<type_array>::ShellSort::ShellSort(type_array *array, as
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::ShellSort::shell_sort()
 {
-	// NOTE j = signed, i & step = unsigned; max size = int / 2 = 2 billion
+	//j = signed, i & step = unsigned; max size = int / 2 = 2 billion
 	for (asize_t step = array_size / 2; step > 0; step /= 2)
 	{
 		for (asize_t i = step; i < array_size; i++)
@@ -2263,53 +2246,6 @@ Distribution_Sorts::BucketSort::BucketSort(byte8_t *array, asize_t asize) : Arra
 
 void Distribution_Sorts::BucketSort::bucket_sort()
 {
-	min = ArrayProcessing<byte8_t>::minimum(Array, array_size);
-	max = ArrayProcessing<byte8_t>::maximum(Array, array_size);
-	range = (max - min) / (byte8_t)array_size;
-	range++;
-
-	bucket = new byte8_t *[array_size];
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		bucket[i] = new byte8_t[1];
-		bucket[i][0] = 1;
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		bucket_index = asize_t((Array[i] - min) / range);
-		if (bucket_index == array_size)
-		{
-			bucket_index--;
-		}
-		push_back(bucket[bucket_index], Array[i]);
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		if (bucket[i][0] > 2)
-		{
-			bubble_sort(bucket[i]);
-		}
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		for (asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
-		{
-			Array[array_index++] = bucket[i][j];
-		}
-	}
-
-	for (asize_t i = 0; i < array_size; i++)
-	{
-		delete[] bucket[i];
-	}
-	delete[] bucket;
-}
-
-void Distribution_Sorts::BucketSort::push_back(byte8_t *&bucket, const byte8_t &value)
-{
 	//Суть алгоритму наступна: я не можу створити структуру структур через
 	//невиразну помилку, яка незрозуміло звідки береться (в інших місцях
 	//коду все працює - воно не хоче тільки тут працювати чомусь) й
@@ -2339,29 +2275,52 @@ void Distribution_Sorts::BucketSort::push_back(byte8_t *&bucket, const byte8_t &
 	//масиву. Ось і все. Коли тимчасовий масив сформовано, пам'ять від
 	//старого звільняється й повертається адреса на тимчасовий масив. Тепер
 	//тимчасовий і є підмасивом. Все просто.
-	byte8_t *temp = new byte8_t[bucket[0] + 1];
-	temp[0] = bucket[0] + 1;
-	for (asize_t i = 0; i < (asize_t)bucket[0]; i++)
-	{
-		i != 0 ? temp[i] = bucket[i] : temp[(asize_t)bucket[0]] = value;
-	}
-	delete[] bucket;
-	bucket = temp;
-}
 
-void Distribution_Sorts::BucketSort::bubble_sort(byte8_t *bucket)
-{
-	// NOTE Тимчасова міра, пізніше я більш швидкий підключу та оптимізую
-	for (asize_t i = 1; i < (asize_t)bucket[0] - 1; i++)
+	min = ArrayProcessing<byte8_t>::minimum(Array, array_size);
+	max = ArrayProcessing<byte8_t>::maximum(Array, array_size);
+	range = (max - min) / (byte8_t)array_size;
+	range++;
+
+	bucket = new byte8_t *[array_size];
+	for (asize_t i = 0; i < array_size; i++)
 	{
-		for (asize_t j = 1; j < (asize_t)bucket[0] - 1; j++)
+		bucket[i] = new byte8_t[1];
+		bucket[i][0] = 1;
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		bucket_index = asize_t((Array[i] - min) / range);
+		if (bucket_index == array_size)
 		{
-			if (bucket[j] > bucket[j + 1])
-			{
-				CORE<byte8_t>::swap(bucket[j], bucket[j + 1]);
-			}
+			bucket_index--;
+		}
+		ArrayProcessing<byte8_t>::addElement(bucket[bucket_index], (asize_t &)bucket[bucket_index][0], Array[i], bucket[bucket_index][0]);
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		if (bucket[i][0] > 2)
+		{
+			CountingSort *sorter = new CountingSort(bucket[i] + 1, bucket[i][0] - 1);
+			sorter->counting_sort();
+			delete (sorter);
 		}
 	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		for (asize_t j = 1; j < (asize_t)bucket[i][0]; j++)
+		{
+			Array[array_index++] = bucket[i][j];
+		}
+	}
+
+	for (asize_t i = 0; i < array_size; i++)
+	{
+		delete[] bucket[i];
+	}
+	delete[] bucket;
 }
 
 Distribution_Sorts::CountingSort::CountingSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}
@@ -2395,7 +2354,7 @@ Distribution_Sorts::FlashSort::FlashSort(byte8_t *array, asize_t asize) : Array(
 
 void Distribution_Sorts::FlashSort::flash_sort()
 {
-	const asize_t m = (byte8_t)(0.45 * array_size);
+	const asize_t middle = (byte8_t)(0.45 * array_size);
 
 	//Так як m дорівнює розміру, помноженому на 0.45 - то, виходячи з
 	//розрахунків, m == 0 тільки при розмірі, рівному 2, 1 чи 0. Якщо
@@ -2409,7 +2368,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 	//перевіряється масив на пустотність. При всіх інших розмірах
 	//(тобто >= 3) m буде дорівнювати 1 чи більше, а тому до k не зможе
 	//потрапити значення -1 й викликати помилку.
-	if (m == 0)
+	if (middle == 0)
 	{
 		if (array_size == 2 && Array[0] > Array[1])
 		{
@@ -2418,7 +2377,7 @@ void Distribution_Sorts::FlashSort::flash_sort()
 		return;
 	}
 
-	L = new byte8_t[m];
+	L = new byte8_t[middle];
 
 	for (asize_t i = 0; i < array_size; i++)
 	{
@@ -2440,9 +2399,9 @@ void Distribution_Sorts::FlashSort::flash_sort()
 		throw Exception_Set::division_by_zero();
 	}
 
-	const asize_t c1 = (m - 1) / (Array[max] - Array[min]);
+	const asize_t c1 = (middle - 1) / (Array[max] - Array[min]);
 
-	for (asize_t i = 0; i < m; i++)
+	for (asize_t i = 0; i < middle; i++)
 	{
 		L[i] = 0;
 	}
@@ -2450,14 +2409,14 @@ void Distribution_Sorts::FlashSort::flash_sort()
 	{
 		++L[c1 * (Array[i] - min)];
 	}
-	for (asize_t i = 1; i < m; ++i)
+	for (asize_t i = 1; i < middle; ++i)
 	{
 		L[i] = L[i] + L[i - 1];
 	}
 
 	CORE<byte8_t>::swap(Array[max], Array[0]);
 
-	k = m - 1;
+	k = middle - 1;
 
 	while (move < array_size - 1)
 	{
@@ -2628,7 +2587,7 @@ void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
 
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		push_back(hole[Array[i] - min], Array[i]);
+		ArrayProcessing<byte8_t>::addElement(hole[Array[i] - min], (asize_t &)hole[Array[i] - min][0], Array[i], hole[Array[i] - min][0]);
 	}
 	for (asize_t i = 0; i < range; i++)
 	{
@@ -2638,23 +2597,12 @@ void Distribution_Sorts::PigeonholeSort::pigeonhole_sort()
 			count++;
 		}
 	}
+
 	for (asize_t i = 0; i < range; i++)
 	{
 		delete[] hole[i];
 	}
 	delete[] hole;
-}
-
-void Distribution_Sorts::PigeonholeSort::push_back(byte8_t *&hole, const byte8_t &value)
-{
-	byte8_t *temp = new byte8_t[hole[0] + 1];
-	temp[0] = hole[0] + 1;
-	for (asize_t i = 0; i < (asize_t)hole[0]; i++)
-	{
-		i != 0 ? temp[i] = hole[i] : temp[(asize_t)hole[0]] = value;
-	}
-	delete[] hole;
-	hole = temp;
 }
 
 Distribution_Sorts::RadixSort::RadixSort(byte8_t *array, asize_t asize) : Array(array), array_size(asize) {}

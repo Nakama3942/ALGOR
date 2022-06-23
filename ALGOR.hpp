@@ -18,7 +18,7 @@
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
- *                               Version: 2.2-dev                               *
+ *                             Version: 1.0.0.0-dev                             *
  * ---------------------------------------------------------------------------- *
  * **************************************************************************** *
  * ---------------------------------------------------------------------------- *
@@ -40,17 +40,12 @@
  * \file
  * \brief Library for processing arrays and sorting them
  * \author Kalynovsky Valentin
- * \version 2.1.0
+ * \version 1.0.0.0
  * \date 11.01.2022
  * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
  */
 
 // WARNING Дату написания документации указать тогда, когда будет написана документация
-
-// WARNING Перепровірити код, де у якості максимального значання задається
-// 0xffffffff, так як для int найменшим є 0x80000000, то число представляє собою
-//-1 для типу int. Обов'язково необхідно перевірити код усюди, де використовуються
-//шістнадцятковий код
 
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
@@ -110,9 +105,7 @@ namespace ALGOR
 	};
 
 	///-
-	memcell_t getMemoryCell(); //Заместо time(NULL)
-	///-
-	memcell_t getMemoryCell(memcell_t right_adjust, memcell_t left_adjust);
+	memcell_t getMemoryCell(memcell_t right_adjust = 0, memcell_t left_adjust = 0); //Заместо time(NULL)
 
 	///-
 	template <typename type>
@@ -1228,9 +1221,6 @@ namespace ALGOR
 		private:
 			byte8_t *Array, **bucket, min, max, range;
 			asize_t array_size, bucket_index, array_index = 0;
-
-			void push_back(byte8_t *&bucket, const byte8_t &value);
-			void bubble_sort(byte8_t *bucket);
 		};
 
 		class CountingSort
@@ -1287,8 +1277,6 @@ namespace ALGOR
 		private:
 			byte8_t *Array, **hole, min, max;
 			asize_t array_size, range, count = 0;
-
-			void push_back(byte8_t *&hole, const byte8_t &value);
 		};
 
 		class RadixSort
