@@ -126,7 +126,7 @@ namespace ALGOR
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 	///-
-	namespace Exception_Set
+	namespace EXCEPTION_SET
 	{
 		/*!
 		\brief Class for working with exceptions
@@ -182,6 +182,14 @@ namespace ALGOR
 			const byte1_t *DETAILS;     ///< Exception details
 			const byte1_t *EXPLANATION; ///< Exception explanation
 		};
+
+		const byte1_t excep55[] = "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes";
+		const byte1_t excep101[] = "A division by zero has occurred - an undefined result of the program execution";
+		const byte1_t excep254[] = "Position failure - position is missing in the array";
+		const byte1_t excep255[] = "Value failure - value is missing in the array";
+		const byte1_t excep256[] = "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes";
+		const byte1_t excep400[] = "Geted empty data structure";
+		const byte1_t excep404[] = "Search error - item not found";
 
 		///-
 		class memory_overflow : public Exception
@@ -275,107 +283,110 @@ namespace ALGOR
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 	///-
-	class LCM
+	namespace RANDOM
 	{
-	public:
-		// LCM = LinearCongruentMethod
-		// Source: https://en.wikipedia.org/wiki/Linear_congruential_generator
-		// Paragraph: Parameters in common use
-		// Table row: MMIX by Donald Knuth
 		///-
-		LCM(memcell_t seed);
+		class LCM
+		{
+		public:
+			// LCM = LinearCongruentMethod
+			// Source: https://en.wikipedia.org/wiki/Linear_congruential_generator
+			// Paragraph: Parameters in common use
+			// Table row: MMIX by Donald Knuth
+			///-
+			LCM(memcell_t seed);
+			///-
+			ubit32_t rand();
+
+		private:
+			const ubit64_t a = 0x5851f42d4c957f2d; // 6`364`136`223`846`793`005
+			const ubit64_t c = 0x14057b7ef767814f; // 1`442`695`040`888`963`407
+			const ubit64_t m = 0xffffffffffffffff; // 18`446`744`073`709`551`615
+			memcell_t seed;
+		};
+
+		/*!
+		\brief Simple crypto-strong generator
+		\note Taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A
+		*/
+		class RC4
+		{
+		public:
+			/*!
+			\brief Set up the key
+			\param[in] key The key to be installed
+			\param[in] ksize Key size
+			*/
+			void crypto_srand(const byte1_t *key, byte4_t ksize);
+			/*!
+			\brief Generates a value
+			\param[out] output Generates an array of elements
+			\param[in] size Array size
+			*/
+			void crypto_rand(byte1_t *output, byte4_t size);
+
+		private:
+			ubit8_t Sbox[256];
+		};
+
+		/*!
+		\brief Advanced generator based on Marsen primes
+		\note Source URL: www.agner.org/random
+		*/
+		class MersenneTwister
+		{
+		public:
+			/*!
+			\brief Construct a new Mersenne Twister::Mersenne Twister object
+			\details Installs the seed
+			\param[in] seed Generation seed
+			*/
+			MersenneTwister(byte4_t seed);
+			///-
+			sbit32_t rand();
+			/*!
+			\brief Re-seed
+			\param seed Generation seed
+			*/
+			void RandomInit(byte4_t seed);
+			/*!
+			\brief Output random integer
+			\param min The minimum value that can be generated
+			\param max The maximum value that can be generated
+			\return int
+			*/
+			byte4_t IRandom(byte4_t min, byte4_t max);
+			/*!
+			\brief Output random integer, exact
+			\param min The minimum value that can be generated
+			\param max The maximum value that can be generated
+			\return int
+			*/
+			byte4_t IRandomX(byte4_t min, byte4_t max);
+			/*!
+			\brief Output random float
+			\return double
+			*/
+			fbit64_t Random();
+			/*!
+			\brief Output random bits
+			\return uint32_t
+			*/
+			ubit32_t BRandom();
+
+		private:
+			///-
+			void Init0(byte4_t seed);
+			ubit32_t mersenne_twister[624];	/// State vector
+			byte4_t mersenne_twister_index;	/// Index into mersenne_twister
+			ubit32_t LastInterval;			/// Last interval length for IRandomX
+			ubit32_t RejectionLimit;		/// Rejection limit used by IRandomX
+		};
+
 		///-
-		ubit32_t rand();
-
-	private:
-		const ubit64_t a = 0x5851f42d4c957f2d; // 6`364`136`223`846`793`005
-		const ubit64_t c = 0x14057b7ef767814f; // 1`442`695`040`888`963`407
-		const ubit64_t m = 0xffffffffffffffff; // 18`446`744`073`709`551`615
-		memcell_t seed;
-	};
-
-	/*!
-	\brief Simple crypto-strong generator
-	\note Taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A
-	*/
-	class RC4
-	{
-	public:
-		// int crypto_entropy();
-		/*!
-		\brief Set up the key
-		\param[in] key The key to be installed
-		\param[in] ksize Key size
-		*/
-		void crypto_srand(const char *key, int ksize);
-		/*!
-		\brief Generates a value
-		\param[out] output Generates an array of elements
-		\param[in] size Array size
-		*/
-		void crypto_rand(char *output, int size);
-
-	private:
-		ubit8_t Sbox[256];
-	};
-
-	/*!
-	\brief Advanced generator based on Marsen primes
-	\note Source URL: www.agner.org/random
-	*/
-	class MersenneTwister
-	{
-	public:
-		/*!
-		\brief Construct a new Mersenne Twister::Mersenne Twister object
-		\details Installs the seed
-		\param[in] seed Generation seed
-		*/
-		MersenneTwister(int seed);
-		///-
-		sbit32_t rand();
-		/*!
-		\brief Re-seed
-		\param seed Generation seed
-		*/
-		void RandomInit(int seed);
-		/*!
-		\brief Output random integer
-		\param min The minimum value that can be generated
-		\param max The maximum value that can be generated
-		\return int
-		*/
-		int IRandom(int min, int max);
-		/*!
-		\brief Output random integer, exact
-		\param min The minimum value that can be generated
-		\param max The maximum value that can be generated
-		\return int
-		*/
-		int IRandomX(int min, int max);
-		/*!
-		\brief Output random float
-		\return double
-		*/
-		double Random();
-		/*!
-		\brief Output random bits
-		\return uint32_t
-		*/
-		ubit32_t BRandom();
-
-	private:
-		///-
-		void Init0(int seed);
-		ubit32_t mersenne_twister[624]; /// State vector
-		int mersenne_twister_index;     /// Index into mersenne_twister
-		ubit32_t LastInterval;          /// Last interval length for IRandomX
-		ubit32_t RejectionLimit;        /// Rejection limit used by IRandomX
-	};
-
-	///-
-	template <class Generator>
-	fbit64_t tester(ubit32_t left_limit, ubit32_t right_limit);
+		template <class Generator>
+		fbit64_t tester(ubit32_t left_limit, ubit32_t right_limit);
+	}
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -831,465 +842,468 @@ namespace ALGOR
 	 * 20) SpaghettiSort			Категорія Other_Sorts                          *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	template <typename type_array>
-	class Comparative_Sorts : public ArrayBase<type_array>
+	namespace SORTING
 	{
-	public:
-		Comparative_Sorts(Array<type_array> *&Array);
-
-		// <<==		Категорія Exchange_Sorts	==>>
-		void Bubble_Sort();					// №	 4	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Cocktail_Shaker_Sort();		// №	 5	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Odd_Even_Sort();				// №	13	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Comb_Sort();					// №	 6	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Gnome_Sort();					// №	 8	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Quick_Sort();					// №	16	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Slow_Sort();					// №	19	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Stooge_Sort();					// №	20	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Bogo_Sort();					// №	 3	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		// <<==		Категорія Selection_Sorts	==>>
-		void Selection_Sort();				// №	17	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Heap_Sort();					// №	 9	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Cycle_Sort();					// №	 7	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		// <<==		Категорія Insertion_Sorts	==>>
-		void Insert_Sort();					// №	10	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Shell_Sort();					// №	18	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Tree_Sort();					// №	22	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Library_Sort();				// №	11	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Patience_Sort();				// №	15	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		// <<==		Категорія Merge_Sorts		==>>
-		void Merge_Sort();					// №	12	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		// <<==		Категорія Concurrent_Sort	==>>
-		void Bitonic_Sorter();				// №	 2	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Batcher_OddEven_MergeSort();	// №	 1	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		// <<==		Категорія Hybrid_Sorts		==>>
-		void Tim_Sort();					// №	21	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		// <<==		Категорія Other_Sorts		==>>
-		void Pancake_Sort();				// №	14	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-
-		// <<==				Classes				==>>
-		class BatcherOddEvenMergeSort //Категорія Concurrent_Sort
+		template <typename type_array>
+		class Comparative_Sorts : public ArrayBase<type_array>
 		{
 		public:
-			BatcherOddEvenMergeSort(type_array *array, asize_t asize);
-			void batcher_odd_even_merge_sort();
+			Comparative_Sorts(Array<type_array> *&Array);
 
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
+			// <<==		Категорія Exchange_Sorts	==>>
+			void Bubble_Sort();					// №	 4	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Cocktail_Shaker_Sort();		// №	 5	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Odd_Even_Sort();				// №	13	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Comb_Sort();					// №	 6	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Gnome_Sort();					// №	 8	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Quick_Sort();					// №	16	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Slow_Sort();					// №	19	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Stooge_Sort();					// №	20	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Bogo_Sort();					// №	 3	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			// <<==		Категорія Selection_Sorts	==>>
+			void Selection_Sort();				// №	17	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Heap_Sort();					// №	 9	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Cycle_Sort();					// №	 7	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			// <<==		Категорія Insertion_Sorts	==>>
+			void Insert_Sort();					// №	10	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Shell_Sort();					// №	18	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Tree_Sort();					// №	22	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Library_Sort();				// №	11	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Patience_Sort();				// №	15	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			// <<==		Категорія Merge_Sorts		==>>
+			void Merge_Sort();					// №	12	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			// <<==		Категорія Concurrent_Sort	==>>
+			void Bitonic_Sorter();				// №	 2	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Batcher_OddEven_MergeSort();	// №	 1	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			// <<==		Категорія Hybrid_Sorts		==>>
+			void Tim_Sort();					// №	21	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			// <<==		Категорія Other_Sorts		==>>
+			void Pancake_Sort();				// №	14	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 
-		class BitonicSorter //Категорія Concurrent_Sort
-		{
-		public:
-			BitonicSorter(type_array *array, asize_t asize);
-			void bitonic_sorter();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class BogoSort //Категорія Exchange_Sorts
-		{
-		public:
-			BogoSort(type_array *array, asize_t asize);
-			void bogo_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			void Shuffle();
-		};
-
-		class BubbleSort //Категорія Exchange_Sorts
-		{
-		public:
-			BubbleSort(type_array *array, asize_t asize);
-			void bubble_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class CocktailShakerSort //Категорія Exchange_Sorts
-		{
-		public:
-			CocktailShakerSort(type_array *array, asize_t asize);
-			void cocktail_shaker_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class CombSort //Категорія Exchange_Sorts
-		{
-		public:
-			CombSort(type_array *array, asize_t asize);
-			void comb_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class CycleSort //Категорія Selection_Sorts
-		{
-		public:
-			CycleSort(type_array *array, asize_t asize);
-			void cycle_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class GnomeSort //Категорія Exchange_Sorts
-		{
-		public:
-			GnomeSort(type_array *array, asize_t asize);
-			void gnome_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class HeapSort //Категорія Selection_Sorts
-		{
-		public:
-			HeapSort(type_array *array, asize_t asize);
-			void heap_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			void heapify(type_array *Array,
-						 const asize_t &count,
-						 const asize_t &array_size);
-		};
-
-		class InsertSort //Категорія Insertion_Sorts
-		{
-		public:
-			InsertSort(type_array *array, asize_t asize);
-			void insert_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class LibrarySort //Категорія Insertion_Sorts
-		{
-		public:
-			LibrarySort(type_array *array, asize_t asize);
-			void library_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			type_array *gaps, *library[2];
-			asize_t lib_size = 0, index_pos = 0, insert, index_pos_for_output = 0;
-			bool target_lib = false, *numbered;
-
-			void initialization();
-			void binarysearch();
-			void insertion();
-			void rebalancing();
-			void finalization();
-		};
-
-		class MergeSort //Категорія Merge_Sorts
-		{
-		public:
-			MergeSort(type_array *array, asize_t asize);
-			void merge_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			void recursive_merge_sort(const asize_t &left_limit,
-									  const asize_t &right_limit);
-			void merge(const asize_t &left_limit,
-					   const asize_t &middle_limit,
-					   const asize_t &right_limit);
-		};
-
-		class OddEvenSort //Категорія Exchange_Sorts
-		{
-		public:
-			OddEvenSort(type_array *array, asize_t asize);
-			void odd_even_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class PancakeSort //Категорія Other_Sorts
-		{
-		public:
-			PancakeSort(type_array *array, asize_t asize);
-			void pancake_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			asize_t max_index();
-			void flip(asize_t index);
-		};
-
-		class PatienceSort //Категорія Insertion_Sorts
-		{
-		public:
-			PatienceSort(type_array *array, asize_t asize);
-			void patience_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			asize_t *count, pickedRow;
-			type_array **decks, *sortedArr, min;
-
-			void initialization();
-			void finalization();
-		};
-
-		class QuickSort //Категорія Exchange_Sorts
-		{
-		public:
-			QuickSort(type_array *array, asize_t asize);
-			void quick_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			void recursive_quick_sort(const byte4_t &left_limit,
-									  const byte4_t &right_limit);
-		};
-
-		class SelectionSort //Категорія Selection_Sorts
-		{
-		public:
-			SelectionSort(type_array *array, asize_t asize);
-			void selection_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class ShellSort //Категорія Insertion_Sorts
-		{
-		public:
-			ShellSort(type_array *array, asize_t asize);
-			void shell_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-		};
-
-		class SlowSort //Категорія Exchange_Sorts
-		{
-		public:
-			SlowSort(type_array *array, asize_t asize);
-			void slow_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			void recursive_slow_sort(const asize_t &left_limit,
-									 const asize_t &right_limit);
-		};
-
-		class StoogeSort //Категорія Exchange_Sorts
-		{
-		public:
-			StoogeSort(type_array *array, asize_t asize);
-			void stooge_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			void recursive_stooge_sort(const asize_t &left_limit,
-									   const asize_t &right_limit);
-		};
-
-		class TimSort //Категорія Hybrid_Sorts
-		{
-		public:
-			TimSort(type_array *array, asize_t asize);
-			void tim_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			const asize_t RUN = 32;
-
-			void insertionSort(asize_t left_limit, asize_t right_limit);
-			void merge(asize_t left_limit, asize_t middle, asize_t right_limit);
-		};
-
-		class TreeSort //Категорія Insertion_Sorts
-		{
-		public:
-			TreeSort(type_array *array, asize_t asize);
-			void tree_sort();
-
-		private:
-			type_array *Array;
-			asize_t array_size;
-
-			struct Tree
+			// <<==				Classes				==>>
+			class BatcherOddEvenMergeSort //Категорія Concurrent_Sort
 			{
-				type_array data;
-				Tree *left, *right;
+			public:
+				BatcherOddEvenMergeSort(type_array *array, asize_t asize);
+				void batcher_odd_even_merge_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
 			};
 
-			Tree *newnode(type_array key);
-			Tree *insert(Tree *node, type_array key);
-			void store(Tree *root, type_array *Array, asize_t &index);
+			class BitonicSorter //Категорія Concurrent_Sort
+			{
+			public:
+				BitonicSorter(type_array *array, asize_t asize);
+				void bitonic_sorter();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class BogoSort //Категорія Exchange_Sorts
+			{
+			public:
+				BogoSort(type_array *array, asize_t asize);
+				void bogo_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				void Shuffle();
+			};
+
+			class BubbleSort //Категорія Exchange_Sorts
+			{
+			public:
+				BubbleSort(type_array *array, asize_t asize);
+				void bubble_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class CocktailShakerSort //Категорія Exchange_Sorts
+			{
+			public:
+				CocktailShakerSort(type_array *array, asize_t asize);
+				void cocktail_shaker_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class CombSort //Категорія Exchange_Sorts
+			{
+			public:
+				CombSort(type_array *array, asize_t asize);
+				void comb_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class CycleSort //Категорія Selection_Sorts
+			{
+			public:
+				CycleSort(type_array *array, asize_t asize);
+				void cycle_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class GnomeSort //Категорія Exchange_Sorts
+			{
+			public:
+				GnomeSort(type_array *array, asize_t asize);
+				void gnome_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class HeapSort //Категорія Selection_Sorts
+			{
+			public:
+				HeapSort(type_array *array, asize_t asize);
+				void heap_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				void heapify(type_array *Array,
+							 const asize_t &count,
+							 const asize_t &array_size);
+			};
+
+			class InsertSort //Категорія Insertion_Sorts
+			{
+			public:
+				InsertSort(type_array *array, asize_t asize);
+				void insert_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class LibrarySort //Категорія Insertion_Sorts
+			{
+			public:
+				LibrarySort(type_array *array, asize_t asize);
+				void library_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				type_array *gaps, *library[2];
+				asize_t lib_size = 0, index_pos = 0, insert, index_pos_for_output = 0;
+				bool target_lib = false, *numbered;
+
+				void initialization();
+				void binarysearch();
+				void insertion();
+				void rebalancing();
+				void finalization();
+			};
+
+			class MergeSort //Категорія Merge_Sorts
+			{
+			public:
+				MergeSort(type_array *array, asize_t asize);
+				void merge_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				void recursive_merge_sort(const asize_t &left_limit,
+										  const asize_t &right_limit);
+				void merge(const asize_t &left_limit,
+						   const asize_t &middle_limit,
+						   const asize_t &right_limit);
+			};
+
+			class OddEvenSort //Категорія Exchange_Sorts
+			{
+			public:
+				OddEvenSort(type_array *array, asize_t asize);
+				void odd_even_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class PancakeSort //Категорія Other_Sorts
+			{
+			public:
+				PancakeSort(type_array *array, asize_t asize);
+				void pancake_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				asize_t max_index();
+				void flip(asize_t index);
+			};
+
+			class PatienceSort //Категорія Insertion_Sorts
+			{
+			public:
+				PatienceSort(type_array *array, asize_t asize);
+				void patience_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				asize_t *count, pickedRow;
+				type_array **decks, *sortedArr, min;
+
+				void initialization();
+				void finalization();
+			};
+
+			class QuickSort //Категорія Exchange_Sorts
+			{
+			public:
+				QuickSort(type_array *array, asize_t asize);
+				void quick_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				void recursive_quick_sort(const byte4_t &left_limit,
+										  const byte4_t &right_limit);
+			};
+
+			class SelectionSort //Категорія Selection_Sorts
+			{
+			public:
+				SelectionSort(type_array *array, asize_t asize);
+				void selection_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class ShellSort //Категорія Insertion_Sorts
+			{
+			public:
+				ShellSort(type_array *array, asize_t asize);
+				void shell_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+			};
+
+			class SlowSort //Категорія Exchange_Sorts
+			{
+			public:
+				SlowSort(type_array *array, asize_t asize);
+				void slow_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				void recursive_slow_sort(const asize_t &left_limit,
+										 const asize_t &right_limit);
+			};
+
+			class StoogeSort //Категорія Exchange_Sorts
+			{
+			public:
+				StoogeSort(type_array *array, asize_t asize);
+				void stooge_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				void recursive_stooge_sort(const asize_t &left_limit,
+										   const asize_t &right_limit);
+			};
+
+			class TimSort //Категорія Hybrid_Sorts
+			{
+			public:
+				TimSort(type_array *array, asize_t asize);
+				void tim_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				const asize_t RUN = 32;
+
+				void insertionSort(asize_t left_limit, asize_t right_limit);
+				void merge(asize_t left_limit, asize_t middle, asize_t right_limit);
+			};
+
+			class TreeSort //Категорія Insertion_Sorts
+			{
+			public:
+				TreeSort(type_array *array, asize_t asize);
+				void tree_sort();
+
+			private:
+				type_array *Array;
+				asize_t array_size;
+
+				struct Tree
+				{
+					type_array data;
+					Tree *left, *right;
+				};
+
+				Tree *newnode(type_array key);
+				Tree *insert(Tree *node, type_array key);
+				void store(Tree *root, type_array *Array, asize_t &index);
+			};
 		};
-	};
 
-	class Distribution_Sorts : public ArrayBase<byte8_t>
-	{
-	public:
-		Distribution_Sorts(Array<byte8_t> *&Array);
-		void AmericanFlag_Sort();  // №	1	/цілі+ ; вилітає
-		void Bead_Sort();          // №	2	/цілі+ ; обрізає
-		void Bucket_Sort();        // №	3	/цілі+ цілі- цілі+-
-		void Counting_Sort();      // №	4	/цілі+ цілі- цілі+-
-		void Flash_Sort();         // №	5	/цілі+ цілі- цілі+-
-		void Interpolation_Sort(); // №	6	/цілі+ цілі- цілі+-
-		void Pigeonhole_Sort();    // №	7	/цілі+ цілі- цілі+-
-		void Radix_Sort();         // №	8	/цілі+ ; не сортує
-
-		class AmericanFlagSort
+		class Distribution_Sorts : public ArrayBase<byte8_t>
 		{
 		public:
-			// https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
-			AmericanFlagSort(byte8_t *array, asize_t asize);
-			void american_flag_sort();
+			Distribution_Sorts(Array<byte8_t> *&Array);
+			void AmericanFlag_Sort();  // №	1	/цілі+ ; вилітає
+			void Bead_Sort();          // №	2	/цілі+ ; обрізає
+			void Bucket_Sort();        // №	3	/цілі+ цілі- цілі+-
+			void Counting_Sort();      // №	4	/цілі+ цілі- цілі+-
+			void Flash_Sort();         // №	5	/цілі+ цілі- цілі+-
+			void Interpolation_Sort(); // №	6	/цілі+ цілі- цілі+-
+			void Pigeonhole_Sort();    // №	7	/цілі+ цілі- цілі+-
+			void Radix_Sort();         // №	8	/цілі+ ; не сортує
 
-		private:
-			byte8_t *Array;
-			asize_t array_size;
+			class AmericanFlagSort
+			{
+			public:
+				// https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
+				AmericanFlagSort(byte8_t *array, asize_t asize);
+				void american_flag_sort();
 
-			const byte8_t NUMBER_OF_BUCKETS = 10; // 10 for base 10 numbers
+			private:
+				byte8_t *Array;
+				asize_t array_size;
 
-			void recursive_american_flag_sort(byte8_t start,
-											  byte8_t length,
-											  byte8_t divisor);
-			byte8_t getMaxNumberOfDigits();
-			byte8_t getDigit(byte8_t integer, byte8_t divisor);
+				const byte8_t NUMBER_OF_BUCKETS = 10; // 10 for base 10 numbers
+
+				void recursive_american_flag_sort(byte8_t start,
+												  byte8_t length,
+												  byte8_t divisor);
+				byte8_t getMaxNumberOfDigits();
+				byte8_t getDigit(byte8_t integer, byte8_t divisor);
+			};
+
+			class BeadSort
+			{
+			public:
+				BeadSort(byte8_t *array, asize_t asize);
+				void bead_sort();
+
+			private:
+				byte8_t *Array, max;
+				asize_t array_size;
+				ubit8_t *beads;
+			};
+
+			class BucketSort
+			{
+			public:
+				// https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
+				BucketSort(byte8_t *array, asize_t asize);
+				void bucket_sort();
+
+			private:
+				byte8_t *Array, **bucket, min, max, range;
+				asize_t array_size, bucket_index, array_index = 0;
+			};
+
+			class CountingSort
+			{
+			public:
+				CountingSort(byte8_t *array, asize_t asize);
+				void counting_sort();
+
+			private:
+				byte8_t *Array, *tempArray, min, max;
+				asize_t array_size;
+			};
+
+			class FlashSort
+			{
+			public:
+				// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
+				FlashSort(byte8_t *array, asize_t asize);
+				void flash_sort();
+
+			private:
+				byte8_t *Array, *L, flash;
+				asize_t array_size, min = 0, max = 0, move = 0, j = 0, k;
+			};
+
+			class InterpolationSort
+			{
+			public:
+				// https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h
+				InterpolationSort(byte8_t *array, asize_t asize);
+				void interpolation_sort();
+
+			private:
+				byte8_t *Array;
+				asize_t array_size;
+
+				const asize_t MIN_SORTABLE_LENGTH = 128;
+
+				byte8_t ifac, temp;
+				byte8_t nArray_min, nArray_max, index_min;
+				byte8_t *space, *cmp_index, *cum, *hist, *sorted;
+				byte8_t ComplexityCount = 0;
+
+				void getMin();
+				void getMax();
+			};
+
+			class PigeonholeSort
+			{
+			public:
+				PigeonholeSort(byte8_t *array, asize_t asize);
+				void pigeonhole_sort();
+
+			private:
+				byte8_t *Array, **hole, min, max;
+				asize_t array_size, range, count = 0;
+			};
+
+			class RadixSort
+			{
+			public:
+				RadixSort(byte8_t *array, asize_t asize);
+				void radix_sort();
+
+			private:
+				byte8_t *Array, *tempArray, *bucket, exp = 1, bit = 10, max, current;
+				asize_t array_size;
+			};
 		};
-
-		class BeadSort
-		{
-		public:
-			BeadSort(byte8_t *array, asize_t asize);
-			void bead_sort();
-
-		private:
-			byte8_t *Array, max;
-			asize_t array_size;
-			ubit8_t *beads;
-		};
-
-		class BucketSort
-		{
-		public:
-			// https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
-			BucketSort(byte8_t *array, asize_t asize);
-			void bucket_sort();
-
-		private:
-			byte8_t *Array, **bucket, min, max, range;
-			asize_t array_size, bucket_index, array_index = 0;
-		};
-
-		class CountingSort
-		{
-		public:
-			CountingSort(byte8_t *array, asize_t asize);
-			void counting_sort();
-
-		private:
-			byte8_t *Array, *tempArray, min, max;
-			asize_t array_size;
-		};
-
-		class FlashSort
-		{
-		public:
-			// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
-			FlashSort(byte8_t *array, asize_t asize);
-			void flash_sort();
-
-		private:
-			byte8_t *Array, *L, flash;
-			asize_t array_size, min = 0, max = 0, move = 0, j = 0, k;
-		};
-
-		class InterpolationSort
-		{
-		public:
-			// https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h
-			InterpolationSort(byte8_t *array, asize_t asize);
-			void interpolation_sort();
-
-		private:
-			byte8_t *Array;
-			asize_t array_size;
-
-			const asize_t MIN_SORTABLE_LENGTH = 128;
-
-			byte8_t ifac, temp;
-			byte8_t nArray_min, nArray_max, index_min;
-			byte8_t *space, *cmp_index, *cum, *hist, *sorted;
-			byte8_t ComplexityCount = 0;
-
-			void getMin();
-			void getMax();
-		};
-
-		class PigeonholeSort
-		{
-		public:
-			PigeonholeSort(byte8_t *array, asize_t asize);
-			void pigeonhole_sort();
-
-		private:
-			byte8_t *Array, **hole, min, max;
-			asize_t array_size, range, count = 0;
-		};
-
-		class RadixSort
-		{
-		public:
-			RadixSort(byte8_t *array, asize_t asize);
-			void radix_sort();
-
-		private:
-			byte8_t *Array, *tempArray, *bucket, exp = 1, bit = 10, max, current;
-			asize_t array_size;
-		};
-	};
+	}
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
