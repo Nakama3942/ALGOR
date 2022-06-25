@@ -16,7 +16,7 @@
 #include <iostream>
 using std::cout;
 
-#include "N:/ALGOR/ALGOR.hpp"
+#include "N:/ALGOR/src/ALGOR.hpp"
 using namespace ALGOR;
 using namespace ALGOR::SORTING;
 

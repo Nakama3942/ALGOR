@@ -3,7 +3,7 @@ CONFIG -= qt
 TEMPLATE = lib
 DEFINES += ALGOR_LIBRARY
 
-VERSION = 2.0.0
+VERSION = 1.0.0.0
 
 CONFIG += c++20
 CONFIG += build_all
@@ -13,10 +13,10 @@ CONFIG += build_all
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    ALGOR.hpp
+    src/ALGOR.hpp
 
 SOURCES += \
-    ALGOR.cpp
+    src/ALGOR.cpp
 
 # Default rules for deployment.
 unix {
