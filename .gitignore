@@ -12,9 +12,12 @@
 *.dylib
 
 .vscode
-html
-latex
-rtf
+documenting/en/html
+documenting/en/latex
+documenting/en/xml
+documenting/ua/html
+documenting/ua/latex
+documenting/ua/xml
 
 # Qt-es
 object_script.*.Release
