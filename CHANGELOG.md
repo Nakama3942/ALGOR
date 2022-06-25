@@ -46,8 +46,6 @@
 
 ## v0.1.3.0 (24.06.2022) <- 「Completed develop arrays structuring and library core」
 
-~~Planned old tag 2.3.0~~
-
 > _Brought the structure of the project to the final form_...
 
 #### Invalid Fixed:
@@ -93,6 +91,8 @@
 
 - Rereleased:
 	- Replaced versions of releases (now the release of the version _1.0.0.0_ library will take place only after the completion of full documentation).
+
+~~Planned old tag 2.3.0~~
 
 <!--
 ## v0.1.3.0 (24.06.2022) <- 2.3.0
@@ -146,8 +146,6 @@
 
 ## v0.1.2.1 (03.06.2022) <- 「Completed sorting algorithms」
 
-~~Old tag 2.2.1~~
-
 > _Completed the last sixth, seventh and eighth categories of sorting algorithms ahead of schedule and was filled in the knowledge of the pointers_...
 <!-- filled - преисполнился (от мема "Я настолько преисполнился в своём познании...") -->
 
@@ -166,11 +164,11 @@
 	- I deleted the settings: since I no longer have a partition with standard libraries - I no longer have a goal to divide the project into partitions, which can be included and disabled for compilation.
 - I will note that sorting algorithms were already implemented at the time of release of the v2.0.0 update, and therefore the ten that remained to be implemented after the release of that update will no longer be implemented. Ten unrealized sorting algorithms: **BatcherOddEvenMergeSort** from _ConcurrentSort_, **PairwiseSortingNetwork** from _ConcurrentSort_, **SampleSort** from _ConcurrentSort_, **BlockMergeSort** from _HybridSorts_, **KirkpatrickReischSort** from _HybridSorts_, **IntroSort** from _HybridSorts_, **SpreadSort** from _HybridSorts_, **MergeInsertionSort** from _HybridSorts_, **TopologicalSort** from _OtherSorts_, **SpaghettiSort** from _OtherSorts_. I'm just tired of it. I want something new.
 
+~~Old tag 2.2.1~~
+
 ---
 
 ## v0.1.2.0 (15.04.2022) <- 「namespace ALGOR & Comparative_Sorts & Distribution_Sorts」
-
-~~Old tag 2.2.0~~
 
 > _After completing the fifth category of sorting algorithms, I thinked about the global namespace of the whole project_...
 
@@ -188,22 +186,22 @@ using namespace ALGOR;
 ```
 It does not depend on the order. You only need to choose one of them! This is the completion of structural renewal.
 
+~~Old tag 2.2.0~~
+
 ---
 
-## v0.1.1.4 (04.04.2022) <- 「Insertion_Sorts」
-
-~~Old tag 2.1.4~~
+## v0.1.1.4 (04.04.2022) <- 「Merge_Sorts」
 
 > _Completed the fourth category of sorting algorithms_...
 
 #### Enhancements:
 - I tried to read _CascadeMergeSort_, _OscillatingMergeSort_ and _PolyphaseMergeSort_, but there is almost no information on them (even on Wikipedia). I decided to abandon these algorithms and it turned out that in this category there is only one algorithm that has already been implemented. I rewrote it to a new standard and released a new release.
 
+~~Old tag 2.1.4~~
+
 ---
 
-## v0.1.1.3 (01.04.2022) <- "Insertion_Sorts」
-
-~~Old tag 2.1.3~~
+## v0.1.1.3 (01.04.2022) <- 「Insertion_Sorts」
 
 > _Completed the third category of sorting algorithms_...
 
@@ -211,11 +209,11 @@ It does not depend on the order. You only need to choose one of them! This is th
 - I implemented the following sorting algorithms: _TreeSort_, _PatienceSort_ and _LibrarySort_ and combined them with _InsertSort_ (except _LibrarySort_) into one class. Since I can't do without the standard libraries in _LibrarySort_, I decided to make it a separate class. This has complicated the structure and division of the library into two versions - with and without standard libraries. There will now be settings on top of the header. Depending on the value of #define STANDARDS_SWITCH, the library will be compiled with or without these algorithms, which require standard libraries. "0" - without libraries, "1" - with libraries. Since the library was originally conceived as a clean project without the use of any standard or any other library - I am not going to further develop this area. This section will collect some sorting algorithms that these standard libraries require and no more. Everything else I will have to implement myself. Since there are already a lot of implemented sorting algorithms, I can afford it. It is possible that in the future, due to the introduction of a system of settings, the structure of the project will become increasingly complex. Of course, I will not release this product with standard libraries, but I will leave them in case of need. If a programmer needs exactly the algorithm that uses standard libraries - he can always download the repository and build a library with the necessary settings.
 - In case the programmer used a section with standard libraries, I had to place some of the standard functions in the Core class to avoid conflicts.
 
+~~Old tag 2.1.3~~
+
 ---
 
 ## v0.1.1.2 (30.03.2022) <- 「Selection_Sorts」
-
-~~Old tag 2.1.2~~
 
 > _Completed the second category of sorting algorithms_...
 
@@ -224,11 +222,11 @@ It does not depend on the order. You only need to choose one of them! This is th
 - I refused _CartesianTreeSort_, _TournamentSort_, _WeakHeapSort_ due to their very complicated implementation and lack of templates. Maybe someday I will implement them.
 - I will not mention all other algorithms yet, because they are not yet ready for use. When their category of algorithms is prepared, then I will remember them.
 
+~~Old tag 2.1.2~~
+
 ---
 
 ## v0.1.1.1 (26.03.2022) <- 「Exchange_Sorts」
-
-~~Old tag 2.1.1~~
 
 > _Completed the first category of sorting algorithms_...
 
@@ -247,11 +245,11 @@ sort->Stooge_Sort(); // Or some other
 ```
 As you can see, now it is enough to create a class object and select the desired sorting algorithm in it. Now you do not need, as before, to select a class in the namespace, and start sorting already in it.
 
+~~Old tag 2.1.1~~
+
 ---
 
 ## v0.1.1.0 (11.01.2022) <- 「Exception & Safety」
-
-~~Old tag 2.1.0~~
 
 > _I thinked about the security of data storage_...
 
@@ -265,11 +263,11 @@ As you can see, now it is enough to create a class object and select the desired
 #### Enhancements:
 - Written class for working with exceptions - Exception. All exceptions that are thrown by the library now throw objects inherited from Exception, which stores information about the error and can return this information at the request of the programmer. The programmer can also create his own exception classes inherited from Exception.
 
+~~Old tag 2.1.0~~
+
 ---
 
 ## v0.1.0.0 (23.12.2021) <- 「Dynamization & Globalization」
-
-~~Old tag 2.0.0~~
 
 > _Create a large class with giant data formatting capabilities in arrays_...
 
@@ -339,11 +337,11 @@ As you can see, now it is enough to create a class object and select the desired
 		3. **asize_t** - "array size type" - native type for specifying the type "array size"
 - I got a lot of new experiences working on this update.
 
+~~Old tag 2.0.0~~
+
 ---
 
 ## v0.0.1.0 (05.11.2021) <- 「Structuring」
-
-~~Old tag 1.1.0~~
 
 > _Formation of the first structure of the project_...
 
@@ -368,11 +366,11 @@ As you can see, now it is enough to create a class object and select the desired
 	2. **sum()**
 - I also updated the example to follow the new standards of the library for working with arrays, and now everything is structured in the example itself: now each function is responsible for explaining its library method and is called from the main function. This is done to make it easier to understand this library. From now on it will be more difficult to get confused.
 
+~~Old tag 1.1.0~~
+
 ---
 
 ## v0.0.0.3 (16.10.2021) <- 「Extending ArrayProcessing functionality」
-
-~~Old tag 1.0.2~~
 
 > _Added some new methods_...
 
@@ -395,11 +393,11 @@ As you can see, now it is enough to create a class object and select the desired
 		5. Finding the median - **mediana()**
 		6. Finding a Moda - **moda()**
 
+~~Old tag 1.0.2~~
+
 ---
 
 ## v0.0.0.2 (01.10.2021) <- 「Fixes」
-
-~~Old tag 1.0.1~~
 
 > _Minor edits_...
 
@@ -409,11 +407,11 @@ As you can see, now it is enough to create a class object and select the desired
 	2. Fixed the passed type to the swap method of the _ArrayProcessing_ class
 	3. In general, I fixed the passed types where they were incorrectly specified
 
+~~Old tag 1.0.1~~
+
 ---
 
 ## v0.0.0.1 (29.09.2021) <- Alpha-release
-
-~~Old tag 1.0.0~~
 
 #### Release
 - A class has been written with methods for generating an array, displaying it on the screen, replacing two elements with places, finding the maximum and minimum number - _ArrayProcessing_ and classes of the following sorting algorithms:
@@ -425,3 +423,5 @@ As you can see, now it is enough to create a class object and select the desired
 	6. Quick Sort
 	7. Counting Sort (currently the fastest)
 	8. Radix Sort
+
+~~Old tag 1.0.0~~
