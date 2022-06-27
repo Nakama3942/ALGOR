@@ -54,10 +54,9 @@
 /*!
   \namespace ALGOR
   \brief Глобальний простір імен усього проекту
-  \version v0.1.1.4 commit 2fa93b
-  \since v0.1.2.0
   \details Призначений для зберігання усього реалізованого функціоналу проекту.
   Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
+  \since v0.1.2.0 commit 2fa93b
  */
 namespace ALGOR
 {
@@ -73,10 +72,9 @@ namespace ALGOR
 
 	/*!
 	  \brief Аліас для char <em>(1 байт)</em>.
-	  \version v0.1.2.1 commit b50b4a
-	  \since v0.1.3.0
 	  \details Зазвичай використовується для задання типу строк. Може зберігати
 	  число від <b>0</b> до <b>255</b>, або від <b>-128</b> до <b>+127</b>.
+	  \since v0.1.3.0 commit b50b4a
 	  \note Якщо цей тип дійсно використовується для строк, то не забувайте
 	  вказувати "*" (вказівник) перед назвою імені строки, так як цей тип
 	  не замінює повністю char на string. Це лише звичайний аліас.
@@ -84,19 +82,17 @@ namespace ALGOR
 	using byte1_t = char;
 	/*!
 	  \brief Аліас для short <em>(2 байти)</em>.
-	  \version v0.1.2.1 commit b50b4a
-	  \since v0.1.3.0
 	  \details Зазвичай використовується при зберіганні коротких чисел
 	  від <b>0</b> до <b>65'535</b>, або від <b>-32'768</b> до <b>+32'767</b>.
+	  \since v0.1.3.0 commit b50b4a
 	 */
 	using byte2_t = short;
 	/*!
 	  \brief Аліас для long <em>(4 байти)</em>.
-	  \version v0.1.2.1 commit b50b4a
-	  \since v0.1.3.0
 	  \details Зазвичай використовується при зберіганні чисел. Може
 	  зберігати від <b>0</b> до <b>4'294'967'295</b>, або від <b>-2'147'483'648</b>
 	  до <b>+2'147'483'647</b>.
+	  \since v0.1.3.0 commit b50b4a
 	  \note Також ним можна повноцінно замінити тип int, так як він теж
 	  розрахований на 4 байти. Але якщо програму запустити на комп'ютері
 	  з процесором intel i386 чи більш ранішим, то під int буде виділятися усього
@@ -107,107 +103,93 @@ namespace ALGOR
 	using byte4_t = long;
 	/*!
 	  \brief Аліас для long long <em>(8 байтів)</em>.
-	  \version v0.1.2.1 commit b50b4a
-	  \since v0.1.3.0
 	  \details Є розширенням типу long у два рази і розрахований під числа від <b>0</b>
 	  до <b>18'446'744'073'709'551'615</b>, або від <b>-9'223'372'036'854'775'808</b>
 	  до <b>+9'223'372'036'854'775'807</b>.
+	  \since v0.1.3.0 commit b50b4a
 	 */
 	using byte8_t = long long;
 	/*!
 	  \brief Аліас для signed char <em>(1 байт)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному char, але може приймати значення тільки
 	  від <b>-128</b> до <b>+127</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using sbit8_t = signed char;
 	/*!
 	  \brief Аліас для signed short <em>(2 байти)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному short, але може приймати значення тільки
 	  від <b>-32'768</b> до <b>+32'767</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using sbit16_t = signed short;
 	/*!
 	  \brief Аліас для signed long <em>(4 байти)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному long, але може приймати значення тільки
 	  від <b>-2'147'483'648</b> до <b>+2'147'483'647</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using sbit32_t = signed long;
 	/*!
 	  \brief Аліас для signed long long <em>(8 байтів)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному long long, але може приймати значення тільки
 	  від <b>-9'223'372'036'854'775'808</b> до <b>+9'223'372'036'854'775'807</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using sbit64_t = signed long long;
 	/*!
 	  \brief Аліас для unsigned char <em>(1 байт)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному char і на відміну від signed char може
 	  приймати значення тільки від <b>0</b> до <b>255</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using ubit8_t = unsigned char;
 	/*!
 	  \brief Аліас для unsigned short <em>(2 байти)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному short і на відміну від signed short може
 	  приймати значення тільки від <b>0</b> до <b>65'535</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using ubit16_t = unsigned short;
 	/*!
 	  \brief Аліас для unsigned long <em>(4 байти)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному long і на відміну від signed long може
 	  приймати значення тільки від <b>0</b> до <b>4'294'967'295</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using ubit32_t = unsigned long;
 	/*!
 	  \brief Аліас для unsigned long long <em>(8 байтів)</em>.
-	  \version v0.0.1.0 commit 0d3195
-	  \since v0.1.0.0
 	  \details Аналогічно звичайному long long і на відміну від signed long long
 	  може приймати значення тільки від <b>0</b> до <b>18'446'744'073'709'551'615</b>.
+	  \since v0.1.0.0 commit 0d3195
 	 */
 	using ubit64_t = unsigned long long;
 	/*!
 	  \brief Аліас для float <em>(4 байти)</em>.
-	  \version v0.1.1.4 commit 1981d6
-	  \since v0.1.2.0
 	  \details На відміну від всіх попередніх типів, що можуть зберігати тільки
 	  цілі числа, тип \a float може зберігати числа з плаваючою комою. У
 	  комірку можна записати як додатні, так і від'ємні числа. Можливий діапазон
 	  зберігаємих чисел від <b>+/-3.4E-38</b> до <b>3.4E+38</b>.
+	  \since v0.1.2.0 commit 1981d6
 	 */
 	using fbit32_t = float;
 	/*!
 	  \brief Аліас для double <em>(8 байтів)</em>.
-	  \version v0.1.1.4 commit 1981d6
-	  \since v0.1.2.0
 	  \details Розширює тип \a float, збільшуючи точність та розмір у два рази.
 	  Можливий діапазон зберігаємих чисел від <b>+/-1.7E-308</b> до <b>1.7E+308</b>.
+	  \since v0.1.2.0 commit 1981d6
 	 */
 	using fbit64_t = double;
 	/*!
 	  \brief Аліас для long double <em>(16 байт)</em>.
-	  \version v0.1.2.1 commit b6349a
-	  \since v0.1.3.0
 	  \details Розширює тип \a double, збільшуючи точність та розмір іще у два
 	  рази.
+	  \since v0.1.3.0 commit b6349a
 	 */
 	using fbit128_t = long double;
 	/*!
 	  \brief Псевдонім для визначення типу <em>"розмір массиву"</em>.
-	  \version v0.0.1.0 commit 89658e
-	  \since v0.1.0.0
 	  \details Зазвичай цей тип використовується, коли треба вказати розмір масиву
 	  чи позицію у масиві. Так як нумерація починається з 0 і не існує від'ємних
 	  розмірів масивів чи номерів позицій, можна поточнити тип з <a>int</a> до
@@ -216,39 +198,41 @@ namespace ALGOR
 	  сенсу створювати структури даних тому ідеальним вибором серед <a>short</a>,
 	  <a>long</a> та <a>long long</a> є <a>long</a>. Саме тому <a>asize_t</a> є
 	  аліасом до <a>ubit32_t</a>.
+	  \since v0.1.0.0 commit 89658e
 	 */
 	using asize_t = ubit32_t;
 	/*!
 	  \brief Псевдонім для обчислюваної <em>комірки пам'яті</em>.
-	  \version v0.1.1.2 commit b4cdc9
-	  \since v0.1.1.3
 	  \details використовується тільки у функції \a getMemoryCell(). Є службовим типом
 	  і замість нього краще використовувати \a ubit64_t.
+	  \since v0.1.1.3 commit b4cdc9
 	 */
 	using memcell_t = ubit64_t;
 
 	/*!
-	  \class
-	  \brief Ядро бібліотеки, базовий клас, зо зберігає головні функції, що найчастіше використовуються
-	  \
+	  \class CORE
+	  \brief Ядро бібліотеки
+	  \details Базовий клас, що зберігає головні функції, які найчастіше
+	  використовуються.
+	  \tparam type_value Тип значень, з яким працюють методи
+	  \since v0.1.3.0 commit d30531
 	 */
 	template <typename type_value>
 	class CORE
 	{
 	public:
-		//		/*!
-		//		   \fn
-		//		\brief Swaps two elements
-		//		\tparam type_array The type of elements that the array stores. For example int or float
-		//		\param[in, out] firstNumber First item to replace
-		//		\param[in, out] secondNumber Second item to replace
-		//		\example {lineno}
-		//			CORE<long long>::swap(array[i], array[j]);
-		//		*/
 		/*!
-		   \brief swap
-		   \param firstNumber
-		   \param secondNumber
+		   \fn swap(type_value &firstNumber, type_value &secondNumber)
+		   \brief Міняє місцями два елементи
+		   \param[in, out] firstNumber Перший елемент для заміни
+		   \param[in, out] secondNumber Другий елемент для заміни
+		   \since v0.0.0.1
+		   \paragraph Приклад
+		   \code
+		   long long value1 = 5, value2 = 10;
+		   CORE<long long>::swap(value1, value2);
+		   \endcode
+		   \paragraph Реалізація
 		 */
 		static void swap(type_value &firstNumber, type_value &secondNumber) noexcept;
 
