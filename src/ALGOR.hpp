@@ -38,11 +38,12 @@
 
 /*!
  * \file
- * \brief Library for processing arrays and sorting them
- * \author Kalynovsky Valentin
+ * \brief Бібліотека для обробки та сортування структур даних.
+ * \author Калиновський Валентин
  * \version 1.0.0.0
  * \date 11.01.2022
- * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved. Licensed under the Apache License, Version 2.0 (the "License")
+ * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
+   Licensed under the Apache License, Version 2.0 (the "License")
  */
 
 // WARNING Дату написания документации указать тогда, когда будет написана документация
@@ -50,6 +51,14 @@
 #ifndef ALGOR_HPP
 #define ALGOR_HPP
 
+/*!
+  \namespace ALGOR
+  \brief Глобальний простір імен усього проекту
+  \version v0.1.1.4 commit 2fa93b
+  \since v0.1.2.0
+  \details Призначений для зберігання усього реалізованого функціоналу проекту.
+  Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
+ */
 namespace ALGOR
 {
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
@@ -62,39 +71,185 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	using byte1_t = char;					///< Alias for char
-	using byte2_t = short;					///< Alias for short
-	using byte4_t = long;					///< Alias for long
-	using byte8_t = long long;				///< Alias for long long
+	/*!
+	  \brief Аліас для char <em>(1 байт)</em>.
+	  \version v0.1.2.1 commit b50b4a
+	  \since v0.1.3.0
+	  \details Зазвичай використовується для задання типу строк. Може зберігати
+	  число від <b>0</b> до <b>255</b>, або від <b>-128</b> до <b>+127</b>.
+	  \note Якщо цей тип дійсно використовується для строк, то не забувайте
+	  вказувати "*" (вказівник) перед назвою імені строки, так як цей тип
+	  не замінює повністю char на string. Це лише звичайний аліас.
+	 */
+	using byte1_t = char;
+	/*!
+	  \brief Аліас для short <em>(2 байти)</em>.
+	  \version v0.1.2.1 commit b50b4a
+	  \since v0.1.3.0
+	  \details Зазвичай використовується при зберіганні коротких чисел
+	  від <b>0</b> до <b>65'535</b>, або від <b>-32'768</b> до <b>+32'767</b>.
+	 */
+	using byte2_t = short;
+	/*!
+	  \brief Аліас для long <em>(4 байти)</em>.
+	  \version v0.1.2.1 commit b50b4a
+	  \since v0.1.3.0
+	  \details Зазвичай використовується при зберіганні чисел. Може
+	  зберігати від <b>0</b> до <b>4'294'967'295</b>, або від <b>-2'147'483'648</b>
+	  до <b>+2'147'483'647</b>.
+	  \note Також ним можна повноцінно замінити тип int, так як він теж
+	  розрахований на 4 байти. Але якщо програму запустити на комп'ютері
+	  з процесором intel i386 чи більш ранішим, то під int буде виділятися усього
+	  2 байти і на тих процесорах int є аліасом для short. Через таке розпливчате
+	  поняття типу int він ніде у бібліотеці не використовується, а використовуються
+	  чіткі типи типу short чи long.
+	 */
+	using byte4_t = long;
+	/*!
+	  \brief Аліас для long long <em>(8 байтів)</em>.
+	  \version v0.1.2.1 commit b50b4a
+	  \since v0.1.3.0
+	  \details Є розширенням типу long у два рази і розрахований під числа від <b>0</b>
+	  до <b>18'446'744'073'709'551'615</b>, або від <b>-9'223'372'036'854'775'808</b>
+	  до <b>+9'223'372'036'854'775'807</b>.
+	 */
+	using byte8_t = long long;
+	/*!
+	  \brief Аліас для signed char <em>(1 байт)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному char, але може приймати значення тільки
+	  від <b>-128</b> до <b>+127</b>.
+	 */
+	using sbit8_t = signed char;
+	/*!
+	  \brief Аліас для signed short <em>(2 байти)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному short, але може приймати значення тільки
+	  від <b>-32'768</b> до <b>+32'767</b>.
+	 */
+	using sbit16_t = signed short;
+	/*!
+	  \brief Аліас для signed long <em>(4 байти)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному long, але може приймати значення тільки
+	  від <b>-2'147'483'648</b> до <b>+2'147'483'647</b>.
+	 */
+	using sbit32_t = signed long;
+	/*!
+	  \brief Аліас для signed long long <em>(8 байтів)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному long long, але може приймати значення тільки
+	  від <b>-9'223'372'036'854'775'808</b> до <b>+9'223'372'036'854'775'807</b>.
+	 */
+	using sbit64_t = signed long long;
+	/*!
+	  \brief Аліас для unsigned char <em>(1 байт)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному char і на відміну від signed char може
+	  приймати значення тільки від <b>0</b> до <b>255</b>.
+	 */
+	using ubit8_t = unsigned char;
+	/*!
+	  \brief Аліас для unsigned short <em>(2 байти)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному short і на відміну від signed short може
+	  приймати значення тільки від <b>0</b> до <b>65'535</b>.
+	 */
+	using ubit16_t = unsigned short;
+	/*!
+	  \brief Аліас для unsigned long <em>(4 байти)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному long і на відміну від signed long може
+	  приймати значення тільки від <b>0</b> до <b>4'294'967'295</b>.
+	 */
+	using ubit32_t = unsigned long;
+	/*!
+	  \brief Аліас для unsigned long long <em>(8 байтів)</em>.
+	  \version v0.0.1.0 commit 0d3195
+	  \since v0.1.0.0
+	  \details Аналогічно звичайному long long і на відміну від signed long long
+	  може приймати значення тільки від <b>0</b> до <b>18'446'744'073'709'551'615</b>.
+	 */
+	using ubit64_t = unsigned long long;
+	/*!
+	  \brief Аліас для float <em>(4 байти)</em>.
+	  \version v0.1.1.4 commit 1981d6
+	  \since v0.1.2.0
+	  \details На відміну від всіх попередніх типів, що можуть зберігати тільки
+	  цілі числа, тип \a float може зберігати числа з плаваючою комою. У
+	  комірку можна записати як додатні, так і від'ємні числа. Можливий діапазон
+	  зберігаємих чисел від <b>+/-3.4E-38</b> до <b>3.4E+38</b>.
+	 */
+	using fbit32_t = float;
+	/*!
+	  \brief Аліас для double <em>(8 байтів)</em>.
+	  \version v0.1.1.4 commit 1981d6
+	  \since v0.1.2.0
+	  \details Розширює тип \a float, збільшуючи точність та розмір у два рази.
+	  Можливий діапазон зберігаємих чисел від <b>+/-1.7E-308</b> до <b>1.7E+308</b>.
+	 */
+	using fbit64_t = double;
+	/*!
+	  \brief Аліас для long double <em>(16 байт)</em>.
+	  \version v0.1.2.1 commit b6349a
+	  \since v0.1.3.0
+	  \details Розширює тип \a double, збільшуючи точність та розмір іще у два
+	  рази.
+	 */
+	using fbit128_t = long double;
+	/*!
+	  \brief Псевдонім для визначення типу <em>"розмір массиву"</em>.
+	  \version v0.0.1.0 commit 89658e
+	  \since v0.1.0.0
+	  \details Зазвичай цей тип використовується, коли треба вказати розмір масиву
+	  чи позицію у масиві. Так як нумерація починається з 0 і не існує від'ємних
+	  розмірів масивів чи номерів позицій, можна поточнити тип з <a>int</a> до
+	  <a>unsigned int</a>. До того ж не завжди вистачає <b>65'535</b> комірок масиву.
+	  Іноді потрібно більше, наприклад, мільйон чи мільярд. Більше мільярда нема
+	  сенсу створювати структури даних тому ідеальним вибором серед <a>short</a>,
+	  <a>long</a> та <a>long long</a> є <a>long</a>. Саме тому <a>asize_t</a> є
+	  аліасом до <a>ubit32_t</a>.
+	 */
+	using asize_t = ubit32_t;
+	/*!
+	  \brief Псевдонім для обчислюваної <em>комірки пам'яті</em>.
+	  \version v0.1.1.2 commit b4cdc9
+	  \since v0.1.1.3
+	  \details використовується тільки у функції \a getMemoryCell(). Є службовим типом
+	  і замість нього краще використовувати \a ubit64_t.
+	 */
+	using memcell_t = ubit64_t;
 
-	using sbit8_t = signed char;			///< Alias for signed char
-	using sbit16_t = signed short;			///< Alias for signed short
-	using sbit32_t = signed long;			///< Alias for signed long
-	using sbit64_t = signed long long;		///< Alias for signed long long
-
-	using ubit8_t = unsigned char;			///< Alias for unsigned char
-	using ubit16_t = unsigned short;		///< Alias for unsigned short
-	using ubit32_t = unsigned long;			///< Alias for unsigned long
-	using ubit64_t = unsigned long long;	///< Alias for unsigned long long
-
-	using fbit32_t = float;					///< Alias for float
-	using fbit64_t = double;				///< Alias for double
-	using fbit128_t = long double;			///< Alias for double
-
-	using asize_t = ubit32_t;				///< Alias for specifying the type "array size"
-	using memcell_t = ubit64_t;				///< Alias for calculated memory cell
-
-	///-
+	/*!
+	  \class
+	  \brief Ядро бібліотеки, базовий клас, зо зберігає головні функції, що найчастіше використовуються
+	  \
+	 */
 	template <typename type_value>
 	class CORE
 	{
 	public:
+		//		/*!
+		//		   \fn
+		//		\brief Swaps two elements
+		//		\tparam type_array The type of elements that the array stores. For example int or float
+		//		\param[in, out] firstNumber First item to replace
+		//		\param[in, out] secondNumber Second item to replace
+		//		\example {lineno}
+		//			CORE<long long>::swap(array[i], array[j]);
+		//		*/
 		/*!
-		\brief Swaps two elements
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] firstNumber First item to replace
-		\param[in, out] secondNumber Second item to replace
-		*/
+		   \brief swap
+		   \param firstNumber
+		   \param secondNumber
+		 */
 		static void swap(type_value &firstNumber, type_value &secondNumber) noexcept;
 
 		///-
@@ -112,6 +267,9 @@ namespace ALGOR
 	class Printer // Template interface
 	{
 	public:
+		/*!
+		   \brief print
+		 */
 		virtual void print() = 0;
 	};
 
@@ -178,8 +336,8 @@ namespace ALGOR
 			const byte1_t *why();
 
 		protected:
-			ubit16_t CODE;              ///< Exception encoding
-			const byte1_t *DETAILS;     ///< Exception details
+			ubit16_t CODE;				///< Exception encoding
+			const byte1_t *DETAILS;		///< Exception details
 			const byte1_t *EXPLANATION; ///< Exception explanation
 		};
 
@@ -377,8 +535,8 @@ namespace ALGOR
 		private:
 			///-
 			void Init0(byte4_t seed);
-			ubit32_t mersenne_twister[624];	/// State vector
-			byte4_t mersenne_twister_index;	/// Index into mersenne_twister
+			ubit32_t mersenne_twister[624]; /// State vector
+			byte4_t mersenne_twister_index; /// Index into mersenne_twister
 			ubit32_t LastInterval;			/// Last interval length for IRandomX
 			ubit32_t RejectionLimit;		/// Rejection limit used by IRandomX
 		};
@@ -583,7 +741,7 @@ namespace ALGOR
 		enum class ArrayType /// A set of array types
 		{
 			NUMBER, ///< Indicates that the array stores numbers
-			STRING  ///< Indicates that the array stores strings
+			STRING	///< Indicates that the array stores strings
 		};
 
 		///-
@@ -851,34 +1009,34 @@ namespace ALGOR
 			Comparative_Sorts(Array<type_array> *&Array);
 
 			// <<==		Категорія Exchange_Sorts	==>>
-			void Bubble_Sort();					// №	 4	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Cocktail_Shaker_Sort();		// №	 5	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Odd_Even_Sort();				// №	13	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Comb_Sort();					// №	 6	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Gnome_Sort();					// №	 8	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Quick_Sort();					// №	16	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Slow_Sort();					// №	19	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Stooge_Sort();					// №	20	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Bogo_Sort();					// №	 3	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Bubble_Sort();			 // №	 4	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Cocktail_Shaker_Sort(); // №	 5	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Odd_Even_Sort();		 // №	13	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Comb_Sort();			 // №	 6	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Gnome_Sort();			 // №	 8	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Quick_Sort();			 // №	16	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Slow_Sort();			 // №	19	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Stooge_Sort();			 // №	20	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Bogo_Sort();			 // №	 3	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 			// <<==		Категорія Selection_Sorts	==>>
-			void Selection_Sort();				// №	17	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Heap_Sort();					// №	 9	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Cycle_Sort();					// №	 7	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Selection_Sort(); // №	17	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Heap_Sort();	   // №	 9	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Cycle_Sort();	   // №	 7	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 			// <<==		Категорія Insertion_Sorts	==>>
-			void Insert_Sort();					// №	10	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Shell_Sort();					// №	18	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Tree_Sort();					// №	22	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Library_Sort();				// №	11	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Patience_Sort();				// №	15	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Insert_Sort();	  // №	10	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Shell_Sort();	  // №	18	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Tree_Sort();	  // №	22	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Library_Sort();  // №	11	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Patience_Sort(); // №	15	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 			// <<==		Категорія Merge_Sorts		==>>
-			void Merge_Sort();					// №	12	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Merge_Sort(); // №	12	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 			// <<==		Категорія Concurrent_Sort	==>>
-			void Bitonic_Sorter();				// №	 2	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-			void Batcher_OddEven_MergeSort();	// №	 1	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Bitonic_Sorter();			  // №	 2	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Batcher_OddEven_MergeSort(); // №	 1	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 			// <<==		Категорія Hybrid_Sorts		==>>
-			void Tim_Sort();					// №	21	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Tim_Sort(); // №	21	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 			// <<==		Категорія Other_Sorts		==>>
-			void Pancake_Sort();				// №	14	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+			void Pancake_Sort(); // №	14	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
 
 			// <<==				Classes				==>>
 			class BatcherOddEvenMergeSort //Категорія Concurrent_Sort
@@ -1184,13 +1342,13 @@ namespace ALGOR
 		public:
 			Distribution_Sorts(Array<byte8_t> *&Array);
 			void AmericanFlag_Sort();  // №	1	/цілі+ ; вилітає
-			void Bead_Sort();          // №	2	/цілі+ ; обрізає
-			void Bucket_Sort();        // №	3	/цілі+ цілі- цілі+-
-			void Counting_Sort();      // №	4	/цілі+ цілі- цілі+-
-			void Flash_Sort();         // №	5	/цілі+ цілі- цілі+-
+			void Bead_Sort();		   // №	2	/цілі+ ; обрізає
+			void Bucket_Sort();		   // №	3	/цілі+ цілі- цілі+-
+			void Counting_Sort();	   // №	4	/цілі+ цілі- цілі+-
+			void Flash_Sort();		   // №	5	/цілі+ цілі- цілі+-
 			void Interpolation_Sort(); // №	6	/цілі+ цілі- цілі+-
-			void Pigeonhole_Sort();    // №	7	/цілі+ цілі- цілі+-
-			void Radix_Sort();         // №	8	/цілі+ ; не сортує
+			void Pigeonhole_Sort();	   // №	7	/цілі+ цілі- цілі+-
+			void Radix_Sort();		   // №	8	/цілі+ ; не сортує
 
 			class AmericanFlagSort
 			{
