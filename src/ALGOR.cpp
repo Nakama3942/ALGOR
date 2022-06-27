@@ -25,58 +25,6 @@ using namespace ALGOR;
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
- * %%%%%                       $------------------$                      %%%%% *
- * -->                              ALGOR_CORE                             <-- *
- * %%%%%                       $------------------$                      %%%%% *
- * #*-*%*-*+                                                         +*-*%*-*# *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
-template<typename type_value>
-void ALGOR::CORE<type_value>::swap(type_value &firstNumber, type_value &secondNumber) noexcept
-{
-	type_value temp = firstNumber;
-	firstNumber = secondNumber;
-	secondNumber = temp;
-}
-
-template<typename type_value>
-type_value ALGOR::CORE<type_value>::minimum(type_value firstNumber, type_value secondNumber) noexcept
-{
-	return firstNumber < secondNumber ? firstNumber : secondNumber;
-}
-
-template<typename type_value>
-type_value ALGOR::CORE<type_value>::maximum(type_value firstNumber, type_value secondNumber) noexcept
-{
-	return firstNumber > secondNumber ? firstNumber : secondNumber;
-}
-
-memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
-{
-	memcell_t *cells = new memcell_t[10];
-	memcell_t cell = cells[0];
-	for (ubit32_t i = 1; i < 8; i++)
-	{
-		cell >>= (memcell_t)cells[i];
-		cell <<= (memcell_t)cells[i + 1];
-		cell ^= (memcell_t)cells[i + 2];
-		if (right_adjust != 0)
-		{
-			cell >>= right_adjust;
-		}
-		if (left_adjust != 0)
-		{
-			cell <<= left_adjust;
-		}
-	}
-	delete[] cells;
-	return cell;
-}
-
-/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
- * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
- * #*-*%*-*+                                                         +*-*%*-*# *
  * %%%%%                      $-------------------$                      %%%%% *
  * -->                           ALGOR_EXCEPTION                           <-- *
  * %%%%%                      $-------------------$                      %%%%% *
@@ -179,7 +127,7 @@ void ALGOR::RANDOM::RC4::crypto_srand(const byte1_t *key, byte4_t ksize)
 	for (byte4_t i = 0; i < 256; i++)
 	{
 		j = j + Sbox[i] + (ubit8_t)key[i % ksize];
-		CORE<ubit8_t>::swap(Sbox[i], Sbox[j]);
+		CORE::swap(Sbox[i], Sbox[j]);
 	}
 }
 
@@ -190,7 +138,7 @@ void ALGOR::RANDOM::RC4::crypto_rand(byte1_t *output, byte4_t size)
 	{
 		i += 1;
 		j += Sbox[i];
-		CORE<ubit8_t>::swap(Sbox[i], Sbox[j]);
+		CORE::swap(Sbox[i], Sbox[j]);
 		t = Sbox[i] + Sbox[j];
 		output[k] = (ubit32_t)Sbox[t];
 	}
@@ -307,7 +255,7 @@ template <class Generator>
 fbit64_t ALGOR::RANDOM::tester(ubit32_t left_limit, ubit32_t right_limit)
 {
 	//Створюю об'єкт генератора
-	memcell_t cell = getMemoryCell();
+	memcell_t cell = CORE::getMemoryCell();
 	cell >>= 32;
 	Generator gen(cell);
 
@@ -555,7 +503,7 @@ void ALGOR::generate_struct(type_array *&Array, asize_t &array_size, const sbit6
 	{
 		throw EXCEPTION_SET::division_by_zero("The Denominator variable is designed to convert the generated integer into a fractional number or find its part. It's a divisor, so it can't be zero!");
 	}
-	RANDOM::LCM RanGen(getMemoryCell(32));
+	RANDOM::LCM RanGen(CORE::getMemoryCell(32));
 	for (asize_t i = 0; i < array_size; i++)
 	{
 		Array[i] = (min_limit + (RanGen.rand() % (max_limit - min_limit))) / (fbit32_t)denominator;
@@ -701,7 +649,7 @@ void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_ar
 		throw EXCEPTION_SET::size_failure();
 	}
 	Array<type_array> *OLD_ARRAY = this->ARRAY, *NEW_ARRAY = create_struct<type_array>(NEW_SIZE);
-	asize_t min_size = CORE<type_array>::minimum(OLD_ARRAY->array_size, NEW_ARRAY->array_size);
+	asize_t min_size = CORE::minimum(OLD_ARRAY->array_size, NEW_ARRAY->array_size);
 	ArrayProcessing<type_array>::copy(NEW_ARRAY->array, OLD_ARRAY->array, min_size);
 	for (asize_t i = OLD_ARRAY->array_size; i < NEW_ARRAY->array_size; i++)
 	{
@@ -723,7 +671,7 @@ void ALGOR::ARRAYDATA<type_array>::reverse()
 	asize_t left_limit = 0, right_limit = this->ARRAY->array_size - 1;
 	for (asize_t i = 0; i < this->ARRAY->array_size / 2; i++)
 	{
-		CORE<type_array>::swap(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
+		CORE::swap(this->ARRAY->array[left_limit], this->ARRAY->array[right_limit]);
 		left_limit++;
 		right_limit--;
 	}
@@ -1234,7 +1182,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::bat
 					{
 						if (Array[i + j] > Array[i + j + k])
 						{
-							CORE<type_array>::swap(Array[i + j], Array[i + j + k]);
+							CORE::swap(Array[i + j], Array[i + j + k]);
 						}
 					}
 				}
@@ -1261,7 +1209,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorte
 				{
 					if ( ( ((i & k) == 0) && (Array[i] > Array[l]) ) || ( ((i & k) != 0) && (Array[i] < Array[l]) ) )
 					{
-						CORE<type_array>::swap(Array[i], Array[l]);
+						CORE::swap(Array[i], Array[l]);
 					}
 				}
 			}
@@ -1284,10 +1232,10 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::BogoSort::bogo_sort()
 template <typename type_array>
 void ALGOR::SORTING::Comparative_Sorts<type_array>::BogoSort::Shuffle()
 {
-	RANDOM::MersenneTwister RanGen(getMemoryCell(32));
+	RANDOM::MersenneTwister RanGen(CORE::getMemoryCell(32));
 	for (asize_t i = 0; i < array_size; i++)
 	{
-		CORE<type_array>::swap(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
+		CORE::swap(Array[i], Array[RanGen.IRandom(0, array_size - 1)]);
 	}
 }
 
@@ -1303,7 +1251,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::BubbleSort::bubble_sort()
 		{
 			if (Array[j] > Array[j + 1])
 			{
-				CORE<type_array>::swap(Array[j], Array[j + 1]);
+				CORE::swap(Array[j], Array[j + 1]);
 			}
 		}
 	}
@@ -1322,7 +1270,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::CocktailShakerSort::cocktail
 		{
 			if (Array[i - 1] > Array[i])
 			{
-				CORE<type_array>::swap(Array[i], Array[i - 1]);
+				CORE::swap(Array[i], Array[i - 1]);
 			}
 		}
 		leftMark++;
@@ -1330,7 +1278,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::CocktailShakerSort::cocktail
 		{
 			if (Array[i - 1] > Array[i])
 			{
-				CORE<type_array>::swap(Array[i], Array[i - 1]);
+				CORE::swap(Array[i], Array[i - 1]);
 			}
 		}
 		rightMark--;
@@ -1352,7 +1300,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::CombSort::comb_sort()
 		{
 			if (Array[i] > Array[i + step])
 			{
-				CORE<type_array>::swap(Array[i], Array[i + step]);
+				CORE::swap(Array[i], Array[i + step]);
 			}
 		}
 		step /= factor;
@@ -1385,7 +1333,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::CycleSort::cycle_sort()
 		{
 			pos += 1;
 		}
-		CORE<type_array>::swap(Array[pos], item);
+		CORE::swap(Array[pos], item);
 
 		while (pos != cycle_start)
 		{
@@ -1401,7 +1349,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::CycleSort::cycle_sort()
 			{
 				pos += 1;
 			}
-			CORE<type_array>::swap(Array[pos], item);
+			CORE::swap(Array[pos], item);
 		}
 	}
 }
@@ -1425,7 +1373,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::GnomeSort::gnome_sort()
 			}
 			else
 			{
-				CORE<type_array>::swap(Array[i], Array[i - 1]);
+				CORE::swap(Array[i], Array[i - 1]);
 				i--;
 				if (i == 0)
 				{
@@ -1449,7 +1397,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::HeapSort::heap_sort()
 	}
 	for (byte4_t i = array_size - 1; i >= 0; i--)
 	{
-		CORE<type_array>::swap(Array[0], Array[i]);
+		CORE::swap(Array[0], Array[i]);
 		heapify(Array, 0, i);
 	}
 }
@@ -1468,7 +1416,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::HeapSort::heapify(type_array
 	}
 	if (large != count)
 	{
-		CORE<type_array>::swap(Array[count], Array[large]);
+		CORE::swap(Array[count], Array[large]);
 		heapify(Array, large, array_size);
 	}
 }
@@ -1483,7 +1431,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::InsertSort::insert_sort()
 	{
 		for (asize_t j = i; j > 0 && Array[j - 1] > Array[j]; j--)
 		{
-			CORE<type_array>::swap(Array[j - 1], Array[j]);
+			CORE::swap(Array[j - 1], Array[j]);
 		}
 	}
 }
@@ -1645,7 +1593,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::OddEvenSort::odd_even_sort()
 		{
 			if (Array[j] < Array[j - 1])
 			{
-				CORE<type_array>::swap(Array[j - 1], Array[j]);
+				CORE::swap(Array[j - 1], Array[j]);
 			}
 		}
 	}
@@ -1685,7 +1633,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::PancakeSort::flip(asize_t in
 	asize_t left = 0;
 	while (left < index)
 	{
-		CORE<type_array>::swap(Array[left], Array[index]);
+		CORE::swap(Array[left], Array[index]);
 		index--;
 		left++;
 	}
@@ -1797,7 +1745,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::QuickSort::recursive_quick_s
 		}
 		if (start <= finish)
 		{
-			CORE<type_array>::swap(Array[start], Array[finish]);
+			CORE::swap(Array[start], Array[finish]);
 			start++;
 			finish--;
 		}
@@ -1830,7 +1778,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::SelectionSort::selection_sor
 		}
 		if (min_index != i)
 		{
-			CORE<type_array>::swap(Array[i], Array[min_index]);
+			CORE::swap(Array[i], Array[min_index]);
 		}
 	}
 }
@@ -1848,7 +1796,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::ShellSort::shell_sort()
 		{
 			for (byte4_t j = i - step; j >= 0 && Array[j] > Array[j + step]; j -= step)
 			{
-				CORE<type_array>::swap(Array[j], Array[j + step]);
+				CORE::swap(Array[j], Array[j + step]);
 			}
 		}
 	}
@@ -1875,7 +1823,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::SlowSort::recursive_slow_sor
 	recursive_slow_sort(middle + 1, right_limit);
 	if (Array[middle] > Array[right_limit])
 	{
-		CORE<type_array>::swap(Array[middle], Array[right_limit]);
+		CORE::swap(Array[middle], Array[right_limit]);
 	}
 	recursive_slow_sort(left_limit, right_limit - 1);
 }
@@ -1894,7 +1842,7 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge
 {
 	if (Array[left_limit] > Array[right_limit])
 	{
-		CORE<type_array>::swap(Array[left_limit], Array[right_limit]);
+		CORE::swap(Array[left_limit], Array[right_limit]);
 	}
 	if (left_limit + 1 >= right_limit)
 	{
@@ -1915,14 +1863,14 @@ void ALGOR::SORTING::Comparative_Sorts<type_array>::TimSort::tim_sort()
 {
 	for (asize_t i = 0; i < array_size; i += RUN)
 	{
-		insertionSort(i, CORE<asize_t>::minimum((i + 31), (array_size - 1)));
+		insertionSort(i, CORE::minimum((i + 31), (array_size - 1)));
 	}
 	for (asize_t size = RUN; size < array_size; size *= 2)
 	{
 		for (asize_t left = 0; left < array_size; left += 2 * size)
 		{
 			asize_t middle = left + size - 1;
-			asize_t right = CORE<asize_t>::minimum((left + 2 * size - 1), (array_size - 1));
+			asize_t right = CORE::minimum((left + 2 * size - 1), (array_size - 1));
 			merge(left, middle, right);
 		}
 	}
@@ -2363,7 +2311,7 @@ void ALGOR::SORTING::Distribution_Sorts::FlashSort::flash_sort()
 	{
 		if (array_size == 2 && Array[0] > Array[1])
 		{
-			CORE<byte8_t>::swap(Array[0], Array[1]);
+			CORE::swap(Array[0], Array[1]);
 		}
 		return;
 	}
@@ -2405,7 +2353,7 @@ void ALGOR::SORTING::Distribution_Sorts::FlashSort::flash_sort()
 		L[i] = L[i] + L[i - 1];
 	}
 
-	CORE<byte8_t>::swap(Array[max], Array[0]);
+	CORE::swap(Array[max], Array[0]);
 
 	k = middle - 1;
 
@@ -2420,7 +2368,7 @@ void ALGOR::SORTING::Distribution_Sorts::FlashSort::flash_sort()
 		while ((byte8_t)j != L[k])
 		{
 			k = c1 * (flash - Array[min]);
-			CORE<byte8_t>::swap(Array[L[k] - 1], flash);
+			CORE::swap(Array[L[k] - 1], flash);
 			L[k]--;
 			move++;
 		}
@@ -2669,11 +2617,11 @@ void ALGOR::SORTING::Distribution_Sorts::RadixSort::radix_sort()
 
 // TODO The implementation of the lists is scheduled to version 5.0.0
 
-template class ALGOR::CORE<byte8_t>;
-template class ALGOR::CORE<ubit64_t>;
-template class ALGOR::CORE<fbit64_t>;
-template class ALGOR::CORE<fbit128_t>;
-template class ALGOR::CORE<asize_t>;
+//template class ALGOR::CORE<byte8_t>;
+//template class ALGOR::CORE<ubit64_t>;
+//template class ALGOR::CORE<fbit64_t>;
+//template class ALGOR::CORE<fbit128_t>;
+//template class ALGOR::CORE<asize_t>;
 
 template fbit64_t ALGOR::RANDOM::tester<RANDOM::LCM>(ubit32_t, ubit32_t);
 template fbit64_t ALGOR::RANDOM::tester<RANDOM::MersenneTwister>(ubit32_t, ubit32_t);

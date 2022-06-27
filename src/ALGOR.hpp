@@ -210,41 +210,77 @@ namespace ALGOR
 	using memcell_t = ubit64_t;
 
 	/*!
-	  \class CORE
+	  \namespace ALGOR::CORE
 	  \brief Ядро бібліотеки
 	  \details Базовий клас, що зберігає головні функції, які найчастіше
 	  використовуються.
-	  \tparam type_value Тип значень, з яким працюють методи
 	  \since v0.1.3.0 commit d30531
+	  \remark Стандартні функції описані не у сирцях, а у хідері, тому вони не
+	  компілюються у бібліотеці, а компілюються безпосередньо у проекті. Саме тому їх
+	  можна використовувати з будь-яким типом.
 	 */
-	template <typename type_value>
-	class CORE
+	namespace CORE
 	{
-	public:
 		/*!
 		   \fn swap(type_value &firstNumber, type_value &secondNumber)
 		   \brief Міняє місцями два елементи
+		   \tparam type_value Тип значень, з яким працюють методи
 		   \param[in, out] firstNumber Перший елемент для заміни
 		   \param[in, out] secondNumber Другий елемент для заміни
 		   \since v0.0.0.1
 		   \paragraph Приклад
 		   \code
-		   long long value1 = 5, value2 = 10;
-		   CORE<long long>::swap(value1, value2);
+		   int value1 = 5, value2 = 10;
+		   CORE::swap(value1, value2);
+		   cout << value2 << "\n"; //print 5
 		   \endcode
 		   \paragraph Реалізація
 		 */
-		static void swap(type_value &firstNumber, type_value &secondNumber) noexcept;
+		template <typename type_value>
+		void swap(type_value &firstNumber, type_value &secondNumber) noexcept
+		{
+			type_value temp = firstNumber;
+			firstNumber = secondNumber;
+			secondNumber = temp;
+		}
 
 		///-
-		static type_value minimum(type_value firstNumber, type_value secondNumber) noexcept;
+		template <typename type_value>
+		type_value minimum(type_value firstNumber, type_value secondNumber) noexcept
+		{
+			return firstNumber < secondNumber ? firstNumber : secondNumber;
+		}
 
 		///-
-		static type_value maximum(type_value firstNumber, type_value secondNumber) noexcept;
+		template <typename type_value>
+		type_value maximum(type_value firstNumber, type_value secondNumber) noexcept
+		{
+			return firstNumber > secondNumber ? firstNumber : secondNumber;
+		}
+
+		///-
+		memcell_t getMemoryCell(memcell_t right_adjust = 0, memcell_t left_adjust = 0) //Заместо time(NULL)
+		{
+			memcell_t *cells = new memcell_t[10];
+			memcell_t cell = cells[0];
+			for (ubit32_t i = 1; i < 8; i++)
+			{
+				cell >>= (memcell_t)cells[i];
+				cell <<= (memcell_t)cells[i + 1];
+				cell ^= (memcell_t)cells[i + 2];
+				if (right_adjust != 0)
+				{
+					cell >>= right_adjust;
+				}
+				if (left_adjust != 0)
+				{
+					cell <<= left_adjust;
+				}
+			}
+			delete[] cells;
+			return cell;
+		}
 	};
-
-	///-
-	memcell_t getMemoryCell(memcell_t right_adjust = 0, memcell_t left_adjust = 0); //Заместо time(NULL)
 
 	///-
 	template <typename type>
