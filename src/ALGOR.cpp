@@ -25,6 +25,76 @@ using namespace ALGOR;
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
+ * %%%%%                       $------------------$                      %%%%% *
+ * -->                              ALGOR_CORE                             <-- *
+ * %%%%%                       $------------------$                      %%%%% *
+ * #*-*%*-*+                                                         +*-*%*-*# *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+
+template<typename type_value>
+void ALGOR::CORE::swap(type_value &firstNumber, type_value &secondNumber) noexcept
+{
+	type_value temp = firstNumber;
+	firstNumber = secondNumber;
+	secondNumber = temp;
+}
+
+template<typename type_value>
+type_value ALGOR::CORE::minimum(type_value firstNumber, type_value secondNumber) noexcept
+{
+	return firstNumber < secondNumber ? firstNumber : secondNumber;
+}
+
+template<typename type_value>
+type_value ALGOR::CORE::maximum(type_value firstNumber, type_value secondNumber) noexcept
+{
+	return firstNumber > secondNumber ? firstNumber : secondNumber;
+}
+
+memcell_t ALGOR::CORE::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
+{
+	memcell_t *cells = new memcell_t[10];
+	memcell_t cell = cells[0];
+	for (ubit32_t i = 1; i < 8; i++)
+	{
+		cell >>= (memcell_t)cells[i];
+		cell <<= (memcell_t)cells[i + 1];
+		cell ^= (memcell_t)cells[i + 2];
+		if (right_adjust != 0)
+		{
+			cell >>= right_adjust;
+		}
+		if (left_adjust != 0)
+		{
+			cell <<= left_adjust;
+		}
+	}
+	delete[] cells;
+	return cell;
+}
+
+template void ALGOR::CORE::swap<byte8_t>(byte8_t &, byte8_t &);
+template void ALGOR::CORE::swap<ubit64_t>(ubit64_t &, ubit64_t &);
+template void ALGOR::CORE::swap<fbit64_t>(fbit64_t &, fbit64_t &);
+template void ALGOR::CORE::swap<fbit128_t>(fbit128_t &, fbit128_t &);
+template void ALGOR::CORE::swap<asize_t>(asize_t &, asize_t &);
+
+template byte8_t ALGOR::CORE::minimum<byte8_t>(byte8_t, byte8_t);
+template ubit64_t ALGOR::CORE::minimum<ubit64_t>(ubit64_t, ubit64_t);
+template fbit64_t ALGOR::CORE::minimum<fbit64_t>(fbit64_t, fbit64_t);
+template fbit128_t ALGOR::CORE::minimum<fbit128_t>(fbit128_t, fbit128_t);
+template asize_t ALGOR::CORE::minimum<asize_t>(asize_t, asize_t);
+
+template byte8_t ALGOR::CORE::maximum<byte8_t>(byte8_t, byte8_t);
+template ubit64_t ALGOR::CORE::maximum<ubit64_t>(ubit64_t, ubit64_t);
+template fbit64_t ALGOR::CORE::maximum<fbit64_t>(fbit64_t, fbit64_t);
+template fbit128_t ALGOR::CORE::maximum<fbit128_t>(fbit128_t, fbit128_t);
+template asize_t ALGOR::CORE::maximum<asize_t>(asize_t, asize_t);
+
+/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+ * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
+ * #*-*%*-*+                                                         +*-*%*-*# *
  * %%%%%                      $-------------------$                      %%%%% *
  * -->                           ALGOR_EXCEPTION                           <-- *
  * %%%%%                      $-------------------$                      %%%%% *
@@ -295,6 +365,9 @@ fbit64_t ALGOR::RANDOM::tester(ubit32_t left_limit, ubit32_t right_limit)
 
 	return pX;
 }
+
+template fbit64_t ALGOR::RANDOM::tester<RANDOM::LCM>(ubit32_t, ubit32_t);
+template fbit64_t ALGOR::RANDOM::tester<RANDOM::MersenneTwister>(ubit32_t, ubit32_t);
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -972,6 +1045,36 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator>>=(ARRAYDATA<type_arra
 	ArrayProcessing<type_array>::copy(appendingArray->getData()->array, this->ARRAY->array, this->ARRAY->array_size, old_size);
 	return this->ARRAY;
 }
+
+template class ALGOR::ArrayProcessing<byte8_t>;
+template class ALGOR::ArrayProcessing<ubit64_t>;
+template class ALGOR::ArrayProcessing<fbit64_t>;
+template class ALGOR::ArrayProcessing<fbit128_t>;
+template class ALGOR::ArrayProcessing<asize_t>;
+
+template Array<byte8_t> *ALGOR::create_struct<byte8_t>(const asize_t &, bool);
+template Array<ubit64_t> *ALGOR::create_struct<ubit64_t>(const asize_t &, bool);
+template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
+template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
+template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
+
+template void ALGOR::generate_struct<byte8_t>(byte8_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::generate_struct<ubit64_t>(ubit64_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::generate_struct<fbit64_t>(fbit64_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::generate_struct<fbit128_t>(fbit128_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::generate_struct<asize_t>(asize_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
+
+template void ALGOR::remove_struct<byte8_t>(Array<byte8_t> *&);
+template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
+template void ALGOR::remove_struct<fbit64_t>(Array<fbit64_t> *&);
+template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
+template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
+
+template class ALGOR::ARRAYDATA<byte8_t>;
+template class ALGOR::ARRAYDATA<ubit64_t>;
+template class ALGOR::ARRAYDATA<fbit64_t>;
+template class ALGOR::ARRAYDATA<fbit128_t>;
+template class ALGOR::ARRAYDATA<asize_t>;
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -2581,6 +2684,12 @@ void ALGOR::SORTING::Distribution_Sorts::RadixSort::radix_sort()
 	delete[] tempArray;
 }
 
+template class ALGOR::SORTING::Comparative_Sorts<byte8_t>;
+template class ALGOR::SORTING::Comparative_Sorts<ubit64_t>;
+template class ALGOR::SORTING::Comparative_Sorts<fbit64_t>;
+template class ALGOR::SORTING::Comparative_Sorts<fbit128_t>;
+template class ALGOR::SORTING::Comparative_Sorts<asize_t>;
+
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * #*-*%*-*+                                                         +*-*%*-*# *
@@ -2616,48 +2725,3 @@ void ALGOR::SORTING::Distribution_Sorts::RadixSort::radix_sort()
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 // TODO The implementation of the lists is scheduled to version 5.0.0
-
-//template class ALGOR::CORE<byte8_t>;
-//template class ALGOR::CORE<ubit64_t>;
-//template class ALGOR::CORE<fbit64_t>;
-//template class ALGOR::CORE<fbit128_t>;
-//template class ALGOR::CORE<asize_t>;
-
-template fbit64_t ALGOR::RANDOM::tester<RANDOM::LCM>(ubit32_t, ubit32_t);
-template fbit64_t ALGOR::RANDOM::tester<RANDOM::MersenneTwister>(ubit32_t, ubit32_t);
-
-template class ALGOR::ArrayProcessing<byte8_t>;
-template class ALGOR::ArrayProcessing<ubit64_t>;
-template class ALGOR::ArrayProcessing<fbit64_t>;
-template class ALGOR::ArrayProcessing<fbit128_t>;
-template class ALGOR::ArrayProcessing<asize_t>;
-
-template Array<byte8_t> *ALGOR::create_struct<byte8_t>(const asize_t &, bool);
-template Array<ubit64_t> *ALGOR::create_struct<ubit64_t>(const asize_t &, bool);
-template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
-template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
-template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
-
-template void ALGOR::generate_struct<byte8_t>(byte8_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<ubit64_t>(ubit64_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<fbit64_t>(fbit64_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<fbit128_t>(fbit128_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<asize_t>(asize_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-
-template void ALGOR::remove_struct<byte8_t>(Array<byte8_t> *&);
-template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
-template void ALGOR::remove_struct<fbit64_t>(Array<fbit64_t> *&);
-template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
-template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
-
-template class ALGOR::ARRAYDATA<byte8_t>;
-template class ALGOR::ARRAYDATA<ubit64_t>;
-template class ALGOR::ARRAYDATA<fbit64_t>;
-template class ALGOR::ARRAYDATA<fbit128_t>;
-template class ALGOR::ARRAYDATA<asize_t>;
-
-template class ALGOR::SORTING::Comparative_Sorts<byte8_t>;
-template class ALGOR::SORTING::Comparative_Sorts<ubit64_t>;
-template class ALGOR::SORTING::Comparative_Sorts<fbit64_t>;
-template class ALGOR::SORTING::Comparative_Sorts<fbit128_t>;
-template class ALGOR::SORTING::Comparative_Sorts<asize_t>;
