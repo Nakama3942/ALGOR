@@ -224,12 +224,16 @@ namespace ALGOR
 		/*!
 		   \fn swap(type_value &firstNumber, type_value &secondNumber)
 		   \brief Міняє місцями два елементи
-		   \tparam type_value Тип значень, з яким працюють методи
+		   \details Функція приймає два значення, які треба замінити місцями. Після
+		   виконання функції перша комірка пам'яті буде зберігати друге значення, а
+		   друга - перше. Для виконання алгоритму використовується додаткова
+		   комірка пам'яті.
+		   \tparam type_value Тип елементів, що міняються місцями
 		   \param[in, out] firstNumber Перший елемент для заміни
 		   \param[in, out] secondNumber Другий елемент для заміни
 		   \since v0.0.0.1
 		   \paragraph Приклад
-		   \code
+		   \code{.cpp}
 		   int value1 = 5, value2 = 10;
 		   CORE::swap(value1, value2);
 		   cout << value2 << "\n"; //print 5
@@ -237,58 +241,142 @@ namespace ALGOR
 		   \paragraph Реалізація
 		 */
 		template <typename type_value>
-		void swap(type_value &firstNumber, type_value &secondNumber) noexcept
-		{
-			type_value temp = firstNumber;
-			firstNumber = secondNumber;
-			secondNumber = temp;
-		}
-
-		///-
+		void swap(type_value &firstNumber, type_value &secondNumber) noexcept;
+		/*!
+		   \fn minimum(type_value firstNumber, type_value secondNumber)
+		   \brief Повертає найменше значення з двух наданих
+		   \details Функція приймає два значення і порівнює їх. Якщо перше
+		   число виявится меншим за друге - функція повертає перше число, інакше -
+		   друге.
+		   \tparam type_value Тип елементів, з яких вибирається найменше значення
+		   \param[in] firstNumber Перше значення на вибірку
+		   \param[in] secondNumber Друге значення на вибірку
+		   \since v0.1.1.4 commit 090b06
+		   \return найменше значення з двух наданих
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int value1 = 5, value2 = 10;
+		   cout << CORE::minimum(value1, value2) << "\n"; //print 5
+		   \endcode
+		   \paragraph Реалізація
+		 */
 		template <typename type_value>
-		type_value minimum(type_value firstNumber, type_value secondNumber) noexcept
-		{
-			return firstNumber < secondNumber ? firstNumber : secondNumber;
-		}
-
-		///-
+		type_value minimum(type_value firstNumber, type_value secondNumber) noexcept;
+		/*!
+		   \fn maximum(type_value firstNumber, type_value secondNumber)
+		   \brief Повертає найбільше значення з двух наданих
+		   \details Функція приймає два значення і порівнює їх. Якщо перше
+		   число виявится більшим за друге - функція повертає перше число, інакше -
+		   друге.
+		   \tparam type_value Тип елементів, з яких вибирається найбільше значення
+		   \param[in] firstNumber Перше значення на вибірку
+		   \param[in] secondNumber Друге значення на вибірку
+		   \since v0.1.1.4 commit 090b06
+		   \return найбільше значення з двух наданих
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int value1 = 5, value2 = 10;
+		   cout << CORE::maximum(value1, value2) << "\n"; //print 10
+		   \endcode
+		   \paragraph Реалізація
+		 */
 		template <typename type_value>
-		type_value maximum(type_value firstNumber, type_value secondNumber) noexcept
-		{
-			return firstNumber > secondNumber ? firstNumber : secondNumber;
-		}
-
-		///-
-		memcell_t getMemoryCell(memcell_t right_adjust = 0, memcell_t left_adjust = 0) //Заместо time(NULL)
-		{
-			memcell_t *cells = new memcell_t[10];
-			memcell_t cell = cells[0];
-			for (ubit32_t i = 1; i < 8; i++)
-			{
-				cell >>= (memcell_t)cells[i];
-				cell <<= (memcell_t)cells[i + 1];
-				cell ^= (memcell_t)cells[i + 2];
-				if (right_adjust != 0)
-				{
-					cell >>= right_adjust;
-				}
-				if (left_adjust != 0)
-				{
-					cell <<= left_adjust;
-				}
-			}
-			delete[] cells;
-			return cell;
-		}
+		type_value maximum(type_value firstNumber, type_value secondNumber) noexcept;
+		/*!
+		   \fn getMemoryCell(memcell_t right_adjust = 0, memcell_t left_adjust = 0)
+		   \brief Повертає випадкове число; аналог time(NULL)
+		   \details Цей метод виділяє пам'ять під 10 комірок пам'яті. Куди саме система
+		   виділить пам'ять передгадати неможливо, а також неможливо передгадати, яка
+		   програма і які данні раніше сюди записувала, тому це самий реальний генератор
+		   випадкович чисел. Поки генерація масивів не була доведена до ідеалу, але як
+		   генераточ великого числа замість time(NULL) цілком реально використати. Із
+		   десяти випадкових чисел функція розраховує число, яке треба повернути.
+		   \remark Функції можна задати бітовий здвиг. Якщо функція використовується
+		   замість time(NULL), а результат передається у іншу функцію, що приймає тільки
+		   чотири-байтове значення, можна задати правий здвиг на 32 біти (4 байти) і
+		   тоді функція поверне 4 старших байти.
+		   \param[in] right_adjust
+		   \param[in] left_adjust
+		   \since v0.1.1.3 commit b4cdc9
+		   \retval cell - розраховане випадкове число
+		   \paragraph Приклад
+		   \code{.cpp}
+		   cout << CORE::getMemoryCell() << "\n"; //print 185214324139604
+		   \endcode
+		   \paragraph Реалізація
+		 */
+		memcell_t getMemoryCell(memcell_t right_adjust = 0, memcell_t left_adjust = 0);
 	};
 
-	///-
-	template <typename type>
-	class Printer // Template interface
+	/*!
+	   \interface Printer
+	   \brief Printer-інтерфейс, призначений для реалізації функціоналу виводу
+	   інформації
+	   \details Це є інтерфейс, що складається лише з одного віртуального методу, який
+	   призначений для виводу інформації. Так як цей проект є унікальним у тому сенсі,
+	   що не використовується жодна інша бібліотека (навіть стандартна) і автор
+	   власноруч пише власну реалізацію алгоритмів - тому неможливо використати
+	   клас iostream, через що неможлива реалізація принтеру. Автору потрібно буде з
+	   початку написати власний клас вводу-виводу, а в умовах популярності графічних
+	   інтерфейсів це не є оптимальним та актуальним. Краще програмісту самому дати
+	   реалізувавти ввод-вивід. До того ж такий метод є універсальним: його можна
+	   використовувати й у консольних програмах, й у графічних. Якби я намагався
+	   власноруч написати реалізацію, вона була б спеціалізованою чи під консоль, чи
+	   під графіку. Саме це мене підштовхнуло написати саме інтрерфейс, а не клас.
+	   \since v0.1.2.0 commit 2fa93b
+	   \remark
+	   Раджу використовувати наступну реалізацію для консольної програми:
+	   \code{.cpp}
+	   template <typename type_array>
+	   class printer : public Printer
+	   {
+	   public:
+		   void setData(Array<type_array> **ARRAY)
+		   {
+			   Array = ARRAY;
+		   }
+		   void print() override
+		   {
+			   for (asize_t i = 0; i < (*Array)->array_size; i++)
+			   {
+				   cout << " " << (*Array)->array[i];
+			   }
+			   cout << "\n";
+		   }
+	   private:
+		   Array<type_array> **Array;
+	   };
+	   \endcode
+	   Цей клас зберігає не матрицю, а вказівник на вказівник на структуру масиву.
+	   Тому достатньо один раз передати у клас вказівник на структуру і все. Далі
+	   можна просто міняти вказівники на інші структури з іншими масивами і не
+	   треба їх заново передавати у цей клас. Він сам буде відстежувати, який
+	   вказівник зберігається у вказівнику на структуру.
+	 */
+	class Printer
 	{
 	public:
 		/*!
-		   \brief print
+		   \brief Метод для виводу інформації
+		   \since v0.1.2.0 commit 2fa93b
+		   \code{.cpp}
+		   //Створюю вказівник на структуру
+		   Array<byte8_t> *D;
+
+		   //Створюю об'єкт принтера і передаю йому посилання на структуру
+		   printer<byte8_t> *pr = new printer<byte8_t>;
+		   pr->setData(&D);
+
+		   //Створюю об'єкт класу масиву та генерую данні
+		   ARRAYDATA<byte8_t> *A = new ARRAYDATA<byte8_t>(35);
+		   A->generatedData(10, 1000);
+
+		   //Зберігаю у структурі вказівник на масив
+		   D = A->getData();
+
+		   //Виводжу данні
+		   pr->print();
+		   \endcode
 		 */
 		virtual void print() = 0;
 	};
