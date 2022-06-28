@@ -21,6 +21,7 @@
 #include "ALGOR.hpp"
 
 using namespace ALGOR;
+using namespace ALGOR::ARRAY;
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -380,7 +381,7 @@ template fbit64_t ALGOR::RANDOM::tester<RANDOM::MersenneTwister>(ubit32_t, ubit3
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 template <typename type_array>
-type_array ALGOR::ArrayProcessing<type_array>::minimum(const type_array *Array, const asize_t &array_size)
+type_array ALGOR::ARRAY::ArrayProcessing<type_array>::minimum(const type_array *Array, const asize_t &array_size)
 {
 	type_array point_min = Array[0];
 	for (asize_t i = 1; i < array_size; i++)
@@ -394,7 +395,7 @@ type_array ALGOR::ArrayProcessing<type_array>::minimum(const type_array *Array, 
 }
 
 template <typename type_array>
-type_array ALGOR::ArrayProcessing<type_array>::maximum(const type_array *Array, const asize_t &array_size)
+type_array ALGOR::ARRAY::ArrayProcessing<type_array>::maximum(const type_array *Array, const asize_t &array_size)
 {
 	type_array point_max = Array[0];
 	for (asize_t i = 1; i < array_size; i++)
@@ -408,7 +409,7 @@ type_array ALGOR::ArrayProcessing<type_array>::maximum(const type_array *Array, 
 }
 
 template <typename type_array>
-bool ALGOR::ArrayProcessing<type_array>::isOrderliness(const type_array *Array, const asize_t &array_size)
+bool ALGOR::ARRAY::ArrayProcessing<type_array>::isOrderliness(const type_array *Array, const asize_t &array_size)
 {
 	for (asize_t i = 0; i < array_size - 1; i++)
 	{
@@ -421,14 +422,14 @@ bool ALGOR::ArrayProcessing<type_array>::isOrderliness(const type_array *Array, 
 }
 
 template <typename type_array>
-asize_t ALGOR::ArrayProcessing<type_array>::distance(type_array *first, type_array *last)
+asize_t ALGOR::ARRAY::ArrayProcessing<type_array>::distance(type_array *first, type_array *last)
 {
 	//http://www.cplusplus.com/reference/iterator/distance/?kw=distance
 	return last - first;
 }
 
 template <typename type_array>
-type_array *ALGOR::ArrayProcessing<type_array>::lower_bound(type_array *first, type_array *last, const type_array &value)
+type_array *ALGOR::ARRAY::ArrayProcessing<type_array>::lower_bound(type_array *first, type_array *last, const type_array &value)
 {
 	//http://www.cplusplus.com/reference/algorithm/lower_bound/
 	asize_t count = distance(first, last), step = 0, iterator = 0;
@@ -450,7 +451,7 @@ type_array *ALGOR::ArrayProcessing<type_array>::lower_bound(type_array *first, t
 }
 
 template<typename type_array>
-type_array *ALGOR::ArrayProcessing<type_array>::upper_bound(type_array *first, type_array *last, const type_array &value)
+type_array *ALGOR::ARRAY::ArrayProcessing<type_array>::upper_bound(type_array *first, type_array *last, const type_array &value)
 {
 	//http://www.cplusplus.com/reference/algorithm/upper_bound/
 	asize_t count = distance(first, last), step = 0, iterator = 0;
@@ -472,7 +473,7 @@ type_array *ALGOR::ArrayProcessing<type_array>::upper_bound(type_array *first, t
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position)
+void ALGOR::ARRAY::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position)
 {
 	if (array_size == 0xffffffff)
 	{
@@ -494,7 +495,7 @@ void ALGOR::ArrayProcessing<type_array>::addElement(type_array *&Array, asize_t 
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asize_t &array_size, const asize_t position)
+void ALGOR::ARRAY::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asize_t &array_size, const asize_t position)
 {
 	if (array_size == 0)
 	{
@@ -520,7 +521,7 @@ void ALGOR::ArrayProcessing<type_array>::subtractElement(type_array *&Array, asi
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
+void ALGOR::ARRAY::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize_t &array_size, const type_array &value)
 {
 	if (array_size == 0)
 	{
@@ -545,7 +546,7 @@ void ALGOR::ArrayProcessing<type_array>::subtractValue(type_array *&Array, asize
 }
 
 template <typename type_array>
-void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array, asize_t position_in_old_array)
+void ALGOR::ARRAY::ArrayProcessing<type_array>::copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array, asize_t position_in_old_array)
 {
 	for (asize_t i = 0; i < size_of_copied; i++)
 	{
@@ -554,7 +555,7 @@ void ALGOR::ArrayProcessing<type_array>::copy(type_array *new_array, const type_
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::create_struct(const asize_t &SIZE, bool mem_allocation)
+Array<type_array> *ALGOR::ARRAY::create_struct(const asize_t &SIZE, bool mem_allocation)
 {
 	if (SIZE == 0)
 	{
@@ -570,21 +571,21 @@ Array<type_array> *ALGOR::create_struct(const asize_t &SIZE, bool mem_allocation
 }
 
 template<typename type_array>
-void ALGOR::generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
+void ALGOR::ARRAY::generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
 {
 	if (denominator == 0)
 	{
 		throw EXCEPTION_SET::division_by_zero("The Denominator variable is designed to convert the generated integer into a fractional number or find its part. It's a divisor, so it can't be zero!");
 	}
 	RANDOM::LCM RanGen(CORE::getMemoryCell(32));
-	for (asize_t i = 0; i < array_size; i++)
+	for (asize_t i = 0; i < Array->array_size; i++)
 	{
-		Array[i] = (min_limit + (RanGen.rand() % (max_limit - min_limit))) / (fbit32_t)denominator;
+		Array->array[i] = (min_limit + (RanGen.rand() % (max_limit - min_limit))) / (fbit32_t)denominator;
 	}
 }
 
 template <typename type_array>
-void ALGOR::remove_struct(Array<type_array> *&Array)
+void ALGOR::ARRAY::remove_struct(Array<type_array> *&Array)
 {
 	if (Array == nullptr || Array->array == nullptr)
 	{
@@ -596,23 +597,23 @@ void ALGOR::remove_struct(Array<type_array> *&Array)
 }
 
 template <typename type_array>
-ALGOR::ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array)
+ALGOR::ARRAY::ArrayBase<type_array>::ArrayBase(Array<type_array> *&Array)
 {
 	verification(Array);
 	ARRAY = Array;
 }
 
 template <typename type_array>
-ALGOR::ArrayBase<type_array>::ArrayBase(const asize_t &SIZE)
+ALGOR::ARRAY::ArrayBase<type_array>::ArrayBase(const asize_t &SIZE)
 {
 	ARRAY = create_struct<type_array>(SIZE);
 }
 
 template<typename type_array>
-ALGOR::ArrayBase<type_array>::ArrayBase() {}
+ALGOR::ARRAY::ArrayBase<type_array>::ArrayBase() {}
 
 template<typename type_array>
-void ALGOR::ArrayBase<type_array>::verification(Array<type_array> *Array)
+void ALGOR::ARRAY::ArrayBase<type_array>::verification(Array<type_array> *Array)
 {
 	if (Array == nullptr || Array->array_size == 0 || Array->array == nullptr)
 	{
@@ -621,25 +622,25 @@ void ALGOR::ArrayBase<type_array>::verification(Array<type_array> *Array)
 }
 
 template <typename type_array>
-ALGOR::ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
+ALGOR::ARRAY::ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
 template <typename type_array>
-ALGOR::ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
+ALGOR::ARRAY::ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
 
 template<typename type_array>
-ARRAYDATA<type_array>::~ARRAYDATA()
+ALGOR::ARRAY::ARRAYDATA<type_array>::~ARRAYDATA()
 {
 	remove();
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
+void ALGOR::ARRAY::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
 {
-	generate_struct<type_array>(this->ARRAY->array, this->ARRAY->array_size, min_limit, max_limit, denominator);
+	generate_struct<type_array>(this->ARRAY, min_limit, max_limit, denominator);
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
+void ALGOR::ARRAY::ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 {
 	this->verification(Array);
 	remove();
@@ -647,14 +648,14 @@ void ALGOR::ARRAYDATA<type_array>::setNewData(Array<type_array> *&Array)
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
+void ALGOR::ARRAY::ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 {
 	this->verification(Array);
 	this->ARRAY = Array;
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::cloneData(Array<type_array> *&Array)
+void ALGOR::ARRAY::ARRAYDATA<type_array>::cloneData(Array<type_array> *&Array)
 {
 	this->verification(Array);
 	if (Array->array_size != this->ARRAY->array_size)
@@ -666,19 +667,19 @@ void ALGOR::ARRAYDATA<type_array>::cloneData(Array<type_array> *&Array)
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::getData()
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::getData()
 {
 	return this->ARRAY;
 }
 
 template<typename type_array>
-asize_t ALGOR::ARRAYDATA<type_array>::getSize()
+asize_t ALGOR::ARRAY::ARRAYDATA<type_array>::getSize()
 {
 	return this->ARRAY->array_size;
 }
 
 template<typename type_array>
-Array<asize_t> *ALGOR::ARRAYDATA<type_array>::getPosition(const type_array &value)
+Array<asize_t> *ALGOR::ARRAY::ARRAYDATA<type_array>::getPosition(const type_array &value)
 {
 	Array<asize_t> *positions = new Array<asize_t>;
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
@@ -697,7 +698,7 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::getPosition(const type_array &valu
 }
 
 template<typename type_array>
-type_array ALGOR::ARRAYDATA<type_array>::getValue(const asize_t &position)
+type_array ALGOR::ARRAY::ARRAYDATA<type_array>::getValue(const asize_t &position)
 {
 	if (position >= this->ARRAY->array_size)
 	{
@@ -707,7 +708,7 @@ type_array ALGOR::ARRAYDATA<type_array>::getValue(const asize_t &position)
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::reset()
+void ALGOR::ARRAY::ARRAYDATA<type_array>::reset()
 {
 	asize_t SIZE = this->ARRAY->array_size;
 	remove();
@@ -715,7 +716,7 @@ void ALGOR::ARRAYDATA<type_array>::reset()
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
+void ALGOR::ARRAY::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
 {
 	if (NEW_SIZE == this->ARRAY->array_size)
 	{
@@ -733,13 +734,13 @@ void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_ar
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::replace(const asize_t &position, const type_array &value)
+void ALGOR::ARRAY::ARRAYDATA<type_array>::replace(const asize_t &position, const type_array &value)
 {
 	this->ARRAY->array[position] = value;
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::reverse()
+void ALGOR::ARRAY::ARRAYDATA<type_array>::reverse()
 {
 	asize_t left_limit = 0, right_limit = this->ARRAY->array_size - 1;
 	for (asize_t i = 0; i < this->ARRAY->array_size / 2; i++)
@@ -751,7 +752,7 @@ void ALGOR::ARRAYDATA<type_array>::reverse()
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::respawn()
+void ALGOR::ARRAY::ARRAYDATA<type_array>::respawn()
 {
 	type_array min = getMin(), max = getMax();
 	reset();
@@ -759,25 +760,25 @@ void ALGOR::ARRAYDATA<type_array>::respawn()
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::remove()
+void ALGOR::ARRAY::ARRAYDATA<type_array>::remove()
 {
 	remove_struct<type_array>(this->ARRAY);
 }
 
 template <typename type_array>
-type_array ALGOR::ARRAYDATA<type_array>::getMin()
+type_array ALGOR::ARRAY::ARRAYDATA<type_array>::getMin()
 {
 	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[0] : ArrayProcessing<type_array>::minimum(this->ARRAY->array, this->ARRAY->array_size);
 }
 
 template <typename type_array>
-type_array ALGOR::ARRAYDATA<type_array>::getMax()
+type_array ALGOR::ARRAY::ARRAYDATA<type_array>::getMax()
 {
 	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[this->ARRAY->array_size - 1] : ArrayProcessing<type_array>::maximum(this->ARRAY->array, this->ARRAY->array_size);
 }
 
 template <typename type_array>
-Array<asize_t> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
+Array<asize_t> *ALGOR::ARRAY::ARRAYDATA<type_array>::lenear_searcher(const type_array &required_element)
 {
 	Array<asize_t> *NumberPoints = new Array<asize_t>;
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
@@ -795,7 +796,7 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::lenear_searcher(const type_array &
 }
 
 template <typename type_array>
-asize_t ALGOR::ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
+asize_t ALGOR::ARRAY::ARRAYDATA<type_array>::binary_searcher(const type_array &required_element)
 {
 	asize_t position = ArrayProcessing<type_array>::distance(&this->ARRAY->array[0], ArrayProcessing<type_array>::lower_bound(&this->ARRAY->array[0], &this->ARRAY->array[this->ARRAY->array_size - 1], required_element));
 	if(this->ARRAY->array[position] != required_element)
@@ -806,7 +807,7 @@ asize_t ALGOR::ARRAYDATA<type_array>::binary_searcher(const type_array &required
 }
 
 template <typename type_array>
-Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
+Array<asize_t> *ALGOR::ARRAY::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
 	Array<asize_t> *Occurrences = new Array<asize_t>;
 	for (asize_t i = 0; i <= this->ARRAY->array_size - SUBARRAY->array_size; i++)
@@ -845,7 +846,7 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Arr
 }
 
 template <typename type_array>
-type_array ALGOR::ARRAYDATA<type_array>::average()
+type_array ALGOR::ARRAY::ARRAYDATA<type_array>::average()
 {
 	type_array average = 0;
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
@@ -860,13 +861,13 @@ type_array ALGOR::ARRAYDATA<type_array>::average()
 }
 
 template <typename type_array>
-type_array ALGOR::ARRAYDATA<type_array>::mediana()
+type_array ALGOR::ARRAY::ARRAYDATA<type_array>::mediana()
 {
 	return this->ARRAY->array_size & 1 ? (this->ARRAY->array[this->ARRAY->array_size / 2]) : (this->ARRAY->array[this->ARRAY->array_size / 2] + this->ARRAY->array[(this->ARRAY->array_size / 2) - 1]) / 2;
 }
 
 template <typename type_array>
-typename ALGOR::ARRAYDATA<type_array>::mode *ALGOR::ARRAYDATA<type_array>::moda()
+typename ALGOR::ARRAY::ARRAYDATA<type_array>::mode *ALGOR::ARRAY::ARRAYDATA<type_array>::moda()
 {
 	//Выделение памяти под данные
 	mode *modes = new mode;
@@ -922,7 +923,7 @@ typename ALGOR::ARRAYDATA<type_array>::mode *ALGOR::ARRAYDATA<type_array>::moda(
 }
 
 template<typename type_array>
-bool ALGOR::ARRAYDATA<type_array>::operator=(Array<type_array> *&cloningArray)
+bool ALGOR::ARRAY::ARRAYDATA<type_array>::operator=(Array<type_array> *&cloningArray)
 {
 	if (cloningArray == this->ARRAY)
 	{
@@ -933,7 +934,7 @@ bool ALGOR::ARRAYDATA<type_array>::operator=(Array<type_array> *&cloningArray)
 }
 
 template<typename type_array>
-bool ALGOR::ARRAYDATA<type_array>::operator==(Array<type_array> *&anotherArray)
+bool ALGOR::ARRAY::ARRAYDATA<type_array>::operator==(Array<type_array> *&anotherArray)
 {
 	if (anotherArray == this->ARRAY)
 	{
@@ -957,7 +958,7 @@ bool ALGOR::ARRAYDATA<type_array>::operator==(Array<type_array> *&anotherArray)
 }
 
 template<typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator^=(const asize_t &NewSize)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator^=(const asize_t &NewSize)
 {
 	if (NewSize == 0)
 	{
@@ -968,7 +969,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator^=(const asize_t &NewSi
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator+=(const type_array &addValue)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator+=(const type_array &addValue)
 {
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
@@ -978,7 +979,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator+=(const type_array &ad
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator-=(const type_array &subtractValue)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator-=(const type_array &subtractValue)
 {
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
@@ -988,7 +989,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator-=(const type_array &su
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator*=(const type_array &multiplyValue)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator*=(const type_array &multiplyValue)
 {
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
@@ -998,7 +999,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator*=(const type_array &mu
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator/=(const type_array &divideValue)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator/=(const type_array &divideValue)
 {
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
@@ -1008,28 +1009,28 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator/=(const type_array &di
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator&=(const type_array &value)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator&=(const type_array &value)
 {
 	ArrayProcessing<type_array>::addElement(this->ARRAY->array, this->ARRAY->array_size, value, this->ARRAY->array_size);
 	return this->ARRAY;
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator|=(const type_array &value)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator|=(const type_array &value)
 {
 	ArrayProcessing<type_array>::subtractValue(this->ARRAY->array, this->ARRAY->array_size, value);
 	return this->ARRAY;
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator!()
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator!()
 {
 	ArrayProcessing<type_array>::subtractElement(this->ARRAY->array, this->ARRAY->array_size, this->ARRAY->array_size - 1);
 	return this->ARRAY;
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator<<=(ARRAYDATA<type_array> *&appendingArray)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator<<=(ARRAYDATA<type_array> *&appendingArray)
 {
 	asize_t old_size = this->ARRAY->array_size;
 	resize(old_size + appendingArray->getSize(), 1);
@@ -1038,7 +1039,7 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator<<=(ARRAYDATA<type_arra
 }
 
 template <typename type_array>
-Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator>>=(ARRAYDATA<type_array> *&appendingArray)
+Array<type_array> *ALGOR::ARRAY::ARRAYDATA<type_array>::operator>>=(ARRAYDATA<type_array> *&appendingArray)
 {
 	asize_t old_size = appendingArray->getSize();
 	appendingArray->resize(old_size + this->ARRAY->array_size, 1);
@@ -1046,35 +1047,35 @@ Array<type_array> *ALGOR::ARRAYDATA<type_array>::operator>>=(ARRAYDATA<type_arra
 	return this->ARRAY;
 }
 
-template class ALGOR::ArrayProcessing<byte8_t>;
-template class ALGOR::ArrayProcessing<ubit64_t>;
-template class ALGOR::ArrayProcessing<fbit64_t>;
-template class ALGOR::ArrayProcessing<fbit128_t>;
-template class ALGOR::ArrayProcessing<asize_t>;
+template class ALGOR::ARRAY::ArrayProcessing<byte8_t>;
+template class ALGOR::ARRAY::ArrayProcessing<ubit64_t>;
+template class ALGOR::ARRAY::ArrayProcessing<fbit64_t>;
+template class ALGOR::ARRAY::ArrayProcessing<fbit128_t>;
+template class ALGOR::ARRAY::ArrayProcessing<asize_t>;
 
-template Array<byte8_t> *ALGOR::create_struct<byte8_t>(const asize_t &, bool);
-template Array<ubit64_t> *ALGOR::create_struct<ubit64_t>(const asize_t &, bool);
-template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
-template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
-template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
+template ARRAY::Array<byte8_t> *ALGOR::ARRAY::create_struct<byte8_t>(const asize_t &, bool);
+template ARRAY::Array<ubit64_t> *ALGOR::ARRAY::create_struct<ubit64_t>(const asize_t &, bool);
+template ARRAY::Array<fbit64_t> *ALGOR::ARRAY::create_struct<fbit64_t>(const asize_t &, bool);
+template ARRAY::Array<fbit128_t> *ALGOR::ARRAY::create_struct<fbit128_t>(const asize_t &, bool);
+template ARRAY::Array<asize_t> *ALGOR::ARRAY::create_struct<asize_t>(const asize_t &, bool);
 
-template void ALGOR::generate_struct<byte8_t>(byte8_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<ubit64_t>(ubit64_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<fbit64_t>(fbit64_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<fbit128_t>(fbit128_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<asize_t>(asize_t *&, asize_t &, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::ARRAY::generate_struct<byte8_t>(Array<byte8_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::ARRAY::generate_struct<ubit64_t>(Array<ubit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::ARRAY::generate_struct<fbit64_t>(Array<fbit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::ARRAY::generate_struct<fbit128_t>(Array<fbit128_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::ARRAY::generate_struct<asize_t>(Array<asize_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
 
-template void ALGOR::remove_struct<byte8_t>(Array<byte8_t> *&);
-template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
-template void ALGOR::remove_struct<fbit64_t>(Array<fbit64_t> *&);
-template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
-template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
+template void ALGOR::ARRAY::remove_struct<byte8_t>(Array<byte8_t> *&);
+template void ALGOR::ARRAY::remove_struct<ubit64_t>(Array<ubit64_t> *&);
+template void ALGOR::ARRAY::remove_struct<fbit64_t>(Array<fbit64_t> *&);
+template void ALGOR::ARRAY::remove_struct<fbit128_t>(Array<fbit128_t> *&);
+template void ALGOR::ARRAY::remove_struct<asize_t>(Array<asize_t> *&);
 
-template class ALGOR::ARRAYDATA<byte8_t>;
-template class ALGOR::ARRAYDATA<ubit64_t>;
-template class ALGOR::ARRAYDATA<fbit64_t>;
-template class ALGOR::ARRAYDATA<fbit128_t>;
-template class ALGOR::ARRAYDATA<asize_t>;
+template class ALGOR::ARRAY::ARRAYDATA<byte8_t>;
+template class ALGOR::ARRAY::ARRAYDATA<ubit64_t>;
+template class ALGOR::ARRAY::ARRAYDATA<fbit64_t>;
+template class ALGOR::ARRAY::ARRAYDATA<fbit128_t>;
+template class ALGOR::ARRAY::ARRAYDATA<asize_t>;
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *

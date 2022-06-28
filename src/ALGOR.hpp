@@ -665,414 +665,470 @@ namespace ALGOR
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 	///-
-	template <typename type_array>
-	class ArrayProcessing
+	namespace ARRAY
 	{
-	public:
-		/*!
-		\brief Finds the minimum element in an array by iterating over
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array The array in which to look for the minimum element
-		\param[in] array_size The size of this very array
-		\throw void_data Transferred an empty array
-		\return type_array
-		*/
-		static type_array minimum(const type_array *Array, const asize_t &array_size);
-
-		/*!
-		\brief Finds the maximum element in an array by iterating over
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array The array in which to look for the maximum element
-		\param[in] array_size The size of this very array
-		\throw void_data Transferred an empty array
-		\return type_array
-		*/
-		static type_array maximum(const type_array *Array, const asize_t &array_size);
-
 		///-
-		static bool isOrderliness(const type_array *Array, const asize_t &array_size);
-
-		///-
-		static asize_t distance(type_array *first, type_array *last);
-
-		///-
-		static type_array *lower_bound(type_array *first, type_array *last, const type_array &value);
-
-		///-
-		static type_array *upper_bound(type_array *first, type_array *last, const type_array &value);
-
-		/*!
-		\brief Adds a specific value to an array at a specified position
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] Array The array to which the element is added
-		\param[in] array_size The size of this very array
-		\param[in] value The element to add to the array
-		\param[in] position The position at which the element will be added
-		*/
-		static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position = 0);
-
-		/*!
-		\brief Removes the specified position from the array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] Array The array in which the position will be deleted
-		\param[in] array_size The size of this very array
-		\param[in] position The position at which the element will be removed
-		*/
-		static void subtractElement(type_array *&Array, asize_t &array_size, const asize_t position);
-
-		/*!
-		\brief Removes a specific element from all positions in an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] Array An array in which all elements that match the given value will be removed
-		\param[in] array_size The size of this very array
-		\param[in] value The value to be removed in the entire array
-		*/
-		static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
-
-		/*!
-		\brief Copies an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] new_array The array into which the data is copied
-		\param[in] old_array The array from which to copy
-		\param[in] size_of_copied A parameter that indicates how many items to copy
-		\param[in] position_in_new_array The position from which to start writing in the array to which the data is copied
-		\param[in] position_in_old_array The position from which to start reading from the array, from which the data is copied
-		*/
-		static void copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array = 0, asize_t position_in_old_array = 0);
-	};
-
-	/*!
-	\brief A structure that mimics an array. Designed to store a pointer to a dynamic array and its size
-	\tparam type_array The type of elements that the array stores. For example int or float
-	*/
-	template <typename type_array>
-	struct Array
-	{
-		type_array *array = nullptr;
-		asize_t array_size = 0;
-	};
-
-	/*!
-	\fn Array<type_array> *create_struct(const asize_t &SIZE)
-	\brief Creates a structure with a pointer to an array
-	\tparam type_array The type of elements that the array stores. For example int or float
-	\param[in] SIZE The size of the array to be created
-	\return Array<type_array>* Pointer to array
-	*/
-	template <typename type_array>
-	Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
-
-	///-
-	template <typename type_array>
-	void generate_struct(type_array *&Array, asize_t &array_size, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
-
-	/*!
-	\fn void remove_struct(Array<type_array> *&Array)
-	\brief Removes an array and structure from heap
-	\tparam type_array The type of elements that the array stores. For example int or float
-	\param[in] Array The array to be deleted
-	*/
-	template <typename type_array>
-	void remove_struct(Array<type_array> *&Array);
-
-	/*!
-	\brief The base class, which is organized for working with arrays - memory allocation, storage, deletion
-	\tparam type_array The type of elements that the array stores. For example int or float
-	*/
-	template <typename type_array>
-	class ArrayBase
-	{
-	protected:
-		/*!
-		\brief Construct a new ArrayBase<type_array>::ArrayBase object
-		\details With this creation of an object, both the structure and the object of the class will point to the same array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array Pointer to a structured array
-		*/
-		ArrayBase(Array<type_array> *&Array);
-		/*!
-		\brief Construct a new ArrayBase<type_array>::ArrayBase object
-		\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] SIZE The size of the array being created
-		*/
-		ArrayBase(const asize_t &SIZE);
-		/*!
-		\fn ArrayBase<type_array>::ArrayBase()
-		\brief Construct a new ArrayBase<type_array>::ArrayBase object
-		\details With this creation of an object, no memory will be allocated for the array. The object will be empty
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
-		ArrayBase();
-
-		///-
-		void verification(Array<type_array> *Array);
-
-		Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
-	};
-
-	/*!
-	\brief Array processing
-	\details This is the main class for working with arrays, the tasks of which
-			 are storing a pointer to an array, the ability to create, delete, modify it,
-			 calculate characteristics, etc.
-	\tparam type_array The type of elements that the array stores. For example int or float
-	*/
-	template <typename type_array>
-	class ARRAYDATA : public ArrayBase<type_array>
-	{
-	public:
-		/*!
-		\brief Construct a new arraydata<type array>::arraydata object
-		\details With this creation of an object, both the structure and the object of the class will point to the same array. An example of an array object announcement:
-		\code
-		Array<int> *arr = create_struct(12);
-		ARRAYDATA<int> *array = new ARRAYDATA<int>(arr);
-		\endcode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array Pointer to a structured array
-		*/
-		ARRAYDATA(Array<type_array> *&Array);
-		/*!
-		\brief Construct a new arraydata<type array>::arraydata object
-		\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object. An example of an array object announcement:
-		\code
-		ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
-		\endcode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] SIZE The size of the array being created
-		*/
-		ARRAYDATA(const asize_t &SIZE);
-		///-
-		~ARRAYDATA();
-
-		enum class ArrayType /// A set of array types
+		template <typename type_array>
+		class ArrayProcessing
 		{
-			NUMBER, ///< Indicates that the array stores numbers
-			STRING	///< Indicates that the array stores strings
-		};
+		public:
+			/*!
+			\brief Finds the minimum element in an array by iterating over
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in] Array The array in which to look for the minimum element
+			\param[in] array_size The size of this very array
+			\throw void_data Transferred an empty array
+			\return type_array
+			*/
+			static type_array minimum(const type_array *Array, const asize_t &array_size);
 
-		///-
-		struct mode : Array<type_array>
-		{
-			ubit32_t highest_frequency = 0;
+			/*!
+			\brief Finds the maximum element in an array by iterating over
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in] Array The array in which to look for the maximum element
+			\param[in] array_size The size of this very array
+			\throw void_data Transferred an empty array
+			\return type_array
+			*/
+			static type_array maximum(const type_array *Array, const asize_t &array_size);
+
+			///-
+			static bool isOrderliness(const type_array *Array, const asize_t &array_size);
+
+			///-
+			static asize_t distance(type_array *first, type_array *last);
+
+			///-
+			static type_array *lower_bound(type_array *first, type_array *last, const type_array &value);
+
+			///-
+			static type_array *upper_bound(type_array *first, type_array *last, const type_array &value);
+
+			/*!
+			\brief Adds a specific value to an array at a specified position
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in, out] Array The array to which the element is added
+			\param[in] array_size The size of this very array
+			\param[in] value The element to add to the array
+			\param[in] position The position at which the element will be added
+			*/
+			static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position = 0);
+
+			/*!
+			\brief Removes the specified position from the array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in, out] Array The array in which the position will be deleted
+			\param[in] array_size The size of this very array
+			\param[in] position The position at which the element will be removed
+			*/
+			static void subtractElement(type_array *&Array, asize_t &array_size, const asize_t position);
+
+			/*!
+			\brief Removes a specific element from all positions in an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in, out] Array An array in which all elements that match the given value will be removed
+			\param[in] array_size The size of this very array
+			\param[in] value The value to be removed in the entire array
+			*/
+			static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
+
+			/*!
+			\brief Copies an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in, out] new_array The array into which the data is copied
+			\param[in] old_array The array from which to copy
+			\param[in] size_of_copied A parameter that indicates how many items to copy
+			\param[in] position_in_new_array The position from which to start writing in the array to which the data is copied
+			\param[in] position_in_old_array The position from which to start reading from the array, from which the data is copied
+			*/
+			static void copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array = 0, asize_t position_in_old_array = 0);
 		};
 
 		/*!
-		\brief A method that fills the entire array with random values
-		\code
-		array->generatedData(1, 100);
-		\endcode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param min_limit The minimum value that can be generated
-		\param max_limit The maximum value that can be generated
-		*/
-		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
+		   \brief Структура, що імітує масив
+		   \details Призначений для зберігання вказівника на динамічний масив та його
+		   розмір
+		   \tparam type_array Тип елементів, що зберігаються в масиві
+		   \since v0.0.1.0 commit 979bf4
+		   \warning Структуру можна створити будь-якого типу, але функції та класи
+		   підтримують тільки 5 типів: \a byte8_t, \a ubit64_t, \a fbit64_t,
+		   \a fbit128_t та \a asize_t. Тому будь-які інші типи можна використовувати
+		   тільки тоді, коли дана структура не буде взаємоді'яти з функіоналом
+		   бібліотеки, інакше ви зіштовхнетесь з помилкою <em>"undefined reference
+		   to"</em>.
+		   \paragraph Приклад
+		   \code{.cpp}
+		   Array<long long> *arr;
+		   \endcode
+		   \paragraph Реалізація
+		 */
+		template <typename type_array>
+		struct Array
+		{
+			type_array *array = nullptr;
+			asize_t array_size = 0;
+		};
 		/*!
-		\brief A method that replaces the previous array with a new one, freeing memory from the previous one
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param Array An array that will replace the previous one in the object
-		*/
-		void setNewData(Array<type_array> *&Array);
+		   \fn create_struct(const asize_t &SIZE, bool mem_allocation = true)
+		   \brief Створює структуру з покажчиком на масив
+		   \details Зберігає розмір масиву, виділяє пам'ять під цей самий масив та повертає
+		   вказівник на структуру масиву.
+		   \tparam type_array Тип елементів, що будуть зберігатися у масиві
+		   \param[in] SIZE Розмір створюваного масиву
+		   \param[in] mem_allocation Логічний флаг, чи потрібно виділяти пам'ять під масив
+		   \retval Array<type_array>* вказівник на створену структуру
+		   \since v0.1.0.0 commit 85698d
+		   \remark Якщо ви вже виділили пам'ять під масив, то структурі не потрібно повторно
+		   виділяти пам'ять. Структура лише зберігає розмір масиву та сам вказівник на цей
+		   масив. Тому у цьому випадку флагу \a mem_allocation потрібно передати \a false і
+		   після цього зберегти вказівник на масив у структурі. У інших випадках флаг
+		   \a mem_allocation краще не змінювати.
+		   \paragraph Приклад
+		   \code{.cpp}
+		   Array<long long> *arr = create_struct<long long>(10); //arr = @0x1a1700
+		   \endcode
+		   \paragraph Реалізація
+		 */
+		template <typename type_array>
+		Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
 		/*!
-		\brief A method that replaces the previous array with a new one without freeing memory from the previous one
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param Array An array that will replace the previous one in the object
-		*/
-		void setData(Array<type_array> *&Array);
+		   \fn generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1)
+		   \brief Генерує випадкові значення у структурі масиву
+		   \details Генерує у структурі масиву значення із заданого діапазону. Якщо
+		   задати \a denominator, то можна отримати кратні, чи дрібні значення данних.
+		   \tparam type_array Вказує якого типу будуть генеруватися числа у структурі
+		   масиву
+		   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
+		   \param[in] min_limit Мінімально можливе згенероване значення
+		   \param[in] max_limit Максимально можливе згенероване значення
+		   \param[in] denominator Дільник для генерації \a float данних
+		   \since v0.1.3.0 commit ca0407
+		   \paragraph Приклад
+		   \code{.cpp}
+		   generate_struct(arr, 1, 12); //arr->array = {9 9 7 7 4 7 2 7 2 9}
+		   \endcode
+		   \paragraph Реалізація
+		 */
+		template <typename type_array>
+		void generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
 		/*!
-		\brief Method that replaces the old array by copying the existing one
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param CloningArray The array to be copied to the object
-		*/
-		void cloneData(Array<type_array> *&CloningArray);
-		/*!
-		\brief Returns a pointer to an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\return Array<type_array>*
-		*/
-		Array<type_array> *getData();
-		///-
-		asize_t getSize();
-		///-
-		Array<asize_t> *getPosition(const type_array &value);
-		///-
-		type_array getValue(const asize_t &position);
+		   \fn remove_struct(Array<type_array> *&Array)
+		   \brief remove_struct
+		   \details Звільняє пам'ять від масиву, що зберігається у структурі й звільняє
+		   з пам'яті саму структуру
+		   \tparam type_array Тип елементів, що зберігаються у масиві
+		   \param[in, out] Array Масив, який потрібно видалити
+		   \result Вказівник на структуру після виклику цієї функції буде вказувати на
+		   \a nullptr.
+		   \since v0.1.0.0 commit 48aa64
+		   \paragraph Приклад
+		   \code{.cpp}
+		   remove_struct(arr); //arr = 0x0
+		   \endcode
+		   \paragraph Реалізація
+		 */
+		template <typename type_array>
+		void remove_struct(Array<type_array> *&Array);
 
 		/*!
-		\brief The method removes the old array, creates a new one with the same characteristics
-			   (size, minimum and maximum limits) and fills it (unlike respawn (), which does
-			   not generate elements).
+		\brief The base class, which is organized for working with arrays - memory allocation, storage, deletion
 		\tparam type_array The type of elements that the array stores. For example int or float
 		*/
-		void reset();
-		/*!
-		\fn void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
-		\brief Method that resizes the array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param NEW_SIZE New array size
-		\param setElement The value with which new cells of the array are filled
-		\warning In the case of increasing the size of the array after copying,
-				 the new cells remain empty and store "garbage" in themselves.
-				 Sometimes, by accident, a programmer can try to get data without
-				 specifying it, as a result of which, in the best case, an incorrect
-				 result will simply be given, and in the worst case, the program may crash.
-				 For this, the setElement parameter was created, but it must be specified
-				 not only in case of an increase in size, but always when calling the method
-				 for prevention. The programmer may not even know the current size
-				 of the array, therefore, he cannot know whether the array will
-				 be increased or decreased.
-		*/
-		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
-		/*!
-		\brief Changes the value at the specified position
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param position The position at which the value changes
-		\param value The value to be placed in the position
-		*/
-		void replace(const asize_t &position, const type_array &value);
-		/*!
-		\brief Reverses the array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
-		void reverse();
-		/*!
-		\brief The method deletes the old array, however, the memory for the new array
-			   is allocated the same size without filling it, unlike reset()
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
-		void respawn();
+		template <typename type_array>
+		class ArrayBase
+		{
+		protected:
+			/*!
+			\brief Construct a new ArrayBase<type_array>::ArrayBase object
+			\details With this creation of an object, both the structure and the object of the class will point to the same array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in] Array Pointer to a structured array
+			*/
+			ArrayBase(Array<type_array> *&Array);
+			/*!
+			\brief Construct a new ArrayBase<type_array>::ArrayBase object
+			\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in] SIZE The size of the array being created
+			*/
+			ArrayBase(const asize_t &SIZE);
+			/*!
+			\fn ArrayBase<type_array>::ArrayBase()
+			\brief Construct a new ArrayBase<type_array>::ArrayBase object
+			\details With this creation of an object, no memory will be allocated for the array. The object will be empty
+			\tparam type_array The type of elements that the array stores. For example int or float
+			*/
+			ArrayBase();
+
+			///-
+			void verification(Array<type_array> *Array);
+
+			Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
+		};
 
 		/*!
-		\brief Optimized method for finding the minimum element
+		\brief Array processing
+		\details This is the main class for working with arrays, the tasks of which
+				 are storing a pointer to an array, the ability to create, delete, modify it,
+				 calculate characteristics, etc.
 		\tparam type_array The type of elements that the array stores. For example int or float
-		\param ArrStat Array status
-		\return type_array
 		*/
-		type_array getMin();
-		/*!
-		\brief Optimized method for finding the maximum element
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param ArrStat Array status
-		\return type_array
-		*/
-		type_array getMax();
+		template <typename type_array>
+		class ARRAYDATA : public ArrayBase<type_array>
+		{
+		public:
+			/*!
+			\brief Construct a new arraydata<type array>::arraydata object
+			\details With this creation of an object, both the structure and the object of the class will point to the same array. An example of an array object announcement:
+			\code
+			Array<int> *arr = create_struct(12);
+			ARRAYDATA<int> *array = new ARRAYDATA<int>(arr);
+			\endcode
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in] Array Pointer to a structured array
+			*/
+			ARRAYDATA(Array<type_array> *&Array);
+			/*!
+			\brief Construct a new arraydata<type array>::arraydata object
+			\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object. An example of an array object announcement:
+			\code
+			ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
+			\endcode
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param[in] SIZE The size of the array being created
+			*/
+			ARRAYDATA(const asize_t &SIZE);
+			///-
+			~ARRAYDATA();
 
-		/*!
-		\brief Linear item search method
-		\details Returns all occurrences of the found value
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param required_element The value to find
-		\return Array<int>*
-		*/
-		Array<asize_t> *lenear_searcher(const type_array &required_element);
-		/*!
-		\brief Binary item search method
-		\details Returns only one position and is only used in sorted arrays. It is used to
-				 facilitate the programmer's work so that the method does not need to pass a bunch
-				 of parameters that are needed in the algorithm, but the launch is always carried
-				 out by passing the same values.
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param required_element The value to find
-		\return int
-		*/
-		asize_t binary_searcher(const type_array &required_element);
-		/*!
-		\brief Sequence search method that returns all its occurrences
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param SUBARRAY The substring that is searched for in the main array
-		\param ArrType Array type
-		\return Array<int>*
-		*/
-		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
+			enum class ArrayType /// A set of array types
+			{
+				NUMBER, ///< Indicates that the array stores numbers
+				STRING	///< Indicates that the array stores strings
+			};
 
-		/*!
-		\brief Method that returns the arithmetic mean of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\return type_array
-		*/
-		type_array average();
-		/*!
-		\brief Method that returns the median of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\return type_array
-		*/
-		type_array mediana();
-		/*!
-		\brief A method that returns all elements with an array mode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param highest_frequency An indicator of the frequency of occurrence of elements that are most often found
-		\return Array<type_array>*
-		*/
-		mode *moda();
+			///-
+			struct mode : Array<type_array>
+			{
+				ubit32_t highest_frequency = 0;
+			};
 
-		///-
-		bool operator=(Array<type_array> *&cloningArray);
-		///-
-		bool operator==(Array<type_array> *&anotherArray);
-		///-
-		Array<type_array> *operator^=(const asize_t &NewSize);
-		/*!
-		\brief Operator for increasing an array by a specific size
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param addSize Parameter indicating how much to increase the array
-		*/
-		Array<type_array> *operator+=(const type_array &addValue);
-		/*!
-		\brief Operator for decreasing an array by a specific size
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param subtractSize Parameter indicating how much to reduce the array
-		*/
-		Array<type_array> *operator-=(const type_array &subtractValue);
-		/*!
-		\brief Operator for increasing an array by several times
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param multiplySize Parameter indicating how many times to increase the array
-		*/
-		Array<type_array> *operator*=(const type_array &multiplyValue);
-		/*!
-		\brief Operator for decreasing an array by some times
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param divideSize Параметр, указывающий, во сколько раз следует уменьшить массив
-		*/
-		Array<type_array> *operator/=(const type_array &divideValue);
-		/*!
-		\brief Operator adding an element to the end of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param value The value to add to the end of the array
-		*/
-		Array<type_array> *operator&=(const type_array &value);
-		/*!
-		\brief An operator that removes all elements with a specified value
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param value The value to be removed
-		*/
-		Array<type_array> *operator|=(const type_array &value);
-		/*!
-		\brief Operator that removes an element from the end of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
-		Array<type_array> *operator!();
-		/*!
-		\brief Operator for merging two arrays in the current object
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param appendingArray An array to attach from another object
-		*/
-		Array<type_array> *operator<<=(ARRAYDATA<type_array> *&appendingArray);
-		/*!
-		\brief Operator for merging two arrays in a received object
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param appendingArray An array from another object to which the current array will be passed
-		*/
-		Array<type_array> *operator>>=(ARRAYDATA<type_array> *&appendingArray);
+			/*!
+			\brief A method that fills the entire array with random values
+			\code
+			array->generatedData(1, 100);
+			\endcode
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param min_limit The minimum value that can be generated
+			\param max_limit The maximum value that can be generated
+			*/
+			void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
+			/*!
+			\brief A method that replaces the previous array with a new one, freeing memory from the previous one
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param Array An array that will replace the previous one in the object
+			*/
+			void setNewData(Array<type_array> *&Array);
+			/*!
+			\brief A method that replaces the previous array with a new one without freeing memory from the previous one
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param Array An array that will replace the previous one in the object
+			*/
+			void setData(Array<type_array> *&Array);
+			/*!
+			\brief Method that replaces the old array by copying the existing one
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param CloningArray The array to be copied to the object
+			*/
+			void cloneData(Array<type_array> *&CloningArray);
+			/*!
+			\brief Returns a pointer to an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\return Array<type_array>*
+			*/
+			Array<type_array> *getData();
+			///-
+			asize_t getSize();
+			///-
+			Array<asize_t> *getPosition(const type_array &value);
+			///-
+			type_array getValue(const asize_t &position);
 
-	private:
-		/*!
-		\brief Removes an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
-		void remove();
-	};
+			/*!
+			\brief The method removes the old array, creates a new one with the same characteristics
+				   (size, minimum and maximum limits) and fills it (unlike respawn (), which does
+				   not generate elements).
+			\tparam type_array The type of elements that the array stores. For example int or float
+			*/
+			void reset();
+			/*!
+			\fn void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
+			\brief Method that resizes the array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param NEW_SIZE New array size
+			\param setElement The value with which new cells of the array are filled
+			\warning In the case of increasing the size of the array after copying,
+					 the new cells remain empty and store "garbage" in themselves.
+					 Sometimes, by accident, a programmer can try to get data without
+					 specifying it, as a result of which, in the best case, an incorrect
+					 result will simply be given, and in the worst case, the program may crash.
+					 For this, the setElement parameter was created, but it must be specified
+					 not only in case of an increase in size, but always when calling the method
+					 for prevention. The programmer may not even know the current size
+					 of the array, therefore, he cannot know whether the array will
+					 be increased or decreased.
+			*/
+			void resize(const asize_t &NEW_SIZE, const type_array &setElement);
+			/*!
+			\brief Changes the value at the specified position
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param position The position at which the value changes
+			\param value The value to be placed in the position
+			*/
+			void replace(const asize_t &position, const type_array &value);
+			/*!
+			\brief Reverses the array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			*/
+			void reverse();
+			/*!
+			\brief The method deletes the old array, however, the memory for the new array
+				   is allocated the same size without filling it, unlike reset()
+			\tparam type_array The type of elements that the array stores. For example int or float
+			*/
+			void respawn();
+
+			/*!
+			\brief Optimized method for finding the minimum element
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param ArrStat Array status
+			\return type_array
+			*/
+			type_array getMin();
+			/*!
+			\brief Optimized method for finding the maximum element
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param ArrStat Array status
+			\return type_array
+			*/
+			type_array getMax();
+
+			/*!
+			\brief Linear item search method
+			\details Returns all occurrences of the found value
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param required_element The value to find
+			\return Array<int>*
+			*/
+			Array<asize_t> *lenear_searcher(const type_array &required_element);
+			/*!
+			\brief Binary item search method
+			\details Returns only one position and is only used in sorted arrays. It is used to
+					 facilitate the programmer's work so that the method does not need to pass a bunch
+					 of parameters that are needed in the algorithm, but the launch is always carried
+					 out by passing the same values.
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param required_element The value to find
+			\return int
+			*/
+			asize_t binary_searcher(const type_array &required_element);
+			/*!
+			\brief Sequence search method that returns all its occurrences
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param SUBARRAY The substring that is searched for in the main array
+			\param ArrType Array type
+			\return Array<int>*
+			*/
+			Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
+
+			/*!
+			\brief Method that returns the arithmetic mean of an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\return type_array
+			*/
+			type_array average();
+			/*!
+			\brief Method that returns the median of an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\return type_array
+			*/
+			type_array mediana();
+			/*!
+			\brief A method that returns all elements with an array mode
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param highest_frequency An indicator of the frequency of occurrence of elements that are most often found
+			\return Array<type_array>*
+			*/
+			mode *moda();
+
+			///-
+			bool operator=(Array<type_array> *&cloningArray);
+			///-
+			bool operator==(Array<type_array> *&anotherArray);
+			///-
+			Array<type_array> *operator^=(const asize_t &NewSize);
+			/*!
+			\brief Operator for increasing an array by a specific size
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param addSize Parameter indicating how much to increase the array
+			*/
+			Array<type_array> *operator+=(const type_array &addValue);
+			/*!
+			\brief Operator for decreasing an array by a specific size
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param subtractSize Parameter indicating how much to reduce the array
+			*/
+			Array<type_array> *operator-=(const type_array &subtractValue);
+			/*!
+			\brief Operator for increasing an array by several times
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param multiplySize Parameter indicating how many times to increase the array
+			*/
+			Array<type_array> *operator*=(const type_array &multiplyValue);
+			/*!
+			\brief Operator for decreasing an array by some times
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param divideSize Параметр, указывающий, во сколько раз следует уменьшить массив
+			*/
+			Array<type_array> *operator/=(const type_array &divideValue);
+			/*!
+			\brief Operator adding an element to the end of an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param value The value to add to the end of the array
+			*/
+			Array<type_array> *operator&=(const type_array &value);
+			/*!
+			\brief An operator that removes all elements with a specified value
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param value The value to be removed
+			*/
+			Array<type_array> *operator|=(const type_array &value);
+			/*!
+			\brief Operator that removes an element from the end of an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			*/
+			Array<type_array> *operator!();
+			/*!
+			\brief Operator for merging two arrays in the current object
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param appendingArray An array to attach from another object
+			*/
+			Array<type_array> *operator<<=(ARRAYDATA<type_array> *&appendingArray);
+			/*!
+			\brief Operator for merging two arrays in a received object
+			\tparam type_array The type of elements that the array stores. For example int or float
+			\param appendingArray An array from another object to which the current array will be passed
+			*/
+			Array<type_array> *operator>>=(ARRAYDATA<type_array> *&appendingArray);
+
+		private:
+			/*!
+			\brief Removes an array
+			\tparam type_array The type of elements that the array stores. For example int or float
+			*/
+			void remove();
+		};
+	}
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -1111,10 +1167,10 @@ namespace ALGOR
 	namespace SORTING
 	{
 		template <typename type_array>
-		class Comparative_Sorts : public ArrayBase<type_array>
+		class Comparative_Sorts : public ARRAY::ArrayBase<type_array>
 		{
 		public:
-			Comparative_Sorts(Array<type_array> *&Array);
+			Comparative_Sorts(ARRAY::Array<type_array> *&Array);
 
 			// <<==		Категорія Exchange_Sorts	==>>
 			void Bubble_Sort();			 // №	 4	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
@@ -1445,10 +1501,10 @@ namespace ALGOR
 			};
 		};
 
-		class Distribution_Sorts : public ArrayBase<byte8_t>
+		class Distribution_Sorts : public ARRAY::ArrayBase<byte8_t>
 		{
 		public:
-			Distribution_Sorts(Array<byte8_t> *&Array);
+			Distribution_Sorts(ARRAY::Array<byte8_t> *&Array);
 			void AmericanFlag_Sort();  // №	1	/цілі+ ; вилітає
 			void Bead_Sort();		   // №	2	/цілі+ ; обрізає
 			void Bucket_Sort();		   // №	3	/цілі+ цілі- цілі+-
