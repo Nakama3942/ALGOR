@@ -291,13 +291,13 @@ namespace ALGOR
 		   випадкович чисел. Поки генерація масивів не була доведена до ідеалу, але як
 		   генераточ великого числа замість time(NULL) цілком реально використати. Із
 		   десяти випадкових чисел функція розраховує число, яке треба повернути.
+		   \param[in] right_adjust Правий здвиг
+		   \param[in] left_adjust Лівий здвиг
+		   \since v0.1.1.3 commit b4cdc9
 		   \remark Функції можна задати бітовий здвиг. Якщо функція використовується
 		   замість time(NULL), а результат передається у іншу функцію, що приймає тільки
 		   чотири-байтове значення, можна задати правий здвиг на 32 біти (4 байти) і
 		   тоді функція поверне 4 старших байти.
-		   \param[in] right_adjust
-		   \param[in] left_adjust
-		   \since v0.1.1.3 commit b4cdc9
 		   \retval cell - розраховане випадкове число
 		   \paragraph Приклад
 		   \code{.cpp}
@@ -358,6 +358,7 @@ namespace ALGOR
 			/*!
 			   \brief Метод для виводу інформації
 			   \since v0.1.2.0 commit 2fa93b
+			   \paragraph Приклад
 			   \code{.cpp}
 			   //Створюю вказівник на структуру
 			   Array<byte8_t> *D;
@@ -379,7 +380,7 @@ namespace ALGOR
 			 */
 			virtual void print() = 0;
 		};
-	};
+	}
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -391,149 +392,523 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	///-
+	/*!
+	  \namespace ALGOR::EXCEPTION_SET
+	  \brief Простір імен, що реалізовує виключення
+	  \details Простір імен являє собою набір класів, які використовуються при киданні
+	  виключень, так як зберігають необхідну інформацію про випадок, що стався. Головний
+	  клас \a Exception являє собою каркас винятка, який можна успадкувати для
+	  полегшення роботи з винятками. Можна дати додаткову інформацію до вже реалізованих
+	  класів-нащадків, а можна створити власні класи-нащадки.
+	  \since v0.1.3.0 commit 2cdff0
+	 */
 	namespace EXCEPTION_SET
 	{
 		/*!
-		\brief Class for working with exceptions
-		*/
+		   \class Exception
+		   \brief Клас-каркас для роботи з винятками
+		   \details Клас, що зберігає данні про виняток (номер винятка, деталі та
+		   пояснення). Щоб створити об'єкт винятку достатньо переадти необхідні данні
+		   конструктору, а для отримання інформації про виняток треба його перехопити
+		   і використати метод, що повертає необхідні данні.
+		   \since v0.1.1.0 commit c62e85
+		   \paragraph Приклад
+		   \code{.cpp}
+		   try
+		   {
+			   throw EXCEPTION_SET::Exception(55, "details", "explanation");
+		   }
+		   catch (EXCEPTION_SET::Exception ex)
+		   {
+			   cout << "Code: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n";
+		   }
+		   //print:
+		   //  Code: 55;
+		   //  details
+		   //  -> explanation
+		   \endcode
+		   \paragraph Реалізація
+		 */
 		class Exception
 		{
 		public:
 			/*!
-			\brief Construct a new Exception::Exception object
-			\details Takes full detailed information on exclusion
-			\param CODE Exception encoding
-			\param MESSAGE Message exception
-			\param DETAILS Exception details
-			*/
+			   \fn Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION)
+			   \brief Розширений конструктор класу винятків
+			   \details Конструктор, що приймає розширену кількість данних, а саме код
+			   винятку, деталі винятку, та пояснення до деталей, що не завжди буває
+			   необхідним.
+			   \param[in] CODE Код Exception
+			   \param[in] DETAILS Деталі Exception
+			   \param[in] EXPLANATION Пояснення Exception
+			   \since v0.1.3.0 commit 2c6408
+			   \remark Цей конструктор є розширеним так як дозволяє успадкованим класам
+			   надати пояснення до винятку, коли це необхідно, що робить цей клас
+			   більш універсальним.
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::Exception(100, "details", "explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			Exception(ubit16_t CODE, const byte1_t *DETAILS, const byte1_t *EXPLANATION);
 			/*!
-			\brief Construct a new Exception::Exception object
-			\details Accepts basic exception information
-			\param CODE Exception encoding
-			\param MESSAGE Message exception
-			*/
+			   \fn Exception(ubit16_t CODE, const byte1_t *DETAILS)
+			   \brief Стандартний конструктор класу винятків
+			   \details Конструктор, що приймає базову кількість данних про виняток.
+			   Зазвичай номеру та деталей помилки буває достатньо.
+			   \param[in] CODE Код Exception
+			   \param[in] DETAILS Деталі Exception
+			   \since v0.1.1.0 commit c62e85
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::Exception(100, "details");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			Exception(ubit16_t CODE, const byte1_t *DETAILS);
 			/*!
-			\brief Construct a new Exception::Exception object
-			\details Takes cordivity of exception
-			\param CODE Exception encoding
-			*/
+			   \fn Exception(ubit16_t CODE)
+			   \brief Скорочений кодовий конструктор класу винятків
+			   \details Конструктор, що приймає скорочену кількість данних про
+			   виняток. Єдині данні, що зберігаються у об'єкті винятку, це номер
+			   винятку.
+			   \param[in] CODE Код Exception
+			   \since v0.1.1.0 commit c62e85
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::Exception(100);
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			Exception(ubit16_t CODE);
 			/*!
-			\brief Construct a new Exception::Exception object
-			\details Accepts an exception message
-			\param MESSAGE Message exception
-			*/
+			   \fn Exception(const byte1_t *DETAILS)
+			   \brief Скорочений детальний конструктор класу винятків
+			   \details Конструктор, що приймає скорочену кількість данних про
+			   виняток. Єдині данні, що зберігаються у об'єкті винятку, це деталі
+			   винятку.
+			   \param[in] DETAILS Деталі Exception
+			   \since v0.1.1.0 commit c62e85
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::Exception("details");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			Exception(const byte1_t *DETAILS);
 			/*!
-			\brief Returns exclusion encoding
-			\return <unsigned int> - exception encoding
-			*/
+			   \fn code()
+			   \brief Метод, що повідомляє номер винятку
+			   \details Повертає номер винятку, що зберігається в об'єкті.
+			   \since v0.1.1.0 commit c62e85
+			   \retval CODE - номер винятку
+			   \paragraph Приклад
+			   \code{.cpp}
+			   catch (EXCEPTION_SET::Exception ex)
+			   {
+				   cout << ex.code() << "\n"; //print 100
+			   }
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			ubit16_t code();
 			/*!
-			\brief Returns an exception message
-			\return <const char*> - message exception
-			*/
+			   \fn what()
+			   \brief Метод, що повідомляє деталі винятку
+			   \details Повертає деталі винятку, що зберігаються в об'єкті.
+			   \since v0.1.1.0 commit c62e85
+			   \retval DETAILS - деталі винятку
+			   \paragraph Приклад
+			   \code{.cpp}
+			   catch (EXCEPTION_SET::Exception ex)
+			   {
+				   cout << ex.what() << "\n"; //print "details"
+			   }
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			const byte1_t *what();
 			/*!
-			\brief Returns exception details
-			\return <const char*> - exception details
-			*/
+			   \fn why()
+			   \brief Метод, що дає пояснення винятку
+			   \details Повертає пояснення винятку, що зберігається в об'єкті.
+			   \since v0.1.3.0 commit 2c6408
+			   \retval EXPLANATION - пояснення винятку
+			   \paragraph Приклад
+			   \code{.cpp}
+			   catch (EXCEPTION_SET::Exception ex)
+			   {
+				   cout << ex.why() << "\n"; //print "explanation"
+			   }
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			const byte1_t *why();
 
 		protected:
-			ubit16_t CODE;				///< Exception encoding
-			const byte1_t *DETAILS;		///< Exception details
-			const byte1_t *EXPLANATION; ///< Exception explanation
+			/*!
+			   \var CODE
+			   \brief Номер винятку
+			   \since v0.1.1.0 commit c62e85
+			 */
+			ubit16_t CODE;
+			/*!
+			   \var DETAILS
+			   \brief Деталі винятку
+			   \since v0.1.1.0 commit c62e85
+			 */
+			const byte1_t *DETAILS;
+			/*!
+			   \var EXPLANATION
+			   \brief Пояснення винятку
+			   \since v0.1.3.0 commit 2c6408
+			 */
+			const byte1_t *EXPLANATION;
 		};
 
+		/*!
+		   \var excep55
+		   \brief Повідомлення для memory_overflow
+		   \since v0.1.3.0 commit d66e53
+		   \paragraph Текст повідомлення
+		   <em>"Комірка пам'яті, в якій зберігається розмір обсягу даних, більше
+		   не може зберігати більше. Ця помилка може виникнути у випадках, коли
+		   в комірку, яка може зберігати змінну 0xffffffff, потрібно записати
+		   більше значення, тобто більше 4 байт, оскільки клітинка зберігання
+		   даних займає 4 байти"</em>
+		 */
 		const byte1_t excep55[] = "The memory cell that stores the size of the data volume can no longer store more. This error can occur in cases when a larger value is required to be written to the cell that can store the variable 0xffffffff, i.e. more than 4 bytes, since the data size storage cell occupies 4 bytes";
+		/*!
+		   \var excep101
+		   \brief Повідомлення для division_by_zero
+		   \since v0.1.3.0 commit d66e53
+		   \paragraph Текст повідомлення
+		   <em>"Відбулося ділення на нуль - невизначений результат виконання
+		   програми"</em>
+		 */
 		const byte1_t excep101[] = "A division by zero has occurred - an undefined result of the program execution";
+		/*!
+		   \var excep254
+		   \brief Повідомлення для position_failure
+		   \since v0.1.3.0 commit d66e53
+		   \paragraph Текст повідомлення
+		   <em>"Помилка позиції – позиція відсутня в масиві"</em>
+		 */
 		const byte1_t excep254[] = "Position failure - position is missing in the array";
+		/*!
+		   \var excep255
+		   \brief Повідомлення для value_failure
+		   \since v0.1.3.0 commit d66e53
+		   \paragraph Текст повідомлення
+		   <em>"Помилка значення - значення відсутнє в масиві"</em>
+		 */
 		const byte1_t excep255[] = "Value failure - value is missing in the array";
+		/*!
+		   \var excep256
+		   \brief Повідомлення для size_failure
+		   \since v0.1.3.0 commit d66e53
+		   \paragraph Текст повідомлення
+		   <em>"Помилка розміру - помилка зміни розміру; наприклад, це може
+		   статися, коли розміри збігаються, коли розмір масиву змінюється, або
+		   новий розмір більше/менше за межі розмірів"</em>
+		 */
 		const byte1_t excep256[] = "Size failure - resizing error; for example, it can occur when the sizes match when the array is resized, or the new size is greater/less than limits sizes";
+		/*!
+		   \var excep400
+		   \brief Повідомлення для void_data
+		   \since v0.1.3.0 commit d66e53
+		   \paragraph Текст повідомлення
+		   <em>"Отримано порожню структуру даних"</em>
+		 */
 		const byte1_t excep400[] = "Geted empty data structure";
+		/*!
+		   \var excep404
+		   \brief Повідомлення для not_found
+		   \since v0.1.3.0 commit d66e53
+		   \paragraph Текст повідомлення
+		   <em>"Помилка пошуку - елемент не знайдено"</em>
+		 */
 		const byte1_t excep404[] = "Search error - item not found";
 
-		///-
+		/*!
+		   \class memory_overflow
+		   \brief Клас-виняток \a "memory_overflow"
+		   \details Базовий виняток \a memory_overflow (переповнення пам'яті).
+		   Використовує повідомлення EXCEPTION_SET::excep55 та має номер \a 55.
+		   \since v0.1.1.0 commit bce6b6
+		   \remark Де-які методи при киданні винятку \a 55 можуть давати пояснення.
+		 */
 		class memory_overflow : public Exception
 		{
 		public:
-			///-
+			/*!
+			   \fn memory_overflow()
+			   \brief Виняток memory_overflow
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   memory_overflow. До каркасу передаються код виключення та деталі.
+			   \since v0.1.1.0 commit bce6b6
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::memory_overflow();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			memory_overflow();
-			///-
+			/*!
+			   \fn memory_overflow(const byte1_t *explanation)
+			   \brief Виняток memory_overflow з поясненням
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   memory_overflow. До каркасу передаються код виключення, деталі
+			   та пояснення.
+			   \param[in] explanation Пояснення до деталей винятку
+			   \since v0.1.3.0 commit 2с6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::memory_overflow("explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			memory_overflow(const byte1_t *explanation);
 		};
 
-		///-
+		/*!
+		   \class division_by_zero
+		   \brief Клас-виняток \a "division_by_zero"
+		   \details Базовий виняток \a division_by_zero (ділення на нуль).
+		   Використовує повідомлення EXCEPTION_SET::excep101 та має номер \a 101.
+		   \since v0.1.2.0 commit d74cc1
+		 */
 		class division_by_zero : public Exception
 		{
 		public:
-			///-
+			/*!
+			   \fn division_by_zero()
+			   \brief Виняток division_by_zero
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   division_by_zero. До каркасу передаються код виключення та деталі.
+			   \since v0.1.2.0 commit d74cc1
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::division_by_zero();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			division_by_zero();
-			///-
+			/*!
+			   \fn division_by_zero(const byte1_t *explanation)
+			   \brief Виняток division_by_zero з поясненням
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   division_by_zero. До каркасу передаються код виключення, деталі
+			   та пояснення.
+			   \param[in] explanation Пояснення до деталей винятку
+			   \since v0.1.3.0 commit 2с6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::division_by_zero("explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			division_by_zero(const byte1_t *explanation);
 		};
 
-		///-
+		/*!
+		   \class position_failure
+		   \brief Клас-виняток \a "position_failure"
+		   \details Базовий виняток \a position_failure (збій положення).
+		   Використовує повідомлення EXCEPTION_SET::excep254 та має номер \a 254.
+		   \since v0.1.1.0 commit 8bbf75
+		 */
 		class position_failure : public Exception
 		{
 		public:
-			///-
+			/*!
+			   \fn position_failure()
+			   \brief Виняток position_failure
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   position_failure. До каркасу передаються код виключення та деталі.
+			   \since v0.1.1.0 commit 8bbf75
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::position_failure();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			position_failure();
-			///-
+			/*!
+			   \fn position_failure(const byte1_t *explanation)
+			   \brief Виняток position_failure з поясненням
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   position_failure. До каркасу передаються код виключення, деталі
+			   та пояснення.
+			   \param[in] explanation Пояснення до деталей винятку
+			   \since v0.1.3.0 commit 2с6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::position_failure("explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			position_failure(const byte1_t *explanation);
 		};
 
-		///-
+		/*!
+		   \class value_failure
+		   \brief Клас-виняток \a "value_failure"
+		   \details Базовий виняток \a value_failure (збій значення).
+		   Використовує повідомлення EXCEPTION_SET::excep255 та має номер \a 255.
+		   \since v0.1.1.0 commit 8bbf75
+		 */
 		class value_failure : public Exception
 		{
 		public:
-			///-
+			/*!
+			   \fn value_failure()
+			   \brief Виняток value_failure
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   value_failure. До каркасу передаються код виключення та деталі.
+			   \since v0.1.1.0 commit 8bbf75
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::value_failure();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			value_failure();
-			///-
+			/*!
+			   \fn value_failure(const byte1_t *explanation)
+			   \brief Виняток value_failure з поясненням
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   value_failure. До каркасу передаються код виключення, деталі
+			   та пояснення.
+			   \param[in] explanation Пояснення до деталей винятку
+			   \since v0.1.3.0 commit 2с6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::value_failure("explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			value_failure(const byte1_t *explanation);
 		};
 
-		///-
+		/*!
+		   \class size_failure
+		   \brief Клас-виняток \a "size_failure"
+		   \details Базовий виняток \a size_failure (збій розміру).
+		   Використовує повідомлення EXCEPTION_SET::excep256 та має номер \a 256.
+		   \since v0.1.3.0 commit 2c6408
+		 */
 		class size_failure : public Exception
 		{
 		public:
-			///-
+			/*!
+			   \fn size_failure()
+			   \brief Виняток size_failure
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   size_failure. До каркасу передаються код виключення та деталі.
+			   \since v0.1.3.0 commit 2c6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::size_failure();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			size_failure();
-			///-
+			/*!
+			   \fn size_failure(const byte1_t *explanation)
+			   \brief Виняток size_failure з поясненням
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   size_failure. До каркасу передаються код виключення, деталі
+			   та пояснення.
+			   \param[in] explanation Пояснення до деталей винятку
+			   \since v0.1.3.0 commit 2с6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::size_failure("explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			size_failure(const byte1_t *explanation);
 		};
 
 		/*!
-		\brief void_data exception class
-		*/
+		   \class void_data
+		   \brief Клас-виняток \a "void_data"
+		   \details Базовий виняток \a void_data (недійсні дані).
+		   Використовує повідомлення EXCEPTION_SET::excep400 та має номер \a 400.
+		   \since v0.1.1.0 commit c62e85
+		 */
 		class void_data : public Exception
 		{
 		public:
 			/*!
-			\brief Construct a new void data::void data object
-			\details Geted empty data structure
-			*/
+			   \fn void_data()
+			   \brief Виняток void_data
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   void_data. До каркасу передаються код виключення та деталі.
+			   \since v0.1.1.0 commit c62e85
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::void_data();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			void_data();
-			///-
+			/*!
+			   \fn void_data(const byte1_t *explanation)
+			   \brief Виняток void_data з поясненням
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   void_data. До каркасу передаються код виключення, деталі
+			   та пояснення.
+			   \param[in] explanation Пояснення до деталей винятку
+			   \since v0.1.3.0 commit 2с6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::void_data("explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			void_data(const byte1_t *explanation);
 		};
 
 		/*!
-		\brief not_found exception class
-		*/
+		   \class not_found
+		   \brief Клас-виняток \a "not_found"
+		   \details Базовий виняток \a not_found (не знайдено).
+		   Використовує повідомлення EXCEPTION_SET::excep404 та має номер \a 404.
+		   \since v0.1.1.0 commit c62e85
+		 */
 		class not_found : public Exception
 		{
 		public:
 			/*!
-			\brief Construct a new not found::not found object
-			\details Search error - item not found
-			*/
+			   \fn not_found()
+			   \brief Виняток not_found
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   not_found. До каркасу передаються код виключення та деталі.
+			   \since v0.1.1.0 commit c62e85
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::not_found();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			not_found();
-			///-
+			/*!
+			   \fn not_found(const byte1_t *explanation)
+			   \brief Виняток not_found з поясненням
+			   \details Конструктор об'єкту, що використовується, як виняток
+			   not_found. До каркасу передаються код виключення, деталі
+			   та пояснення.
+			   \param[in] explanation Пояснення до деталей винятку
+			   \since v0.1.3.0 commit 2с6408
+			   \paragraph Приклад
+			   \code{.cpp}
+			   throw EXCEPTION_SET::not_found("explanation");
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			not_found(const byte1_t *explanation);
 		};
 	}
@@ -745,6 +1120,7 @@ namespace ALGOR
 		};
 
 		/*!
+		   \struct Array
 		   \brief Структура, що імітує масив
 		   \details Призначений для зберігання вказівника на динамічний масив та його
 		   розмір
@@ -949,7 +1325,7 @@ namespace ALGOR
 			Array<type_array> *getData();
 			///-
 			asize_t getSize();
-			///-
+			//TODO Убрать метод getPosition, так как он идентичен линейному поиску
 			Array<asize_t> *getPosition(const type_array &value);
 			///-
 			type_array getValue(const asize_t &position);
