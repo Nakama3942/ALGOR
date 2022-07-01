@@ -910,26 +910,101 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	///-
+	/*!
+	  \namespace ALGOR::RANDOM
+	  \brief Простір імен, що реалізовує ГПВЧ
+	  \details Простір імен являє собою набір класів, які використовуються при
+	  Генерації ПсевдоВипадкових Чисел (ГПВЧ). Класи є реалізаціями математичних
+	  моделей. Зазвичай використовуються при генерації структур даних, таких як
+	  масиви тощо.
+	  \since v0.1.3.0 commit d66e53
+	 */
 	namespace RANDOM
 	{
-		///-
+		/*!
+		   \class LCM
+		   \brief ГПВЧ Лінійний Конґруентний Метод
+		   \details Один з найпростіших ГПВЧ. Працює за принципом розрахунку
+		   наступного числа. Представляється формулою
+		   \f[x_n = (a * x_{n-1} + c) mod(m)\f], де \f$a, c, m\f$ - константні
+		   коефіціенти.
+		   \since v0.1.3.0 commit ca0704
+		   \remark LCM = LinearCongruentMethod
+		   \paragraph Ресурси
+		   Source: https://en.wikipedia.org/wiki/Linear_congruential_generator\n
+		   Paragraph: Parameters in common use\n
+		   Table row: MMIX by Donald Knuth\n
+		   \paragraph Приклад
+		   \code{.cpp}
+		   RANDOM::LCM r(getMemoryCell());
+		   cout << r.rand() << "\n"; //print 510610997
+		   \endcode
+		 */
 		class LCM
 		{
 		public:
-			// LCM = LinearCongruentMethod
-			// Source: https://en.wikipedia.org/wiki/Linear_congruential_generator
-			// Paragraph: Parameters in common use
-			// Table row: MMIX by Donald Knuth
-			///-
+			/*!
+			   \fn LCM(memcell_t seed)
+			   \brief Конструктор класу, що приймає сі́м'я
+			   \details Конструктор, що приймає сі́м'я ГПВЧ, що є першим числом
+			   послідовності, що генерується (\f$x_0\f$). Являє собою аналог
+			   стандартної функції \a srand().
+			   \param[in] seed
+			   \since v0.1.3.0 commit ca0704
+			   \paragraph Приклад
+			   \code{.cpp}
+			   RANDOM::LCM r(getMemoryCell());
+			   \endcode
+			   або \n
+			   \code{.cpp}
+			   RANDOM::LCM r(time(NULL));
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			LCM(memcell_t seed);
-			///-
+			/*!
+			   \fn rand()
+			   \brief Метод генерації псевдовипадкового числа
+			   \details Алгоритм, що генерує (\a розраховує) наступне число
+			   послідовності.
+			   \since v0.1.3.0 commit ca0704
+			   \retval seed - наступне число послідновності \f$x_n\f$
+			   \paragraph Приклад
+			   \code{.cpp}
+			   cout << r.rand() << "\n"; //print 510610997
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			ubit32_t rand();
 
 		private:
-			const ubit64_t a = 0x5851f42d4c957f2d; // 6`364`136`223`846`793`005
-			const ubit64_t c = 0x14057b7ef767814f; // 1`442`695`040`888`963`407
-			const ubit64_t m = 0xffffffffffffffff; // 18`446`744`073`709`551`615
+			/*!
+			   \var a
+			   \brief Перше константне число \f$a\f$
+			   \details Константа \f$a\f$ = 6'364'136'223'846'793'005.
+			   \since v0.1.3.0 commit ca0704
+			 */
+			const ubit64_t a = 0x5851f42d4c957f2d;
+			/*!
+			   \var c
+			   \brief Перше константне число \f$c\f$
+			   \details Константа \f$c\f$ = 1'442'695'040'888'963'407.
+			   \since v0.1.3.0 commit ca0704
+			 */
+			const ubit64_t c = 0x14057b7ef767814f;
+			/*!
+			   \var m
+			   \brief Перше константне число \f$m\f$
+			   \details Константа \f$m\f$ = 18'446'744'073'709'551'615.
+			   \since v0.1.3.0 commit ca0704
+			 */
+			const ubit64_t m = 0xffffffffffffffff;
+			/*!
+			   \var seed
+			   \brief Сі́м'я послідовності \f$x_0\f$
+			   \details Число, що задає початок послідовності, що генерується.
+			   \since v0.1.3.0 commit ca0704
+			 */
 			memcell_t seed;
 		};
 
@@ -940,17 +1015,17 @@ namespace ALGOR
 		class RC4
 		{
 		public:
-			/*!
-			\brief Set up the key
-			\param[in] key The key to be installed
-			\param[in] ksize Key size
-			*/
+//			/*!
+//			\brief Set up the key
+//			\param[in] key The key to be installed
+//			\param[in] ksize Key size
+//			*/
 			void crypto_srand(const byte1_t *key, byte4_t ksize);
-			/*!
-			\brief Generates a value
-			\param[out] output Generates an array of elements
-			\param[in] size Array size
-			*/
+//			/*!
+//			\brief Generates a value
+//			\param[out] output Generates an array of elements
+//			\param[in] size Array size
+//			*/
 			void crypto_rand(byte1_t *output, byte4_t size);
 
 		private:
@@ -964,54 +1039,54 @@ namespace ALGOR
 		class MersenneTwister
 		{
 		public:
-			/*!
-			\brief Construct a new Mersenne Twister::Mersenne Twister object
-			\details Installs the seed
-			\param[in] seed Generation seed
-			*/
+//			/*!
+//			\brief Construct a new Mersenne Twister::Mersenne Twister object
+//			\details Installs the seed
+//			\param[in] seed Generation seed
+//			*/
 			MersenneTwister(byte4_t seed);
-			///-
+//			///-
 			sbit32_t rand();
-			/*!
-			\brief Re-seed
-			\param seed Generation seed
-			*/
+//			/*!
+//			\brief Re-seed
+//			\param seed Generation seed
+//			*/
 			void RandomInit(byte4_t seed);
-			/*!
-			\brief Output random integer
-			\param min The minimum value that can be generated
-			\param max The maximum value that can be generated
-			\return int
-			*/
+//			/*!
+//			\brief Output random integer
+//			\param min The minimum value that can be generated
+//			\param max The maximum value that can be generated
+//			\return int
+//			*/
 			byte4_t IRandom(byte4_t min, byte4_t max);
-			/*!
-			\brief Output random integer, exact
-			\param min The minimum value that can be generated
-			\param max The maximum value that can be generated
-			\return int
-			*/
+//			/*!
+//			\brief Output random integer, exact
+//			\param min The minimum value that can be generated
+//			\param max The maximum value that can be generated
+//			\return int
+//			*/
 			byte4_t IRandomX(byte4_t min, byte4_t max);
-			/*!
-			\brief Output random float
-			\return double
-			*/
+//			/*!
+//			\brief Output random float
+//			\return double
+//			*/
 			fbit64_t Random();
-			/*!
-			\brief Output random bits
-			\return uint32_t
-			*/
+//			/*!
+//			\brief Output random bits
+//			\return uint32_t
+//			*/
 			ubit32_t BRandom();
 
 		private:
 			///-
 			void Init0(byte4_t seed);
-			ubit32_t mersenne_twister[624]; /// State vector
-			byte4_t mersenne_twister_index; /// Index into mersenne_twister
-			ubit32_t LastInterval;			/// Last interval length for IRandomX
-			ubit32_t RejectionLimit;		/// Rejection limit used by IRandomX
+			ubit32_t mersenne_twister[624]; // State vector
+			byte4_t mersenne_twister_index; // Index into mersenne_twister
+			ubit32_t LastInterval;			// Last interval length for IRandomX
+			ubit32_t RejectionLimit;		// Rejection limit used by IRandomX
 		};
 
-		///-
+//		///-
 		template <class Generator>
 		fbit64_t tester(ubit32_t left_limit, ubit32_t right_limit);
 	}
