@@ -32,7 +32,7 @@ using namespace ALGOR;
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template<typename type_value>
+template <typename type_value>
 void ALGOR::swap(type_value &firstNumber, type_value &secondNumber) noexcept
 {
 	type_value temp = firstNumber;
@@ -40,13 +40,13 @@ void ALGOR::swap(type_value &firstNumber, type_value &secondNumber) noexcept
 	secondNumber = temp;
 }
 
-template<typename type_value>
+template <typename type_value>
 type_value ALGOR::minimum(type_value firstNumber, type_value secondNumber) noexcept
 {
 	return firstNumber < secondNumber ? firstNumber : secondNumber;
 }
 
-template<typename type_value>
+template <typename type_value>
 type_value ALGOR::maximum(type_value firstNumber, type_value secondNumber) noexcept
 {
 	return firstNumber > secondNumber ? firstNumber : secondNumber;
@@ -322,7 +322,7 @@ void ALGOR::RANDOM::MersenneTwister::Init0(byte4_t seed)
 }
 
 template <class Generator>
-fbit64_t ALGOR::RANDOM::tester(ubit32_t left_limit, ubit32_t right_limit)
+fbit64_t ALGOR::RANDOM::test_random_on_Pearsons_coefficient(ubit32_t left_limit, ubit32_t right_limit)
 {
 	//Створюю об'єкт генератора
 	memcell_t cell = getMemoryCell();
@@ -366,8 +366,8 @@ fbit64_t ALGOR::RANDOM::tester(ubit32_t left_limit, ubit32_t right_limit)
 	return pX;
 }
 
-template fbit64_t ALGOR::RANDOM::tester<RANDOM::LCM>(ubit32_t, ubit32_t);
-template fbit64_t ALGOR::RANDOM::tester<RANDOM::MersenneTwister>(ubit32_t, ubit32_t);
+template fbit64_t ALGOR::RANDOM::test_random_on_Pearsons_coefficient<RANDOM::LCM>(ubit32_t, ubit32_t);
+template fbit64_t ALGOR::RANDOM::test_random_on_Pearsons_coefficient<RANDOM::MersenneTwister>(ubit32_t, ubit32_t);
 
 /* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
@@ -423,14 +423,14 @@ bool ALGOR::ArrayProcessing<type_array>::isOrderliness(const type_array *Array, 
 template <typename type_array>
 asize_t ALGOR::ArrayProcessing<type_array>::distance(type_array *first, type_array *last)
 {
-	//http://www.cplusplus.com/reference/iterator/distance/?kw=distance
+	// http://www.cplusplus.com/reference/iterator/distance/?kw=distance
 	return last - first;
 }
 
 template <typename type_array>
 type_array *ALGOR::ArrayProcessing<type_array>::lower_bound(type_array *first, type_array *last, const type_array &value)
 {
-	//http://www.cplusplus.com/reference/algorithm/lower_bound/
+	// http://www.cplusplus.com/reference/algorithm/lower_bound/
 	asize_t count = distance(first, last), step = 0, iterator = 0;
 	while (count > 0)
 	{
@@ -449,10 +449,10 @@ type_array *ALGOR::ArrayProcessing<type_array>::lower_bound(type_array *first, t
 	return first;
 }
 
-template<typename type_array>
+template <typename type_array>
 type_array *ALGOR::ArrayProcessing<type_array>::upper_bound(type_array *first, type_array *last, const type_array &value)
 {
-	//http://www.cplusplus.com/reference/algorithm/upper_bound/
+	// http://www.cplusplus.com/reference/algorithm/upper_bound/
 	asize_t count = distance(first, last), step = 0, iterator = 0;
 	while (count > 0)
 	{
@@ -569,7 +569,7 @@ Array<type_array> *ALGOR::create_struct(const asize_t &SIZE, bool mem_allocation
 	return ARRAY;
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
 {
 	if (denominator == 0)
@@ -608,10 +608,10 @@ ALGOR::ArrayBase<type_array>::ArrayBase(const asize_t &SIZE)
 	ARRAY = create_struct<type_array>(SIZE);
 }
 
-template<typename type_array>
+template <typename type_array>
 ALGOR::ArrayBase<type_array>::ArrayBase() {}
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::ArrayBase<type_array>::verification(Array<type_array> *Array)
 {
 	if (Array == nullptr || Array->array_size == 0 || Array->array == nullptr)
@@ -626,7 +626,7 @@ ALGOR::ARRAYDATA<type_array>::ARRAYDATA(Array<type_array> *&Array) : ArrayBase<t
 template <typename type_array>
 ALGOR::ARRAYDATA<type_array>::ARRAYDATA(const asize_t &SIZE) : ArrayBase<type_array>(SIZE) {}
 
-template<typename type_array>
+template <typename type_array>
 ALGOR::ARRAYDATA<type_array>::~ARRAYDATA()
 {
 	remove();
@@ -671,13 +671,13 @@ Array<type_array> *&ALGOR::ARRAYDATA<type_array>::getData()
 	return this->ARRAY;
 }
 
-template<typename type_array>
+template <typename type_array>
 asize_t ALGOR::ARRAYDATA<type_array>::getSize()
 {
 	return this->ARRAY->array_size;
 }
 
-template<typename type_array>
+template <typename type_array>
 type_array ALGOR::ARRAYDATA<type_array>::getValue(const asize_t &position)
 {
 	if (position >= this->ARRAY->array_size)
@@ -709,7 +709,7 @@ template <typename type_array>
 asize_t ALGOR::ARRAYDATA<type_array>::binary_getPosition(const type_array &required_element)
 {
 	asize_t position = ArrayProcessing<type_array>::distance(&this->ARRAY->array[0], ArrayProcessing<type_array>::lower_bound(&this->ARRAY->array[0], &this->ARRAY->array[this->ARRAY->array_size - 1], required_element));
-	if(this->ARRAY->array[position] != required_element)
+	if (this->ARRAY->array[position] != required_element)
 	{
 		throw EXCEPTION_SET::not_found();
 	}
@@ -874,7 +874,7 @@ typename ALGOR::ARRAYDATA<type_array>::mode *ALGOR::ARRAYDATA<type_array>::moda(
 	if (modes->highest_frequency == 1)
 	{
 		delete[] modes->array;
-		delete(modes);
+		delete (modes);
 		throw EXCEPTION_SET::value_failure("And to be precise: there is missing value with the maximum frequency. All elements in the array are unique and repeated once, so to save resources and time, an exception is thrown so that the method does not create a copy of the array further");
 	}
 
@@ -902,7 +902,7 @@ typename ALGOR::ARRAYDATA<type_array>::mode *ALGOR::ARRAYDATA<type_array>::moda(
 	return modes;
 }
 
-template<typename type_array>
+template <typename type_array>
 bool ALGOR::ARRAYDATA<type_array>::operator=(Array<type_array> *&cloningArray)
 {
 	if (cloningArray == this->ARRAY)
@@ -913,7 +913,7 @@ bool ALGOR::ARRAYDATA<type_array>::operator=(Array<type_array> *&cloningArray)
 	return true;
 }
 
-template<typename type_array>
+template <typename type_array>
 bool ALGOR::ARRAYDATA<type_array>::operator==(Array<type_array> *&anotherArray)
 {
 	if (anotherArray == this->ARRAY)
@@ -937,7 +937,7 @@ bool ALGOR::ARRAYDATA<type_array>::operator==(Array<type_array> *&anotherArray)
 	return false;
 }
 
-template<typename type_array>
+template <typename type_array>
 Array<type_array> *&ALGOR::ARRAYDATA<type_array>::operator^=(const asize_t &NewSize)
 {
 	if (NewSize == 0)
@@ -1067,7 +1067,7 @@ template class ALGOR::ARRAYDATA<asize_t>;
  * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
  * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-template <typename  type_array>
+template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::Comparative_Sorts(Array<type_array> *&Array) : ArrayBase<type_array>(Array) {}
 
 template <typename type_array>
@@ -1214,7 +1214,7 @@ void ALGOR::Comparative_Sorts<type_array>::Merge_Sort()
 	delete (sort);
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::Bitonic_Sorter()
 {
 	BitonicSorter *sort = new BitonicSorter(this->ARRAY->array, this->ARRAY->array_size);
@@ -1222,7 +1222,7 @@ void ALGOR::Comparative_Sorts<type_array>::Bitonic_Sorter()
 	delete (sort);
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::Batcher_OddEven_MergeSort()
 {
 	BatcherOddEvenMergeSort *sort = new BatcherOddEvenMergeSort(this->ARRAY->array, this->ARRAY->array_size);
@@ -1230,7 +1230,7 @@ void ALGOR::Comparative_Sorts<type_array>::Batcher_OddEven_MergeSort()
 	delete (sort);
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::Tim_Sort()
 {
 	TimSort *sort = new TimSort(this->ARRAY->array, this->ARRAY->array_size);
@@ -1238,7 +1238,7 @@ void ALGOR::Comparative_Sorts<type_array>::Tim_Sort()
 	delete (sort);
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::Pancake_Sort()
 {
 	PancakeSort *sort = new PancakeSort(this->ARRAY->array, this->ARRAY->array_size);
@@ -1246,10 +1246,10 @@ void ALGOR::Comparative_Sorts<type_array>::Pancake_Sort()
 	delete (sort);
 }
 
-template<typename type_array>
+template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::BatcherOddEvenMergeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::batcher_odd_even_merge_sort()
 {
 	//Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
@@ -1275,10 +1275,10 @@ void ALGOR::Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::batcher_odd_
 	}
 }
 
-template<typename type_array>
+template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::BitonicSorter::BitonicSorter(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
 {
 	//Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
@@ -1291,7 +1291,7 @@ void ALGOR::Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
 				asize_t l = i ^ j;
 				if (l > i)
 				{
-					if ( ( ((i & k) == 0) && (Array[i] > Array[l]) ) || ( ((i & k) != 0) && (Array[i] < Array[l]) ) )
+					if ((((i & k) == 0) && (Array[i] > Array[l])) || (((i & k) != 0) && (Array[i] < Array[l])))
 					{
 						swap(Array[i], Array[l]);
 					}
@@ -1376,7 +1376,7 @@ template <class type_array>
 void ALGOR::Comparative_Sorts<type_array>::CombSort::comb_sort()
 {
 	fbit64_t factor = 1.2473309;	//Фактор зменшення
-	ubit32_t step = array_size - 1;	//Шаг
+	ubit32_t step = array_size - 1; //Шаг
 
 	while (step >= 1)
 	{
@@ -1683,10 +1683,10 @@ void ALGOR::Comparative_Sorts<type_array>::OddEvenSort::odd_even_sort()
 	}
 }
 
-template<typename type_array>
+template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::PancakeSort::PancakeSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::PancakeSort::pancake_sort()
 {
 	while (array_size > 1)
@@ -1697,7 +1697,7 @@ void ALGOR::Comparative_Sorts<type_array>::PancakeSort::pancake_sort()
 	}
 }
 
-template<typename type_array>
+template <typename type_array>
 asize_t ALGOR::Comparative_Sorts<type_array>::PancakeSort::max_index()
 {
 	asize_t index = 0;
@@ -1711,7 +1711,7 @@ asize_t ALGOR::Comparative_Sorts<type_array>::PancakeSort::max_index()
 	return index;
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::PancakeSort::flip(asize_t index)
 {
 	asize_t left = 0;
@@ -1873,7 +1873,7 @@ ALGOR::Comparative_Sorts<type_array>::ShellSort::ShellSort(type_array *array, as
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::ShellSort::shell_sort()
 {
-	//j = signed, i & step = unsigned; max size = int / 2 = 2 billion
+	// j = signed, i & step = unsigned; max size = int / 2 = 2 billion
 	for (asize_t step = array_size / 2; step > 0; step /= 2)
 	{
 		for (asize_t i = step; i < array_size; i++)
@@ -1939,10 +1939,10 @@ void ALGOR::Comparative_Sorts<type_array>::StoogeSort::recursive_stooge_sort(con
 	recursive_stooge_sort(left_limit, right_limit - k);
 }
 
-template<typename type_array>
+template <typename type_array>
 ALGOR::Comparative_Sorts<type_array>::TimSort::TimSort(type_array *array, asize_t asize) : Array(array), array_size(asize) {}
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::TimSort::tim_sort()
 {
 	for (asize_t i = 0; i < array_size; i += RUN)
@@ -1960,7 +1960,7 @@ void ALGOR::Comparative_Sorts<type_array>::TimSort::tim_sort()
 	}
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::TimSort::insertionSort(asize_t left_limit, asize_t right_limit)
 {
 	for (asize_t i = left_limit + 1; i <= right_limit; i++)
@@ -1976,7 +1976,7 @@ void ALGOR::Comparative_Sorts<type_array>::TimSort::insertionSort(asize_t left_l
 	}
 }
 
-template<typename type_array>
+template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::TimSort::merge(asize_t left_limit, asize_t middle, asize_t right_limit)
 {
 	asize_t len1 = middle - left_limit + 1, len2 = right_limit - middle;
