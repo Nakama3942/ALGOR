@@ -220,11 +220,6 @@ ALGOR::RANDOM::MersenneTwister::MersenneTwister(byte4_t seed)
 	LastInterval = 0;
 }
 
-sbit32_t ALGOR::RANDOM::MersenneTwister::rand()
-{
-	return IRandom(0x80000000, 0x79999999);
-}
-
 void ALGOR::RANDOM::MersenneTwister::RandomInit(byte4_t seed)
 {
 	Init0(seed);
@@ -232,6 +227,11 @@ void ALGOR::RANDOM::MersenneTwister::RandomInit(byte4_t seed)
 	{
 		BRandom();
 	}
+}
+
+sbit32_t ALGOR::RANDOM::MersenneTwister::rand()
+{
+	return IRandom(0x80000000, 0x79999999);
 }
 
 byte4_t ALGOR::RANDOM::MersenneTwister::IRandom(byte4_t min, byte4_t max)

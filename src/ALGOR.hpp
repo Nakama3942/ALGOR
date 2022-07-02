@@ -1009,84 +1009,285 @@ namespace ALGOR
 		};
 
 		/*!
-		\brief Simple crypto-strong generator
-		\note Taken from the link https://www.youtube.com/watch?v=PQlZI-QoM2A
+		   \class RC4
+		   \brief Простий криптостійкий генератор
+		   \details RC4 — потоковий шифр, розроблений Роном Рівестом
+		   (анг. Ron Rivest) у 1987 році.
+		   \since v0.1.0.0 commit 88415c
+		   \note Може генерувати значення лише у діапазоні 0-255 (1 байт).
+		   \deprecated На даному етапі розробка даного ГВЧ заморожена. Алгоритм
+		   застарів. З часом можливе його повне видалення, чи повна модернізація,
+		   чому не радиться його використовувати.
+		   \paragraph Ресурси
+		   Source: https://www.youtube.com/watch?v=PQlZI-QoM2A\n
+		   \paragraph Приклад
+		   \code{.cpp}
+		   RC4 rc4;							//Створюю об'єкт ГВЧ
+		   char key[100];						//Створюю ключ
+		   rc4.crypto_srand(key, 100);			//Встановлюю ключ
+		   int BUFSIZe = 100;
+		   char output[BUFSIZe];				//Створюю масив під результат
+		   rc4.crypto_rand(output, BUFSIZe);	//Генерую результат
+		   \endcode
 		*/
 		class RC4
 		{
 		public:
-//			/*!
-//			\brief Set up the key
-//			\param[in] key The key to be installed
-//			\param[in] ksize Key size
-//			*/
+			/*!
+			   \fn crypto_srand(const byte1_t *key, byte4_t ksize)
+			   \brief Встановлює ключ генерації
+			   \details Приймає ключ і розраховує з нього ключ генерації
+			   \param[in] key Ключ, що встановлюється
+			   \param[in] ksize Розмір ключа
+			   \since v0.1.0.0 commit 88415c
+			   \paragraph Приклад
+			   \code{.cpp}
+			   RC4 rc4;					//Створюю об'єкт ГВЧ
+			   char key[100];				//Створюю ключ
+			   rc4.crypto_srand(key, 100);	//Встановлюю ключ
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			void crypto_srand(const byte1_t *key, byte4_t ksize);
-//			/*!
-//			\brief Generates a value
-//			\param[out] output Generates an array of elements
-//			\param[in] size Array size
-//			*/
+			/*!
+			   \fn crypto_rand(byte1_t *output, byte4_t size)
+			   \brief Генерує значення
+			   \details Генерує масив вихідних зашифрованих значень, які можна
+			   використовувати, як згенеровані ГВЧ.
+			   \param[out] output Генерує масив вихідних елементів
+			   \param size Розмір масиву вихідних елементів
+			   \since v0.1.0.0 commit 88415c
+			   \paragraph Приклад
+			   \code{.cpp}
+			   int BUFSIZe = 100;
+			   char output[BUFSIZe];				//Створюю масив під результат
+			   rc4.crypto_rand(output, BUFSIZe);	//Генерую результат
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			void crypto_rand(byte1_t *output, byte4_t size);
 
 		private:
+			/*!
+			   \var Sbox
+			   \brief Ключ генерації
+			   \since v0.1.0.0 commit 88415c
+			 */
 			ubit8_t Sbox[256];
 		};
 
 		/*!
-		\brief Advanced generator based on Marsen primes
-		\note Source URL: www.agner.org/random
-		*/
+		   \class MersenneTwister
+		   \brief Складний ГПВЧ, що базується на властивостях простих чисел Мерсенна
+		   \details Вихор Мерсенна — ГПВЧ, розроблений у 1997 році японськими
+		   вченими Макото Мацумото та Такудзі Нісімурою. Вихор Мерсенна ґрунтується
+		   на властивостях простих чисел Мерсенна та забезпечує швидке генерування
+		   високоякісних за критерієм випадковості псевдовипадкових чисел.
+		   \since v0.1.0.0 commit 88415c
+		   \deprecated На даному етапі розробка даного ГВЧ заморожена. Нехай
+		   він і краще за Лінійні ГПВЧ, його ще не доведено до відлагодженого стану.
+		   Його ще й досі складно використовувати. У майбутньому можлива повна
+		   зміна сигнатур методів у класі. Чи його повне видалення.
+		   \paragraph Ресурси
+		   Source: https://www.agner.org/random/\n
+		   \paragraph Приклад
+		   \code{.cpp}
+		   //Створюю об'єкт ГВЧ
+		   using namespace ALGOR::RANDOM;
+
+		   MersenneTwister RanGen(getMemoryCell(32));
+
+		   //Заповнюю масив числами від 10 до 100
+		   for (asize_t i = 0; i < array_size; i++)
+		   {
+			   array[i] = RanGen.IRandom(10, 100);
+		   }
+		   \endcode
+		 */
 		class MersenneTwister
 		{
 		public:
-//			/*!
-//			\brief Construct a new Mersenne Twister::Mersenne Twister object
-//			\details Installs the seed
-//			\param[in] seed Generation seed
-//			*/
+			/*!
+			   \fn MersenneTwister(byte4_t seed)
+			   \brief Конструктор класу ГПВЧ Вихор Марсенна (встановлює сі́м'я)
+			   \details Встановлює сі́м'я та проводить ініціалізацію послідовності,
+			   що буде генеруватися.
+			   \param[in] seed Сі́м'я генерації
+			   \since v0.1.0.0 commit 88415c
+			   \paragraph Приклад
+			   \code{.cpp}
+			   MersenneTwister RanGen(getMemoryCell(32));
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			MersenneTwister(byte4_t seed);
-//			///-
-			sbit32_t rand();
-//			/*!
-//			\brief Re-seed
-//			\param seed Generation seed
-//			*/
+			/*!
+			   \fn RandomInit(byte4_t seed)
+			   \brief Ініціалізація ГПВЧ
+			   \details Використовується при перевстановленні семені ГПВЧ.
+			   \param[in] seed Сі́м'я генерації
+			   \since v0.1.0.0 commit 88415c
+			   \paragraph Приклад
+			   \code{.cpp}
+			   RanGen.RandomInit(getMemoryCell(32));
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			void RandomInit(byte4_t seed);
-//			/*!
-//			\brief Output random integer
-//			\param min The minimum value that can be generated
-//			\param max The maximum value that can be generated
-//			\return int
-//			*/
+			/*!
+			   \fn rand()
+			   \brief Метод генеації даних на усьому можливому діапазоні
+			   \details Генерує числа на увесь можливий діапазон змінної. Цей метод
+			   спеціально було створено під сумісність з функцією тестування ГПВЧ.
+			   \since v0.1.3.0 commit ca0704
+			   \warning Цей метод було написано лише для функції тестування ГПВЧ. Не
+			   використовуйте його, якщо у вас є обмеження на число, що має бути
+			   згенероване. Для цього використовуйте метод
+			   MersenneTwister::IRandom, що спеціально для цього й створювався.
+			   \warning А також, якщо Вам потрібно згенерувати число на усьому
+			   діапазоні, то краще використати MersenneTwister::BRandom, щоб уникнути
+			   додаткових розрахунків.
+			   \deprecated Буде видалено після завершення тестування ГПВЧ
+			   \return згенероване число
+			   \paragraph Реалізація
+			 */
+			sbit32_t rand();
+			/*!
+			   \fn IRandom(byte4_t min, byte4_t max)
+			   \brief Метод генерація числа у заданому діапазоні
+			   \details Генерує число у заданому діапазоні.
+			   \param[in] min Мінімальне число діапазону
+			   \param[in] max Максимальне число діапазону
+			   \since v0.1.0.0 commit 88415c
+			   \return згенероване число у заданому діапазоні
+			   \paragraph Приклад
+			   \code{.cpp}
+			   array[0] = RanGen.IRandom(10, 100);
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			byte4_t IRandom(byte4_t min, byte4_t max);
-//			/*!
-//			\brief Output random integer, exact
-//			\param min The minimum value that can be generated
-//			\param max The maximum value that can be generated
-//			\return int
-//			*/
+			/*!
+			   \fn IRandomX(byte4_t min, byte4_t max)
+			   \brief Більш точніший метод генерація числа у заданому діапазоні
+			   \details Є аналогом методу MersenneTwister::IRandom, що генерує
+			   число за складнішим алгоритмом, а саме число є більш точнішим.
+			   \param[in] min Мінімальне число діапазону
+			   \param[in] max Максимальне число діапазону
+			   \since v0.1.0.0 commit 88415c
+			   \return точне згенероване число у заданому діапазоні
+			   \paragraph Приклад
+			   \code{.cpp}
+			   array[0] = RanGen.IRandomX(10, 100);
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			byte4_t IRandomX(byte4_t min, byte4_t max);
-//			/*!
-//			\brief Output random float
-//			\return double
-//			*/
+			/*!
+			   \fn Random()
+			   \brief Метод генеріції числа з плаваючою комою
+			   \details Генерує числа з плаваючою комою
+			   \since v0.1.0.0 commit 88415c
+			   \warning Цей метод генерує числа від 0 до 1, тобто всі
+			   згенеровані числа будуть меншими від одиниці
+			   \return число з плаваючою комою
+			   \paragraph Приклад
+			   \code{.cpp}
+			   array[0] = RanGen.Random();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			fbit64_t Random();
-//			/*!
-//			\brief Output random bits
-//			\return uint32_t
-//			*/
+			/*!
+			   \fn BRandom()
+			   \brief Метод генерації випадкових бітів
+			   \details Генерує випадкові біти у змінній з чотирьох байт, що дозволяє
+			   згенерувати 32-бітове число на всьому діапазоні.
+			   \since v0.1.0.0 commit 88415c
+			   \note Може слугувати аналогом методу MersenneTwister::rand, але той
+			   метод є надстройкою над MersenneTwister::IRandom для функції тестування
+			   ГПВЧ, що викликає додаткові розрахунки та витрати ресурсів. Якщо
+			   потрібно відразу згенерувати якесь число на усьому діапазоні, то краще
+			   обирати цей метод.
+			   \return згенероване число на всьому діапазоні
+			   \paragraph Приклад
+			   \code{.cpp}
+			   array[0] = RanGen.BRandom();
+			   \endcode
+			   \paragraph Реалізація
+			 */
 			ubit32_t BRandom();
 
 		private:
-			///-
+			/*!
+			   \fn Init0(byte4_t seed)
+			   \brief Базова процедура ініціалізації
+			   \param[in] seed Сі́м'я генерації
+			   \since v0.1.0.0 commit 88415c
+			   \paragraph Реалізація
+			 */
 			void Init0(byte4_t seed);
-			ubit32_t mersenne_twister[624]; // State vector
-			byte4_t mersenne_twister_index; // Index into mersenne_twister
-			ubit32_t LastInterval;			// Last interval length for IRandomX
-			ubit32_t RejectionLimit;		// Rejection limit used by IRandomX
+			/*!
+			   \var mersenne_twister[624]
+			   \brief Вектор стану
+			   \since v0.1.0.0 commit 88415c
+			 */
+			ubit32_t mersenne_twister[624];
+			/*!
+			   \var mersenne_twister_index
+			   \brief Індекс у векторі стану (MersenneTwister::mersenne_twister)
+			   \since v0.1.0.0 commit 88415c
+			 */
+			byte4_t mersenne_twister_index;
+			/*!
+			   \var LastInterval
+			   \brief Довжина останнього інтервалу для MersenneTwister::IRandomX
+			   \since v0.1.0.0 commit 88415c
+			 */
+			ubit32_t LastInterval;
+			/*!
+			   \var RejectionLimit
+			   \brief Ліміт відхилень, який використовує MersenneTwister::IRandomX
+			   \since v0.1.0.0 commit 88415c
+			 */
+			ubit32_t RejectionLimit;
 		};
 
-//		///-
+		/*!
+		   \fn tester(ubit32_t left_limit, ubit32_t right_limit)
+		   \brief Функція тестування ГПВЧ на рівномірність
+		   \details Тестує ГПВЧ на рівномірність генерації чисел, використовуючи
+		   коефіціент узгодженості Пірсона.
+		   \tparam Generator Клас алгоритму ГПВЧ, що потрібно протестувати.
+		   \param[in] left_limit Мінімальне число діапазону генерації
+		   при тестуванні
+		   \param[in] right_limit Максимальне число діапазону генерації
+		   при тестуванні
+		   \since v0.1.1.4 commit ca0704
+		   \warning ГВЧ RANDOM::RC4 поки не можна протестувати, так як його не
+		   підготовлено до використання данною функцією тестування, та й сама
+		   функція не компілюється під цей алгоритм.
+		   \return коефіціент узгодженості Пірсона
+		   \paragraph Приклад
+		   \code{.cpp}
+		   cout << RANDOM::tester<RANDOM::LCM>(0, 999999) << "\n";
+		   cout << RANDOM::tester<RANDOM::MersenneTwister>(0, 999999) << "\n";
+		   //print 98.2674
+		   //print 109.996
+		   \endcode
+		   \remark Як можна побачити з прикладу, RANDOM::LCM генерує
+		   числа більш рівномірно. Однак це не значить, що він є кращим... Як вже
+		   було сказано, ГПВЧ Вихор Марсена є швидшим <del>(хоча й використовує
+		   набагато більше операцій та розрахунків)</del> та якіснішим. А отримані
+		   результати є лише випадковістю. Інколи краще генерує RANDOM::LCM, а
+		   інколи RANDOM::MersenneTwister, через що можна зробити висновок, що вони
+		   однаково якісно генерують числа <del>(чи може просто добре підібрані
+		   коефіціенти для RANDOM::LCM)</del>. Для функції генерації
+		   ALGOR::generate_struct структури масиву ALGOR::Array все ж таки було
+		   обрано RANDOM::LCM, так як він набагато легший у реалізації та
+		   розумінні, а працює так само якісно, як і RANDOM::MersenneTwister.
+		   \paragraph Реалізація
+		 */
 		template <class Generator>
 		fbit64_t tester(ubit32_t left_limit, ubit32_t right_limit);
 	}
@@ -1237,7 +1438,7 @@ namespace ALGOR
 	   \param[in] min_limit Мінімально можливе згенероване значення
 	   \param[in] max_limit Максимально можливе згенероване значення
 	   \param[in] denominator Дільник для генерації \a float данних
-	   \since v0.1.3.0 commit ca0407
+	   \since v0.1.3.0 commit ca0704
 	   \paragraph Приклад
 	   \code{.cpp}
 	   generate_struct(arr, 1, 12); //arr->array = {9 9 7 7 4 7 2 7 2 9}
