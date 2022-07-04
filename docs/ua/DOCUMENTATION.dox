@@ -211,7 +211,7 @@
 
 	/*!
 	   \fn ALGOR::minimum(type_value, type_value)
-	   \brief Повертає найменше значення з двух наданих
+	   \brief Шукає найменше значення з двух наданих
 	   \details Функція приймає два значення і порівнює їх. Якщо перше
 	   число виявится меншим за друге - функція повертає перше число, інакше -
 	   друге.
@@ -230,7 +230,7 @@
 
 	/*!
 	   \fn ALGOR::maximum(type_value, type_value)
-	   \brief Повертає найбільше значення з двух наданих
+	   \brief Шукає найбільше значення з двух наданих
 	   \details Функція приймає два значення і порівнює їх. Якщо перше
 	   число виявится більшим за друге - функція повертає перше число, інакше -
 	   друге.
@@ -1207,9 +1207,598 @@
  * *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  */
 
-/*!
-Array
-*/
+	/*!
+	   \class ALGOR::ArrayProcessing
+	   \brief Класс базових функцій для роботи з масивами
+	   \details Клас із базовими функціями обробки масивів. Вони призначені, як
+	   для зміни масиву, так і для визначення його певних характеристик. Функції
+	   розраховані під використання стандартних С++ масивів, без поглиблення в
+	   абстракції, типу використання структур чи класів (на те вони і є базовими).
+	   \tparam type_array Тип елементів, які зберігає масив, який потрібно обробити
+	   \since v0.0.0.1
+	   \note Не обов'язково створювати структуру і з неї передавати данні до функцій.
+	   Вони навмисно були розроблені, щоб вони приймали не структуру, а саме сам
+	   масив
+	   \warning Клас компілюється лише наступних типів: ALGOR::byte8_t, ALGOR::ubit64_t,
+	   ALGOR::fbit64_t, ALGOR::fbit128_t, ALGOR::asize_t. Отже, функції працюють
+	   лише з тими масивами, тип яких є long long, unsigned long long, double, long
+	   double, unsigned int!!!
+	 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::minimum(const type_array *, const asize_t &)
+		   \brief Шукає мінімальний елемент у масиві методом перебору
+		   \details Методом перебору по всьому масиву функція шукає та повертає
+		   найменше значення у масиві.
+		   \param[in] Array Масив, у якому потрібно знайти мінімальний елемент
+		   \param[in] array_size Розмір цього масиву
+		   \since v0.0.0.1
+		   \warning Функція працює не з усіма типами. Читай ALGOR::ArrayProcessing
+		   \warning Ця функція не робить перевірку, чи є  масив відсортованим, а тому
+		   не є ефективною. Краще перед виконанням цієї функції перевірити, чи є масив
+		   відсортованим за допомогою функції ALGOR::ArrayProcessing::isOrderliness
+		   \return значення найменшого елемента масиву
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int size = 5;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(10, 100);
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\nMinimum is " << ArrayProcessing<long long>::minimum(arr, size) << "\n";
+		   //print:
+		   //  63; 23; 32; 66; 79;
+		   //  Minimum is 23
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::maximum(const type_array *, const asize_t &)
+		   \brief Шукає максимальний елемент у масиві методом перебору
+		   \details Методом перебору по всьому масиву функція шукає та повертає
+		   найбільше значення у масиві.
+		   \param[in] Array Масив, у якому потрібно знайти максимальний елемент
+		   \param[in] array_size Розмір цього масиву
+		   \since v0.0.0.1
+		   \warning Функція працює не з усіма типами. Читай ALGOR::ArrayProcessing
+		   \warning Ця функція не робить перевірку, чи є  масив відсортованим, а тому
+		   не є ефективною. Краще перед виконанням цієї функції перевірити, чи є масив
+		   відсортованим за допомогою функції ALGOR::ArrayProcessing::isOrderliness
+		   \return значення найбільшого елемента масиву
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int size = 5;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(10, 100);
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\nMaximum is " << ArrayProcessing<long long>::maximum(arr, size) << "\n";
+		   //print:
+		   //  37; 23; 20; 48; 13;
+		   //  Maximum is 48
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::isOrderliness(const type_array *, const asize_t &)
+		   \brief Функція, що перевіряє, чи впорядковано масив
+		   \details Функція перевіряє, чи є масив впорядкованим у порядку збільшення.
+		   Якщо у якийсь момент функція фіксує, що поточний елемент ітерації більше
+		   наступного, вона відразу повертає значення \a false, інакше - всі елементи
+		   йдуть у порядку збільшення і функція повертає \a true.
+		   \param[in] Array Масив, що перевіряється на відсортованість
+		   \param[in] array_size Розмір цього масиву
+		   \since v0.1.2.0 commit 2fa93b
+		   \warning Ця функція перевіряє впорядкованість тільки у напрямку збільшення.
+		   Якщо необхдіно перевірити впорядкованість порядку зменшення: на вхід функції
+		   треба передати обернений масив, а цим функціоналом володіє тільки
+		   ALGOR::ARRAYDATA::reverse
+		   \return логічне значення, чи є масив впорядкованим (так чи ні)
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int size = 5;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(10, 100);
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\nArray is orderliness? " << ArrayProcessing<long long>::isOrderliness(arr, size) << "\n";
+		   Comparative_Sorts<long long>::LibrarySort sort(arr, size); //or any sorting
+		   sort.library_sort();
+		   for (int i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\nArray is orderliness? " << ArrayProcessing<long long>::isOrderliness(arr, size) << "\n";
+		   //print:
+		   //  70; 26; 51; 94; 37;
+		   //  Array is orderliness? 0
+		   //  26; 37; 51; 70; 94;
+		   //  Array is orderliness? 1
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::distance(type_array *, type_array *)
+		   \brief Повертає відстань між вказівниками на два елементи масиву
+		   \details Розраховує різницю між двома вказівниками, яка (різниця) являє
+		   собою відстань між цими самими двома вказівниками.
+		   \param[in] first Вказівник на перший вказаний елемент масиву
+		   \param[in] last Вказівник на другий вказаний елемент масиву
+		   \since v0.1.2.1 commit ffc19f
+		   \return різницю між адресами вказівників
+		   \paragraph Ресурси
+		   Source: http://www.cplusplus.com/reference/iterator/distance/?kw=distance\n
+		   \note Перевагами над стандартною функцією є те, що вона працює з об'єктами
+		   класу ітератор (як можна побачити з прикладу на офіційній сторінці
+		   документації), а данна функція працює просто із вказівниками, що
+		   є легше та надійніше.
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int size = 5;
+		   long long *arr = new long long[size];
+		   cout << "Distance " << ArrayProcessing<long long>::distance(&arr[2], &arr[4]) << "\n";
+		   //print:
+		   //  Distance 2
+		   \endcode
+		   \remark Дану функцію можна використовувати для знаходження розміру масива. Якщо
+		   ви колись зберегли вказівник на останній елемент масиву, а сам розмір було
+		   загублено <del>(я не знаю як ви могли це зробити)</del>, тоді ви можете
+		   використати цей алгоритм, передавши вказівник на перший елемент масиву і
+		   збережений вказівник на останній елемент масиву. Так як алгоритм
+		   повертає різницю між адресами, то адреса цього самого останнього елемента
+		   не буде порахована у розмір масиву, а тому розмір масиву становитиме на
+		   одиницю більше повернутого значення:
+		   \code{.cpp}
+		   int size = 10; //The size that will be lost...
+		   long long arr[size];
+		   long long *last_element = &arr[9];
+		   //...
+		   //Lots and lots of code... You forgot where the size of the array is stored...
+		   //...
+		   //Use distance:
+		   cout << "Size array is " << ArrayProcessing<long long>::distance(&arr[0], last_element) + 1 << "\n";
+		   //or
+		   cout << "Size array is " << ArrayProcessing<long long>::distance(&arr[0], last_element + 1) << "\n";
+		   \endcode
+		   Тут не важливо, чи збільшите ви підсумковий результат на одиницю, чи
+		   посунете вказівник на одиницю. У другому випадку вказівник буде виходити
+		   за межі масиву, але як вже було сказано, у результат нічого не потрапляє
+		   ззовні зазначених адрес, а тому таким чином ви додасте іще один останній
+		   елемент, який раніше не рахувався, і не більше того.
+		   \remark Коли я тільки додав ці функції, я хотів перевести усі функції із
+		   сигнатур {вказівник на масив; розмір масиву} на {перший елемент; останній
+		   елемент} (як у ALGOR::ArrayProcessing::distance), але не задалося, так як передавати перший варіант легше. Самі
+		   розсудіть:
+		   \code{.cpp}
+		   Array<long long> *arr = create_struct<long long>(10);
+		   ArrayProcessing<long long>::minimum(arr->array, arr->array_size); //old variant {array pointer; array size}
+		   \endcode
+		   проти
+		   \code{.cpp}
+		   Array<long long> *arr = create_struct<long long>(10);
+		   ArrayProcessing<long long>::minimum(&arr->array[0], &arr->array[arr->array_size - 1]); //new variant {first element; last element}
+		   \endcode
+		   Я б обрав {вказівник на масив; розмір масиву}.
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::lower_bound(type_array *, type_array *, const type_array &)
+		   \brief Знаходить перше входження у заданому діапаоні заданого елемента
+		   \details Функція не є рекурсивною. Але вона використовує вказівники, як
+		   ітератори, розраховуючи їх аналогічно рекурсивному методу. Таким чином
+		   функція є оптимізованою, завдяки переходу з рекурсії на ітерацію, а
+		   великим плюсом є можливість задати певний діапазон, що можливо тільки з
+		   двома функціями ALGOR::ArrayProcessing::lower_bound та
+		   ALGOR::ArrayProcessing::upper_bound.
+		   \param[in] first Вказівник на перший вказаний елемент масиву, що задає
+		   початок діапазону масиву, де треба знайти заданий елемент
+		   \param[in] last Вказівник на другий вказаний елемент масиву, що задає
+		   кінець діапазону масиву, де треба знайти заданий елемент
+		   \param[in] value Заданий елемент, який потрібно знайти
+		   \since v0.1.2.1 commit ffc19f
+		   \return вказівник на перше входження заданого елемента у заданому діапазоні
+		   \warning Функція повертає лише вказівник на елемент, а не його значення.
+		   \paragraph Ресурси
+		   Source: http://www.cplusplus.com/reference/algorithm/lower_bound/\n
+		   \note Перевагами над стандартною функцією є те, що вона працює з об'єктами
+		   класу ітератор (як можна побачити з прикладу на офіційній сторінці
+		   документації), а данна функція працює просто із вказівниками, що
+		   є легше та надійніше.
+		   \warning Функція працює ітераційно аж до останнього елементу і повертає
+		   вказівник саме на нього, не перевіряючи чи є це той самий потрібний елемент.
+		   Але таке відбувається тільки з тими масивами, у яких взагалі нема заданого
+		   елемента. Тому ви власноруч маєте перевіряти, чи є там взагалі потрібний
+		   елемент.
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int size = 10;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(5, 10);
+		   }
+		   Comparative_Sorts<long long>::LibrarySort sort(arr, size); //or any sorting
+		   sort.library_sort();
+		   for (int i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\nFirst address in array " << &arr[0];
+		   cout << "\nLower bound 6 is " << ArrayProcessing<long long>::lower_bound(&arr[0], &arr[9], 6) << "\n";
+		   //print:
+		   //  5; 5; 6; 6; 7; 8; 8; 9; 10; 10;
+		   //  First address in array 0x29347f0
+		   //  Lower bound 6 is 0x29347f8
+		   \endcode
+		   \remark Дану функцію разом із ALGOR::ArrayProcessing::distance можна
+		   використати для реалізації бінарного пошуку:
+		   ALGOR::ArrayProcessing::lower_bound повертає вказівник на знайдений
+		   елемент, а ALGOR::ArrayProcessing::distance розраховує відстань від
+		   початку масиву, що і буде відображати положення у масиві (його номер).
+		   Саме такий метод використиовується у ALGOR::ARRAYDATA::binary_getPosition.
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::upper_bound(type_array *, type_array *, const type_array &)
+		   \brief Знаходить перше входження у заданому діапазоні елемента, що є
+		   наступним після заданого
+		   \details Аналогічно ALGOR::ArrayProcessing::lower_bound, данна функція
+		   повертає вказівник на перше входження наступного елемента, після заданого.
+		   \param[in] first Вказівник на перший вказаний елемент масиву, що задає
+		   початок діапазону масиву, де треба знайти заданий елемент
+		   \param[in] last Вказівник на другий вказаний елемент масиву, що задає
+		   кінець діапазону масиву, де треба знайти заданий елемент
+		   \param[in] value Заданий елемент, після якого потрібно повернути вказівник
+		   \since v0.1.2.1 commit d94012
+		   \return вказівник на перше входження наступного елемента після заданого
+		   у заданому діапазоні
+		   \note У цілому, використання функції подібне до
+		   ALGOR::ArrayProcessing::lower_bound.
+		   \paragraph Ресурси
+		   Source: http://www.cplusplus.com/reference/algorithm/upper_bound/\n
+		   \paragraph Приклад
+		   \code{.cpp}
+		   int size = 10;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(5, 10);
+		   }
+		   Comparative_Sorts<long long>::LibrarySort sort(arr, size); //or any sorting
+		   sort.library_sort();
+		   for (int i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\nFirst address in array " << &arr[0];
+		   cout << "\nUpper bound 6 is " << ArrayProcessing<long long>::upper_bound(&arr[0], &arr[9], 6) << "\n";
+		   //print:
+		   //  5; 5; 6; 6; 7; 8; 8; 9; 10; 10;
+		   //  First address in array 0x29347f0
+		   //  Upper bound 6 is 0x2934800
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::addElement(type_array *&, asize_t &, const type_array &, const asize_t)
+		   \brief Додає певне значення до масиву у вказаній позиції
+		   \details Функція додає задане значеннян у заданий масив із заданим
+		   розміром на задану позицію. Функція працює на місці.
+		   \remark Якщо задати і в якості розміру, і в якості позиції розмір
+		   масиву, то елемент буде додано у кінець масиву, так як функція збільшує
+		   розмір масиву перед тим, як почати додавати елемент, а тому на цей момент
+		   старий розмір масиву буде лише вказувати на позицію нового останнього
+		   елемента. Саме тому цю функцію легше всього використовувати замість
+		   push_back().
+		   \param[in, out] Array Масив, до якого додається елемент
+		   \param[in] array_size Розмір цього масиву
+		   \param[in] value Елемент, який потрібно додати до масиву
+		   \param[in] position Позиція, у якій буде додано елемент
+		   \since v0.0.1.0 commit e37003
+		   \exception EXCEPTION_SET::memory_overflow
+		   \paragraph Приклад
+		   \code{.cpp}
+		   unsigned long size = 10;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(5, 10);
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   ArrayProcessing<long long>::addElement(arr, size, 100, 0);
+		   for (unsigned long i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   ArrayProcessing<long long>::addElement(arr, size, 100, 5);
+		   for (unsigned long i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   ArrayProcessing<long long>::addElement(arr, size, 100, size);
+		   for (unsigned long i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   //print:
+		   //  10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
+		   //  100; 10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
+		   //  100; 10; 6; 8; 7; 100; 6; 7; 8; 7; 9; 7;
+		   //  100; 10; 6; 8; 7; 100; 6; 7; 8; 7; 9; 7; 100;
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::subtractElement(type_array *&, asize_t &, const asize_t)
+		   \brief Видаляє елемент по вказаній позиції у масиві
+		   \details Видаляє елемент по вказаній позиції з масиву. Схожий на
+		   ALGOR::ArrayProcessing::addElement.
+		   \param[in, out] Array Масив, у якому буде видалено елемент по позиції
+		   \param[in] array_size Розмір цього масиву
+		   \param[in] position Позиція, з якої буде видалено елемент
+		   \since v0.1.0.0 commit 37cab7
+		   \warning Не забувайте, що нумерація починається з 0!
+		   \exception EXCEPTION_SET::void_data
+		   \exception EXCEPTION_SET::position_failure
+		   \paragraph Приклад
+		   \code{.cpp}
+		   unsigned long size = 10;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(5, 10);
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   ArrayProcessing<long long>::subtractElement(arr, size, 7);
+		   for (unsigned long i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   //print:
+		   //  10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
+		   //  10; 6; 8; 7; 6; 7; 8; 9; 7;
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::subtractValue(type_array *&, asize_t &, const type_array &)
+		   \brief Видаляє зазначений елемент з усіх позицій у масиві
+		   \details На відміну від ALGOR::ArrayProcessing::subtractElement, що
+		   видаляє лише один елемент у вказаній позиції, ця функція приймає не
+		   позицію, а саме значення, що дозволяє його видалити з усіх позицій у
+		   всьому масиві.
+		   \param[in, out] Array Масив, у якому буде видалено всі елементи, що
+		   відповідають заданому значенню
+		   \param[in] array_size Розмір цього масиву
+		   \param[in] value Значення, яке потрібно видалити з усього масиву
+		   \since v0.1.0.0 commit 37cab7
+		   \exception EXCEPTION_SET::void_data
+		   \exception EXCEPTION_SET::value_failure
+		   \paragraph Приклад
+		   \code{.cpp}
+		   unsigned long size = 10;
+		   long long *arr = new long long[size];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (int i = 0; i < size; i++)
+		   {
+			   arr[i] = MT.IRandom(5, 10);
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   ArrayProcessing<long long>::subtractValue(arr, size, 7);
+		   for (unsigned long i = 0; i < size; i++)
+		   {
+			   cout << arr[i] << "; ";
+		   }
+		   cout << "\n";
+		   //print:
+		   //  10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
+		   //  10; 6; 8; 6; 8; 9;
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+		/*!
+		   \fn ALGOR::ArrayProcessing::copy(type_array *, const type_array *, const asize_t &, asize_t, asize_t)
+		   \brief Копіює масив
+		   \details Функція копіювання масиву. Але це не проста функція, а
+		   багатофункціональна. Окрім того, що треба задати масив, з якого
+		   копіюються данні, масив, до якого копіюються данні та обсяг данних,
+		   які потрібно скопіювати, можна ще задати позиції у цих масивах, а
+		   саме: з якої позиції почати копіювати данні та з якої позиції почати
+		   записувати данні до масива. \n Для прикладу, Ви можете задати функції,
+		   щоб вона скопіювала з 5 по 10 елемент зі старого масиву (усього п'ять
+		   з п'ятої позиції) до нового масиву, при чому почати зберігатися
+		   елементи повинні у новому масиві з п'ятої позиції (див. приклад).
+		   \param[in, out] new_array Масив, у який копіюються дані
+		   \param[in] old_array Масив, з якого потрібно скопіювати дані
+		   \param[in] size_of_copied Параметр, який вказує, скільки елементів
+		   потірбно скопіювати
+		   \param[in] position_in_new_array Позиція, з якої починається запис в
+		   масив, до якого копіюються дані
+		   \param[in] position_in_old_array Позиція, з якої починається читання
+		   у масиві, з якого копіюються дані
+		   \since v0.0.0.3 commit 1a11a0
+		   \warning До функції не передаються розміри масивів, через що функція не
+		   може перевірити, чи задаєте ви їй правильні данні. Через це програміст
+		   має бути дуже обережним з цією функцією
+		   \paragraph Приклад
+		   \code{.cpp}
+		   unsigned long size1 = 10, size2 = 15;
+		   long long *arr1 = new long long[size1], *arr2 = new long long[size2];
+		   RANDOM::MersenneTwister MT(getMemoryCell());
+		   for (unsigned long i = 0; i < size1; i++)
+		   {
+			   arr1[i] = MT.IRandom(5, 10);
+			   cout << arr1[i] << "; ";
+		   }
+		   cout << "\n";
+		   for (unsigned long i = 0; i < size2; i++)
+		   {
+			   arr2[i] = MT.IRandom(5, 10);
+			   cout << arr2[i] << "; ";
+		   }
+		   cout << "\n";
+		   ArrayProcessing<long long>::copy(arr1, arr2, 5, 5, 5);
+		   for (unsigned long i = 0; i < size1; i++)
+		   {
+			   cout << arr1[i] << "; ";
+		   }
+		   cout << "\n";
+		   //print:
+		   //   7;  7;  6;  5;  6; 10; 10;  7; 10;  9;
+		   //  17; 16; 15; 16; 17; 19; 15; 19; 19; 20; 20; 18; 18; 16; 20;
+		   //   7;  7;  6;  5;  6; 19; 15; 19; 19; 20;
+		   \endcode
+		   \paragraph Реалізація
+		 */
+
+	/*!
+	   \struct ALGOR::Array
+	   \brief Структура, що імітує масив
+	   \details Призначений для зберігання вказівника на динамічний масив та його
+	   розмір
+	   \tparam type_array Тип елементів, що зберігаються в масиві
+	   \since v0.0.1.0 commit 979bf4
+	   \warning Структуру можна створити будь-якого типу, але функції та класи
+	   підтримують тільки 5 типів: \a byte8_t, \a ubit64_t, \a fbit64_t,
+	   \a fbit128_t та \a asize_t. Тому будь-які інші типи можна використовувати
+	   тільки тоді, коли дана структура не буде взаємоді'яти з функіоналом
+	   бібліотеки, інакше ви зіштовхнетесь з помилкою <em>"undefined reference
+	   to"</em>.
+	   \paragraph Приклад
+	   \code{.cpp}
+	   Array<long long> *arr;
+	   \endcode
+	   \paragraph Реалізація
+	 */
+
+	/*!
+	   \fn ALGOR::create_struct(const asize_t &, bool)
+	   \brief Створює структуру з покажчиком на масив
+	   \details Зберігає розмір масиву, виділяє пам'ять під цей самий масив та повертає
+	   вказівник на структуру масиву.
+	   \tparam type_array Тип елементів, що будуть зберігатися у масиві
+	   \param[in] SIZE Розмір створюваного масиву
+	   \param[in] mem_allocation Логічний флаг, чи потрібно виділяти пам'ять під масив
+	   \retval Array<type_array>* вказівник на створену структуру
+	   \since v0.1.0.0 commit 85698d
+	   \remark Якщо ви вже виділили пам'ять під масив, то структурі не потрібно повторно
+	   виділяти пам'ять. Структура лише зберігає розмір масиву та сам вказівник на цей
+	   масив. Тому у цьому випадку флагу \a mem_allocation потрібно передати \a false і
+	   після цього зберегти вказівник на масив у структурі. У інших випадках флаг
+	   \a mem_allocation краще не змінювати.
+	   \paragraph Приклад
+	   \code{.cpp}
+	   Array<long long> *arr = create_struct<long long>(10); //arr = @0x1a1700
+	   \endcode
+	   \paragraph Реалізація
+	 */
+
+	/*!
+	   \fn ALGOR::generate_struct(Array<type_array> *&, const sbit64_t &, const sbit64_t &, const ubit32_t)
+	   \brief Генерує випадкові значення у структурі масиву
+	   \details Генерує у структурі масиву значення із заданого діапазону. Якщо
+	   задати \a denominator, то можна отримати кратні, чи дрібні значення данних.
+	   \tparam type_array Вказує якого типу будуть генеруватися числа у структурі
+	   масиву
+	   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
+	   \param[in] min_limit Мінімально можливе згенероване значення
+	   \param[in] max_limit Максимально можливе згенероване значення
+	   \param[in] denominator Дільник для генерації \a float данних
+	   \since v0.1.3.0 commit ca0704
+	   \paragraph Приклад
+	   \code{.cpp}
+	   generate_struct(arr, 1, 12); //arr->array = {9 9 7 7 4 7 2 7 2 9}
+	   \endcode
+	   \paragraph Реалізація
+	 */
+
+	/*!
+	   \fn ALGOR::remove_struct(Array<type_array> *&)
+	   \brief remove_struct
+	   \details Звільняє пам'ять від масиву, що зберігається у структурі й звільняє
+	   з пам'яті саму структуру
+	   \tparam type_array Тип елементів, що зберігаються у масиві
+	   \param[in, out] Array Масив, який потрібно видалити
+	   \result Вказівник на структуру після виклику цієї функції буде вказувати на
+	   \a nullptr.
+	   \since v0.0.0.1
+	   \paragraph Приклад
+	   \code{.cpp}
+	   remove_struct(arr); //arr = 0x0
+	   \endcode
+	   \paragraph Реалізація
+	 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  * --------------------------------------------------------------------------- *

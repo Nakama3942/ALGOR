@@ -423,14 +423,12 @@ bool ALGOR::ArrayProcessing<type_array>::isOrderliness(const type_array *Array, 
 template <typename type_array>
 asize_t ALGOR::ArrayProcessing<type_array>::distance(type_array *first, type_array *last)
 {
-	// http://www.cplusplus.com/reference/iterator/distance/?kw=distance
 	return last - first;
 }
 
 template <typename type_array>
 type_array *ALGOR::ArrayProcessing<type_array>::lower_bound(type_array *first, type_array *last, const type_array &value)
 {
-	// http://www.cplusplus.com/reference/algorithm/lower_bound/
 	asize_t count = distance(first, last), step = 0, iterator = 0;
 	while (count > 0)
 	{
@@ -452,7 +450,6 @@ type_array *ALGOR::ArrayProcessing<type_array>::lower_bound(type_array *first, t
 template <typename type_array>
 type_array *ALGOR::ArrayProcessing<type_array>::upper_bound(type_array *first, type_array *last, const type_array &value)
 {
-	// http://www.cplusplus.com/reference/algorithm/upper_bound/
 	asize_t count = distance(first, last), step = 0, iterator = 0;
 	while (count > 0)
 	{

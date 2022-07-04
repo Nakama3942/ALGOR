@@ -258,167 +258,32 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	///-
 	template <typename type_array>
 	class ArrayProcessing
 	{
 	public:
-		/*!
-		\brief Finds the minimum element in an array by iterating over
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array The array in which to look for the minimum element
-		\param[in] array_size The size of this very array
-		\throw void_data Transferred an empty array
-		\return type_array
-		*/
 		static type_array minimum(const type_array *Array, const asize_t &array_size);
-
-		/*!
-		\brief Finds the maximum element in an array by iterating over
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array The array in which to look for the maximum element
-		\param[in] array_size The size of this very array
-		\throw void_data Transferred an empty array
-		\return type_array
-		*/
 		static type_array maximum(const type_array *Array, const asize_t &array_size);
-
-		///-
 		static bool isOrderliness(const type_array *Array, const asize_t &array_size);
-
-		///-
 		static asize_t distance(type_array *first, type_array *last);
-
-		///-
 		static type_array *lower_bound(type_array *first, type_array *last, const type_array &value);
-
-		///-
 		static type_array *upper_bound(type_array *first, type_array *last, const type_array &value);
-
-		/*!
-		\brief Adds a specific value to an array at a specified position
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] Array The array to which the element is added
-		\param[in] array_size The size of this very array
-		\param[in] value The element to add to the array
-		\param[in] position The position at which the element will be added
-		*/
 		static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position = 0);
-
-		/*!
-		\brief Removes the specified position from the array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] Array The array in which the position will be deleted
-		\param[in] array_size The size of this very array
-		\param[in] position The position at which the element will be removed
-		*/
 		static void subtractElement(type_array *&Array, asize_t &array_size, const asize_t position);
-
-		/*!
-		\brief Removes a specific element from all positions in an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] Array An array in which all elements that match the given value will be removed
-		\param[in] array_size The size of this very array
-		\param[in] value The value to be removed in the entire array
-		*/
 		static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
-
-		/*!
-		\brief Copies an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in, out] new_array The array into which the data is copied
-		\param[in] old_array The array from which to copy
-		\param[in] size_of_copied A parameter that indicates how many items to copy
-		\param[in] position_in_new_array The position from which to start writing in the array to which the data is copied
-		\param[in] position_in_old_array The position from which to start reading from the array, from which the data is copied
-		*/
 		static void copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array = 0, asize_t position_in_old_array = 0);
 	};
 
-	/*!
-	   \struct Array
-	   \brief Структура, що імітує масив
-	   \details Призначений для зберігання вказівника на динамічний масив та його
-	   розмір
-	   \tparam type_array Тип елементів, що зберігаються в масиві
-	   \since v0.0.1.0 commit 979bf4
-	   \warning Структуру можна створити будь-якого типу, але функції та класи
-	   підтримують тільки 5 типів: \a byte8_t, \a ubit64_t, \a fbit64_t,
-	   \a fbit128_t та \a asize_t. Тому будь-які інші типи можна використовувати
-	   тільки тоді, коли дана структура не буде взаємоді'яти з функіоналом
-	   бібліотеки, інакше ви зіштовхнетесь з помилкою <em>"undefined reference
-	   to"</em>.
-	   \paragraph Приклад
-	   \code{.cpp}
-	   Array<long long> *arr;
-	   \endcode
-	   \paragraph Реалізація
-	 */
 	template <typename type_array>
 	struct Array
 	{
 		type_array *array = nullptr;
 		asize_t array_size = 0;
 	};
-	/*!
-	   \fn create_struct(const asize_t &SIZE, bool mem_allocation = true)
-	   \brief Створює структуру з покажчиком на масив
-	   \details Зберігає розмір масиву, виділяє пам'ять під цей самий масив та повертає
-	   вказівник на структуру масиву.
-	   \tparam type_array Тип елементів, що будуть зберігатися у масиві
-	   \param[in] SIZE Розмір створюваного масиву
-	   \param[in] mem_allocation Логічний флаг, чи потрібно виділяти пам'ять під масив
-	   \retval Array<type_array>* вказівник на створену структуру
-	   \since v0.1.0.0 commit 85698d
-	   \remark Якщо ви вже виділили пам'ять під масив, то структурі не потрібно повторно
-	   виділяти пам'ять. Структура лише зберігає розмір масиву та сам вказівник на цей
-	   масив. Тому у цьому випадку флагу \a mem_allocation потрібно передати \a false і
-	   після цього зберегти вказівник на масив у структурі. У інших випадках флаг
-	   \a mem_allocation краще не змінювати.
-	   \paragraph Приклад
-	   \code{.cpp}
-	   Array<long long> *arr = create_struct<long long>(10); //arr = @0x1a1700
-	   \endcode
-	   \paragraph Реалізація
-	 */
 	template <typename type_array>
 	Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
-	/*!
-	   \fn generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1)
-	   \brief Генерує випадкові значення у структурі масиву
-	   \details Генерує у структурі масиву значення із заданого діапазону. Якщо
-	   задати \a denominator, то можна отримати кратні, чи дрібні значення данних.
-	   \tparam type_array Вказує якого типу будуть генеруватися числа у структурі
-	   масиву
-	   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
-	   \param[in] min_limit Мінімально можливе згенероване значення
-	   \param[in] max_limit Максимально можливе згенероване значення
-	   \param[in] denominator Дільник для генерації \a float данних
-	   \since v0.1.3.0 commit ca0704
-	   \paragraph Приклад
-	   \code{.cpp}
-	   generate_struct(arr, 1, 12); //arr->array = {9 9 7 7 4 7 2 7 2 9}
-	   \endcode
-	   \paragraph Реалізація
-	 */
 	template <typename type_array>
 	void generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
-	/*!
-	   \fn remove_struct(Array<type_array> *&Array)
-	   \brief remove_struct
-	   \details Звільняє пам'ять від масиву, що зберігається у структурі й звільняє
-	   з пам'яті саму структуру
-	   \tparam type_array Тип елементів, що зберігаються у масиві
-	   \param[in, out] Array Масив, який потрібно видалити
-	   \result Вказівник на структуру після виклику цієї функції буде вказувати на
-	   \a nullptr.
-	   \since v0.1.0.0 commit 48aa64
-	   \paragraph Приклад
-	   \code{.cpp}
-	   remove_struct(arr); //arr = 0x0
-	   \endcode
-	   \paragraph Реалізація
-	 */
 	template <typename type_array>
 	void remove_struct(Array<type_array> *&Array);
 
