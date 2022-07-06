@@ -25,6 +25,11 @@
   \details Призначений для зберігання усього реалізованого функціоналу проекту.
   Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
   \since v0.1.2.0 commit 2fa93b
+  \example Algor_core.cpp
+  \example Algor_printer.cpp
+  \example Algor_exception.cpp
+  \example Algor_random.cpp
+  \example Algor_ArrayProcessing.cpp
  */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
@@ -200,13 +205,8 @@
 	   \param[in, out] firstNumber Перший елемент для заміни
 	   \param[in, out] secondNumber Другий елемент для заміни
 	   \since v0.0.0.1
-	   \paragraph Приклад
-	   \code{.cpp}
-	   int value1 = 5, value2 = 10;
-	   CORE::swap(value1, value2);
-	   cout << value2 << "\n"; //print 5
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp swap
 	 */
 
 	/*!
@@ -220,12 +220,8 @@
 	   \param[in] secondNumber Друге значення на вибірку
 	   \since v0.1.1.4 commit 090b06
 	   \return найменше значення з двух наданих
-	   \paragraph Приклад
-	   \code{.cpp}
-	   int value1 = 5, value2 = 10;
-	   cout << CORE::minimum(value1, value2) << "\n"; //print 5
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp minimum
 	 */
 
 	/*!
@@ -239,12 +235,8 @@
 	   \param[in] secondNumber Друге значення на вибірку
 	   \since v0.1.1.4 commit 090b06
 	   \return найбільше значення з двух наданих
-	   \paragraph Приклад
-	   \code{.cpp}
-	   int value1 = 5, value2 = 10;
-	   cout << CORE::maximum(value1, value2) << "\n"; //print 10
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp maximum
 	 */
 
 	/*!
@@ -264,11 +256,8 @@
 	   чотири-байтове значення, можна задати правий здвиг на 32 біти (4 байти) і
 	   тоді функція поверне 4 старших байти.
 	   \retval cell - розраховане випадкове число
-	   \paragraph Приклад
-	   \code{.cpp}
-	   cout << CORE::getMemoryCell() << "\n"; //print 185214324139604
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp mem
 	 */
 
 	/*!
@@ -289,27 +278,8 @@
 	   \since v0.1.2.0 commit 2fa93b
 	   \remark
 	   Раджу використовувати наступну реалізацію для консольної програми:
-	   \code{.cpp}
-	   template <typename type_array>
-	   class printer : public CORE::Printer
-	   {
-	   public:
-		   void setData(Array<type_array> **ARRAY)
-		   {
-			   Array = ARRAY;
-		   }
-		   void print() override
-		   {
-			   for (asize_t i = 0; i < (*Array)->array_size; i++)
-			   {
-				   cout << " " << (*Array)->array[i];
-			   }
-			   cout << "\n";
-		   }
-	   private:
-		   Array<type_array> **Array;
-	   };
-	   \endcode
+	   \test
+	   \snippet Algor_printer.cpp printer
 	   Цей клас зберігає не матрицю, а вказівник на вказівник на структуру масиву.
 	   Тому достатньо один раз передати у клас вказівник на структуру і все. Далі
 	   можна просто міняти вказівники на інші структури з іншими масивами і не
@@ -322,24 +292,8 @@
 		   \brief Метод для виводу інформації
 		   \since v0.1.2.0 commit 2fa93b
 		   \paragraph Приклад
-		   \code{.cpp}
-		   //Створюю вказівник на структуру
-		   Array<byte8_t> *D;
-
-		   //Створюю об'єкт принтера і передаю йому посилання на структуру
-		   printer<byte8_t> *pr = new printer<byte8_t>;
-		   pr->setData(&D);
-
-		   //Створюю об'єкт класу масиву та генерую данні
-		   ARRAYDATA<byte8_t> *A = new ARRAYDATA<byte8_t>(35);
-		   A->generatedData(10, 1000);
-
-		   //Зберігаю у структурі вказівник на масив
-		   D = A->getData();
-
-		   //Виводжу данні
-		   pr->print();
-		   \endcode
+		   \test
+		   \snippet Algor_printer.cpp print
 		 */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
@@ -368,22 +322,8 @@
 		   конструктору, а для отримання інформації про виняток треба його перехопити
 		   і використати метод, що повертає необхідні данні.
 		   \since v0.1.1.0 commit c62e85
-		   \paragraph Приклад
-		   \code{.cpp}
-		   try
-		   {
-			   throw EXCEPTION_SET::Exception(55, "details", "explanation");
-		   }
-		   catch (EXCEPTION_SET::Exception ex)
-		   {
-			   cout << "Code: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n";
-		   }
-		   //print:
-		   //  Code: 55;
-		   //  details
-		   //  -> explanation
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_exception.cpp exception code details explanation class
 		 */
 
 			/*!
@@ -399,11 +339,8 @@
 			   \remark Цей конструктор є розширеним так як дозволяє успадкованим класам
 			   надати пояснення до винятку, коли це необхідно, що робить цей клас
 			   більш універсальним.
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::Exception(100, "details", "explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception code details explanation
 			 */
 
 			/*!
@@ -414,11 +351,8 @@
 			   \param[in] CODE Код Exception
 			   \param[in] DETAILS Деталі Exception
 			   \since v0.1.1.0 commit c62e85
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::Exception(100, "details");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception code details
 			 */
 
 			/*!
@@ -429,11 +363,8 @@
 			   винятку.
 			   \param[in] CODE Код Exception
 			   \since v0.1.1.0 commit c62e85
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::Exception(100);
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception code
 			 */
 
 			/*!
@@ -444,11 +375,8 @@
 			   винятку.
 			   \param[in] DETAILS Деталі Exception
 			   \since v0.1.1.0 commit c62e85
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::Exception("details");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception details
 			 */
 
 			/*!
@@ -457,14 +385,8 @@
 			   \details Повертає номер винятку, що зберігається в об'єкті.
 			   \since v0.1.1.0 commit c62e85
 			   \retval CODE - номер винятку
-			   \paragraph Приклад
-			   \code{.cpp}
-			   catch (EXCEPTION_SET::Exception ex)
-			   {
-				   cout << ex.code() << "\n"; //print 100
-			   }
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception catch code
 			 */
 
 			/*!
@@ -473,14 +395,8 @@
 			   \details Повертає деталі винятку, що зберігаються в об'єкті.
 			   \since v0.1.1.0 commit c62e85
 			   \retval DETAILS - деталі винятку
-			   \paragraph Приклад
-			   \code{.cpp}
-			   catch (EXCEPTION_SET::Exception ex)
-			   {
-				   cout << ex.what() << "\n"; //print "details"
-			   }
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception catch details
 			 */
 
 			/*!
@@ -489,14 +405,8 @@
 			   \details Повертає пояснення винятку, що зберігається в об'єкті.
 			   \since v0.1.3.0 commit 2c6408
 			   \retval EXPLANATION - пояснення винятку
-			   \paragraph Приклад
-			   \code{.cpp}
-			   catch (EXCEPTION_SET::Exception ex)
-			   {
-				   cout << ex.why() << "\n"; //print "explanation"
-			   }
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception catch explanation
 			 */
 
 			/*!
@@ -595,11 +505,8 @@
 			   \details Конструктор об'єкту, що використовується, як виняток
 			   memory_overflow. До каркасу передаються код виключення та деталі.
 			   \since v0.1.1.0 commit bce6b6
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::memory_overflow();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception memory_overflow
 			 */
 
 			/*!
@@ -610,11 +517,8 @@
 			   та пояснення.
 			   \param[in] explanation Пояснення до деталей винятку
 			   \since v0.1.3.0 commit 2с6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::memory_overflow("explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception memory_overflow explanation
 			 */
 
 		/*!
@@ -631,11 +535,8 @@
 			   \details Конструктор об'єкту, що використовується, як виняток
 			   division_by_zero. До каркасу передаються код виключення та деталі.
 			   \since v0.1.2.0 commit d74cc1
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::division_by_zero();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception division_by_zero
 			 */
 
 			/*!
@@ -646,11 +547,8 @@
 			   та пояснення.
 			   \param[in] explanation Пояснення до деталей винятку
 			   \since v0.1.3.0 commit 2с6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::division_by_zero("explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception division_by_zero explanation
 			 */
 
 		/*!
@@ -667,11 +565,8 @@
 			   \details Конструктор об'єкту, що використовується, як виняток
 			   position_failure. До каркасу передаються код виключення та деталі.
 			   \since v0.1.1.0 commit 8bbf75
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::position_failure();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception position_failure
 			 */
 
 			/*!
@@ -682,11 +577,8 @@
 			   та пояснення.
 			   \param[in] explanation Пояснення до деталей винятку
 			   \since v0.1.3.0 commit 2с6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::position_failure("explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception position_failure explanation
 			 */
 
 		/*!
@@ -703,11 +595,8 @@
 			   \details Конструктор об'єкту, що використовується, як виняток
 			   value_failure. До каркасу передаються код виключення та деталі.
 			   \since v0.1.1.0 commit 8bbf75
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::value_failure();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception value_failure
 			 */
 
 			/*!
@@ -718,11 +607,8 @@
 			   та пояснення.
 			   \param[in] explanation Пояснення до деталей винятку
 			   \since v0.1.3.0 commit 2с6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::value_failure("explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception value_failure explanation
 			 */
 
 		/*!
@@ -739,11 +625,8 @@
 			   \details Конструктор об'єкту, що використовується, як виняток
 			   size_failure. До каркасу передаються код виключення та деталі.
 			   \since v0.1.3.0 commit 2c6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::size_failure();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception size_failure
 			 */
 
 			/*!
@@ -754,11 +637,8 @@
 			   та пояснення.
 			   \param[in] explanation Пояснення до деталей винятку
 			   \since v0.1.3.0 commit 2с6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::size_failure("explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception size_failure explanation
 			 */
 
 		/*!
@@ -775,11 +655,8 @@
 			   \details Конструктор об'єкту, що використовується, як виняток
 			   void_data. До каркасу передаються код виключення та деталі.
 			   \since v0.1.1.0 commit c62e85
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::void_data();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception void_data
 			 */
 
 			/*!
@@ -790,11 +667,8 @@
 			   та пояснення.
 			   \param[in] explanation Пояснення до деталей винятку
 			   \since v0.1.3.0 commit 2с6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::void_data("explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception void_data explanation
 			 */
 
 		/*!
@@ -811,11 +685,8 @@
 			   \details Конструктор об'єкту, що використовується, як виняток
 			   not_found. До каркасу передаються код виключення та деталі.
 			   \since v0.1.1.0 commit c62e85
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::not_found();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception not_found
 			 */
 
 			/*!
@@ -826,11 +697,8 @@
 			   та пояснення.
 			   \param[in] explanation Пояснення до деталей винятку
 			   \since v0.1.3.0 commit 2с6408
-			   \paragraph Приклад
-			   \code{.cpp}
-			   throw EXCEPTION_SET::not_found("explanation");
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_exception.cpp exception not_found explanation
 			 */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
@@ -863,11 +731,8 @@
 		   Source: https://en.wikipedia.org/wiki/Linear_congruential_generator\n
 		   Paragraph: Parameters in common use\n
 		   Table row: MMIX by Donald Knuth\n
-		   \paragraph Приклад
-		   \code{.cpp}
-		   RANDOM::LCM r(getMemoryCell());
-		   cout << r.rand() << "\n"; //print 510610997
-		   \endcode
+		   \test
+		   \snippet Algor_random.cpp LCM class
 		 */
 
 			/*!
@@ -878,15 +743,8 @@
 			   стандартної функції \a srand().
 			   \param[in] seed
 			   \since v0.1.3.0 commit ca0704
-			   \paragraph Приклад
-			   \code{.cpp}
-			   RANDOM::LCM r(getMemoryCell());
-			   \endcode
-			   або \n
-			   \code{.cpp}
-			   RANDOM::LCM r(time(NULL));
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp LCM srand
 			 */
 
 			/*!
@@ -896,11 +754,8 @@
 			   послідовності.
 			   \since v0.1.3.0 commit ca0704
 			   \retval seed - наступне число послідновності \f$x_n\f$
-			   \paragraph Приклад
-			   \code{.cpp}
-			   cout << r.rand() << "\n"; //print 510610997
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp LCM rand
 			 */
 
 			/*!
@@ -943,15 +798,8 @@
 		   чому не радиться його використовувати.
 		   \paragraph Ресурси
 		   Source: https://www.youtube.com/watch?v=PQlZI-QoM2A\n
-		   \paragraph Приклад
-		   \code{.cpp}
-		   RC4 rc4;							//Створюю об'єкт ГВЧ
-		   char key[100];						//Створюю ключ
-		   rc4.crypto_srand(key, 100);			//Встановлюю ключ
-		   int BUFSIZe = 100;
-		   char output[BUFSIZe];				//Створюю масив під результат
-		   rc4.crypto_rand(output, BUFSIZe);	//Генерую результат
-		   \endcode
+		   \test
+		   \snippet Algor_random.cpp RC4 class
 		*/
 
 			/*!
@@ -961,13 +809,8 @@
 			   \param[in] key Ключ, що встановлюється
 			   \param[in] ksize Розмір ключа
 			   \since v0.1.0.0 commit 88415c
-			   \paragraph Приклад
-			   \code{.cpp}
-			   RC4 rc4;					//Створюю об'єкт ГВЧ
-			   char key[100];				//Створюю ключ
-			   rc4.crypto_srand(key, 100);	//Встановлюю ключ
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp RC4 srand
 			 */
 
 			/*!
@@ -978,13 +821,8 @@
 			   \param[out] output Генерує масив вихідних елементів
 			   \param size Розмір масиву вихідних елементів
 			   \since v0.1.0.0 commit 88415c
-			   \paragraph Приклад
-			   \code{.cpp}
-			   int BUFSIZe = 100;
-			   char output[BUFSIZe];				//Створюю масив під результат
-			   rc4.crypto_rand(output, BUFSIZe);	//Генерую результат
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp RC4 rand
 			 */
 
 			/*!
@@ -1007,19 +845,8 @@
 		   зміна сигнатур методів у класі. Чи його повне видалення.
 		   \paragraph Ресурси
 		   Source: https://www.agner.org/random/\n
-		   \paragraph Приклад
-		   \code{.cpp}
-		   //Створюю об'єкт ГВЧ
-		   using namespace ALGOR::RANDOM;
-
-		   MersenneTwister RanGen(getMemoryCell(32));
-
-		   //Заповнюю масив числами від 10 до 100
-		   for (asize_t i = 0; i < array_size; i++)
-		   {
-			   array[i] = RanGen.IRandom(10, 100);
-		   }
-		   \endcode
+		   \test
+		   \snippet Algor_random.cpp MT class
 		 */
 
 			/*!
@@ -1029,11 +856,8 @@
 			   що буде генеруватися.
 			   \param[in] seed Сі́м'я генерації
 			   \since v0.1.0.0 commit 88415c
-			   \paragraph Приклад
-			   \code{.cpp}
-			   MersenneTwister RanGen(getMemoryCell(32));
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp MT srand
 			 */
 
 			/*!
@@ -1042,11 +866,8 @@
 			   \details Використовується при перевстановленні семені ГПВЧ.
 			   \param[in] seed Сі́м'я генерації
 			   \since v0.1.0.0 commit 88415c
-			   \paragraph Приклад
-			   \code{.cpp}
-			   RanGen.RandomInit(getMemoryCell(32));
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp MT reinit
 			 */
 
 			/*!
@@ -1064,7 +885,6 @@
 			   додаткових розрахунків.
 			   \deprecated Буде видалено після завершення тестування ГПВЧ
 			   \return згенероване число
-			   \paragraph Реалізація
 			 */
 
 			/*!
@@ -1075,11 +895,8 @@
 			   \param[in] max Максимальне число діапазону
 			   \since v0.1.0.0 commit 88415c
 			   \return згенероване число у заданому діапазоні
-			   \paragraph Приклад
-			   \code{.cpp}
-			   array[0] = RanGen.IRandom(10, 100);
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp MT int
 			 */
 
 			/*!
@@ -1091,11 +908,8 @@
 			   \param[in] max Максимальне число діапазону
 			   \since v0.1.0.0 commit 88415c
 			   \return точне згенероване число у заданому діапазоні
-			   \paragraph Приклад
-			   \code{.cpp}
-			   array[0] = RanGen.IRandomX(10, 100);
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp MT int extend
 			 */
 
 			/*!
@@ -1106,11 +920,8 @@
 			   \warning Цей метод генерує числа від 0 до 1, тобто всі
 			   згенеровані числа будуть меншими від одиниці
 			   \return число з плаваючою комою
-			   \paragraph Приклад
-			   \code{.cpp}
-			   array[0] = RanGen.Random();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp MT double
 			 */
 
 			/*!
@@ -1125,11 +936,8 @@
 			   потрібно відразу згенерувати якесь число на усьому діапазоні, то краще
 			   обирати цей метод.
 			   \return згенероване число на всьому діапазоні
-			   \paragraph Приклад
-			   \code{.cpp}
-			   array[0] = RanGen.BRandom();
-			   \endcode
-			   \paragraph Реалізація
+			   \test
+			   \snippet Algor_random.cpp MT bits
 			 */
 
 			/*!
@@ -1137,7 +945,6 @@
 			   \brief Базова процедура ініціалізації
 			   \param[in] seed Сі́м'я генерації
 			   \since v0.1.0.0 commit 88415c
-			   \paragraph Реалізація
 			 */
 
 			/*!
@@ -1179,13 +986,8 @@
 		   підготовлено до використання данною функцією тестування, та й сама
 		   функція не компілюється під цей алгоритм.
 		   \return коефіціент узгодженості Пірсона
-		   \paragraph Приклад
-		   \code{.cpp}
-		   cout << RANDOM::tester<RANDOM::LCM>(0, 999999) << "\n";
-		   cout << RANDOM::tester<RANDOM::MersenneTwister>(0, 999999) << "\n";
-		   //print 78.6892
-		   //print 80.2694
-		   \endcode
+		   \test
+		   \snippet Algor_random.cpp random test
 		   \remark Як можна побачити з прикладу, RANDOM::LCM генерує
 		   числа більш рівномірно. Однак це не значить, що він є кращим... Як вже
 		   було сказано, ГПВЧ Вихор Марсена є швидшим <del>(хоча й використовує
@@ -1197,7 +999,6 @@
 		   ALGOR::generate_struct структури масиву ALGOR::Array все ж таки було
 		   обрано RANDOM::LCM, так як він набагато легший у реалізації та
 		   розумінні, а працює так само якісно, як і RANDOM::MersenneTwister.
-		   \paragraph Реалізація
 		 */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
@@ -1238,22 +1039,8 @@
 		   не є ефективною. Краще перед виконанням цієї функції перевірити, чи є масив
 		   відсортованим за допомогою функції ALGOR::ArrayProcessing::isOrderliness
 		   \return значення найменшого елемента масиву
-		   \paragraph Приклад
-		   \code{.cpp}
-		   int size = 5;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(10, 100);
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\nMinimum is " << ArrayProcessing<long long>::minimum(arr, size) << "\n";
-		   //print:
-		   //  63; 23; 32; 66; 79;
-		   //  Minimum is 23
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing minimum
 		 */
 
 		/*!
@@ -1269,22 +1056,8 @@
 		   не є ефективною. Краще перед виконанням цієї функції перевірити, чи є масив
 		   відсортованим за допомогою функції ALGOR::ArrayProcessing::isOrderliness
 		   \return значення найбільшого елемента масиву
-		   \paragraph Приклад
-		   \code{.cpp}
-		   int size = 5;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(10, 100);
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\nMaximum is " << ArrayProcessing<long long>::maximum(arr, size) << "\n";
-		   //print:
-		   //  37; 23; 20; 48; 13;
-		   //  Maximum is 48
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing maximum
 		 */
 
 		/*!
