@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.0.0.1 (29.09.2021) <- 「Alpha-release」
+### v0.0.0.1 (29.09.2021) <- 「Alpha-release」
 
 > *Це мала бути проста робота, що містить лише алгоритми сортування*...
 
@@ -19,7 +19,7 @@
 
 ---
 
-## v0.0.0.2 (01.10.2021) <- 「Fixes」
+### v0.0.0.2 (01.10.2021) <- 「Fixes」
 
 > *Дрібні правки*...
 
@@ -33,7 +33,7 @@
 
 ---
 
-## v0.0.0.3 (16.10.2021) <- 「Extending ArrayProcessing functionality」
+### v0.0.0.3 (16.10.2021) <- 「Extending ArrayProcessing functionality」
 
 > *Додано кілька нових методів*...
 
@@ -60,7 +60,7 @@
 
 ---
 
-## v0.0.1.0 (05.11.2021) <- 「Structuring」
+### v0.0.1.0 (05.11.2021) <- 「Structuring」
 
 > *Формування першої структури проекту*...
 
@@ -89,7 +89,7 @@
 
 ---
 
-## v0.1.0.0 (23.12.2021) <- 「Dynamization & Globalization」
+### v0.1.0.0 (23.12.2021) <- 「Dynamization & Globalization」
 
 > *Створив великий клас із гігантськими можливостями форматування даних у масивах*...
 
@@ -170,7 +170,7 @@
 
 ---
 
-## v0.1.1.0 (11.01.2022) <- 「Exception & Safety」
+### v0.1.1.0 (11.01.2022) <- 「Exception & Safety」
 
 > *Я подумав про безпеку зберігання даних*...
 
@@ -188,7 +188,7 @@
 
 ---
 
-## v0.1.1.1 (26.03.2022) <- 「Exchange_Sorts」
+### v0.1.1.1 (26.03.2022) <- 「Exchange_Sorts」
 
 > *Завершив першу категорію алгоритмів сортування*...
 
@@ -211,7 +211,7 @@ sort->Stooge_Sort(); // Or some other
 
 ---
 
-## v0.1.1.2 (30.03.2022) <- 「Selection_Sorts」
+### v0.1.1.2 (30.03.2022) <- 「Selection_Sorts」
 
 > *Завершив другу категорію алгоритмів сортування*...
 
@@ -224,7 +224,7 @@ sort->Stooge_Sort(); // Or some other
 
 ---
 
-## v0.1.1.3 (01.04.2022) <- 「Insertion_Sorts」
+### v0.1.1.3 (01.04.2022) <- 「Insertion_Sorts」
 
 > *Завершив третю категорію алгоритмів сортування*...
 
@@ -236,7 +236,7 @@ sort->Stooge_Sort(); // Or some other
 
 ---
 
-## v0.1.1.4 (04.04.2022) <- 「Merge_Sorts」
+### v0.1.1.4 (04.04.2022) <- 「Merge_Sorts」
 
 > *Завершив четверту категорію алгоритмів сортування*...
 
@@ -247,7 +247,7 @@ sort->Stooge_Sort(); // Or some other
 
 ---
 
-## v0.1.2.0 (15.04.2022) <- 「namespace ALGOR & Comparative_Sorts & Distribution_Sorts」
+### v0.1.2.0 (15.04.2022) <- 「namespace ALGOR & Comparative_Sorts & Distribution_Sorts」
 
 > *Після завершення п'ятої категорії алгоритмів сортування я подумав про глобальний простір імен усього проекту*...
 
@@ -269,7 +269,7 @@ using namespace ALGOR;
 
 ---
 
-## v0.1.2.1 (03.06.2022) <- 「Completed sorting algorithms」
+### v0.1.2.1 (03.06.2022) <- 「Completed sorting algorithms」
 
 > *Достроково виконав останню шосту, сьому та восьму категорії алгоритмів сортування та "прєісполнился в познаніі" вказівників*...
 
@@ -292,7 +292,7 @@ using namespace ALGOR;
 
 ---
 
-## v0.1.3.0 (24.06.2022) <- 「Completed develop arrays structuring and library core」
+### v0.1.3.0 (24.06.2022) <- 「Completed develop arrays structuring and library core」
 
 > *Довів структуру проекту до остаточного вигляду*...
 
@@ -344,7 +344,7 @@ using namespace ALGOR;
 
 ---
 
-## v1.0.0.0 (DATE) Документування [--- не завершене ---] {головна розробка завершена; проект готовий додавати новий вміст}
+### v1.0.0.0 (DATE) Документування [--- не завершене ---] {головна розробка завершена; проект готовий додавати новий вміст}
 
 > *-*...
 
@@ -364,24 +364,3 @@ using namespace ALGOR;
 - [# XXX](https : / / github . com / XXX) DESCRIPTION
 
 ~~Запланований старий тег 2.4.0~~
-
-<!--
----
-
-## vX.X.X.X (DATE)
-
-#### Bug Fixes:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Invalid Fixed:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Documenting:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Duplicating:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
-
-#### Enhancements:
-- [# XXX](https : / / github . com / XXX) DESCRIPTION
--->
