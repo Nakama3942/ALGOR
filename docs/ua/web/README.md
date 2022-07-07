@@ -39,7 +39,7 @@
 Всі алгоритми перевірені мною, але якщо у вас виникли проблеми з використанням бібліотеки, код не працює, є пропозиції щодо оптимізації або поради щодо покращення стилю коду та імен - запрошую [сюди](https://github.com/Nakama3942/ALGOR/blob/main/CONTRIBUTING.md) та [сюди](https://github.com/Nakama3942/ALGOR/blob/main/CODE_OF_CONDUCT.md).
 
 ### Автори
-<table>
+<table align="center" style="border-width: 10; border-style: ridge">
 	<tr>
 		<td align="center"><a href="https://github.com/Nakama3942"><img src="https://avatars.githubusercontent.com/u/73797846?s=400&u=a9b7688ac521d739825d7003a5bd599aab74cb76&v=4" width="150px;" alt=""/><br /><sub><b>Калиновський Валентин</b></sub></a><sub><br />"Ідейний натхненник і Автор"</sub></td>
 		<!--<td></td>-->

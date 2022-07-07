@@ -15,9 +15,9 @@
 docs/en/html
 docs/en/latex
 docs/en/xml
-docs/ua/html
-docs/ua/latex
-docs/ua/xml
+docs/ua/web/html
+docs/ua/book/latex
+docs/ua/book/xml
 
 # Qt-es
 object_script.*.Release

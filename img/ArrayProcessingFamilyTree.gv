@@ -1,0 +1,16 @@
+digraph G {
+fontname="Helvetica,Arial,sans-serif"
+node [fontname="Helvetica,Arial,sans-serif"]
+edge [fontname="Helvetica,Arial,sans-serif"]
+
+CLASS_old_ArrayProcessing [shape=invhouse,color=brown,style=bold,label="v0.0.0.1 ArrayProcessing",fillcolor="grey"];
+CLASS_ARRAYDATA [shape=box,color=gold,style=bold,label="ARRAYDATA"];
+CLASS_ArrayCore [color=red,style=bold,label="ArrayCore"];
+CLASS_new_ArrayProcessing [shape=box,color=blue,style=bold,label="v1.0.0.0 ArrayProcessing"];
+CLASS_Core [shape=house,color=silver,style=bold,label="Core Functional"];
+
+ CLASS_old_ArrayProcessing -> CLASS_ArrayCore [style=dashed,color=darkred];
+ CLASS_old_ArrayProcessing -> CLASS_ARRAYDATA [color=orange];
+ CLASS_ArrayCore -> CLASS_Core [style=dashed];
+ CLASS_ArrayCore -> CLASS_new_ArrayProcessing;
+}
