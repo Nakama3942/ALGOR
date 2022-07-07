@@ -287,40 +287,17 @@ namespace ALGOR
 	template <typename type_array>
 	void remove_struct(Array<type_array> *&Array);
 
-	/*!
-	\brief The base class, which is organized for working with arrays - memory allocation, storage, deletion
-	\tparam type_array The type of elements that the array stores. For example int or float
-	*/
 	template <typename type_array>
 	class ArrayBase
 	{
 	protected:
-		/*!
-		\brief Construct a new ArrayBase<type_array>::ArrayBase object
-		\details With this creation of an object, both the structure and the object of the class will point to the same array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array Pointer to a structured array
-		*/
 		ArrayBase(Array<type_array> *&Array);
-		/*!
-		\brief Construct a new ArrayBase<type_array>::ArrayBase object
-		\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] SIZE The size of the array being created
-		*/
 		ArrayBase(const asize_t &SIZE);
-		/*!
-		\fn ArrayBase<type_array>::ArrayBase()
-		\brief Construct a new ArrayBase<type_array>::ArrayBase object
-		\details With this creation of an object, no memory will be allocated for the array. The object will be empty
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
 		ArrayBase();
 
-		///-
 		void verification(Array<type_array> *Array);
 
-		Array<type_array> *ARRAY = nullptr; ///< Pointer to a structure storing an array
+		Array<type_array> *ARRAY = nullptr;
 	};
 
 	/*!
