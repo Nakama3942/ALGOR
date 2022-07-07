@@ -898,7 +898,7 @@
 			   \since v0.1.0.0 commit 88415c
 			   \return згенероване число у заданому діапазоні
 			   \test
-			   \snippet Algor_random.cpp MT int
+			   \snippet Algor_random.cpp MT rand int
 			 */
 
 			/*!
@@ -911,7 +911,7 @@
 			   \since v0.1.0.0 commit 88415c
 			   \return точне згенероване число у заданому діапазоні
 			   \test
-			   \snippet Algor_random.cpp MT int extend
+			   \snippet Algor_random.cpp MT rand int extend
 			 */
 
 			/*!
@@ -923,7 +923,7 @@
 			   згенеровані числа будуть меншими від одиниці
 			   \return число з плаваючою комою
 			   \test
-			   \snippet Algor_random.cpp MT double
+			   \snippet Algor_random.cpp MT rand double
 			 */
 
 			/*!
@@ -939,7 +939,7 @@
 			   обирати цей метод.
 			   \return згенероване число на всьому діапазоні
 			   \test
-			   \snippet Algor_random.cpp MT bits
+			   \snippet Algor_random.cpp MT rand bits
 			 */
 
 			/*!

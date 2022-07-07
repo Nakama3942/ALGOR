@@ -871,7 +871,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../../src \
+INPUT                  = ../../../src \
                          DOCUMENTATION.dox \
                          README.md \
                          CHANGELOG.md \
@@ -997,8 +997,8 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = ../../example \
-                         ../../test/main
+EXAMPLE_PATH           = ../../../example \
+                         ../../../test/main
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
@@ -1200,7 +1200,7 @@ CLANG_OPTIONS          =
 # Note: The availability of this option depends on whether or not doxygen was
 # generated with the -Duse_libclang=ON option for CMake.
 
-CLANG_DATABASE_PATH    =
+CLANG_DATABASE_PATH    = N:\build-ALGOR-TDM_GCC-Debug\.qtc_clangd
 
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index
