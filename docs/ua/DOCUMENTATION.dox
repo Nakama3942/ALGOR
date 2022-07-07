@@ -25,6 +25,8 @@
   \details Призначений для зберігання усього реалізованого функціоналу проекту.
   Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
   \since v0.1.2.0 commit 2fa93b
+  \example sort_global.cpp
+  \example sort_test.cpp
   \example Algor_core.cpp
   \example Algor_printer.cpp
   \example Algor_exception.cpp
@@ -1075,31 +1077,8 @@
 		   треба передати обернений масив, а цим функціоналом володіє тільки
 		   ALGOR::ARRAYDATA::reverse
 		   \return логічне значення, чи є масив впорядкованим (так чи ні)
-		   \paragraph Приклад
-		   \code{.cpp}
-		   int size = 5;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(10, 100);
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\nArray is orderliness? " << ArrayProcessing<long long>::isOrderliness(arr, size) << "\n";
-		   Comparative_Sorts<long long>::LibrarySort sort(arr, size); //or any sorting
-		   sort.library_sort();
-		   for (int i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\nArray is orderliness? " << ArrayProcessing<long long>::isOrderliness(arr, size) << "\n";
-		   //print:
-		   //  70; 26; 51; 94; 37;
-		   //  Array is orderliness? 0
-		   //  26; 37; 51; 70; 94;
-		   //  Array is orderliness? 1
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing isOrderliness
 		 */
 
 		/*!
@@ -1117,14 +1096,8 @@
 		   класу ітератор (як можна побачити з прикладу на офіційній сторінці
 		   документації), а данна функція працює просто із вказівниками, що
 		   є легше та надійніше.
-		   \paragraph Приклад
-		   \code{.cpp}
-		   int size = 5;
-		   long long *arr = new long long[size];
-		   cout << "Distance " << ArrayProcessing<long long>::distance(&arr[2], &arr[4]) << "\n";
-		   //print:
-		   //  Distance 2
-		   \endcode
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing distance
 		   \remark Дану функцію можна використовувати для знаходження розміру масива. Якщо
 		   ви колись зберегли вказівник на останній елемент масиву, а сам розмір було
 		   загублено <del>(я не знаю як ви могли це зробити)</del>, тоді ви можете
@@ -1164,7 +1137,6 @@
 		   ArrayProcessing<long long>::minimum(&arr->array[0], &arr->array[arr->array_size - 1]); //new variant {first element; last element}
 		   \endcode
 		   Я б обрав {вказівник на масив; розмір масиву}.
-		   \paragraph Реалізація
 		 */
 
 		/*!
@@ -1195,35 +1167,14 @@
 		   Але таке відбувається тільки з тими масивами, у яких взагалі нема заданого
 		   елемента. Тому ви власноруч маєте перевіряти, чи є там взагалі потрібний
 		   елемент.
-		   \paragraph Приклад
-		   \code{.cpp}
-		   int size = 10;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(5, 10);
-		   }
-		   Comparative_Sorts<long long>::LibrarySort sort(arr, size); //or any sorting
-		   sort.library_sort();
-		   for (int i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\nFirst address in array " << &arr[0];
-		   cout << "\nLower bound 6 is " << ArrayProcessing<long long>::lower_bound(&arr[0], &arr[9], 6) << "\n";
-		   //print:
-		   //  5; 5; 6; 6; 7; 8; 8; 9; 10; 10;
-		   //  First address in array 0x29347f0
-		   //  Lower bound 6 is 0x29347f8
-		   \endcode
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing lower_bound
 		   \remark Дану функцію разом із ALGOR::ArrayProcessing::distance можна
 		   використати для реалізації бінарного пошуку:
 		   ALGOR::ArrayProcessing::lower_bound повертає вказівник на знайдений
 		   елемент, а ALGOR::ArrayProcessing::distance розраховує відстань від
 		   початку масиву, що і буде відображати положення у масиві (його номер).
 		   Саме такий метод використиовується у ALGOR::ARRAYDATA::binary_getPosition.
-		   \paragraph Реалізація
 		 */
 
 		/*!
@@ -1244,29 +1195,8 @@
 		   ALGOR::ArrayProcessing::lower_bound.
 		   \paragraph Ресурси
 		   Source: http://www.cplusplus.com/reference/algorithm/upper_bound/\n
-		   \paragraph Приклад
-		   \code{.cpp}
-		   int size = 10;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(5, 10);
-		   }
-		   Comparative_Sorts<long long>::LibrarySort sort(arr, size); //or any sorting
-		   sort.library_sort();
-		   for (int i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\nFirst address in array " << &arr[0];
-		   cout << "\nUpper bound 6 is " << ArrayProcessing<long long>::upper_bound(&arr[0], &arr[9], 6) << "\n";
-		   //print:
-		   //  5; 5; 6; 6; 7; 8; 8; 9; 10; 10;
-		   //  First address in array 0x29347f0
-		   //  Upper bound 6 is 0x2934800
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing upper_bound
 		 */
 
 		/*!
@@ -1286,42 +1216,8 @@
 		   \param[in] position Позиція, у якій буде додано елемент
 		   \since v0.0.1.0 commit e37003
 		   \exception EXCEPTION_SET::memory_overflow
-		   \paragraph Приклад
-		   \code{.cpp}
-		   unsigned long size = 10;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(5, 10);
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   ArrayProcessing<long long>::addElement(arr, size, 100, 0);
-		   for (unsigned long i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   ArrayProcessing<long long>::addElement(arr, size, 100, 5);
-		   for (unsigned long i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   ArrayProcessing<long long>::addElement(arr, size, 100, size);
-		   for (unsigned long i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   //print:
-		   //  10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
-		   //  100; 10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
-		   //  100; 10; 6; 8; 7; 100; 6; 7; 8; 7; 9; 7;
-		   //  100; 10; 6; 8; 7; 100; 6; 7; 8; 7; 9; 7; 100;
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing addElement
 		 */
 
 		/*!
@@ -1336,28 +1232,8 @@
 		   \warning Не забувайте, що нумерація починається з 0!
 		   \exception EXCEPTION_SET::void_data
 		   \exception EXCEPTION_SET::position_failure
-		   \paragraph Приклад
-		   \code{.cpp}
-		   unsigned long size = 10;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(5, 10);
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   ArrayProcessing<long long>::subtractElement(arr, size, 7);
-		   for (unsigned long i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   //print:
-		   //  10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
-		   //  10; 6; 8; 7; 6; 7; 8; 9; 7;
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing subtractElement
 		 */
 
 		/*!
@@ -1374,28 +1250,8 @@
 		   \since v0.1.0.0 commit 37cab7
 		   \exception EXCEPTION_SET::void_data
 		   \exception EXCEPTION_SET::value_failure
-		   \paragraph Приклад
-		   \code{.cpp}
-		   unsigned long size = 10;
-		   long long *arr = new long long[size];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (int i = 0; i < size; i++)
-		   {
-			   arr[i] = MT.IRandom(5, 10);
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   ArrayProcessing<long long>::subtractValue(arr, size, 7);
-		   for (unsigned long i = 0; i < size; i++)
-		   {
-			   cout << arr[i] << "; ";
-		   }
-		   cout << "\n";
-		   //print:
-		   //  10; 6; 8; 7; 6; 7; 8; 7; 9; 7;
-		   //  10; 6; 8; 6; 8; 9;
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing subtractValue
 		 */
 
 		/*!
@@ -1422,35 +1278,8 @@
 		   \warning До функції не передаються розміри масивів, через що функція не
 		   може перевірити, чи задаєте ви їй правильні данні. Через це програміст
 		   має бути дуже обережним з цією функцією
-		   \paragraph Приклад
-		   \code{.cpp}
-		   unsigned long size1 = 10, size2 = 15;
-		   long long *arr1 = new long long[size1], *arr2 = new long long[size2];
-		   RANDOM::MersenneTwister MT(getMemoryCell());
-		   for (unsigned long i = 0; i < size1; i++)
-		   {
-			   arr1[i] = MT.IRandom(5, 10);
-			   cout << arr1[i] << "; ";
-		   }
-		   cout << "\n";
-		   for (unsigned long i = 0; i < size2; i++)
-		   {
-			   arr2[i] = MT.IRandom(5, 10);
-			   cout << arr2[i] << "; ";
-		   }
-		   cout << "\n";
-		   ArrayProcessing<long long>::copy(arr1, arr2, 5, 5, 5);
-		   for (unsigned long i = 0; i < size1; i++)
-		   {
-			   cout << arr1[i] << "; ";
-		   }
-		   cout << "\n";
-		   //print:
-		   //   7;  7;  6;  5;  6; 10; 10;  7; 10;  9;
-		   //  17; 16; 15; 16; 17; 19; 15; 19; 19; 20; 20; 18; 18; 16; 20;
-		   //   7;  7;  6;  5;  6; 19; 15; 19; 19; 20;
-		   \endcode
-		   \paragraph Реалізація
+		   \test
+		   \snippet Algor_ArrayProcessing.cpp processing copy
 		 */
 
 	/*!
@@ -1466,11 +1295,8 @@
 	   тільки тоді, коли дана структура не буде взаємоді'яти з функіоналом
 	   бібліотеки, інакше ви зіштовхнетесь з помилкою <em>"undefined reference
 	   to"</em>.
-	   \paragraph Приклад
-	   \code{.cpp}
-	   Array<long long> *arr;
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp array struct
 	 */
 
 	/*!
@@ -1488,11 +1314,8 @@
 	   масив. Тому у цьому випадку флагу \a mem_allocation потрібно передати \a false і
 	   після цього зберегти вказівник на масив у структурі. У інших випадках флаг
 	   \a mem_allocation краще не змінювати.
-	   \paragraph Приклад
-	   \code{.cpp}
-	   Array<long long> *arr = create_struct<long long>(10); //arr = @0x1a1700
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp create_struct
 	 */
 
 	/*!
@@ -1507,11 +1330,8 @@
 	   \param[in] max_limit Максимально можливе згенероване значення
 	   \param[in] denominator Дільник для генерації \a float данних
 	   \since v0.1.3.0 commit ca0704
-	   \paragraph Приклад
-	   \code{.cpp}
-	   generate_struct(arr, 1, 12); //arr->array = {9 9 7 7 4 7 2 7 2 9}
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp generate_struct
 	 */
 
 	/*!
@@ -1524,11 +1344,8 @@
 	   \result Вказівник на структуру після виклику цієї функції буде вказувати на
 	   \a nullptr.
 	   \since v0.0.0.1
-	   \paragraph Приклад
-	   \code{.cpp}
-	   remove_struct(arr); //arr = 0x0
-	   \endcode
-	   \paragraph Реалізація
+	   \test
+	   \snippet Algor_core.cpp remove_struct
 	 */
 
 
