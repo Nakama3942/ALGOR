@@ -1,0 +1,1 @@
+./dot /n/ALGOR/img/ArrayProcessingFamilyTree.gv -Tpng -o /n/ALGOR/img/ArrayProcessingFamilyTree.png

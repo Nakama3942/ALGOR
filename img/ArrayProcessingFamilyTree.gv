@@ -1,16 +1,327 @@
-digraph G {
-fontname="Helvetica,Arial,sans-serif"
-node [fontname="Helvetica,Arial,sans-serif"]
-edge [fontname="Helvetica,Arial,sans-serif"]
-
-CLASS_old_ArrayProcessing [shape=invhouse,color=brown,style=bold,label="v0.0.0.1 ArrayProcessing",fillcolor="grey"];
-CLASS_ARRAYDATA [shape=box,color=gold,style=bold,label="ARRAYDATA"];
-CLASS_ArrayCore [color=red,style=bold,label="ArrayCore"];
-CLASS_new_ArrayProcessing [shape=box,color=blue,style=bold,label="v1.0.0.0 ArrayProcessing"];
-CLASS_Core [shape=house,color=silver,style=bold,label="Core Functional"];
-
- CLASS_old_ArrayProcessing -> CLASS_ArrayCore [style=dashed,color=darkred];
- CLASS_old_ArrayProcessing -> CLASS_ARRAYDATA [color=orange];
- CLASS_ArrayCore -> CLASS_Core [style=dashed];
- CLASS_ArrayCore -> CLASS_new_ArrayProcessing;
+digraph "G" {
+	graph [
+		size = "30",
+		fontname = "Helvetica,Arial,sans-serif",
+	];
+	node [
+		fontsize = "12",
+	];
+	"CLASS_0001_ArrayProcessing" [
+		shape = "invhouse",
+		fontsize = "16",
+		label = "ArrayProcessing",
+	];
+	"CLASS_0002_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0003_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0010_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0010_1_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0010_1_ArrayCharacteristic" [
+		label = "ArrayCharacteristic",
+	];
+	"CLASS_0010_1_SortBase" [
+		shape = "invhouse",
+		fontsize = "16",
+		label = "SortBase",
+	];
+	"CLASS_0010_2_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0010_2_ArrayGetter" [
+		label = "ArrayGetter",
+	];
+	"CLASS_0010_2_ArrayCharacteristic" [
+		label = "ArrayCharacteristic",
+	];
+	"CLASS_0010_2_ArrayData" [
+		label = "ArrayData",
+	];
+	"CLASS_0010_3_CoreFunctional" [
+		label = "Core Functional \n swap(), addElement(), copy() are taken from ArrayProcessing, \n and getMin(), getMax() are taken from ArrayGetter",
+	];
+	"CLASS_0010_3_ArrayProcessing" [
+		label = "ArrayProcessing \n Combined everything else",
+	];
+	"CLASS_0010_3_ArrayData" [
+		label = "ArrayData",
+	];
+	"CLASS_0100_CoreFunctional" [
+		label = "Core Functional",
+	];
+	"CLASS_0100_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0100_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0110_CoreFunctional" [
+		label = "Core Functional",
+	];
+	"CLASS_0110_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0110_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0111_CoreFunctional" [
+		label = "Core Functional",
+	];
+	"CLASS_0111_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0111_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0112_CoreFunctional" [
+		label = "Core Functional",
+	];
+	"CLASS_0112_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0112_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0113_Core" [
+		label = "Core",
+	];
+	"CLASS_0113_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0113_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0114_CoreFunctional" [
+		label = "Core Functional \n swap(), minimum(), maximum() are taken from ArrayGetter",
+	];
+	"CLASS_0114_ArrayCore" [
+		label = "ArrayCore",
+	];
+	"CLASS_0114_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0114_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0120_CoreFunctional" [
+		label = "Core Functional",
+	];
+	"CLASS_0120_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0120_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0120_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0121_CoreFunctional" [
+		label = "Core Functional",
+	];
+	"CLASS_0121_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0121_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0121_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_0130_CORE" [
+		label = "CORE",
+	];
+	"CLASS_0130_ArrayProcessing" [
+		label = "ArrayProcessing",
+	];
+	"CLASS_0130_ARRAYDATA" [
+		label = "ARRAYDATA",
+	];
+	"CLASS_0130_ArrayBase" [
+		label = "ArrayBase",
+	];
+	"CLASS_1000_CoreFunctional" [
+		shape = "component",
+		fontsize = "16",
+		label = "Core Functional",
+	];
+	"CLASS_1000_ArrayProcessing" [
+		shape = "box",
+		fontsize = "16",
+		label = "ArrayProcessing",
+	];
+	"CLASS_1000_ARRAYDATA" [
+		shape = "house",
+		fontsize = "16",
+		label = "ARRAYDATA",
+	];
+	"CLASS_1000_ArrayBase" [
+		shape = "box3d",
+		fontsize = "16",
+		label = "ArrayBase",
+	];
+	subgraph {
+		edge [
+			color = "white",
+		];
+		node [
+			shape = "plaintext",
+			fontsize = "20",
+		];
+		"v0.0.0.1" -> "v0.0.0.2" -> "v0.0.0.3" -> "v0.0.1.0" -> "v0.1.0.0" -> "v0.1.1.0" -> "v0.1.1.1" -> "v0.1.1.2" -> "v0.1.1.3" -> "v0.1.1.4" -> "v0.1.2.0" -> "v0.1.2.1" -> "v0.1.3.0" -> "v1.0.0.0";
+	}
+	subgraph {
+		rank = "same";
+		"v0.0.0.1";
+		"CLASS_0001_ArrayProcessing";
+	}
+	subgraph {
+		rank = "same";
+		"v0.0.0.2";
+		"CLASS_0002_ArrayProcessing";
+	}
+	subgraph {
+		rank = "same";
+		"v0.0.0.3";
+		"CLASS_0003_ArrayProcessing";
+	}
+	subgraph {
+		rank = "same";
+		"v0.0.1.0";
+		"CLASS_0010_ArrayProcessing";
+	}
+	subgraph {
+		rank = "same";
+		"CLASS_0010_1_ArrayProcessing";
+		"CLASS_0010_1_ArrayCharacteristic";
+		"CLASS_0010_1_SortBase";
+	}
+	subgraph {
+		rank = "same";
+		"CLASS_0010_2_ArrayProcessing";
+		"CLASS_0010_2_ArrayGetter";
+		"CLASS_0010_2_ArrayCharacteristic";
+		"CLASS_0010_2_ArrayData";
+	}
+	subgraph {
+		rank = "same";
+		"CLASS_0010_3_CoreFunctional";
+		"CLASS_0010_3_ArrayProcessing";
+		"CLASS_0010_3_ArrayData";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.0.0";
+		"CLASS_0100_CoreFunctional";
+		"CLASS_0100_ARRAYDATA";
+		"CLASS_0100_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.1.0";
+		"CLASS_0110_CoreFunctional";
+		"CLASS_0110_ARRAYDATA";
+		"CLASS_0110_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.1.1";
+		"CLASS_0111_CoreFunctional";
+		"CLASS_0111_ARRAYDATA";
+		"CLASS_0111_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.1.2";
+		"CLASS_0112_CoreFunctional";
+		"CLASS_0112_ARRAYDATA";
+		"CLASS_0112_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.1.3";
+		"CLASS_0113_Core";
+		"CLASS_0113_ARRAYDATA";
+		"CLASS_0113_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.1.4";
+		"CLASS_0114_CoreFunctional";
+		"CLASS_0114_ArrayCore";
+		"CLASS_0114_ARRAYDATA";
+		"CLASS_0114_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.2.0";
+		"CLASS_0120_CoreFunctional";
+		"CLASS_0120_ArrayProcessing";
+		"CLASS_0120_ARRAYDATA";
+		"CLASS_0120_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.2.1";
+		"CLASS_0121_CoreFunctional";
+		"CLASS_0121_ArrayProcessing";
+		"CLASS_0121_ARRAYDATA";
+		"CLASS_0121_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v0.1.3.0";
+		"CLASS_0130_CORE";
+		"CLASS_0130_ArrayProcessing";
+		"CLASS_0130_ARRAYDATA";
+		"CLASS_0130_ArrayBase";
+	}
+	subgraph {
+		rank = "same";
+		"v1.0.0.0";
+		"CLASS_1000_CoreFunctional";
+		"CLASS_1000_ArrayProcessing";
+		"CLASS_1000_ARRAYDATA";
+		"CLASS_1000_ArrayBase";
+	}
+	"CLASS_0001_ArrayProcessing" -> "CLASS_0002_ArrayProcessing" -> "CLASS_0003_ArrayProcessing" -> "CLASS_0010_ArrayProcessing" -> "CLASS_0010_1_ArrayProcessing" -> "CLASS_0010_2_ArrayProcessing" -> "CLASS_0010_3_ArrayProcessing" -> "CLASS_0100_ARRAYDATA" -> "CLASS_0110_ARRAYDATA" -> "CLASS_0111_ARRAYDATA" -> "CLASS_0112_ARRAYDATA" -> "CLASS_0113_ARRAYDATA" -> "CLASS_0114_ARRAYDATA" -> "CLASS_0120_ARRAYDATA" -> "CLASS_0121_ARRAYDATA" -> "CLASS_0130_ARRAYDATA" -> "CLASS_1000_ARRAYDATA" [
+		arrowhead = "diamond",
+		style = "bold",
+	];
+	"CLASS_0010_ArrayProcessing" -> "CLASS_0010_1_ArrayCharacteristic" [
+		arrowhead = "halfopen",
+		style = "dashed",
+	];
+	"CLASS_0010_1_ArrayCharacteristic" -> "CLASS_0010_2_ArrayCharacteristic" -> "CLASS_0010_3_ArrayProcessing";
+	"CLASS_0010_1_ArrayProcessing" -> "CLASS_0010_2_ArrayGetter" [
+		arrowhead = "halfopen",
+		style = "dashed",
+	];
+	"CLASS_0010_2_ArrayGetter" -> "CLASS_0010_3_ArrayProcessing";
+	"CLASS_0010_2_ArrayProcessing" -> "CLASS_0010_3_CoreFunctional" [
+		arrowhead = "halfopen",
+		style = "dashed",
+	];
+	"CLASS_0010_2_ArrayGetter" -> "CLASS_0010_3_CoreFunctional" [
+		arrowhead = "halfopen",
+		style = "dashed",
+	];
+	"CLASS_0010_3_ArrayProcessing" -> "CLASS_0010_3_CoreFunctional" [
+		arrowhead = "crow",
+	];
+	"CLASS_0010_3_CoreFunctional" -> "CLASS_0100_CoreFunctional" -> "CLASS_0110_CoreFunctional" -> "CLASS_0111_CoreFunctional" -> "CLASS_0112_CoreFunctional" -> "CLASS_0113_Core" -> "CLASS_0114_ArrayCore" -> "CLASS_0120_ArrayProcessing" -> "CLASS_0121_ArrayProcessing" -> "CLASS_0130_ArrayProcessing" -> "CLASS_1000_ArrayProcessing";
+	"CLASS_0113_Core" -> "CLASS_0114_CoreFunctional" [
+		arrowhead = "halfopen",
+		style = "dashed",
+	];
+	"CLASS_0114_CoreFunctional" -> "CLASS_0120_CoreFunctional" -> "CLASS_0121_CoreFunctional" -> "CLASS_0130_CORE" -> "CLASS_1000_CoreFunctional";
+	"CLASS_0010_1_SortBase" -> "CLASS_0010_2_ArrayData" -> "CLASS_0010_3_ArrayData" -> "CLASS_0100_ArrayBase" -> "CLASS_0110_ArrayBase" -> "CLASS_0111_ArrayBase" -> "CLASS_0112_ArrayBase" -> "CLASS_0113_ArrayBase" -> "CLASS_0114_ArrayBase" -> "CLASS_0120_ArrayBase" -> "CLASS_0121_ArrayBase" -> "CLASS_0130_ArrayBase" -> "CLASS_1000_ArrayBase";
+	"CLASS_0010_3_ArrayData" -> "CLASS_0010_3_ArrayProcessing" [
+		arrowhead = "odot",
+	];
 }
