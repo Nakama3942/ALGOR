@@ -283,7 +283,7 @@ namespace ALGOR
 	template <typename type_array>
 	Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
 	template <typename type_array>
-	void generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
+	void generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit64_t seed = getMemoryCell(32), const ubit32_t denominator = 1);
 	template <typename type_array>
 	void remove_struct(Array<type_array> *&Array);
 
@@ -300,63 +300,26 @@ namespace ALGOR
 		Array<type_array> *ARRAY = nullptr;
 	};
 
-	/*!
-	\brief Array processing
-	\details This is the main class for working with arrays, the tasks of which
-			 are storing a pointer to an array, the ability to create, delete, modify it,
-			 calculate characteristics, etc.
-	\tparam type_array The type of elements that the array stores. For example int or float
-	*/
 	template <typename type_array>
 	class ARRAYDATA : public ArrayBase<type_array>
 	{
 	public:
-		/*!
-		\brief Construct a new arraydata<type array>::arraydata object
-		\details With this creation of an object, both the structure and the object of the class will point to the same array. An example of an array object announcement:
-		\code
-		Array<int> *arr = create_struct(12);
-		ARRAYDATA<int> *array = new ARRAYDATA<int>(arr);
-		\endcode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] Array Pointer to a structured array
-		*/
 		ARRAYDATA(Array<type_array> *&Array);
-		/*!
-		\brief Construct a new arraydata<type array>::arraydata object
-		\details With such an object creation, memory will be allocated for a new array, the pointer to which will be stored only in the class object. An example of an array object announcement:
-		\code
-		ARRAYDATA<int> *array = new ARRAYDATA<int>(12);
-		\endcode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param[in] SIZE The size of the array being created
-		*/
 		ARRAYDATA(const asize_t &SIZE);
-		///-
-		~ARRAYDATA();
+		~ARRAYDATA(); //Не документується
 
-		enum class ArrayType /// A set of array types
+		enum class ArrayType
 		{
-			NUMBER, ///< Indicates that the array stores numbers
-			STRING	///< Indicates that the array stores strings
+			NUMBER = 1,
+			STRING = 2
 		};
 
-		///-
 		struct mode : Array<type_array>
 		{
 			ubit32_t highest_frequency = 0;
 		};
 
-		/*!
-		\brief A method that fills the entire array with random values
-		\code
-		array->generatedData(1, 100);
-		\endcode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param min_limit The minimum value that can be generated
-		\param max_limit The maximum value that can be generated
-		*/
-		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator = 1);
+		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit64_t seed = getMemoryCell(32), const ubit32_t denominator = 1);
 		/*!
 		\brief A method that replaces the previous array with a new one, freeing memory from the previous one
 		\tparam type_array The type of elements that the array stores. For example int or float

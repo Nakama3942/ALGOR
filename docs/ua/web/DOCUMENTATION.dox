@@ -1303,6 +1303,18 @@
 	   \snippet Algor_core.cpp array struct
 	 */
 
+		/*!
+		   \var ALGOR::Array::array
+		   \brief Вказівник на масив
+		   \since v0.0.1.0 commit 979bf4
+		 */
+
+		/*!
+		   \var ALGOR::Array::array_size
+		   \brief Розмір масиву
+		   \since v0.0.1.0 commit 979bf4
+		 */
+
 	/*!
 	   \fn ALGOR::create_struct(const asize_t &, bool)
 	   \brief Створює структуру з покажчиком на масив
@@ -1323,7 +1335,7 @@
 	 */
 
 	/*!
-	   \fn ALGOR::generate_struct(Array<type_array> *&, const sbit64_t &, const sbit64_t &, const ubit32_t)
+	   \fn ALGOR::generate_struct(Array<type_array> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t)
 	   \brief Генерує випадкові значення у структурі масиву
 	   \details Генерує у структурі масиву значення із заданого діапазону. Якщо
 	   задати \a denominator, то можна отримати кратні, чи дрібні значення данних.
@@ -1332,8 +1344,11 @@
 	   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
 	   \param[in] min_limit Мінімально можливе згенероване значення
 	   \param[in] max_limit Максимально можливе згенероване значення
+	   \param[in] seed Сі́м'я генератору
 	   \param[in] denominator Дільник для генерації \a float данних
 	   \since v0.1.3.0 commit ca0704
+	   \note На випадок, якщо не працює ALGOR::getMemoryCell, можна власноруч
+	   задати сі́м'я генерації.
 	   \test
 	   \snippet Algor_core.cpp generate_struct
 	 */
@@ -1375,12 +1390,12 @@
 
 		/*!
 		   \fn ALGOR::ArrayBase::ArrayBase(Array<type_array> *&)
-		   \brief Конструктор базового класу, що приймає СТРУКТУРУ та зберігаєє її
+		   \brief Конструктор базового класу, що приймає СТРУКТУРУ та зберігає її
 		   до поля
 		   \details Конструктор, що приймає структуру для збереження вказівника на неї.
 		   Спочатку конструктор перевіряє, чи не є масив пустим. Якщо масив
 		   пустий - кидається виключення. Інакше - зберігається вказівник.
-		   \warning При такому створенні об’єкта класу обидві сутності будуть
+		   \warning При такому створенні об'єкта класу обидві сутності будуть
 		   зберігати вказівники на одну й ту саму структуру, а тому зміна масиву
 		   через одну із сутностей буде впливати на обидві сутності!!!
 		   \param[in] Array Покажчик на структуру масиву
@@ -1452,10 +1467,123 @@
 		   \since v0.1.0.0 commit 6efeb8
 		 */
 
+	/*!
+	   \class ALGOR::ARRAYDATA
+	   \brief Клас з потужним функціоналом обробки масивів
+	   \details Це головний клас для роботи з масивами, завданнями якого є зберігання
+	   вказівника на структуру масиву та його обробка. Клас має потужний функціонал:
+	   клонування, пошук, перевизначення, характеризація тощо. А достатня кількість
+	   перевантажених операторів багатократно полегшує роботу з даними.
+	   \tparam type_array Тип елементів, що зберігаються у структурі об'єкту масиву
+	   \since v0.0.0.1
+	   \remark У вас можуть виникнути питання щодо версіонування. Тема роз'яснена
+	   на наступній сторінці \ref ArrayBaseHistory.md
+	   \image html ArrayProcessingFamilyTree.png
+	   \image latex ArrayProcessingFamilyTree.png "My application" width=10cm
+	 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::ARRAYDATA(Array<type_array> *&)
+		   \brief Конструктор, що приймає СТРУКТУРУ та зберігає її до поля
+		   \details Читай детальніше ALGOR::ArrayBase::ArrayBase(Array<type_array> *&)
+		   \param[in] Array Покажчик на структуру масиву
+		   \since v0.1.0.0 commit 48aa64
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA constructor struct
+		   \sa ALGOR::ArrayBase::ArrayBase(Array<type_array> *&)
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::ARRAYDATA(const asize_t &)
+		   \brief Конструктор, що приймає РОЗМІР та виділяє пам'ять
+		   \details Читай детальніше ALGOR::ArrayBase::ArrayBase(const asize_t &)
+		   \param[in] SIZE Розмір створюваного масиву
+		   \since v0.1.0.0 commit 1d50a2
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA constructor size
+		   \sa ALGOR::ArrayBase::ArrayBase(const asize_t &)
+		 */
 
+		/*!
+		   \enum ALGOR::ARRAYDATA::ArrayType
+		   \brief Набір типів масиву
+		   \details Перелік типів масиву. Використовується тільки методом
+		   ALGOR::ARRAYDATA::searcherOccurrencesOfSubstring для правильного
+		   виконання алгоритму.
+		   \since v0.1.0.0 commit 85698d
+		 */
 
+			/*!
+			   \var ALGOR::ARRAYDATA::ArrayType::NUMBER
+			   \brief Вказує, що масив зберігає числа
+			   \details Грубо кажучи, значення вказує алгоритму, що він працює з
+			   масивом чисел. Насправді алгоритм використовує значення типу
+			   масиву з переліку у своїх перевірках. Це потрібно для правильної
+			   роботи алгоритму, оскільки з числовими та строковими данними він
+			   працює по різному.
+			   \since v0.1.0.0 commit 85698d
+			 */
+
+			/*!
+			   \var ALGOR::ARRAYDATA::ArrayType::STRING
+			   \brief Вказує, що масив зберігає строки
+			   \details Грубо кажучи, значення вказує алгоритму, що він працює з
+			   масивом-строкою. Насправді алгоритм використовує значення типу
+			   масиву з переліку у своїх перевірках. Це потрібно для правильної
+			   роботи алгоритму, оскільки зі строковими та числовими данними він
+			   працює по різному.
+			   \since v0.1.0.0 commit 85698d
+			 */
+
+		/*!
+		   \struct ALGOR::ARRAYDATA::mode
+		   \brief Структура моди масиву
+		   \details Розширена структура масиву. По суті це теж є масив. Масив
+		   чисел, що зберігає всі числа, що найчастіше зустрічаються у
+		   головному масиві. Але як дізнатись, з якою саме частотою? Для цього
+		   і було розширено стандартну структуру ALGOR::Array полем для
+		   зберігання цієї частоти. З цієї структури можна дізнатись, які
+		   числа можна найчастіше зустріти (ALGOR::ARRAYDATA::mode::array),
+		   скільки їх (ALGOR::ARRAYDATA::mode::array_size) та з якою частотою
+		   вони зустрічаються (ALGOR::ARRAYDATA::mode::highest_frequency).
+		   \warning На відміну від структури ALGOR::Array, для структури
+		   ALGOR::ARRAYDATA::mode не реалізовано функціонал для звільнення
+		   пам'яті після використання данних, тому програмісту самому потрібно
+		   звільняти пам'ять.
+		   \since v0.1.3.0 commit 391fff
+		   \note Приклад використовується такий самий, як і для
+		   ALGOR::ARRAYDATA::moda.
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA moda
+		 */
+
+			/*!
+			   \var ALGOR::ARRAYDATA::mode::highest_frequency
+			   \brief Частота моди
+			   \since v0.1.3.0 commit 391fff
+			 */
+
+		/*!
+		   \fn ALGOR::ARRAYDATA::generatedData(const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t)
+		   \brief Метод, який заповнює весь масив випадковими значеннями
+		   \details
+		   \param[in] min_limit Мінімальне значення, яке можна згенерувати
+		   \param[in] max_limit Максимальне значення, яке можна згенерувати
+		   \param[in] seed Сі́м'я генератору
+		   \param[in] denominator Дільник для генерації \a float данних
+		   \since v0.0.0.1
+		   \remark У вас можуть виникнути питання щодо версіонування. Цей метод був
+		   присутній з самого початку, але у версії v0.1.3.0 commit ca0704 я
+		   вирішив виокремити алгоритм генерації чисел (точніше сказати, алгоритм
+		   обробки згенерованих чисел) до функції ALGOR::generate_struct. Тоді
+		   реалізація була перенесена з цього методу, а тут залишився лише
+		   виклик нової функції. І якщо не дивитись на реалізації, то, по суті,
+		   це і є перший метод.
+		   \note На випадок, якщо не працює ALGOR::getMemoryCell, можна власноруч
+		   задати сі́м'я генерації.
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA generatedData
+		 */
 
 
 
