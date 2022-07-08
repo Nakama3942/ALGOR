@@ -567,13 +567,13 @@ Array<type_array> *ALGOR::create_struct(const asize_t &SIZE, bool mem_allocation
 }
 
 template <typename type_array>
-void ALGOR::generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
+void ALGOR::generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit64_t seed, const ubit32_t denominator)
 {
 	if (denominator == 0)
 	{
 		throw EXCEPTION_SET::division_by_zero("The Denominator variable is designed to convert the generated integer into a fractional number or find its part. It's a divisor, so it can't be zero!");
 	}
-	RANDOM::LCM RanGen(getMemoryCell(32));
+	RANDOM::LCM RanGen(seed);
 	for (asize_t i = 0; i < Array->array_size; i++)
 	{
 		Array->array[i] = (min_limit + (RanGen.rand() % (max_limit - min_limit))) / (fbit32_t)denominator;
@@ -630,9 +630,9 @@ ALGOR::ARRAYDATA<type_array>::~ARRAYDATA()
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit32_t denominator)
+void ALGOR::ARRAYDATA<type_array>::generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit64_t seed, const ubit32_t denominator)
 {
-	generate_struct<type_array>(this->ARRAY, min_limit, max_limit, denominator);
+	generate_struct<type_array>(this->ARRAY, min_limit, max_limit, seed, denominator);
 }
 
 template <typename type_array>
@@ -793,20 +793,12 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Arr
 		{
 			if (this->ARRAY->array[i + j] == SUBARRAY->array[j])
 			{
-				switch (ArrType)
+				//Це порівняння замінює старий switch-case та оптимізує алгоритм,
+				// прибираючи цей зайвий switch. На заміну я адаптував enum під
+				// використання у наступному порівнянні.
+				if ((ARRAYDATA::ArrayType)(SUBARRAY->array_size - j) == ArrType)
 				{
-				case ARRAYDATA::ArrayType::NUMBER:
-					if (SUBARRAY->array_size - j == 1)
-					{
-						ArrayProcessing<asize_t>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
-					}
-					break;
-				case ARRAYDATA::ArrayType::STRING:
-					if (SUBARRAY->array_size - j == 2)
-					{
-						ArrayProcessing<asize_t>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
-					}
-					break;
+					ArrayProcessing<asize_t>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
 				}
 			}
 			else
@@ -1036,11 +1028,11 @@ template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
 template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
 template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
 
-template void ALGOR::generate_struct<byte8_t>(Array<byte8_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<ubit64_t>(Array<ubit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<fbit64_t>(Array<fbit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<fbit128_t>(Array<fbit128_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
-template void ALGOR::generate_struct<asize_t>(Array<asize_t> *&, const sbit64_t &, const sbit64_t &, const ubit32_t);
+template void ALGOR::generate_struct<byte8_t>(Array<byte8_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit64_t>(Array<ubit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<fbit64_t>(Array<fbit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<fbit128_t>(Array<fbit128_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<asize_t>(Array<asize_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
 
 template void ALGOR::remove_struct<byte8_t>(Array<byte8_t> *&);
 template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
