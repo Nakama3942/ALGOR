@@ -1,14 +1,17 @@
 digraph "G" {
+	/* Налаштування графів */
 	graph [
-		size = "30",
 		fontname = "Helvetica,Arial,sans-serif",
 	];
 	node [
-		fontsize = "12",
+		fontsize = "20",
 	];
+
+	/* Список вершин головного графа */
+
 	"CLASS_0001_ArrayProcessing" [
 		shape = "invhouse",
-		fontsize = "16",
+		fontsize = "28",
 		label = "ArrayProcessing",
 	];
 	"CLASS_0002_ArrayProcessing" [
@@ -28,7 +31,7 @@ digraph "G" {
 	];
 	"CLASS_0010_1_SortBase" [
 		shape = "invhouse",
-		fontsize = "16",
+		fontsize = "28",
 		label = "SortBase",
 	];
 	"CLASS_0010_2_ArrayProcessing" [
@@ -47,7 +50,7 @@ digraph "G" {
 		label = "Core Functional",
 	];
 	"CLASS_0010_3_ArrayProcessing" [
-		label = "ArrayProcessing \n Combined everything else",
+		label = "ArrayProcessing",
 	];
 	"CLASS_0010_3_ArrayData" [
 		label = "ArrayData",
@@ -63,12 +66,12 @@ digraph "G" {
 	];
 	"CLASS_0100_RC4Functional" [
 		shape = "invhouse",
-		fontsize = "16",
+		fontsize = "28",
 		label = "RC4 Functional",
 	];
 	"CLASS_0100_CRandomMersenne" [
 		shape = "invhouse",
-		fontsize = "16",
+		fontsize = "28",
 		label = "CRandomMersenne",
 	];
 	"CLASS_0110_CoreFunctional" [
@@ -82,7 +85,7 @@ digraph "G" {
 	];
 	"CLASS_0110_Exception" [
 		shape = "invhouse",
-		fontsize = "16",
+		fontsize = "28",
 		label = "Exception",
 	];
 	"CLASS_0110_RC4" [
@@ -225,7 +228,7 @@ digraph "G" {
 	];
 	"CLASS_0130_LCM" [
 		shape = "invhouse",
-		fontsize = "16",
+		fontsize = "28",
 		label = "LCM",
 	];
 	"CLASS_0130_RC4" [
@@ -236,49 +239,385 @@ digraph "G" {
 	];
 	"CLASS_1000_CoreFunctional" [
 		shape = "component",
-		fontsize = "16",
+		fontsize = "28",
 		label = "Core Functional",
 	];
 	"CLASS_1000_ArrayProcessing" [
 		shape = "box",
-		fontsize = "16",
+		fontsize = "28",
 		label = "ArrayProcessing",
 	];
 	"CLASS_1000_ARRAYDATA" [
 		shape = "house",
-		fontsize = "16",
+		fontsize = "28",
 		label = "ARRAYDATA",
 	];
 	"CLASS_1000_ArrayBase" [
 		shape = "box3d",
-		fontsize = "16",
+		fontsize = "28",
 		label = "ArrayBase",
 	];
 	"CLASS_1000_EXCEPTION_SET" [
 		shape = "box3d",
-		fontsize = "16",
+		fontsize = "28",
 		label = "EXCEPTION_SET",
 	];
 	"CLASS_1000_RANDOM" [
 		shape = "box3d",
-		fontsize = "16",
+		fontsize = "28",
 		label = "RANDOM",
 	];
 	"CLASS_0010_3_CoreFunctional_NOTE" [
 		shape = "note",
 		label = "swap(), addElement(), copy() are \n taken from ArrayProcessing, \n and getMin(), getMax() are \n taken from ArrayGetter",
 	];
+	"CLASS_0010_3_ArrayProcessing_NOTE" [
+		shape = "note",
+		label = "Combined everything else",
+	];
 	"CLASS_0114_CoreFunctional_NOTE" [
 		shape = "note",
 		label = "swap(), minimum(), maximum() \n are taken from ArrayGetter",
 	];
+
+	/* Список вершин графа алгоритмів сортувань */
+
+	"CLASS_0001_InsertSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "InsertSort",
+	]
+	"CLASS_0001_BubbleSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "BubbleSort",
+	]
+	"CLASS_0001_CocktailShakerSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "CocktailShakerSort",
+	]
+	"CLASS_0001_MergeSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "MergeSort",
+	]
+	"CLASS_0001_HeapSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "HeapSort",
+	]
+	"CLASS_0001_QuickSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "QuickSort",
+	]
+	"CLASS_0001_CountingSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "CountingSort",
+	]
+	"CLASS_0001_RadixSort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "RadixSort",
+	]
+
+	"CLASS_0002_InsertSort" [
+		label = "InsertSort",
+	]
+	"CLASS_0002_BubbleSort" [
+		label = "BubbleSort",
+	]
+	"CLASS_0002_CocktailShakerSort" [
+		label = "CocktailShakerSort",
+	]
+	"CLASS_0002_MergeSort" [
+		label = "MergeSort",
+	]
+	"CLASS_0002_HeapSort" [
+		label = "HeapSort",
+	]
+	"CLASS_0002_QuickSort" [
+		label = "QuickSort",
+	]
+	"CLASS_0002_CountingSort" [
+		label = "CountingSort",
+	]
+	"CLASS_0002_RadixSort" [
+		label = "RadixSort",
+	]
+
+	"CLASS_0003_InsertSort" [
+		label = "InsertSort",
+	]
+	"CLASS_0003_BubbleSort" [
+		label = "BubbleSort",
+	]
+	"CLASS_0003_CocktailShakerSort" [
+		label = "CocktailShakerSort",
+	]
+	"CLASS_0003_MergeSort" [
+		label = "MergeSort",
+	]
+	"CLASS_0003_HeapSort" [
+		label = "HeapSort",
+	]
+	"CLASS_0003_QuickSort" [
+		label = "QuickSort",
+	]
+	"CLASS_0003_CountingSort" [
+		label = "CountingSort",
+	]
+	"CLASS_0003_RadixSort" [
+		label = "RadixSort",
+	]
+
+	"CLASS_0010_Exchange_Sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Exchange_Sorts",
+	]
+	"CLASS_0010_Selection_sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Selection_sorts",
+	]
+	"CLASS_0010_Insertion_Sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Insertion_Sorts",
+	]
+	"CLASS_0010_Merge_Sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Merge_Sorts",
+	]
+	"CLASS_0010_Noncomparison_Sort" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Noncomparison_Sort",
+	]
+	"CLASS_0010_Hybrid_Sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Hybrid_Sorts (empty)",
+	]
+	"CLASS_0010_Other_Sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Other_Sorts (empty)",
+	]
+	"CLASS_0010_Unknown_Sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Unknown_Sorts (empty)",
+	]
+
+	"CLASS_0100_Exchange_Sorts" [
+		label = "Exchange_Sorts",
+	]
+	"CLASS_0100_Selection_sorts" [
+		label = "Selection_sorts",
+	]
+	"CLASS_0100_Insertion_Sorts" [
+		label = "Insertion_Sorts",
+	]
+	"CLASS_0100_Merge_Sorts" [
+		label = "Merge_Sorts",
+	]
+	"CLASS_0100_Noncomparison_Sort" [
+		label = "Noncomparison_Sort",
+	]
+	"CLASS_0100_Hybrid_Sorts" [
+		label = "Hybrid_Sorts (empty)",
+	]
+	"CLASS_0100_Other_Sorts" [
+		label = "Other_Sorts (empty)",
+	]
+	"CLASS_0100_Unknown_Sorts" [
+		label = "Unknown_Sorts (empty)",
+	]
+
+	"CLASS_0110_Exchange_Sorts" [
+		label = "Exchange_Sorts",
+	]
+	"CLASS_0110_Selection_sorts" [
+		label = "Selection_sorts",
+	]
+	"CLASS_0110_Insertion_Sorts" [
+		label = "Insertion_Sorts",
+	]
+	"CLASS_0110_Merge_Sorts" [
+		label = "Merge_Sorts",
+	]
+	"CLASS_0110_Noncomparison_Sort" [
+		label = "Noncomparison_Sort",
+	]
+	"CLASS_0110_Hybrid_Sorts" [
+		label = "Hybrid_Sorts (empty)",
+	]
+	"CLASS_0110_Other_Sorts" [
+		label = "Other_Sorts (empty)",
+	]
+	"CLASS_0110_Unknown_Sorts" [
+		shape = "house",
+		fontsize = "28",
+		label = "Unknown_Sorts (empty)",
+	]
+
+	"CLASS_0111_Exchange_Sorts" [
+		label = "Exchange_Sorts",
+	]
+	"CLASS_0111_Selection_sorts" [
+		label = "Selection_sorts",
+	]
+	"CLASS_0111_Insertion_Sorts" [
+		label = "Insertion_Sorts",
+	]
+	"CLASS_0111_Merge_Sorts" [
+		label = "Merge_Sorts",
+	]
+	"CLASS_0111_Distribution_Sort" [
+		label = "Distribution_Sort",
+	]
+	"CLASS_0111_Hybrid_Sorts" [
+		label = "Hybrid_Sorts (empty)",
+	]
+	"CLASS_0111_Other_Sorts" [
+		label = "Other_Sorts (empty)",
+	]
+	"CLASS_0111_Concurrent_Sorts" [
+		shape = "invhouse",
+		fontsize = "28",
+		label = "Concurrent_Sorts (empty)",
+	]
+
+	"CLASS_0112_Exchange_Sorts" [
+		label = "Exchange_Sorts",
+	]
+	"CLASS_0112_Selection_sorts" [
+		label = "Selection_sorts",
+	]
+	"CLASS_0112_Insertion_Sorts" [
+		label = "Insertion_Sorts",
+	]
+	"CLASS_0112_Merge_Sorts" [
+		label = "Merge_Sorts",
+	]
+	"CLASS_0112_Distribution_Sort" [
+		label = "Distribution_Sort",
+	]
+	"CLASS_0112_Hybrid_Sorts" [
+		label = "Hybrid_Sorts (empty)",
+	]
+	"CLASS_0112_Other_Sorts" [
+		label = "Other_Sorts",
+	]
+	"CLASS_0112_Concurrent_Sorts" [
+		label = "Concurrent_Sorts",
+	]
+
+	"CLASS_0113_Exchange_Sorts" [
+		label = "Exchange_Sorts",
+	]
+	"CLASS_0113_Selection_sorts" [
+		label = "Selection_sorts",
+	]
+	"CLASS_0113_Insertion_Sorts" [
+		label = "Insertion_Sorts",
+	]
+	"CLASS_0113_Merge_Sorts" [
+		label = "Merge_Sorts",
+	]
+	"CLASS_0113_Distribution_Sort" [
+		label = "Distribution_Sort",
+	]
+	"CLASS_0113_Hybrid_Sorts" [
+		label = "Hybrid_Sorts (empty)",
+	]
+	"CLASS_0113_Other_Sorts" [
+		label = "Other_Sorts",
+	]
+	"CLASS_0113_Concurrent_Sorts" [
+		label = "Concurrent_Sorts",
+	]
+
+	"CLASS_0114_Exchange_Sorts" [
+		label = "Exchange_Sorts",
+	]
+	"CLASS_0114_Selection_sorts" [
+		label = "Selection_sorts",
+	]
+	"CLASS_0114_Insertion_Sorts" [
+		label = "Insertion_Sorts",
+	]
+	"CLASS_0114_Merge_Sorts" [
+		label = "Merge_Sorts",
+	]
+	"CLASS_0114_Distribution_Sort" [
+		label = "Distribution_Sort",
+	]
+	"CLASS_0114_Hybrid_Sorts" [
+		label = "Hybrid_Sorts",
+	]
+	"CLASS_0114_Other_Sorts" [
+		label = "Other_Sorts",
+	]
+	"CLASS_0114_Concurrent_Sorts" [
+		label = "Concurrent_Sorts",
+	]
+
+	"CLASS_0120_Comparative_Sorts" [
+		label = "Comparative_Sorts",
+	]
+	"CLASS_0120_Distribution_Sorts" [
+		label = "Distribution_Sorts",
+	]
+	"CLASS_0120_Hybrid_Sorts" [
+		label = "Hybrid_Sorts",
+	]
+	"CLASS_0120_Other_Sorts" [
+		label = "Other_Sorts",
+	]
+	"CLASS_0120_Concurrent_Sorts" [
+		label = "Concurrent_Sorts",
+	]
+
+	"CLASS_0121_Comparative_Sorts" [
+		label = "Comparative_Sorts",
+	]
+	"CLASS_0121_Distribution_Sorts" [
+		label = "Distribution_Sorts",
+	]
+
+	"CLASS_0130_Comparative_Sorts" [
+		label = "Comparative_Sorts",
+	]
+	"CLASS_0130_Distribution_Sorts" [
+		label = "Distribution_Sorts",
+	]
+
+	"CLASS_1000_Comparative_Sorts" [
+		shape = "house",
+		fontsize = "28",
+		label = "Comparative_Sorts",
+	]
+	"CLASS_1000_Distribution_Sorts" [
+		shape = "house",
+		fontsize = "28",
+		label = "Distribution_Sorts",
+	]
+
+	/* Будування рангів (рівнів) для обох графів */
+
 	subgraph {
 		edge [
 			color = "white",
 		];
 		node [
 			shape = "plaintext",
-			fontsize = "20",
+			fontsize = "40",
 		];
 		"v0.0.0.1" -> "v0.0.0.2" -> "v0.0.0.3" -> "v0.0.1.0" -> "v0.1.0.0" -> "v0.1.1.0" -> "v0.1.1.1" -> "v0.1.1.2" -> "v0.1.1.3" -> "v0.1.1.4" -> "v0.1.2.0" -> "v0.1.2.1" -> "v0.1.3.0" -> "v1.0.0.0";
 	}
@@ -286,21 +625,53 @@ digraph "G" {
 		rank = "same";
 		"v0.0.0.1";
 		"CLASS_0001_ArrayProcessing";
+		"CLASS_0001_InsertSort";
+		"CLASS_0001_BubbleSort";
+		"CLASS_0001_CocktailShakerSort";
+		"CLASS_0001_MergeSort";
+		"CLASS_0001_HeapSort";
+		"CLASS_0001_QuickSort";
+		"CLASS_0001_CountingSort";
+		"CLASS_0001_RadixSort";
 	}
 	subgraph {
 		rank = "same";
 		"v0.0.0.2";
 		"CLASS_0002_ArrayProcessing";
+		"CLASS_0002_InsertSort";
+		"CLASS_0002_BubbleSort";
+		"CLASS_0002_CocktailShakerSort";
+		"CLASS_0002_MergeSort";
+		"CLASS_0002_HeapSort";
+		"CLASS_0002_QuickSort";
+		"CLASS_0002_CountingSort";
+		"CLASS_0002_RadixSort";
 	}
 	subgraph {
 		rank = "same";
 		"v0.0.0.3";
 		"CLASS_0003_ArrayProcessing";
+		"CLASS_0003_InsertSort";
+		"CLASS_0003_BubbleSort";
+		"CLASS_0003_CocktailShakerSort";
+		"CLASS_0003_MergeSort";
+		"CLASS_0003_HeapSort";
+		"CLASS_0003_QuickSort";
+		"CLASS_0003_CountingSort";
+		"CLASS_0003_RadixSort";
 	}
 	subgraph {
 		rank = "same";
 		"v0.0.1.0";
 		"CLASS_0010_ArrayProcessing";
+		"CLASS_0010_Exchange_Sorts";
+		"CLASS_0010_Selection_sorts";
+		"CLASS_0010_Insertion_Sorts";
+		"CLASS_0010_Merge_Sorts";
+		"CLASS_0010_Noncomparison_Sort";
+		"CLASS_0010_Hybrid_Sorts";
+		"CLASS_0010_Other_Sorts";
+		"CLASS_0010_Unknown_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -318,6 +689,7 @@ digraph "G" {
 	subgraph {
 		rank = "same";
 		"CLASS_0010_3_CoreFunctional_NOTE";
+		"CLASS_0010_3_ArrayProcessing_NOTE";
 	}
 	subgraph {
 		rank = "same";
@@ -333,6 +705,14 @@ digraph "G" {
 		"CLASS_0100_ArrayBase";
 		"CLASS_0100_RC4Functional";
 		"CLASS_0100_CRandomMersenne";
+		"CLASS_0100_Exchange_Sorts";
+		"CLASS_0100_Selection_sorts";
+		"CLASS_0100_Insertion_Sorts";
+		"CLASS_0100_Merge_Sorts";
+		"CLASS_0100_Noncomparison_Sort";
+		"CLASS_0100_Hybrid_Sorts";
+		"CLASS_0100_Other_Sorts";
+		"CLASS_0100_Unknown_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -343,6 +723,14 @@ digraph "G" {
 		"CLASS_0110_Exception";
 		"CLASS_0110_RC4";
 		"CLASS_0110_MersenneTwister";
+		"CLASS_0110_Exchange_Sorts";
+		"CLASS_0110_Selection_sorts";
+		"CLASS_0110_Insertion_Sorts";
+		"CLASS_0110_Merge_Sorts";
+		"CLASS_0110_Noncomparison_Sort";
+		"CLASS_0110_Hybrid_Sorts";
+		"CLASS_0110_Other_Sorts";
+		"CLASS_0110_Unknown_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -353,6 +741,14 @@ digraph "G" {
 		"CLASS_0111_Exception";
 		"CLASS_0111_RC4";
 		"CLASS_0111_MersenneTwister";
+		"CLASS_0111_Exchange_Sorts";
+		"CLASS_0111_Selection_sorts";
+		"CLASS_0111_Insertion_Sorts";
+		"CLASS_0111_Merge_Sorts";
+		"CLASS_0111_Distribution_Sort";
+		"CLASS_0111_Hybrid_Sorts";
+		"CLASS_0111_Other_Sorts";
+		"CLASS_0111_Concurrent_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -363,6 +759,14 @@ digraph "G" {
 		"CLASS_0112_Exception";
 		"CLASS_0112_RC4";
 		"CLASS_0112_MersenneTwister";
+		"CLASS_0112_Exchange_Sorts";
+		"CLASS_0112_Selection_sorts";
+		"CLASS_0112_Insertion_Sorts";
+		"CLASS_0112_Merge_Sorts";
+		"CLASS_0112_Distribution_Sort";
+		"CLASS_0112_Hybrid_Sorts";
+		"CLASS_0112_Other_Sorts";
+		"CLASS_0112_Concurrent_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -373,6 +777,14 @@ digraph "G" {
 		"CLASS_0113_Exception";
 		"CLASS_0113_RC4";
 		"CLASS_0113_MersenneTwister";
+		"CLASS_0113_Exchange_Sorts";
+		"CLASS_0113_Selection_sorts";
+		"CLASS_0113_Insertion_Sorts";
+		"CLASS_0113_Merge_Sorts";
+		"CLASS_0113_Distribution_Sort";
+		"CLASS_0113_Hybrid_Sorts";
+		"CLASS_0113_Other_Sorts";
+		"CLASS_0113_Concurrent_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -388,6 +800,14 @@ digraph "G" {
 		"CLASS_0114_Exception";
 		"CLASS_0114_RC4";
 		"CLASS_0114_MersenneTwister";
+		"CLASS_0114_Exchange_Sorts";
+		"CLASS_0114_Selection_sorts";
+		"CLASS_0114_Insertion_Sorts";
+		"CLASS_0114_Merge_Sorts";
+		"CLASS_0114_Distribution_Sort";
+		"CLASS_0114_Hybrid_Sorts";
+		"CLASS_0114_Other_Sorts";
+		"CLASS_0114_Concurrent_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -399,6 +819,11 @@ digraph "G" {
 		"CLASS_0120_Exception";
 		"CLASS_0120_RC4";
 		"CLASS_0120_MersenneTwister";
+		"CLASS_0120_Comparative_Sorts";
+		"CLASS_0120_Distribution_Sorts";
+		"CLASS_0120_Hybrid_Sorts";
+		"CLASS_0120_Other_Sorts";
+		"CLASS_0120_Concurrent_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -410,6 +835,8 @@ digraph "G" {
 		"CLASS_0121_Exception";
 		"CLASS_0121_RC4";
 		"CLASS_0121_MersenneTwister";
+		"CLASS_0121_Comparative_Sorts";
+		"CLASS_0121_Distribution_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -422,6 +849,8 @@ digraph "G" {
 		"CLASS_0130_LCM";
 		"CLASS_0130_RC4";
 		"CLASS_0130_MersenneTwister";
+		"CLASS_0130_Comparative_Sorts";
+		"CLASS_0130_Distribution_Sorts";
 	}
 	subgraph {
 		rank = "same";
@@ -432,8 +861,13 @@ digraph "G" {
 		"CLASS_1000_ArrayBase";
 		"CLASS_1000_EXCEPTION_SET";
 		"CLASS_1000_RANDOM";
+		"CLASS_1000_Comparative_Sorts";
+		"CLASS_1000_Distribution_Sorts";
 	}
-	"CLASS_0001_ArrayProcessing" -> "CLASS_0002_ArrayProcessing" -> "CLASS_0003_ArrayProcessing" -> "CLASS_0010_ArrayProcessing" -> "CLASS_0010_1_ArrayProcessing" -> "CLASS_0010_2_ArrayProcessing" -> "CLASS_0010_3_ArrayProcessing" -> "CLASS_0100_ARRAYDATA" -> "CLASS_0110_ARRAYDATA" -> "CLASS_0111_ARRAYDATA" -> "CLASS_0112_ARRAYDATA" -> "CLASS_0113_ARRAYDATA" -> "CLASS_0114_ARRAYDATA" -> "CLASS_0120_ARRAYDATA" -> "CLASS_0121_ARRAYDATA" -> "CLASS_0130_ARRAYDATA" -> "CLASS_1000_ARRAYDATA" [
+
+	/* З'єднання вершин головного графа ребрами (зв'язками) */
+
+	"CLASS_0001_ArrayProcessing" -> "CLASS_0002_ArrayProcessing" -> "CLASS_0003_ArrayProcessing" -> "CLASS_0010_ArrayProcessing" -> "CLASS_0010_1_ArrayProcessing" -> "CLASS_0010_2_ArrayProcessing" -> "CLASS_0010_3_ArrayProcessing_NOTE" -> "CLASS_0010_3_ArrayProcessing" -> "CLASS_0100_ARRAYDATA" -> "CLASS_0110_ARRAYDATA" -> "CLASS_0111_ARRAYDATA" -> "CLASS_0112_ARRAYDATA" -> "CLASS_0113_ARRAYDATA" -> "CLASS_0114_ARRAYDATA" -> "CLASS_0120_ARRAYDATA" -> "CLASS_0121_ARRAYDATA" -> "CLASS_0130_ARRAYDATA" -> "CLASS_1000_ARRAYDATA" [
 		arrowhead = "diamond",
 		style = "bold",
 	];
@@ -441,12 +875,12 @@ digraph "G" {
 		arrowhead = "halfopen",
 		style = "dashed",
 	];
-	"CLASS_0010_1_ArrayCharacteristic" -> "CLASS_0010_2_ArrayCharacteristic" -> "CLASS_0010_3_ArrayProcessing";
+	"CLASS_0010_1_ArrayCharacteristic" -> "CLASS_0010_2_ArrayCharacteristic" -> "CLASS_0010_3_ArrayProcessing_NOTE";
 	"CLASS_0010_1_ArrayProcessing" -> "CLASS_0010_2_ArrayGetter" [
 		arrowhead = "halfopen",
 		style = "dashed",
 	];
-	"CLASS_0010_2_ArrayGetter" -> "CLASS_0010_3_ArrayProcessing";
+	"CLASS_0010_2_ArrayGetter" -> "CLASS_0010_3_ArrayProcessing_NOTE";
 	"CLASS_0010_3_ArrayProcessing" -> "CLASS_0010_3_CoreFunctional" [
 		arrowhead = "crow",
 	];
@@ -478,4 +912,31 @@ digraph "G" {
 	"CLASS_0100_RC4Functional" -> "CLASS_0110_RC4" -> "CLASS_0111_RC4" -> "CLASS_0112_RC4" -> "CLASS_0113_RC4" -> "CLASS_0114_RC4" -> "CLASS_0120_RC4" -> "CLASS_0121_RC4" -> "CLASS_0130_RC4" -> "CLASS_1000_RANDOM";
 	"CLASS_0100_CRandomMersenne" -> "CLASS_0110_MersenneTwister" -> "CLASS_0111_MersenneTwister" -> "CLASS_0112_MersenneTwister" -> "CLASS_0113_MersenneTwister" -> "CLASS_0114_MersenneTwister" -> "CLASS_0120_MersenneTwister" -> "CLASS_0121_MersenneTwister" -> "CLASS_0130_MersenneTwister" -> "CLASS_1000_RANDOM";
 	"CLASS_0130_LCM" -> "CLASS_1000_RANDOM";
+
+	/* З'єднання вершин графа алгоритмів сортувань ребрами (зв'язками) */
+
+	"CLASS_0001_InsertSort" -> "CLASS_0002_InsertSort" -> "CLASS_0003_InsertSort" -> "CLASS_0010_Insertion_Sorts";
+	"CLASS_0001_BubbleSort" -> "CLASS_0002_BubbleSort" -> "CLASS_0003_BubbleSort" -> "CLASS_0010_Exchange_Sorts";
+	"CLASS_0001_CocktailShakerSort" -> "CLASS_0002_CocktailShakerSort" -> "CLASS_0003_CocktailShakerSort" -> "CLASS_0010_Exchange_Sorts";
+	"CLASS_0001_MergeSort" -> "CLASS_0002_MergeSort" -> "CLASS_0003_MergeSort" -> "CLASS_0010_Merge_Sorts";
+	"CLASS_0001_HeapSort" -> "CLASS_0002_HeapSort" -> "CLASS_0003_HeapSort" -> "CLASS_0010_Selection_sorts";
+	"CLASS_0001_QuickSort" -> "CLASS_0002_QuickSort" -> "CLASS_0003_QuickSort" -> "CLASS_0010_Exchange_Sorts";
+	"CLASS_0001_CountingSort" -> "CLASS_0002_CountingSort" -> "CLASS_0003_CountingSort" -> "CLASS_0010_Noncomparison_Sort";
+	"CLASS_0001_RadixSort" -> "CLASS_0002_RadixSort" -> "CLASS_0003_RadixSort" -> "CLASS_0010_Noncomparison_Sort";
+
+	"CLASS_0010_Exchange_Sorts" -> "CLASS_0100_Exchange_Sorts" -> "CLASS_0110_Exchange_Sorts" -> "CLASS_0111_Exchange_Sorts" -> "CLASS_0112_Exchange_Sorts" -> "CLASS_0113_Exchange_Sorts" -> "CLASS_0114_Exchange_Sorts" -> "CLASS_0120_Comparative_Sorts";
+	"CLASS_0010_Selection_sorts" -> "CLASS_0100_Selection_sorts" -> "CLASS_0110_Selection_sorts" -> "CLASS_0111_Selection_sorts" -> "CLASS_0112_Selection_sorts" -> "CLASS_0113_Selection_sorts" -> "CLASS_0114_Selection_sorts" -> "CLASS_0120_Comparative_Sorts";
+	"CLASS_0010_Insertion_Sorts" -> "CLASS_0100_Insertion_Sorts" -> "CLASS_0110_Insertion_Sorts" -> "CLASS_0111_Insertion_Sorts" -> "CLASS_0112_Insertion_Sorts" -> "CLASS_0113_Insertion_Sorts" -> "CLASS_0114_Insertion_Sorts" -> "CLASS_0120_Comparative_Sorts";
+	"CLASS_0010_Merge_Sorts" -> "CLASS_0100_Merge_Sorts" -> "CLASS_0110_Merge_Sorts" -> "CLASS_0111_Merge_Sorts" -> "CLASS_0112_Merge_Sorts" -> "CLASS_0113_Merge_Sorts" -> "CLASS_0114_Merge_Sorts" -> "CLASS_0120_Comparative_Sorts";
+	"CLASS_0010_Noncomparison_Sort" -> "CLASS_0100_Noncomparison_Sort" -> "CLASS_0110_Noncomparison_Sort" -> "CLASS_0111_Distribution_Sort" -> "CLASS_0112_Distribution_Sort" -> "CLASS_0113_Distribution_Sort" -> "CLASS_0114_Distribution_Sort" -> "CLASS_0120_Distribution_Sorts";
+	"CLASS_0010_Hybrid_Sorts" -> "CLASS_0100_Hybrid_Sorts" -> "CLASS_0110_Hybrid_Sorts" -> "CLASS_0111_Hybrid_Sorts" -> "CLASS_0112_Hybrid_Sorts" -> "CLASS_0113_Hybrid_Sorts" -> "CLASS_0114_Hybrid_Sorts" -> "CLASS_0120_Hybrid_Sorts";
+	"CLASS_0010_Other_Sorts" -> "CLASS_0100_Other_Sorts" -> "CLASS_0110_Other_Sorts" -> "CLASS_0111_Other_Sorts" -> "CLASS_0112_Other_Sorts" -> "CLASS_0113_Other_Sorts" -> "CLASS_0114_Other_Sorts" -> "CLASS_0120_Other_Sorts";
+	"CLASS_0010_Unknown_Sorts" -> "CLASS_0100_Unknown_Sorts" -> "CLASS_0110_Unknown_Sorts";
+	"CLASS_0111_Concurrent_Sorts" -> "CLASS_0112_Concurrent_Sorts" -> "CLASS_0113_Concurrent_Sorts" -> "CLASS_0114_Concurrent_Sorts" -> "CLASS_0120_Concurrent_Sorts";
+
+	"CLASS_0120_Comparative_Sorts" -> "CLASS_0121_Comparative_Sorts" -> "CLASS_0130_Comparative_Sorts" -> "CLASS_1000_Comparative_Sorts";
+	"CLASS_0120_Hybrid_Sorts" -> "CLASS_0121_Comparative_Sorts";
+	"CLASS_0120_Other_Sorts" -> "CLASS_0121_Comparative_Sorts";
+	"CLASS_0120_Concurrent_Sorts" -> "CLASS_0121_Comparative_Sorts";
+	"CLASS_0120_Distribution_Sorts" -> "CLASS_0121_Distribution_Sorts" -> "CLASS_0130_Distribution_Sorts" -> "CLASS_1000_Distribution_Sorts";
 }
