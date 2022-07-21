@@ -19,17 +19,33 @@
 # -------------------------------------------------------------------------- #
 # ########################################################################## #
 
-.PHONY: lib test
+CC=g++
+FLAGS=-Wall -c -fPIC
 
-lib: libALGOR.so
+DIR=/usr/lib/ALGOR
+LIBALGOR=/usr/lib/ALGOR/libALGOR.so.1.0.0.0
+PATHALGOR=-Wl,-soname,libALGOR.so.1.0.0.0
+LINKALGOR=/usr/lib/ALGOR/libALGOR.so
+HEADER=/usr/include/ALGOR.hpp
 
-libALGOR.so: ALGOR.cpp
+.PHONY: install test uninstall
+
+install: lib_ALGOR
+
+lib_ALGOR: ./src/ALGOR.cpp
 	#g++ ALGOR.cpp -s -shared -o ALGOR.dll
-	@g++ -Wall -c -fPIC ALGOR.cpp -shared -o libALGOR.so.2.0.0 -Wl,-soname,libALGOR.so.2.0.0
-	@ln -s libALGOR.so.2.0.0 libALGOR.so
-	@echo Library compiled
+	@mkdir $(DIR)
+	@$(CC) $(FLAGS) ./src/ALGOR.cpp -shared -o $(LIBALGOR) $(PATHALGOR)
+	@ln -s $(LIBALGOR) $(LINKALGOR)
+	@cp ./src/ALGOR.hpp $(HEADER)
+	@echo Library compiled and installed
 
-test: libALGOR.so
+test:
 	#g++ -s -o exam.exe example.cpp -L. -lALGOR
-	@g++ -no-pie -s -o exam example.cpp -L. -lALGOR
-	@echo Test compiled
+	$(CC) -no-pie -s -o algor_exam ./example/Basic_test.cpp -L/usr/lib/ALGOR -lALGOR
+	./algor_exam
+	rm algor_exam
+
+uninstall:
+	@rm -rf $(DIR)
+	@rm $(HEADER)
