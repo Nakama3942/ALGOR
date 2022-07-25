@@ -1040,6 +1040,8 @@
 		   \param[in] Array Масив, у якому потрібно знайти мінімальний елемент
 		   \param[in] array_size Розмір цього масиву
 		   \since v0.0.0.1
+		   \sa ALGOR::ArrayProcessing::maximum(const type_array *, const asize_t &)
+		   \sa ALGOR::ARRAYDATA::getMin()
 		   \warning Функція працює не з усіма типами. Читай ALGOR::ArrayProcessing
 		   \warning Ця функція не робить перевірку, чи є  масив відсортованим, а тому
 		   не є ефективною. Краще перед виконанням цієї функції перевірити, чи є масив
@@ -1057,6 +1059,8 @@
 		   \param[in] Array Масив, у якому потрібно знайти максимальний елемент
 		   \param[in] array_size Розмір цього масиву
 		   \since v0.0.0.1
+		   \sa ALGOR::ArrayProcessing::minimum(const type_array *, const asize_t &)
+		   \sa ALGOR::ARRAYDATA::getMax()
 		   \warning Функція працює не з усіма типами. Читай ALGOR::ArrayProcessing
 		   \warning Ця функція не робить перевірку, чи є  масив відсортованим, а тому
 		   не є ефективною. Краще перед виконанням цієї функції перевірити, чи є масив
@@ -1339,6 +1343,7 @@
 	   \brief Генерує випадкові значення у структурі масиву
 	   \details Генерує у структурі масиву значення із заданого діапазону. Якщо
 	   задати \a denominator, то можна отримати кратні, чи дрібні значення данних.
+	   \throw ALGOR::EXCEPTION_SET::division_by_zero
 	   \tparam type_array Вказує якого типу будуть генеруватися числа у структурі
 	   масиву
 	   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
@@ -1567,6 +1572,7 @@
 		   \fn ALGOR::ARRAYDATA::generatedData(const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t)
 		   \brief Метод, який заповнює весь масив випадковими значеннями
 		   \details
+		   \throw ALGOR::EXCEPTION_SET::division_by_zero
 		   \param[in] min_limit Мінімальне значення, яке можна згенерувати
 		   \param[in] max_limit Максимальне значення, яке можна згенерувати
 		   \param[in] seed Сі́м'я генератору

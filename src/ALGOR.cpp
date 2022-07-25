@@ -651,14 +651,19 @@ void ALGOR::ARRAYDATA<type_array>::setData(Array<type_array> *&Array)
 }
 
 template <typename type_array>
+void ALGOR::ARRAYDATA<type_array>::cloneNewData(Array<type_array> *&Array)
+{
+	this->verification(Array);
+	remove();
+	this->ARRAY = create_struct<type_array>(Array->array_size);
+	ArrayProcessing<type_array>::copy(this->ARRAY->array, Array->array, Array->array_size);
+}
+
+template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::cloneData(Array<type_array> *&Array)
 {
 	this->verification(Array);
-	if (Array->array_size != this->ARRAY->array_size)
-	{
-		remove();
-		this->ARRAY = create_struct<type_array>(Array->array_size);
-	}
+	this->ARRAY = create_struct<type_array>(Array->array_size);
 	ArrayProcessing<type_array>::copy(this->ARRAY->array, Array->array, Array->array_size);
 }
 
@@ -685,6 +690,17 @@ type_array ALGOR::ARRAYDATA<type_array>::getValue(const asize_t &position)
 }
 
 template <typename type_array>
+asize_t ALGOR::ARRAYDATA<type_array>::binary_getPosition(const type_array &required_element)
+{
+	asize_t position = ArrayProcessing<type_array>::distance(&this->ARRAY->array[0], ArrayProcessing<type_array>::lower_bound(&this->ARRAY->array[0], &this->ARRAY->array[this->ARRAY->array_size - 1], required_element));
+	if (this->ARRAY->array[position] != required_element)
+	{
+		throw EXCEPTION_SET::not_found();
+	}
+	return position;
+}
+
+template <typename type_array>
 Array<asize_t> *ALGOR::ARRAYDATA<type_array>::lenear_getPosition(const type_array &required_element)
 {
 	Array<asize_t> *NumberPoints = new Array<asize_t>;
@@ -703,26 +719,19 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::lenear_getPosition(const type_arra
 }
 
 template <typename type_array>
-asize_t ALGOR::ARRAYDATA<type_array>::binary_getPosition(const type_array &required_element)
-{
-	asize_t position = ArrayProcessing<type_array>::distance(&this->ARRAY->array[0], ArrayProcessing<type_array>::lower_bound(&this->ARRAY->array[0], &this->ARRAY->array[this->ARRAY->array_size - 1], required_element));
-	if (this->ARRAY->array[position] != required_element)
-	{
-		throw EXCEPTION_SET::not_found();
-	}
-	return position;
-}
-
-template <typename type_array>
 type_array ALGOR::ARRAYDATA<type_array>::getMin()
 {
-	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[0] : ArrayProcessing<type_array>::minimum(this->ARRAY->array, this->ARRAY->array_size);
+	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size)
+		? this->ARRAY->array[0]
+		: ArrayProcessing<type_array>::minimum(this->ARRAY->array, this->ARRAY->array_size);
 }
 
 template <typename type_array>
 type_array ALGOR::ARRAYDATA<type_array>::getMax()
 {
-	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size) ? this->ARRAY->array[this->ARRAY->array_size - 1] : ArrayProcessing<type_array>::maximum(this->ARRAY->array, this->ARRAY->array_size);
+	return ArrayProcessing<type_array>::isOrderliness(this->ARRAY->array, this->ARRAY->array_size)
+		? this->ARRAY->array[this->ARRAY->array_size - 1]
+		: ArrayProcessing<type_array>::maximum(this->ARRAY->array, this->ARRAY->array_size);
 }
 
 template <typename type_array>
@@ -898,7 +907,7 @@ bool ALGOR::ARRAYDATA<type_array>::operator=(Array<type_array> *&cloningArray)
 	{
 		return false;
 	}
-	cloneData(cloningArray);
+	cloneNewData(cloningArray);
 	return true;
 }
 
