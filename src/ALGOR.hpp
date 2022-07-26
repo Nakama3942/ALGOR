@@ -321,279 +321,83 @@ namespace ALGOR
 		};
 
 		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit64_t seed = getMemoryCell(32), const ubit32_t denominator = 1);
-		/*!
-		   \fn ALGOR::ARRAYDATA::setNewData(Array<type_array> *&)
-		   \brief Метод, який замінює попередній масив на новий, звільняючи пам’ять
-		   від попереднього
-		   \details Видаляє з пам'яті старий масив та зберігає вказівник на інший
-		   масив, що вже існує.
-		   \throw ALGOR::EXCEPTION_SET::void_data
-		   \remark Звернутися до старого масиву буде <b>НЕможливо</b>; зміни
-		   у поточному об'єкті <b>будуть</b> відображатися на оригінальному об'єкті.
-		   \param[in] Array Масив, який замінить попередній в об’єкті
-		   \since v0.1.0.0 commit 1f2a4f
-		   \warning Структура масиву, що зберігається у поточному об'єкті класу
-		   за вказівником, буде видалена, тому якщо потрібно зберегти структуру
-		   масиву, краще використати ALGOR::ARRAYDATA::setData. Якщо зміни у
-		   поточному об'єкті не мають впливати на оригінальні данні, слід
-		   використати ALGOR::ARRAYDATA::cloneNewData. Якщо і потрібно зберегти
-		   масив, і дані не мають змінюватись у оригінальному об'єкті, потрібно
-		   використати ALGOR::ARRAYDATA::cloneData.
-		   \sa ALGOR::ARRAYDATA::setData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::cloneData(Array<type_array> *&)
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA setNewData
-		 */
 		void setNewData(Array<type_array> *&Array);
-		/*!
-		   \fn ALGOR::ARRAYDATA::setData(Array<type_array> *&)
-		   \brief Метод, який замінює попередній масив на новий без звільнення
-		   пам’яті від попереднього
-		   \details Зберігає вказівник на інший масив, що вже існує, без видалення
-		   з пам'ятті старого масиву.
-		   \throw ALGOR::EXCEPTION_SET::void_data
-		   \remark Старий масив може бути збережений до іншого об'єкту чи
-		   структури, тому звернутися до нього <b>можливо</b>; зміни у поточному
-		   об'єкті <b>будуть</b> відображатися на оригінальному об'єкті.
-		   \param[in] Array Масив, який замінить попередній в об’єкті
-		   \since v0.1.0.0 commit 1f2a4f
-		   \note Якщо зберігати старий масив не потрібно, тому краще використати
-		   ALGOR::ARRAYDATA::setNewData, або потрібно, щоб зміни у поточному
-		   об'єкті не впливали на оригінальний (без того самого збереження
-		   старого масиву), то можна використати ALGOR::ARRAYDATA::cloneNewData.
-		   \warning Аналогічно ALGOR::ARRAYDATA::setNewData,
-		   ALGOR::ARRAYDATA::setData зберігає лише вказівник, тому якщо потрібно
-		   зберегти данні так, щоб зміни у одному об'єкті не впливали на інший, треба
-		   використовувати метод ALGOR::ARRAYDATA::cloneData.
-		   \sa ALGOR::ARRAYDATA::setNewData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::cloneData(Array<type_array> *&)
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA setData
-		 */
 		void setData(Array<type_array> *&Array);
-		/*!
-		   \fn ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&)
-		   \brief Метод, який замінює старий масив шляхом копіювання існуючого з
-		   видаленням старих денних
-		   \details Звільняє пам'ять від старого масиву, виділяє пам'ять під новий масив
-		   та повністю копіює данні із вказаного масиву. Таким чином зміни у одному
-		   масиві не будуть відображатися на оригінальному.
-		   \throw ALGOR::EXCEPTION_SET::void_data
-		   \remark Звернутися до старого масиву буде <b>НЕможливо</b>; зміни
-		   у поточному об'єкті <b>НЕ будуть</b> відображатися на оригінальному об'єкті.
-		   \param[in] CloningArray Масив, який потрібно клонувати в об’єкт
-		   \since v0.1.0.0 commit dd5d42
-		   \note Якщо допускається, що зміни можуть впливати на обидва об'єкти, краще
-		   використати ALGOR::ARRAYDATA::setNewData, а якщо ще й треба зберегти
-		   старий масив, то краще використати ALGOR::ARRAYDATA::setData.
-		   \warning Якщо потрібно зберегти старий масив, то краще використати
-		   ALGOR::ARRAYDATA::cloneData.
-		   \sa ALGOR::ARRAYDATA::setNewData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::setData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::cloneData(Array<type_array> *&)
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA cloneNewData
-		 */
 		void cloneNewData(Array<type_array> *&CloningArray);
-		/*!
-		   \fn ALGOR::ARRAYDATA::cloneData(Array<type_array> *&)
-		   \brief Метод, який замінює старий масив шляхом копіювання існуючого без
-		   видалення старих денних
-		   \details Без звільнення пам'яті від старого масиву виділяє пам'ять під новий
-		   масив та повністю копіює данні із вказаного масиву. Таким чином зберігається
-		   і старий масив у іншому об'єкті чи структурі, а зміни на скопійованому масиві
-		   не будуть відображатися на оригінальному.
-		   \throw ALGOR::EXCEPTION_SET::void_data
-		   \remark Старий масив може бути збережений до іншого об'єкту чи
-		   структури, тому звернутися до нього <b>можливо</b>; зміни у поточному
-		   об'єкті <b>НЕ будуть</b> відображатися на оригінальному об'єкті.
-		   \param[in] CloningArray Масив, який потрібно клонувати в об’єкт
-		   \since v1.0.0.0 commit this
-		   \note Якщо допускається, що зміни можуть впливати на обидва об'єкти, краще
-		   використати ALGOR::ARRAYDATA::setData, якщо ще потрібно видалити старий
-		   масив, тоді використовується ALGOR::ARRAYDATA::setNewData.
-		   \note Якщо ж потрібно видалити старий масив, коли зміни не мають впливати
-		   один на одного, тоді використовується ALGOR::ARRAYDATA::cloneNewData.
-		   \sa ALGOR::ARRAYDATA::setNewData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::setData(Array<type_array> *&)
-		   \sa ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&)
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA cloneData
-		 */
 		void cloneData(Array<type_array> *&CloningArray);
-		/*!
-		   \fn ALGOR::ARRAYDATA::getData()
-		   \brief Повертає вказівник на структуру масиву
-		   \details Цей метод використовується, якщо необхідно отримати данні масиву,
-		   наприклад, для їх друку.
-		   \warning Краще не обробляти масив ззовні об'єкту, інакше це може призвести
-		   до непередбачуваної поведінки!
-		   \return вказівник на структуру масиву.
-		   \since v0.1.0.0 commit 48aa64
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA getData
-		 */
+
 		Array<type_array> *&getData();
-		/*!
-		   \fn ALGOR::ARRAYDATA::getSize()
-		   \brief Повертає розмір структури масиву
-		   \return розмір структури масиву.
-		   \since v0.1.3.0 commit 828901
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA getSize
-		 */
 		asize_t getSize();
-		/*!
-		   \fn ALGOR::ARRAYDATA::getValue(const asize_t &)
-		   \brief Повертає значення із заданої позиції
-		   \details Використовується для знаходження значення у масиві по заданій
-		   позиції. Є протилежним до методу ALGOR::ARRAYDATA::binary_getPosition.
-		   \throw ALGOR::EXCEPTION_SET::memory_overflow
-		   \param[in] position Позиція у масиві
-		   \return значення із заданої позиції
-		   \since v0.1.3.0 commit 5a7ff3
-		   \sa ALGOR::ARRAYDATA::binary_getPosition(const type_array &)
-		   \sa ALGOR::ARRAYDATA::lenear_getPosition(const type_array &)
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA getValue
-		 */
 		type_array getValue(const asize_t &position);
-		/*!
-		   \fn ALGOR::ARRAYDATA::binary_getPosition(const type_array &)
-		   \brief Бінарний метод пошуку елемента
-		   \details Повертає перше входження заданого елемента. Є протилежним до
-		   методу ALGOR::ARRAYDATA::getValue.
-		   \throw ALGOR::EXCEPTION_SET::not_found
-		   \warning Для роботи алгоритму необхідно, щоб масив був відсортований!
-		   \note Якщо необхідно знайти всі входження заданого елемента, необхідно
-		   використати метод ALGOR::ARRAYDATA::lenear_getPosition, але він довше
-		   виконується на великих масивах.
-		   \param[in] required_element Елемент, позицію  якого потрібно знайти
-		   \return першу позицію заданого елемента
-		   \since v0.0.1.0 commit 0c1496
-		   \sa ALGOR::ARRAYDATA::getValue(const asize_t &)
-		   \sa ALGOR::ARRAYDATA::lenear_getPosition(const type_array &)
-		   \remark За різних версій цей метод називався по різному. Самою першою його
-		   назвою було "getElementNumber_binary".
-		   \remark З першою реалізацією алгоритм було погано реалізовано - він
-		   виконував поставлену задачу, але був досить неефективний через рекурсивну
-		   реалізацію. У v0.1.3.0 commit 11507e реалізацію було переписано під
-		   використання нових функцій ALGOR::ArrayProcessing::distance та
-		   ALGOR::ArrayProcessing::lower_bound, котра у свою чергу є ітераційною
-		   й використовуює лише вказівник, що є досить ефективно.
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA binary_getPosition
-		 */
 		asize_t binary_getPosition(const type_array &required_element);
-		/*!
-		   \fn ALGOR::ARRAYDATA::lenear_getPosition(const type_array &)
-		   \brief Лінійний метод пошуку елемента
-		   \details Повертає всі входження заданого елемента. Є розширенням методу
-		   ALGOR::ARRAYDATA::binary_getPosition.
-		   \throw ALGOR::EXCEPTION_SET::not_found
-		   \note Якщо масив дуже великий і метод довго виконується, краще викликати
-		   метод ALGOR::ARRAYDATA::binary_getPosition. Він менше навантажує
-		   систему і набагато швидше виконується, але повертає лише першу позицію
-		   заданого елемента, а перед його викликом масив необхідно відсортувати...
-		   \param[in] required_element Елемент, позиції якого потрібно знайти
-		   \return масив позицій заданого елемента
-		   \since v0.0.1.0 commit 0c1496
-		   \sa ALGOR::ARRAYDATA::getValue(const asize_t &)
-		   \sa ALGOR::ARRAYDATA::binary_getPosition(const type_array &)
-		   \remark За різних версій цей метод називався по різному. Самою першою його
-		   назвою було "getElementNumber_lenear".
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA lenear_getPosition
-		 */
 		Array<asize_t> *lenear_getPosition(const type_array &required_element);
-		/*!
-		   \fn ALGOR::ARRAYDATA::getMin()
-		   \brief Оптимізований метод пошуку мінімального елемента
-		   \details Цей метод є оптимізованим, оскільки головний алгоритм пошуку
-		   написано у методі ALGOR::ArrayProcessing::minimum і використовується
-		   тільки тоді, коли масив відсортовано. Це дозволяє оптимізувати алгоритм
-		   у деяких випадках, так як якщо масив не відсортовано, метод це зможе
-		   визначити майже відразу й приступить до звичайного перебору, але якщо
-		   буде визначено, що масив відсортовано, то для цього потрібно було пройти
-		   по усьому масиву, і у цьому випадку це пройде швидше, так як не відбувається
-		   жодних збережень данних до змінних, що є швидше, і після цієї оберації за
-		   найменше буде видано перше значення, оскільки воно є найменшим у
-		   відсортованому масиві. Таким чином у деяких випадках алгоритм буде
-		   працювати стільки ж часу (якщо масив не відсортовано), і у деяких менше
-		   (якщо масив відсортовано, а проходка з порівняннями займає менше часу, ніж
-		   проходка з порівняннями та збереженнями данних), що у середньому буде
-		   трохи швидше реалізації звичайною проходкою (як у алгоритмі
-		   ALGOR::ArrayProcessing::minimum).
-		   \return найменше значення у масиві
-		   \since v0.1.0.0 commit 48aa64
-		   \sa ALGOR::ArrayProcessing::minimum(const type_array *, const asize_t &)
-		   \sa ALGOR::ARRAYDATA::getMax()
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA getMin
-		 */
 		type_array getMin();
-		/*!
-		   \fn ALGOR::ARRAYDATA::getMax()
-		   \brief Оптимізований метод пошуку максимального елемента
-		   \details Цей метод є оптимізованим, оскільки головний алгоритм пошуку
-		   написано у методі ALGOR::ArrayProcessing::maximum і використовується
-		   тільки тоді, коли масив відсортовано. Щоб не повторюватись, інші деталі
-		   та пояснення описано у методі ALGOR::ARRAYDATA::getMin. Робота у цьому
-		   методі пояснюється аналогічно, тільки замість мінімального елемента
-		   виконується пошук максимального.
-		   \return найбільше значення у масиві
-		   \since v0.1.0.0 commit 48aa64
-		   \sa ALGOR::ArrayProcessing::maximum(const type_array *, const asize_t &)
-		   \sa ALGOR::ARRAYDATA::getMin()
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA getMax
-		 */
 		type_array getMax();
 
 		/*!
-		\brief The method removes the old array, creates a new one with the same characteristics
-			   (size, minimum and maximum limits) and fills it (unlike respawn (), which does
-			   not generate elements).
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
+		   \fn ALGOR::ARRAYDATA::reset()
+		   \brief Метод збросу данних
+		   \details Метод видаляє масив із пам'яті й виділяє заново пам'ять під
+		   новий масив без його заповнення. У результаті масив буде спустошено
+		   до нульових данних.
+		   \since v0.1.0.0 commit 1f2a4f
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA reset
+		 */
 		void reset();
 		/*!
-		\fn void ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
-		\brief Method that resizes the array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param NEW_SIZE New array size
-		\param setElement The value with which new cells of the array are filled
-		\warning In the case of increasing the size of the array after copying,
-				 the new cells remain empty and store "garbage" in themselves.
-				 Sometimes, by accident, a programmer can try to get data without
-				 specifying it, as a result of which, in the best case, an incorrect
-				 result will simply be given, and in the worst case, the program may crash.
-				 For this, the setElement parameter was created, but it must be specified
-				 not only in case of an increase in size, but always when calling the method
-				 for prevention. The programmer may not even know the current size
-				 of the array, therefore, he cannot know whether the array will
-				 be increased or decreased.
-		*/
+		   \fn ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
+		   \brief Метод, який змінює розмір масиву
+		   \details Насправді, метод створює новий масив нового розміру і копіює
+		   у нього старий масив. Якщо масив стає більше - нові комірки заповнюються
+		   заданим значенням, інакше - останні значення відкидаються. Потім
+		   пам'ять від старого масиву звільняється, а вказівник починає вказувати
+		   на новий масив.
+		   \throw ALGOR::EXCEPTION_SET::size_failure
+		   \param[in] NEW_SIZE Новий розмір масиву
+		   \param[in] setElement Значення, яким заповнюються нові клітинки масиву (у
+		   випадку збільшення масиву)
+		   \warning У разі збільшення розміру масиву після копіювання нові комірки
+		   залишаються порожніми і зберігають у собі «сміття». Іноді програміст
+		   випадково може спробувати отримати дані без їх вказівки, в результаті
+		   чого в кращому випадку буде просто виданий некоректний результат, а в
+		   гіршому - програма може вийти з ладу. Для цього був створений параметр
+		   setElement, але його потрібно вказувати не тільки при збільшенні розміру,
+		   а завжди при виклику методу для профілактики. Програміст може навіть
+		   не знати поточного розміру масиву, отже, він не може знати, чи буде масив
+		   збільшено чи зменшено.
+		   \since v0.1.0.0 commit 1d50a2
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA resize
+		 */
 		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
 		/*!
-		\brief Changes the value at the specified position
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param position The position at which the value changes
-		\param value The value to be placed in the position
-		*/
+		   \fn ALGOR::ARRAYDATA::replace(const asize_t &, const type_array &)
+		   \brief Змінює значення по вказаній позиції
+		   \param[in] position Позиція, у якій змінюється значення
+		   \param[in] value Значення, яке буде розміщено в позиції
+		   \since v0.1.0.0 commit dd5d42
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA replace
+		 */
 		void replace(const asize_t &position, const type_array &value);
 		/*!
-		\brief Reverses the array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
+		   \fn ALGOR::ARRAYDATA::reverse()
+		   \brief Перевертає масив
+		   \since v0.0.0.3 commit 05d8b0
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA reverse
+		 */
 		void reverse();
 		/*!
-		\brief The method deletes the old array, however, the memory for the new array
-			   is allocated the same size without filling it, unlike reset()
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
+		   \fn ALGOR::ARRAYDATA::respawn()
+		   \brief Метод збросу та перегенерації данних
+		   \details Метод розширює ALGOR::ARRAYDATA::reset, а саме додатково зберігає
+		   діапазон значень масиву і після збросу даних, заново їх генерує.
+		   \since v0.1.0.0 commit dd5d42
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA respawn
+		 */
 		void respawn();
 
 		/*!
@@ -687,9 +491,13 @@ namespace ALGOR
 
 	private:
 		/*!
-		\brief Removes an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
+		   \fn ALGOR::ARRAYDATA::remove()
+		   \brief Видаляє масив
+		   \warning Метод є приватним, щоб уникнути випадків, коли програміст
+		   звільнив пам'ять з-під масиву і звертається до пустих данних чи намагається
+		   проводити над ними якісь зміни.
+		   \since v0.1.0.0 commit 1d50a2
+		 */
 		void remove();
 	};
 

@@ -78,6 +78,26 @@ int main()
 	//! [ARRAYDATA getMax]
 	cout << "Максимальный элемент: " << array_size->getMax() << "\n";
 	//! [ARRAYDATA getMax]
+	
+	//! [ARRAYDATA reset]
+	array_size->reset();
+	//! [ARRAYDATA reset]
+	
+	//! [ARRAYDATA resize]
+	array_struct->resize(7, 1);
+	//! [ARRAYDATA resize]
+	
+	//! [ARRAYDATA replace]
+	array_struct->replace(5, 100);
+	//! [ARRAYDATA replace]
+	
+	//! [ARRAYDATA reverse]
+	array_struct->reverse();
+	//! [ARRAYDATA reverse]
+	
+	//! [ARRAYDATA respawn]
+	array_struct->respawn();
+	//! [ARRAYDATA respawn]
 
 	//! [ARRAYDATA moda]
 	ALGOR::ARRAYDATA<long long>::mode *moda = array_size->moda();

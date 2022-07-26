@@ -763,6 +763,7 @@ void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_ar
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::replace(const asize_t &position, const type_array &value)
 {
+	//TODO Додати перевірку, чи входить задана позиція у діапазон розміру масиву
 	this->ARRAY->array[position] = value;
 }
 
