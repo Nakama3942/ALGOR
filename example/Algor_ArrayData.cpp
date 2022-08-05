@@ -98,11 +98,42 @@ int main()
 	//! [ARRAYDATA respawn]
 	array_struct->respawn();
 	//! [ARRAYDATA respawn]
-
+	
+	//! [ARRAYDATA searcherOccurrencesOfSubstring]
+	Array<byte8_t> *Sequence = new Array<byte8_t>;
+	ArrayProcessing<byte8_t>::addElement(Sequence->array, Sequence->array_size, 5, 0);
+	ArrayProcessing<byte8_t>::addElement(Sequence->array, Sequence->array_size, 6, 1);
+	try
+	{
+		Array<asize_t> *Occurrence = array_struct->searcherOccurrencesOfSubstring(Sequence, ARRAYDATA<byte8_t>::ArrayType::NUMBER);
+		cout << "Последовательность \"5, 6\" встречается на местах: \n";
+		for (asize_t i = 0; i < Occurrence->array_size; i++)
+		{
+			cout << Occurrence->array[i] + 1 << " ";
+		}
+		cout << "\n";
+		remove_struct<asize_t>(Occurrence);
+	}
+	catch (EXCEPTION_SET::Exception ex)
+	{
+		cout << "\n\nCode: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n\n";
+		cout << "Последовательность \"5, 6\" не найдена...\n";
+	}
+	remove_struct<byte8_t>(Sequence);
+	//! [ARRAYDATA searcherOccurrencesOfSubstring]
+	
+	//! [ARRAYDATA average]
+	cout << "Среднее арифметическое: " << array_struct->average() << "\n";
+	//! [ARRAYDATA average]
+	
+	//! [ARRAYDATA mediana]
+	cout << "Медиана: " << array_struct->mediana() << "\n";
+	//! [ARRAYDATA mediana]
+	
 	//! [ARRAYDATA moda]
-	ALGOR::ARRAYDATA<long long>::mode *moda = array_size->moda();
+	ARRAYDATA<byte8_t>::mode *moda = array_struct->moda();
 	cout << "Чаще всего встречаются элементы: ";
-	for (unsigned int i = 0; i < moda->array_size; i++)
+	for (asize_t i = 0; i < moda->array_size; i++)
 	{
 		cout << moda->array[i] << " ";
 	}
@@ -111,6 +142,54 @@ int main()
 	delete[] moda->array;
 	delete (moda);
 	//! [ARRAYDATA moda]
+
+	//! [ARRAYDATA =]
+	cout << *array_size = array_struct->getData() << "\n";
+	//! [ARRAYDATA =]
+	
+	//! [ARRAYDATA ==]
+	cout << *array_size == array_struct->getData() << "\n";
+	//! [ARRAYDATA ==]
+	
+	//! [ARRAYDATA ^=]
+	*array_size ^= 13;
+	//! [ARRAYDATA ^=]
+	
+	//! [ARRAYDATA +=]
+	*array_size += 15;
+	//! [ARRAYDATA +=]
+	
+	//! [ARRAYDATA -=]
+	*array_size -= 17;
+	//! [ARRAYDATA -=]
+	
+	//! [ARRAYDATA *=]
+	*array_size *= 19;
+	//! [ARRAYDATA *=]
+	
+	//! [ARRAYDATA /=]
+	*array_size /= 21;
+	//! [ARRAYDATA /=]
+	
+	//! [ARRAYDATA &=]
+	*array_size &= 23;
+	//! [ARRAYDATA &=]
+	
+	//! [ARRAYDATA &|=]
+	*array_size |= 25;
+	//! [ARRAYDATA |=]
+	
+	//! [ARRAYDATA !]
+	!*array_size;
+	//! [ARRAYDATA !]
+	
+	//! [ARRAYDATA <<=]
+	*array_size <<= *array_struct;
+	//! [ARRAYDATA <<=]
+	
+	//! [ARRAYDATA >>=]
+	*array_size >>= *array_struct;
+	//! [ARRAYDATA >>=]
 
 	cin.get();
 	return 0;

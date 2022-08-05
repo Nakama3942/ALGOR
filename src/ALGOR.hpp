@@ -307,7 +307,7 @@ namespace ALGOR
 	public:
 		ARRAYDATA(Array<type_array> *&Array);
 		ARRAYDATA(const asize_t &SIZE);
-		~ARRAYDATA(); //Не документується
+		~ARRAYDATA();
 
 		enum class ArrayType
 		{
@@ -334,170 +334,32 @@ namespace ALGOR
 		type_array getMin();
 		type_array getMax();
 
-		/*!
-		   \fn ALGOR::ARRAYDATA::reset()
-		   \brief Метод збросу данних
-		   \details Метод видаляє масив із пам'яті й виділяє заново пам'ять під
-		   новий масив без його заповнення. У результаті масив буде спустошено
-		   до нульових данних.
-		   \since v0.1.0.0 commit 1f2a4f
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA reset
-		 */
 		void reset();
-		/*!
-		   \fn ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
-		   \brief Метод, який змінює розмір масиву
-		   \details Насправді, метод створює новий масив нового розміру і копіює
-		   у нього старий масив. Якщо масив стає більше - нові комірки заповнюються
-		   заданим значенням, інакше - останні значення відкидаються. Потім
-		   пам'ять від старого масиву звільняється, а вказівник починає вказувати
-		   на новий масив.
-		   \throw ALGOR::EXCEPTION_SET::size_failure
-		   \param[in] NEW_SIZE Новий розмір масиву
-		   \param[in] setElement Значення, яким заповнюються нові клітинки масиву (у
-		   випадку збільшення масиву)
-		   \warning У разі збільшення розміру масиву після копіювання нові комірки
-		   залишаються порожніми і зберігають у собі «сміття». Іноді програміст
-		   випадково може спробувати отримати дані без їх вказівки, в результаті
-		   чого в кращому випадку буде просто виданий некоректний результат, а в
-		   гіршому - програма може вийти з ладу. Для цього був створений параметр
-		   setElement, але його потрібно вказувати не тільки при збільшенні розміру,
-		   а завжди при виклику методу для профілактики. Програміст може навіть
-		   не знати поточного розміру масиву, отже, він не може знати, чи буде масив
-		   збільшено чи зменшено.
-		   \since v0.1.0.0 commit 1d50a2
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA resize
-		 */
 		void resize(const asize_t &NEW_SIZE, const type_array &setElement);
-		/*!
-		   \fn ALGOR::ARRAYDATA::replace(const asize_t &, const type_array &)
-		   \brief Змінює значення по вказаній позиції
-		   \param[in] position Позиція, у якій змінюється значення
-		   \param[in] value Значення, яке буде розміщено в позиції
-		   \since v0.1.0.0 commit dd5d42
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA replace
-		 */
 		void replace(const asize_t &position, const type_array &value);
-		/*!
-		   \fn ALGOR::ARRAYDATA::reverse()
-		   \brief Перевертає масив
-		   \since v0.0.0.3 commit 05d8b0
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA reverse
-		 */
 		void reverse();
-		/*!
-		   \fn ALGOR::ARRAYDATA::respawn()
-		   \brief Метод збросу та перегенерації данних
-		   \details Метод розширює ALGOR::ARRAYDATA::reset, а саме додатково зберігає
-		   діапазон значень масиву і після збросу даних, заново їх генерує.
-		   \since v0.1.0.0 commit dd5d42
-		   \test
-		   \snippet Algor_ArrayData.cpp ARRAYDATA respawn
-		 */
 		void respawn();
 
-		/*!
-		\brief Sequence search method that returns all its occurrences
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param SUBARRAY The substring that is searched for in the main array
-		\param ArrType Array type
-		\return Array<int>*
-		*/
 		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
 
-		/*!
-		\brief Method that returns the arithmetic mean of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\return type_array
-		*/
 		type_array average();
-		/*!
-		\brief Method that returns the median of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\return type_array
-		*/
 		type_array mediana();
-		/*!
-		\brief A method that returns all elements with an array mode
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param highest_frequency An indicator of the frequency of occurrence of elements that are most often found
-		\return Array<type_array>*
-		*/
 		mode *moda();
 
-		///-
 		bool operator=(Array<type_array> *&cloningArray);
-		///-
 		bool operator==(Array<type_array> *&anotherArray);
-		///-
 		Array<type_array> *&operator^=(const asize_t &NewSize);
-		/*!
-		\brief Operator for increasing an array by a specific size
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param addSize Parameter indicating how much to increase the array
-		*/
 		Array<type_array> *&operator+=(const type_array &addValue);
-		/*!
-		\brief Operator for decreasing an array by a specific size
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param subtractSize Parameter indicating how much to reduce the array
-		*/
 		Array<type_array> *&operator-=(const type_array &subtractValue);
-		/*!
-		\brief Operator for increasing an array by several times
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param multiplySize Parameter indicating how many times to increase the array
-		*/
 		Array<type_array> *&operator*=(const type_array &multiplyValue);
-		/*!
-		\brief Operator for decreasing an array by some times
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param divideSize Параметр, указывающий, во сколько раз следует уменьшить массив
-		*/
 		Array<type_array> *&operator/=(const type_array &divideValue);
-		/*!
-		\brief Operator adding an element to the end of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param value The value to add to the end of the array
-		*/
 		Array<type_array> *&operator&=(const type_array &value);
-		/*!
-		\brief An operator that removes all elements with a specified value
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param value The value to be removed
-		*/
 		Array<type_array> *&operator|=(const type_array &value);
-		/*!
-		\brief Operator that removes an element from the end of an array
-		\tparam type_array The type of elements that the array stores. For example int or float
-		*/
 		Array<type_array> *&operator!();
-		/*!
-		\brief Operator for merging two arrays in the current object
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param appendingArray An array to attach from another object
-		*/
 		Array<type_array> *&operator<<=(ARRAYDATA<type_array> *&appendingArray);
-		/*!
-		\brief Operator for merging two arrays in a received object
-		\tparam type_array The type of elements that the array stores. For example int or float
-		\param appendingArray An array from another object to which the current array will be passed
-		*/
 		Array<type_array> *&operator>>=(ARRAYDATA<type_array> *&appendingArray);
 
 	private:
-		/*!
-		   \fn ALGOR::ARRAYDATA::remove()
-		   \brief Видаляє масив
-		   \warning Метод є приватним, щоб уникнути випадків, коли програміст
-		   звільнив пам'ять з-під масиву і звертається до пустих данних чи намагається
-		   проводити над ними якісь зміни.
-		   \since v0.1.0.0 commit 1d50a2
-		 */
 		void remove();
 	};
 

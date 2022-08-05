@@ -1224,6 +1224,8 @@
 		   \param[in] position Позиція, у якій буде додано елемент
 		   \since v0.0.1.0 commit e37003
 		   \exception EXCEPTION_SET::memory_overflow
+		   \sa ALGOR::ArrayProcessing::subtractElement(type_array *&, asize_t &, const asize_t)
+		   \sa ALGOR::ArrayProcessing::subtractValue(type_array *&, asize_t &, const type_array &)
 		   \test
 		   \snippet Algor_ArrayProcessing.cpp processing addElement
 		 */
@@ -1240,6 +1242,8 @@
 		   \warning Не забувайте, що нумерація починається з 0!
 		   \exception EXCEPTION_SET::void_data
 		   \exception EXCEPTION_SET::position_failure
+		   \sa ALGOR::ArrayProcessing::addElement(type_array *&, asize_t &, const type_array &, const asize_t)
+		   \sa ALGOR::ArrayProcessing::subtractValue(type_array *&, asize_t &, const type_array &)
 		   \test
 		   \snippet Algor_ArrayProcessing.cpp processing subtractElement
 		 */
@@ -1258,6 +1262,8 @@
 		   \since v0.1.0.0 commit 37cab7
 		   \exception EXCEPTION_SET::void_data
 		   \exception EXCEPTION_SET::value_failure
+		   \sa ALGOR::ArrayProcessing::addElement(type_array *&, asize_t &, const type_array &, const asize_t)
+		   \sa ALGOR::ArrayProcessing::subtractElement(type_array *&, asize_t &, const asize_t)
 		   \test
 		   \snippet Algor_ArrayProcessing.cpp processing subtractValue
 		 */
@@ -1507,6 +1513,19 @@
 		   \test
 		   \snippet Algor_ArrayData.cpp ARRAYDATA constructor size
 		   \sa ALGOR::ArrayBase::ArrayBase(const asize_t &)
+		 */
+
+		/*!
+		   \fn ALGOR::ARRAYDATA::~ARRAYDATA()
+		   \brief Деструктор класу
+		   \details Звільняє пам'ять від масиву, що зберігається у об'єкті.
+		   Викликається при завершенні програми
+		   \warning Якщо у програмі реалізовані структури, що зберігають вказівники
+		   на ті масиви, що зберігаються у об'єктах - тоді звільняти пам'ять від
+		   масивів у структурах не треба, так як це зробить деструктор класу при
+		   завершенні програми. Видаляйте тільки ті структури, які не зберігаються
+		   у об'єктах!
+		   \since v0.1.1.0 commit bce6b6
 		 */
 
 		/*!
@@ -1821,41 +1840,348 @@
 		   \snippet Algor_ArrayData.cpp ARRAYDATA getMax
 		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::reset()
+		   \brief Метод збросу данних
+		   \details Метод видаляє масив із пам'яті й виділяє заново пам'ять під
+		   новий масив без його заповнення. У результаті масив буде спустошено
+		   до нульових данних.
+		   \since v0.1.0.0 commit 1f2a4f
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA reset
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
+		   \brief Метод, який змінює розмір масиву
+		   \details Насправді, метод створює новий масив нового розміру і копіює
+		   у нього старий масив. Якщо масив стає більше - нові комірки заповнюються
+		   заданим значенням, інакше - останні значення відкидаються. Потім
+		   пам'ять від старого масиву звільняється, а вказівник починає вказувати
+		   на новий масив.
+		   \throw ALGOR::EXCEPTION_SET::size_failure
+		   \param[in] NEW_SIZE Новий розмір масиву
+		   \param[in] setElement Значення, яким заповнюються нові клітинки масиву (у
+		   випадку збільшення масиву)
+		   \warning У разі збільшення розміру масиву після копіювання нові комірки
+		   залишаються порожніми і зберігають у собі «сміття». Іноді програміст
+		   випадково може спробувати отримати дані без їх вказівки, в результаті
+		   чого в кращому випадку буде просто виданий некоректний результат, а в
+		   гіршому - програма може вийти з ладу. Для цього був створений параметр
+		   setElement, але його потрібно вказувати не тільки при збільшенні розміру,
+		   а завжди при виклику методу для профілактики. Програміст може навіть
+		   не знати поточного розміру масиву, отже, він не може знати, чи буде масив
+		   збільшено чи зменшено.
+		   \since v0.1.0.0 commit 1d50a2
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA resize
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::replace(const asize_t &, const type_array &)
+		   \brief Змінює значення по вказаній позиції
+		   \param[in] position Позиція, у якій змінюється значення
+		   \param[in] value Значення, яке буде розміщено в позиції
+		   \since v0.1.0.0 commit dd5d42
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA replace
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::reverse()
+		   \brief Перевертає масив
+		   \since v0.0.0.3 commit 05d8b0
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA reverse
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::respawn()
+		   \brief Метод збросу та перегенерації данних
+		   \details Метод розширює ALGOR::ARRAYDATA::reset, а саме додатково зберігає
+		   діапазон значень масиву і після збросу даних, заново їх генерує.
+		   \since v0.0.0.3 commit 05d8b0
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA respawn
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::searcherOccurrencesOfSubstring(Array<type_array> *&, ArrayType)
+		   \brief Метод пошуку послідовності, який повертає всі її входження
+		   \details Цей метод перебором визначає всі початкові позиції співпадінь
+		   підрядку в головному ряді.
+		   \throw ALGOR::EXCEPTION_SET::not_found
+		   \param[in] SUBARRAY Підрядок, який шукається в основному ряді (масиві)
+		   \param[in] ArrType Тип масиву (цифровий чи строковий)
+		   \return всі перші номери входжень заданого підрядку
+		   \since v0.0.1.0 commit e37003
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA searcherOccurrencesOfSubstring
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::average()
+		   \brief Метод, який повертає середнє арифметичне значення масиву
+		   \throw ALGOR::EXCEPTION_SET::division_by_zero
+		   \return середнє арифметичне значення
+		   \since v0.0.0.3 commit 1a11a0
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA average
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::mediana()
+		   \brief Метод, який повертає медіану масиву
+		   \return медіану масиву
+		   \since v0.0.0.3 commit 1a11a0
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA mediana
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::moda()
+		   \brief Метод, який повертає всі елементи моди масиву
+		   \details Спочатку метод визначає моду масиву (з її першим значенням), а
+		   потім за другим проходом (після визначеної моди) зберігає всі значення, що
+		   відповідають знайденій моді.
+		   \return моди масиву
+		   \since v0.0.0.3 commit 1a11a0
+		   \warning У різних версіях бібліотеки функціонал даного методу змінювався!
+		   Із зазначеної версії функція повертала лише перше значення моди. З
+		   <i>v0.0.1.0 commit 979bf4</i> з'явилась додаткова функція modas(), яка
+		   була призначена для знаходження всіх мод масиву (насправді, вона базувалась
+		   на використанні першої функції, а отриманні данні використовувала для
+		   знаходження всіх інших значень, що відповідають моді). А коли у
+		   <i>v0.1.3.0 commit 391fff</i> було написано окрему структуру для моди і
+		   тепер обидва методи почали працювати з одним типом даних - масивом мод, але
+		   перша функція повертає лище перше значення моди, тоді як друга - усі.
+		   Тоді було вирішено об'єднати ці методи в один, зберігши назву першого.
+		   <u>За різних версій з цим методом потрібно працювати по різному!</u>
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA moda
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator=(Array<type_array> *&)
+		   \brief Клонує масив, як окремий
+		   \details Більш легкий спосіб використання функції
+		   ALGOR::ARRAYDATA::cloneNewData. Якщо клонування відбулось успішно,
+		   повертається <i>true</i>, інакше - <i>false</i>.
+		   \param[in] cloningArray Масив, який потрібно клонувати в об’єкт
+		   \return логічну відповідь, чи відбулось клонування
+		   \since v0.1.3.0 commit 045729
+		   \sa ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA =
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator==(Array<type_array> *&)
+		   \brief Порівнює різні масиви на однаковість
+		   \details Перевіряє кожен елемент наданого масиву з кожним поточним і
+		   якщо всі елементи рівні - масиви однакові (можливо, вони просто
+		   клоновані...).
+		   \param[in] anotherArray Масив, який порівнюється з поточним об'єктом
+		   \return логічну відповідь, чи однакові масиви
+		   \since v0.1.3.0 commit 045729
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA ==
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator^=(const asize_t &)
+		   \brief Оператор зміни розміру масиву
+		   \details Більш легкий спосіб використання функції
+		   ALGOR::ARRAYDATA::resize.
+		   \throw ALGOR::EXCEPTION_SET::size_failure
+		   \param[in] NewSize Новий розмір масиву
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.3.0 commit 045729
+		   \warning Цей оператор було введено на заміну старим реалізаціям
+		   операторів +, -, * та /. У <i>v0.1.3.0 commit ae17f6</i> було дуже сильно
+		   оптимізовано дані оператори, що було виявлено їх однакові закономірності,
+		   що дозволило їх об'єднати до одного оператора ^=. Самі початкові
+		   оператори були переписані під використання інших дій.
+		   \sa ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator+=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator-=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator*=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator/=(const type_array &)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA ^=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator+=(const type_array &)
+		   \brief Збільшує кожен елемент масиву на певне значення
+		   \param[in] addValue Параметр, що вказує, наскільки збільшити кожен
+		   елемент масиву
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit 1f2a4f
+		   \warning Цей оператор було реалізовано для збільшення розміру масиву.
+		   У <i>v0.1.3.0 commit ae17f6</i> було дуже сильно оптимізовано оператори
+		   +, -, *, /, і його реалізацію було винесено до окремого оператора ^=, а
+		   за цим оператором було вирішено залишити збільшення кожного елементу.
+		   \sa ALGOR::ARRAYDATA::operator^=(const asize_t &)
+		   \sa ALGOR::ARRAYDATA::operator-=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator*=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator/=(const type_array &)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA +=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator-=(const type_array &)
+		   \brief Зменшує кожен елемент масиву на певне значення
+		   \param[in] subtractValue Параметр, що вказує, наскільки зменшити кожен
+		   елемент масиву
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit 1f2a4f
+		   \warning Цей оператор було реалізовано для зменшення розміру масиву.
+		   У <i>v0.1.3.0 commit ae17f6</i> було дуже сильно оптимізовано оператори
+		   +, -, *, /, і його реалізацію було винесено до окремого оператора ^=, а
+		   за цим оператором було вирішено залишити зменшення кожного елементу.
+		   \sa ALGOR::ARRAYDATA::operator^=(const asize_t &)
+		   \sa ALGOR::ARRAYDATA::operator+=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator*=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator/=(const type_array &)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA -=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator*=(const type_array &)
+		   \brief Збільшує кожен елемент масиву у скількісь разів
+		   \param[in] multiplyValue Параметр, що вказує, у скільки разів
+		   збільшити кожен елемент масиву
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit dd5d42
+		   \warning Цей оператор було реалізовано для кратного збільшення розміру
+		   масиву. У <i>v0.1.3.0 commit ae17f6</i> було дуже сильно оптимізовано
+		   оператори +, -, *, /, і його реалізацію було винесено до окремого
+		   оператора ^=, а за цим оператором було вирішено залишити кратне
+		   збільшення кожного елементу.
+		   \sa ALGOR::ARRAYDATA::operator^=(const asize_t &)
+		   \sa ALGOR::ARRAYDATA::operator+=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator-=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator/=(const type_array &)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA *=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator/=(const type_array &)
+		   \brief Зменшує кожен елемент масиву у скількісь разів
+		   \param[in] divideValue Параметр, що вказує, у скільки разів
+		   зменшити кожен елемент масиву
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit dd5d42
+		   \warning Цей оператор було реалізовано для кратного зменшення розміру
+		   масиву. У <i>v0.1.3.0 commit ae17f6</i> було дуже сильно оптимізовано
+		   оператори +, -, *, /, і його реалізацію було винесено до окремого
+		   оператора ^=, а за цим оператором було вирішено залишити кратне
+		   зменшення кожного елементу.
+		   \sa ALGOR::ARRAYDATA::operator^=(const asize_t &)
+		   \sa ALGOR::ARRAYDATA::operator+=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator-=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator*=(const type_array &)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA /=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator&=(const type_array &)
+		   \brief Оператор додавання елемента в кінець масиву
+		   \details Більш легкий спосіб використання функції
+		   ALGOR::ArrayProcessing::addElement.
+		   \note Функція ALGOR::ArrayProcessing::addElement є дуже гнучкою і
+		   дозволяє додавати елемент на любу позицію масиву, тому якщо потрібно
+		   додати елемент не у кінець масиву - прийдеться використовувати
+		   функцію власноруч...
+		   \remark Якщо бути чесним, то цей оператор було додано лише для
+		   можливості спрощеного легкого використання стандартним масивних
+		   функцій при роботі з об'єктами.
+		   \param[in] value Елемент, який потрібно додати до масиву
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit dd5d42
+		   \sa ALGOR::ArrayProcessing::addElement(type_array *&, asize_t &, const type_array &, const asize_t)
+		   \sa ALGOR::ARRAYDATA::operator|=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator!()
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA &=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator|=(const type_array &)
+		   \brief Оператор, який видаляє всі елементи з указаним значенням
+		   \details Більш легкий спосіб використання функції
+		   ALGOR::ArrayProcessing::subtractValue.
+		   \remark Якщо бути чесним, то цей оператор було додано лише для
+		   можливості спрощеного легкого використання стандартним масивних
+		   функцій при роботі з об'єктами.
+		   \param[in] value Значення, яке потрібно видалити з усього масиву
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit dd5d42
+		   \sa ALGOR::ArrayProcessing::subtractValue(type_array *&, asize_t &, const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator&=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator!()
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA |=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator!()
+		   \brief Оператор, який видаляє елемент із кінця масиву
+		   \details Більш легкий спосіб використання функції
+		   ALGOR::ArrayProcessing::subtractElement.
+		   \remark Якщо бути чесним, то цей оператор було додано лише для
+		   можливості спрощеного легкого використання стандартним масивних
+		   функцій при роботі з об'єктами.
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit dd5d42
+		   \sa ALGOR::ArrayProcessing::subtractElement(type_array *&, asize_t &, const asize_t)
+		   \sa ALGOR::ARRAYDATA::operator&=(const type_array &)
+		   \sa ALGOR::ARRAYDATA::operator|=(const type_array &)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA !
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator<<=(ARRAYDATA<type_array> *&)
+		   \brief Оператор об'єднання двох масивів у поточному об'єкті
+		   \details Оператор додає данні із наданого об'єкту у кінець поточного
+		   об'єкту. Це єдиний метод, який працює не зі структурами, а із об'єктами.
+		   \param[in] appendingArray Масив, з якого будуть передаватись данні до
+		   поточного
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit dd5d42
+		   \sa ALGOR::ARRAYDATA::operator>>=(ARRAYDATA<type_array> *&)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA <<=
+		 */
 
+		/*!
+		   \fn ALGOR::ARRAYDATA::operator>>=(ARRAYDATA<type_array> *&)
+		   \brief Оператор об'єднання двох масивів у наданому об'єкті
+		   \details Оператор додає данні із поточного об'єкту у кінець наданого
+		   об'єкту. Це єдиний метод, який працює не зі структурами, а із об'єктами.
+		   \param[out] appendingArray Масив, у який будуть передаватись данні з
+		   поточного
+		   \return вказівник на нову структуру масиву
+		   \since v0.1.0.0 commit dd5d42
+		   \sa ALGOR::ARRAYDATA::operator<<=(ARRAYDATA<type_array> *&)
+		   \test
+		   \snippet Algor_ArrayData.cpp ARRAYDATA >>=
+		 */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		/*!
+		   \fn ALGOR::ARRAYDATA::remove()
+		   \brief Видаляє масив
+		   \warning Метод є приватним, щоб уникнути випадків, коли програміст
+		   звільнив пам'ять з-під масиву і звертається до пустих данних чи намагається
+		   проводити над ними якісь зміни.
+		   \since v0.1.0.0 commit 1d50a2
+		 */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  * --------------------------------------------------------------------------- *
