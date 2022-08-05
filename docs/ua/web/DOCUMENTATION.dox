@@ -32,6 +32,8 @@
   \example Algor_exception.cpp
   \example Algor_random.cpp
   \example Algor_ArrayProcessing.cpp
+  \example Algor_ArrayData.cpp
+  \example Algor_ArraySort.cpp
  */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *

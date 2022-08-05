@@ -373,65 +373,139 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
-	 *                      Список нереалізованих алгоритмів:                      *
-	 * 1)  ProportionExtendSort		Категорія Exchange_Sorts                       *
-	 * 2)  Smooth_Sort				Категорія Selection_Sorts                      *
-	 * 3)  CartesianTreeSort		Категорія Selection_Sorts                      *
-	 * 4)  TournamentSort			Категорія Selection_Sorts                      *
-	 * 5)  WeakHeapSort				Категорія Selection_Sorts                      *
-	 * 6)  SplaySort				Категорія Insertion_Sorts                      *
-	 * 7)  CascadeMergeSort			Категорія Merge_Sorts                          *
-	 * 8)  OscillatingMergeSort		Категорія Merge_Sorts                          *
-	 * 9)  PolyphaseMergeSort		Категорія Merge_Sorts                          *
-	 * 10) BurstSort				Категорія Distribution_Sorts                   *
-	 * 11) ProxmapSort				Категорія Distribution_Sorts                   *
-	 * 12) PairwiseSortingNetwork	Категорія Concurrent_Sort                      *
-	 * 13) SampleSort				Категорія Concurrent_Sort                      *
-	 * 14) BlockMergeSort			Категорія Hybrid_Sorts                         *
-	 * 15) KirkpatrickReischSort	Категорія Hybrid_Sorts                         *
-	 * 16) IntroSort				Категорія Hybrid_Sorts                         *
-	 * 17) SpreadSort				Категорія Hybrid_Sorts                         *
-	 * 18) MergeInsertionSort		Категорія Hybrid_Sorts                         *
-	 * 19) TopologicalSort			Категорія Other_Sorts                          *
-	 * 20) SpaghettiSort			Категорія Other_Sorts                          *
-	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
+	/*!
+	   \class ALGOR::Comparative_Sorts
+	   \brief Клас з великою кількістю алгоритмів сортувань
 
+	   \details Клас, що колекціонує велику кількість алгоритмів сортувань. Саме
+	   така мета ставилася на початку створення бібліотеки: реалізувати усі
+	   алгоритми сортувань! Але з часом ставились інші цілі, окрім алгоритмів
+	   сортувань, що призвело до розширення функціоналу бібліотеки... Тільки з
+	   часом я повернувся до реалізації алгоритмів сортувань. На Вікіпедії
+	   доступно 50 різних алгоритмів сортувань, які поділені на категорії.
+	   Додатково я їх поділив ще на два великі сімейства: алгоритми, що працюють
+	   з будь-якими числовими данними та алгоритми, що працюють тільки з цілими
+	   числовими данними. Цей клас реалізує перше сімейство алгоритмів. Його частка
+	   складає 40 алгоритмів із 50.
+
+	   \details Під час роботи я зрозумів, що зможу реалізувати не всі алгоритми, так
+	   як деякі просто не достанеш. При пошуках CascadeMergeSort на Вікіпедії
+	   описано усього півтори строчки про алгоритм, а при переході за посиланням
+	   на ресурс надається книга з 584 сторінки, доступно з яких не більше 10. І
+	   більше ніде ніякої інформації не має... І це лише один з прикладів...
+
+	   \details Із 40 я зміг реалізувати 22 алгоритми даного сімейства:
+	   1. Batcher_OddEven_MergeSort	(Категорія Concurrent_Sort)
+	   2. Bitonic_Sorter				(Категорія Concurrent_Sort)
+	   3. Bogo_Sort					(Категорія Exchange_Sorts)
+	   4. Bubble_Sort					(Категорія Exchange_Sorts)
+	   5. Cocktail_Shaker_Sort		(Категорія Exchange_Sorts)
+	   6. Comb_Sort					(Категорія Exchange_Sorts)
+	   7. Cycle_Sort					(Категорія Selection_Sorts)
+	   8. Gnome_Sort					(Категорія Exchange_Sorts)
+	   9. Heap_Sort					(Категорія Selection_Sorts)
+	   10. Insert_Sort					(Категорія Insertion_Sorts)
+	   11. Library_Sort				(Категорія Insertion_Sorts)
+	   12. Merge_Sort					(Категорія Merge_Sorts)
+	   13. Odd_Even_Sort				(Категорія Exchange_Sorts)
+	   14. Pancake_Sort				(Категорія Other_Sorts)
+	   15. Patience_Sort				(Категорія Insertion_Sorts)
+	   16. Quick_Sort					(Категорія Exchange_Sorts)
+	   17. Selection_Sort				(Категорія Selection_Sorts)
+	   18. Shell_Sort					(Категорія Insertion_Sorts)
+	   19. Slow_Sort					(Категорія Exchange_Sorts)
+	   20. Stooge_Sort					(Категорія Exchange_Sorts)
+	   21. Tim_Sort					(Категорія Hybrid_Sorts)
+	   22. Tree_Sort					(Категорія Insertion_Sorts)
+
+	   \details Не реалізованими залишились:
+	   1. ProportionExtendSort	(Категорія Exchange_Sorts)
+	   2. Smooth_Sort				(Категорія Selection_Sorts)
+	   3. CartesianTreeSort		(Категорія Selection_Sorts)
+	   4. TournamentSort			(Категорія Selection_Sorts)
+	   5. WeakHeapSort				(Категорія Selection_Sorts)
+	   6. SplaySort				(Категорія Insertion_Sorts)
+	   7. CascadeMergeSort		(Категорія Merge_Sorts)
+	   8. OscillatingMergeSort	(Категорія Merge_Sorts)
+	   9. PolyphaseMergeSort		(Категорія Merge_Sorts)
+	   10. PairwiseSortingNetwork	(Категорія Concurrent_Sort)
+	   11. SampleSort				(Категорія Concurrent_Sort)
+	   12. BlockMergeSort			(Категорія Hybrid_Sorts)
+	   13. KirkpatrickReischSort	(Категорія Hybrid_Sorts)
+	   14. IntroSort				(Категорія Hybrid_Sorts)
+	   15. SpreadSort				(Категорія Hybrid_Sorts)
+	   16. MergeInsertionSort		(Категорія Hybrid_Sorts)
+	   17. TopologicalSort		(Категорія Other_Sorts)
+	   18. SpaghettiSort			(Категорія Other_Sorts)
+
+	   \remark Нагадаю, що усі усі алгоритми працюють з будь-якими данними, тобто і
+	   з цілими, і з дробними, і з додатніми, і з від'ємними, і зі змішаними. Ця
+	   характеристика під час тестування мала визначення:
+	   "цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-".
+
+	   \tparam type_array Тип елементів, що будуть сортуватися
+	   \since v0.1.2.0 commit 52d263
+	 */
 	template <typename type_array>
 	class Comparative_Sorts : public ArrayBase<type_array>
 	{
 	public:
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Comparative_Sorts(Array<type_array> *&)
+		   \brief Конструктор, що приймає СТРУКТУРУ та зберігає її до поля
+		   \details Цей клас, як сімейство, як колекціонер, збирає алгоритми
+		   сортувань, як внутрішні класи, але дозволяє до них прямий доступ.
+		   Якщо бібліотека використовується тільки як джерело алгоритмів сортувань,
+		   тоді краще створити напряму об'єкт внутрішнього класу алгоритму сортувань,
+		   передати йому стандатний С++ вкащівник на масив та його розмір й викликати
+		   метод сортувань. Але якщо бібліотека ALGOR використовується у більшому
+		   спектрі, тоді набагато легше буде створити об'єкт сімейства, передати
+		   йому готову структуру й викликати потрібний алгоритми. Порівняйте:
+		   \code
+		   //Використання алгоритму напряму
+		   Comparative_Sorts<long long>::LibrarySort *sort;
+		   sort =  = new Comparative_Sorts<long long>::LibrarySort(ArrayStruct->array, ArrayStruct->array_size);
+		   sort->library_sort();
+		   //Використання алгоритму через зовнішній клас
+		   Comparative_Sorts<long long> *sort = new Comparative_Sorts<long long>(ArrayStruct);
+		   sort->Library_Sort();
+		   \endcode
+		   \param[in] Array Покажчик на структуру масиву
+		   \since v0.1.2.0 commit 52d263
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts constructor
+		 */
 		Comparative_Sorts(Array<type_array> *&Array);
 
 		// <<==		Категорія Exchange_Sorts	==>>
-		void Bubble_Sort();			 // №	 4	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Cocktail_Shaker_Sort(); // №	 5	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Odd_Even_Sort();		 // №	13	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Comb_Sort();			 // №	 6	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Gnome_Sort();			 // №	 8	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Quick_Sort();			 // №	16	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Slow_Sort();			 // №	19	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Stooge_Sort();			 // №	20	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Bogo_Sort();			 // №	 3	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Bubble_Sort();
+		void Cocktail_Shaker_Sort();
+		void Odd_Even_Sort();
+		void Comb_Sort();
+		void Gnome_Sort();
+		void Quick_Sort();
+		void Slow_Sort();
+		void Stooge_Sort();
+		void Bogo_Sort();
 		// <<==		Категорія Selection_Sorts	==>>
-		void Selection_Sort(); // №	17	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Heap_Sort();	   // №	 9	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Cycle_Sort();	   // №	 7	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Selection_Sort();
+		void Heap_Sort();
+		void Cycle_Sort();
 		// <<==		Категорія Insertion_Sorts	==>>
-		void Insert_Sort();	  // №	10	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Shell_Sort();	  // №	18	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Tree_Sort();	  // №	22	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Library_Sort();  // №	11	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Patience_Sort(); // №	15	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Insert_Sort();
+		void Shell_Sort();
+		void Tree_Sort();
+		void Library_Sort();
+		void Patience_Sort();
 		// <<==		Категорія Merge_Sorts		==>>
-		void Merge_Sort(); // №	12	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Merge_Sort();
 		// <<==		Категорія Concurrent_Sort	==>>
-		void Bitonic_Sorter();			  // №	 2	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
-		void Batcher_OddEven_MergeSort(); // №	 1	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Bitonic_Sorter();
+		void Batcher_OddEven_MergeSort();
 		// <<==		Категорія Hybrid_Sorts		==>>
-		void Tim_Sort(); // №	21	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Tim_Sort();
 		// <<==		Категорія Other_Sorts		==>>
-		void Pancake_Sort(); // №	14	/цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-
+		void Pancake_Sort();
 
 		// <<==				Classes				==>>
 		class BatcherOddEvenMergeSort //Категорія Concurrent_Sort
@@ -731,6 +805,11 @@ namespace ALGOR
 			void store(Tree *root, type_array *Array, asize_t &index);
 		};
 	};
+
+	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+	 * 10) BurstSort				Категорія Distribution_Sorts                   *
+	 * 11) ProxmapSort				Категорія Distribution_Sorts                   *
+	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
 	class Distribution_Sorts : public ArrayBase<byte8_t>
 	{
