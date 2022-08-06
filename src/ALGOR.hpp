@@ -464,7 +464,7 @@ namespace ALGOR
 		   \code
 		   //Використання алгоритму напряму
 		   Comparative_Sorts<long long>::LibrarySort *sort;
-		   sort =  = new Comparative_Sorts<long long>::LibrarySort(ArrayStruct->array, ArrayStruct->array_size);
+		   sort = new Comparative_Sorts<long long>::LibrarySort(ArrayStruct->array, ArrayStruct->array_size);
 		   sort->library_sort();
 		   //Використання алгоритму через зовнішній клас
 		   Comparative_Sorts<long long> *sort = new Comparative_Sorts<long long>(ArrayStruct);
@@ -478,33 +478,297 @@ namespace ALGOR
 		Comparative_Sorts(Array<type_array> *&Array);
 
 		// <<==		Категорія Exchange_Sorts	==>>
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Bubble_Sort()
+		   \brief Метод виклику алгоритму сортування Bubble Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::BubbleSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Bubble_Sort
+		 */
 		void Bubble_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Cocktail_Shaker_Sort()
+		   \brief Метод виклику алгоритму сортування Cocktail Shaker Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::CocktailShakerSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Cocktail_Shaker_Sort
+		 */
 		void Cocktail_Shaker_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Odd_Even_Sort()
+		   \brief Метод виклику алгоритму сортування Odd Even Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::OddEvenSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Odd_Even_Sort
+		 */
 		void Odd_Even_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Comb_Sort()
+		   \brief Метод виклику алгоритму сортування Comb Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::CombSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Comb_Sort
+		 */
 		void Comb_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Gnome_Sort()
+		   \brief Метод виклику алгоритму сортування Gnome Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::GnomeSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Gnome_Sort
+		 */
 		void Gnome_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Quick_Sort()
+		   \brief Метод виклику алгоритму сортування Quick Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::QuickSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Quick_Sort
+		 */
 		void Quick_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Slow_Sort()
+		   \brief Метод виклику алгоритму сортування Slow Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::SlowSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Slow_Sort
+		 */
 		void Slow_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Stooge_Sort()
+		   \brief Метод виклику алгоритму сортування Stooge Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::StoogeSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Stooge_Sort
+		 */
 		void Stooge_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Bogo_Sort()
+		   \brief Метод виклику алгоритму сортування Bogo Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::BogoSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 46c223
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Bogo_Sort
+		 */
 		void Bogo_Sort();
 		// <<==		Категорія Selection_Sorts	==>>
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Selection_Sort()
+		   \brief Метод виклику алгоритму сортування Selection Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::SelectionSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 28f51f
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Selection_Sort
+		 */
 		void Selection_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Heap_Sort()
+		   \brief Метод виклику алгоритму сортування Heap Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::HeapSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 28f51f
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Heap_Sort
+		 */
 		void Heap_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Cycle_Sort()
+		   \brief Метод виклику алгоритму сортування Cycle Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::CycleSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.2 commit 28f51f
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Cycle_Sort
+		 */
 		void Cycle_Sort();
 		// <<==		Категорія Insertion_Sorts	==>>
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Insert_Sort()
+		   \brief Метод виклику алгоритму сортування Insert Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::InsertSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.3 commit f81852
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Insert_Sort
+		 */
 		void Insert_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Shell_Sort()
+		   \brief Метод виклику алгоритму сортування Shell Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::ShellSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.3 commit f81852
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Shell_Sort
+		 */
 		void Shell_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Tree_Sort()
+		   \brief Метод виклику алгоритму сортування Tree Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::TreeSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.3 commit f81852
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Tree_Sort
+		 */
 		void Tree_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Library_Sort()
+		   \brief Метод виклику алгоритму сортування Library Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::LibrarySort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.3 commit b4cdc9
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Library_Sort
+		 */
 		void Library_Sort();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Patience_Sort()
+		   \brief Метод виклику алгоритму сортування Patience Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::PatienceSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.3 commit f81852
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Patience_Sort
+		 */
 		void Patience_Sort();
 		// <<==		Категорія Merge_Sorts		==>>
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Merge_Sort()
+		   \brief Метод виклику алгоритму сортування Merge Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::MergeSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.1.4 commit b19f70
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Merge_Sort
+		 */
 		void Merge_Sort();
 		// <<==		Категорія Concurrent_Sort	==>>
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Bitonic_Sorter()
+		   \brief Метод виклику алгоритму сортування Bitonic Sorter
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::BitonicSorter. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.1 commit ffc19f
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Bitonic_Sorter
+		 */
 		void Bitonic_Sorter();
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Batcher_OddEven_MergeSort()
+		   \brief Метод виклику алгоритму сортування Batcher Odd Even Merge Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::BatcherOddEvenMergeSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.3.0 commit 98b663
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Batcher_OddEven_MergeSort
+		 */
 		void Batcher_OddEven_MergeSort();
 		// <<==		Категорія Hybrid_Sorts		==>>
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Tim_Sort()
+		   \brief Метод виклику алгоритму сортування Tim Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::TimSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.1 commit ffc19f
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Tim_Sort
+		 */
 		void Tim_Sort();
 		// <<==		Категорія Other_Sorts		==>>
+		/*!
+		   \fn ALGOR::Comparative_Sorts::Pancake_Sort()
+		   \brief Метод виклику алгоритму сортування Pancake Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Comparative_Sorts::PancakeSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.1 commit ffc19f
+		   \test
+		   \snippet Algor_ArraySort.cpp Comparative_Sorts Pancake_Sort
+		 */
 		void Pancake_Sort();
 
 		// <<==				Classes				==>>
