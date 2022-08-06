@@ -373,406 +373,45 @@ namespace ALGOR
 	 * #*****+/^^^/+++++-/+/-+-+                         +-+-/+/-+++++/^^^/+*****# *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
 
-	/*!
-	   \class ALGOR::Comparative_Sorts
-	   \brief Клас з великою кількістю алгоритмів сортувань
-
-	   \details Клас, що колекціонує велику кількість алгоритмів сортувань. Саме
-	   така мета ставилася на початку створення бібліотеки: реалізувати усі
-	   алгоритми сортувань! Але з часом ставились інші цілі, окрім алгоритмів
-	   сортувань, що призвело до розширення функціоналу бібліотеки... Тільки з
-	   часом я повернувся до реалізації алгоритмів сортувань. На Вікіпедії
-	   доступно 50 різних алгоритмів сортувань, які поділені на категорії.
-	   Додатково я їх поділив ще на два великі сімейства: алгоритми, що працюють
-	   з будь-якими числовими данними та алгоритми, що працюють тільки з цілими
-	   числовими данними. Цей клас реалізує перше сімейство алгоритмів. Його частка
-	   складає 40 алгоритмів із 50.
-
-	   \details Під час роботи я зрозумів, що зможу реалізувати не всі алгоритми, так
-	   як деякі просто не достанеш. При пошуках CascadeMergeSort на Вікіпедії
-	   описано усього півтори строчки про алгоритм, а при переході за посиланням
-	   на ресурс надається книга з 584 сторінки, доступно з яких не більше 10. І
-	   більше ніде ніякої інформації не має... І це лише один з прикладів...
-
-	   \details Із 40 я зміг реалізувати 22 алгоритми даного сімейства:
-	   1. Batcher_OddEven_MergeSort	(Категорія Concurrent_Sort)
-	   2. Bitonic_Sorter				(Категорія Concurrent_Sort)
-	   3. Bogo_Sort					(Категорія Exchange_Sorts)
-	   4. Bubble_Sort					(Категорія Exchange_Sorts)
-	   5. Cocktail_Shaker_Sort		(Категорія Exchange_Sorts)
-	   6. Comb_Sort					(Категорія Exchange_Sorts)
-	   7. Cycle_Sort					(Категорія Selection_Sorts)
-	   8. Gnome_Sort					(Категорія Exchange_Sorts)
-	   9. Heap_Sort					(Категорія Selection_Sorts)
-	   10. Insert_Sort					(Категорія Insertion_Sorts)
-	   11. Library_Sort				(Категорія Insertion_Sorts)
-	   12. Merge_Sort					(Категорія Merge_Sorts)
-	   13. Odd_Even_Sort				(Категорія Exchange_Sorts)
-	   14. Pancake_Sort				(Категорія Other_Sorts)
-	   15. Patience_Sort				(Категорія Insertion_Sorts)
-	   16. Quick_Sort					(Категорія Exchange_Sorts)
-	   17. Selection_Sort				(Категорія Selection_Sorts)
-	   18. Shell_Sort					(Категорія Insertion_Sorts)
-	   19. Slow_Sort					(Категорія Exchange_Sorts)
-	   20. Stooge_Sort					(Категорія Exchange_Sorts)
-	   21. Tim_Sort					(Категорія Hybrid_Sorts)
-	   22. Tree_Sort					(Категорія Insertion_Sorts)
-
-	   \details Не реалізованими залишились:
-	   1. ProportionExtendSort	(Категорія Exchange_Sorts)
-	   2. Smooth_Sort				(Категорія Selection_Sorts)
-	   3. CartesianTreeSort		(Категорія Selection_Sorts)
-	   4. TournamentSort			(Категорія Selection_Sorts)
-	   5. WeakHeapSort				(Категорія Selection_Sorts)
-	   6. SplaySort				(Категорія Insertion_Sorts)
-	   7. CascadeMergeSort		(Категорія Merge_Sorts)
-	   8. OscillatingMergeSort	(Категорія Merge_Sorts)
-	   9. PolyphaseMergeSort		(Категорія Merge_Sorts)
-	   10. PairwiseSortingNetwork	(Категорія Concurrent_Sort)
-	   11. SampleSort				(Категорія Concurrent_Sort)
-	   12. BlockMergeSort			(Категорія Hybrid_Sorts)
-	   13. KirkpatrickReischSort	(Категорія Hybrid_Sorts)
-	   14. IntroSort				(Категорія Hybrid_Sorts)
-	   15. SpreadSort				(Категорія Hybrid_Sorts)
-	   16. MergeInsertionSort		(Категорія Hybrid_Sorts)
-	   17. TopologicalSort		(Категорія Other_Sorts)
-	   18. SpaghettiSort			(Категорія Other_Sorts)
-
-	   \remark Нагадаю, що усі усі алгоритми працюють з будь-якими данними, тобто і
-	   з цілими, і з дробними, і з додатніми, і з від'ємними, і зі змішаними. Ця
-	   характеристика під час тестування мала визначення:
-	   "цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-".
-
-	   \tparam type_array Тип елементів, що будуть сортуватися
-	   \since v0.1.2.0 commit 52d263
-	 */
 	template <typename type_array>
 	class Comparative_Sorts : public ArrayBase<type_array>
 	{
 	public:
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Comparative_Sorts(Array<type_array> *&)
-		   \brief Конструктор, що приймає СТРУКТУРУ та зберігає її до поля
-		   \details Цей клас, як сімейство, як колекціонер, збирає алгоритми
-		   сортувань, як внутрішні класи, але дозволяє до них прямий доступ.
-		   Якщо бібліотека використовується тільки як джерело алгоритмів сортувань,
-		   тоді краще створити напряму об'єкт внутрішнього класу алгоритму сортувань,
-		   передати йому стандатний С++ вкащівник на масив та його розмір й викликати
-		   метод сортувань. Але якщо бібліотека ALGOR використовується у більшому
-		   спектрі, тоді набагато легше буде створити об'єкт сімейства, передати
-		   йому готову структуру й викликати потрібний алгоритми. Порівняйте:
-		   \code
-		   //Використання алгоритму напряму
-		   Comparative_Sorts<long long>::LibrarySort *sort;
-		   sort = new Comparative_Sorts<long long>::LibrarySort(ArrayStruct->array, ArrayStruct->array_size);
-		   sort->library_sort();
-		   //Використання алгоритму через зовнішній клас
-		   Comparative_Sorts<long long> *sort = new Comparative_Sorts<long long>(ArrayStruct);
-		   sort->Library_Sort();
-		   \endcode
-		   \param[in] Array Покажчик на структуру масиву
-		   \since v0.1.2.0 commit 52d263
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts constructor
-		 */
 		Comparative_Sorts(Array<type_array> *&Array);
 
 		// <<==		Категорія Exchange_Sorts	==>>
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Bubble_Sort()
-		   \brief Метод виклику алгоритму сортування Bubble Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::BubbleSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Bubble_Sort
-		 */
 		void Bubble_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Cocktail_Shaker_Sort()
-		   \brief Метод виклику алгоритму сортування Cocktail Shaker Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::CocktailShakerSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Cocktail_Shaker_Sort
-		 */
 		void Cocktail_Shaker_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Odd_Even_Sort()
-		   \brief Метод виклику алгоритму сортування Odd Even Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::OddEvenSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Odd_Even_Sort
-		 */
 		void Odd_Even_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Comb_Sort()
-		   \brief Метод виклику алгоритму сортування Comb Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::CombSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Comb_Sort
-		 */
 		void Comb_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Gnome_Sort()
-		   \brief Метод виклику алгоритму сортування Gnome Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::GnomeSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Gnome_Sort
-		 */
 		void Gnome_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Quick_Sort()
-		   \brief Метод виклику алгоритму сортування Quick Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::QuickSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Quick_Sort
-		 */
 		void Quick_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Slow_Sort()
-		   \brief Метод виклику алгоритму сортування Slow Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::SlowSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Slow_Sort
-		 */
 		void Slow_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Stooge_Sort()
-		   \brief Метод виклику алгоритму сортування Stooge Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::StoogeSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Stooge_Sort
-		 */
 		void Stooge_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Bogo_Sort()
-		   \brief Метод виклику алгоритму сортування Bogo Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::BogoSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 46c223
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Bogo_Sort
-		 */
 		void Bogo_Sort();
 		// <<==		Категорія Selection_Sorts	==>>
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Selection_Sort()
-		   \brief Метод виклику алгоритму сортування Selection Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::SelectionSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 28f51f
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Selection_Sort
-		 */
 		void Selection_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Heap_Sort()
-		   \brief Метод виклику алгоритму сортування Heap Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::HeapSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 28f51f
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Heap_Sort
-		 */
 		void Heap_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Cycle_Sort()
-		   \brief Метод виклику алгоритму сортування Cycle Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::CycleSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.2 commit 28f51f
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Cycle_Sort
-		 */
 		void Cycle_Sort();
 		// <<==		Категорія Insertion_Sorts	==>>
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Insert_Sort()
-		   \brief Метод виклику алгоритму сортування Insert Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::InsertSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.3 commit f81852
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Insert_Sort
-		 */
 		void Insert_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Shell_Sort()
-		   \brief Метод виклику алгоритму сортування Shell Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::ShellSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.3 commit f81852
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Shell_Sort
-		 */
 		void Shell_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Tree_Sort()
-		   \brief Метод виклику алгоритму сортування Tree Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::TreeSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.3 commit f81852
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Tree_Sort
-		 */
 		void Tree_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Library_Sort()
-		   \brief Метод виклику алгоритму сортування Library Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::LibrarySort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.3 commit b4cdc9
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Library_Sort
-		 */
 		void Library_Sort();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Patience_Sort()
-		   \brief Метод виклику алгоритму сортування Patience Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::PatienceSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.3 commit f81852
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Patience_Sort
-		 */
 		void Patience_Sort();
 		// <<==		Категорія Merge_Sorts		==>>
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Merge_Sort()
-		   \brief Метод виклику алгоритму сортування Merge Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::MergeSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.1.4 commit b19f70
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Merge_Sort
-		 */
 		void Merge_Sort();
 		// <<==		Категорія Concurrent_Sort	==>>
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Bitonic_Sorter()
-		   \brief Метод виклику алгоритму сортування Bitonic Sorter
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::BitonicSorter. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.2.1 commit ffc19f
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Bitonic_Sorter
-		 */
 		void Bitonic_Sorter();
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Batcher_OddEven_MergeSort()
-		   \brief Метод виклику алгоритму сортування Batcher Odd Even Merge Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::BatcherOddEvenMergeSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.3.0 commit 98b663
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Batcher_OddEven_MergeSort
-		 */
 		void Batcher_OddEven_MergeSort();
 		// <<==		Категорія Hybrid_Sorts		==>>
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Tim_Sort()
-		   \brief Метод виклику алгоритму сортування Tim Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::TimSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.2.1 commit ffc19f
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Tim_Sort
-		 */
 		void Tim_Sort();
 		// <<==		Категорія Other_Sorts		==>>
-		/*!
-		   \fn ALGOR::Comparative_Sorts::Pancake_Sort()
-		   \brief Метод виклику алгоритму сортування Pancake Sort
-		   \details Цей метод використовується для виклику алгоритму сортування
-		   ALGOR::Comparative_Sorts::PancakeSort. Метод не потребує
-		   даних, так як вони були збережені при створенні об'єкта і власноруч
-		   передає всі потрібні данні внутрішньому алгоритму сортування, що
-		   спрощує написання коду.
-		   \since v0.1.2.1 commit ffc19f
-		   \test
-		   \snippet Algor_ArraySort.cpp Comparative_Sorts Pancake_Sort
-		 */
 		void Pancake_Sort();
 
 		// <<==				Classes				==>>
-		class BatcherOddEvenMergeSort //Категорія Concurrent_Sort
+
+		class BatcherOddEvenMergeSort
 		{
 		public:
 			BatcherOddEvenMergeSort(type_array *array, asize_t asize);
@@ -783,7 +422,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class BitonicSorter //Категорія Concurrent_Sort
+		class BitonicSorter
 		{
 		public:
 			BitonicSorter(type_array *array, asize_t asize);
@@ -794,7 +433,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class BogoSort //Категорія Exchange_Sorts
+		class BogoSort
 		{
 		public:
 			BogoSort(type_array *array, asize_t asize);
@@ -807,7 +446,7 @@ namespace ALGOR
 			void Shuffle();
 		};
 
-		class BubbleSort //Категорія Exchange_Sorts
+		class BubbleSort
 		{
 		public:
 			BubbleSort(type_array *array, asize_t asize);
@@ -818,7 +457,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class CocktailShakerSort //Категорія Exchange_Sorts
+		class CocktailShakerSort
 		{
 		public:
 			CocktailShakerSort(type_array *array, asize_t asize);
@@ -829,7 +468,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class CombSort //Категорія Exchange_Sorts
+		class CombSort
 		{
 		public:
 			CombSort(type_array *array, asize_t asize);
@@ -840,7 +479,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class CycleSort //Категорія Selection_Sorts
+		class CycleSort
 		{
 		public:
 			CycleSort(type_array *array, asize_t asize);
@@ -851,7 +490,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class GnomeSort //Категорія Exchange_Sorts
+		class GnomeSort
 		{
 		public:
 			GnomeSort(type_array *array, asize_t asize);
@@ -862,7 +501,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class HeapSort //Категорія Selection_Sorts
+		class HeapSort
 		{
 		public:
 			HeapSort(type_array *array, asize_t asize);
@@ -877,7 +516,7 @@ namespace ALGOR
 						 const asize_t &array_size);
 		};
 
-		class InsertSort //Категорія Insertion_Sorts
+		class InsertSort
 		{
 		public:
 			InsertSort(type_array *array, asize_t asize);
@@ -888,7 +527,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class LibrarySort //Категорія Insertion_Sorts
+		class LibrarySort
 		{
 		public:
 			LibrarySort(type_array *array, asize_t asize);
@@ -909,7 +548,7 @@ namespace ALGOR
 			void finalization();
 		};
 
-		class MergeSort //Категорія Merge_Sorts
+		class MergeSort
 		{
 		public:
 			MergeSort(type_array *array, asize_t asize);
@@ -926,7 +565,7 @@ namespace ALGOR
 					   const asize_t &right_limit);
 		};
 
-		class OddEvenSort //Категорія Exchange_Sorts
+		class OddEvenSort
 		{
 		public:
 			OddEvenSort(type_array *array, asize_t asize);
@@ -937,7 +576,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class PancakeSort //Категорія Other_Sorts
+		class PancakeSort
 		{
 		public:
 			PancakeSort(type_array *array, asize_t asize);
@@ -951,7 +590,7 @@ namespace ALGOR
 			void flip(asize_t index);
 		};
 
-		class PatienceSort //Категорія Insertion_Sorts
+		class PatienceSort
 		{
 		public:
 			PatienceSort(type_array *array, asize_t asize);
@@ -968,7 +607,7 @@ namespace ALGOR
 			void finalization();
 		};
 
-		class QuickSort //Категорія Exchange_Sorts
+		class QuickSort
 		{
 		public:
 			QuickSort(type_array *array, asize_t asize);
@@ -982,7 +621,7 @@ namespace ALGOR
 									  const byte4_t &right_limit);
 		};
 
-		class SelectionSort //Категорія Selection_Sorts
+		class SelectionSort
 		{
 		public:
 			SelectionSort(type_array *array, asize_t asize);
@@ -993,7 +632,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class ShellSort //Категорія Insertion_Sorts
+		class ShellSort
 		{
 		public:
 			ShellSort(type_array *array, asize_t asize);
@@ -1004,7 +643,7 @@ namespace ALGOR
 			asize_t array_size;
 		};
 
-		class SlowSort //Категорія Exchange_Sorts
+		class SlowSort
 		{
 		public:
 			SlowSort(type_array *array, asize_t asize);
@@ -1018,7 +657,7 @@ namespace ALGOR
 									 const asize_t &right_limit);
 		};
 
-		class StoogeSort //Категорія Exchange_Sorts
+		class StoogeSort
 		{
 		public:
 			StoogeSort(type_array *array, asize_t asize);
@@ -1032,7 +671,7 @@ namespace ALGOR
 									   const asize_t &right_limit);
 		};
 
-		class TimSort //Категорія Hybrid_Sorts
+		class TimSort
 		{
 		public:
 			TimSort(type_array *array, asize_t asize);
@@ -1048,7 +687,7 @@ namespace ALGOR
 			void merge(asize_t left_limit, asize_t middle, asize_t right_limit);
 		};
 
-		class TreeSort //Категорія Insertion_Sorts
+		class TreeSort
 		{
 		public:
 			TreeSort(type_array *array, asize_t asize);
@@ -1071,6 +710,7 @@ namespace ALGOR
 	};
 
 	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
+	   нереалізовані
 	 * 10) BurstSort				Категорія Distribution_Sorts                   *
 	 * 11) ProxmapSort				Категорія Distribution_Sorts                   *
 	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
@@ -1177,6 +817,7 @@ namespace ALGOR
 			void getMax();
 		};
 
+		//since v0.1.1.4 commit 090b06
 		class PigeonholeSort
 		{
 		public:

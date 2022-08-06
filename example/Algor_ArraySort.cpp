@@ -78,6 +78,138 @@ int main()
 	//! [Comparative_Sorts Pancake_Sort]
 	sort->Pancake_Sort();
 	//! [Comparative_Sorts Pancake_Sort]
+	
+	//! [Comparative_Sorts BatcherOddEvenMergeSort]
+	Comparative_Sorts<long long>::BatcherOddEvenMergeSort *sort;
+	sort = new Comparative_Sorts<long long>::BatcherOddEvenMergeSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->batcher_odd_even_merge_sort();
+	//! [Comparative_Sorts BatcherOddEvenMergeSort]
+	
+	//! [Comparative_Sorts BitonicSorter]
+	Comparative_Sorts<long long>::BitonicSorter *sort;
+	sort = new Comparative_Sorts<long long>::BitonicSorter(ArrayStruct->array, ArrayStruct->array_size);
+	sort->bitonic_sorter();
+	//! [Comparative_Sorts BitonicSorter]
+	
+	//! [Comparative_Sorts BogoSort]
+	Comparative_Sorts<long long>::BogoSort *sort;
+	sort = new Comparative_Sorts<long long>::BogoSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->bogo_sort();
+	//! [Comparative_Sorts BogoSort]
+	
+	//! [Comparative_Sorts BubbleSort]
+	Comparative_Sorts<long long>::BubbleSort *sort;
+	sort = new Comparative_Sorts<long long>::BubbleSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->bubble_sort();
+	//! [Comparative_Sorts BubbleSort]
+	
+	//! [Comparative_Sorts CocktailShakerSort]
+	Comparative_Sorts<long long>::CocktailShakerSort *sort;
+	sort = new Comparative_Sorts<long long>::CocktailShakerSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->cocktail_shaker_sort();
+	//! [Comparative_Sorts CocktailShakerSort]
+	
+	//! [Comparative_Sorts CombSort]
+	Comparative_Sorts<long long>::CombSort *sort;
+	sort = new Comparative_Sorts<long long>::CombSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->comb_sort();
+	//! [Comparative_Sorts CombSort]
+	
+	//! [Comparative_Sorts CycleSort]
+	Comparative_Sorts<long long>::CycleSort *sort;
+	sort = new Comparative_Sorts<long long>::CycleSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->cycle_sort();
+	//! [Comparative_Sorts CycleSort]
+	
+	//! [Comparative_Sorts GnomeSort]
+	Comparative_Sorts<long long>::GnomeSort *sort;
+	sort = new Comparative_Sorts<long long>::GnomeSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->gnome_sort();
+	//! [Comparative_Sorts GnomeSort]
+	
+	//! [Comparative_Sorts HeapSort]
+	Comparative_Sorts<long long>::HeapSort *sort;
+	sort = new Comparative_Sorts<long long>::HeapSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->heap_sort();
+	//! [Comparative_Sorts HeapSort]
+	
+	//! [Comparative_Sorts InsertSort]
+	Comparative_Sorts<long long>::InsertSort *sort;
+	sort = new Comparative_Sorts<long long>::InsertSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->insert_sort();
+	//! [Comparative_Sorts InsertSort]
+	
+	//! [Comparative_Sorts LibrarySort]
+	Comparative_Sorts<long long>::LibrarySort *sort;
+	sort = new Comparative_Sorts<long long>::LibrarySort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->library_sort();
+	//! [Comparative_Sorts LibrarySort]
+	
+	//! [Comparative_Sorts MergeSort]
+	Comparative_Sorts<long long>::MergeSort *sort;
+	sort = new Comparative_Sorts<long long>::MergeSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->merge_sort();
+	//! [Comparative_Sorts MergeSort]
+	
+	//! [Comparative_Sorts OddEvenSort]
+	Comparative_Sorts<long long>::OddEvenSort *sort;
+	sort = new Comparative_Sorts<long long>::OddEvenSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->odd_even_sort();
+	//! [Comparative_Sorts OddEvenSort]
+	
+	//! [Comparative_Sorts PancakeSort]
+	Comparative_Sorts<long long>::PancakeSort *sort;
+	sort = new Comparative_Sorts<long long>::PancakeSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->batcher_odd_even_merge_sort();
+	//! [Comparative_Sorts PancakeSort]
+	
+	//! [Comparative_Sorts PatienceSort]
+	Comparative_Sorts<long long>::PatienceSort *sort;
+	sort = new Comparative_Sorts<long long>::PatienceSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->patience_sort();
+	//! [Comparative_Sorts PatienceSort]
+	
+	//! [Comparative_Sorts QuickSort]
+	Comparative_Sorts<long long>::QuickSort *sort;
+	sort = new Comparative_Sorts<long long>::QuickSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->quick_sort();
+	//! [Comparative_Sorts QuickSort]
+	
+	//! [Comparative_Sorts SelectionSort]
+	Comparative_Sorts<long long>::SelectionSort *sort;
+	sort = new Comparative_Sorts<long long>::SelectionSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->selection_sort();
+	//! [Comparative_Sorts SelectionSort]
+	
+	//! [Comparative_Sorts ShellSort]
+	Comparative_Sorts<long long>::ShellSort *sort;
+	sort = new Comparative_Sorts<long long>::ShellSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->shell_sort();
+	//! [Comparative_Sorts ShellSort]
+	
+	//! [Comparative_Sorts SlowSort]
+	Comparative_Sorts<long long>::SlowSort *sort;
+	sort = new Comparative_Sorts<long long>::SlowSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->slow_sort();
+	//! [Comparative_Sorts SlowSort]
+	
+	//! [Comparative_Sorts StoogeSort]
+	Comparative_Sorts<long long>::StoogeSort *sort;
+	sort = new Comparative_Sorts<long long>::StoogeSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->stooge_sort();
+	//! [Comparative_Sorts StoogeSort]
+	
+	//! [Comparative_Sorts TimSort]
+	Comparative_Sorts<long long>::TimSort *sort;
+	sort = new Comparative_Sorts<long long>::TimSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->tim_sort();
+	//! [Comparative_Sorts TimSort]
+	
+	//! [Comparative_Sorts TreeSort]
+	Comparative_Sorts<long long>::TreeSort *sort;
+	sort = new Comparative_Sorts<long long>::TreeSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->tree_sort();
+	//! [Comparative_Sorts TreeSort]
 
 	cin.get();
 	return 0;
