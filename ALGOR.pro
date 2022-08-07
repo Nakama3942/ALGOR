@@ -13,10 +13,17 @@ CONFIG += build_all
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    src/ALGOR.hpp
+    include/ALGOR.hpp
 
 SOURCES += \
-    src/ALGOR.cpp
+    src/ALGOR_CORE.cpp \
+    src/ALGOR_EXCEPTION.cpp \
+	src/ALGOR_RANDOM.cpp \
+	src/ALGOR_ARRAY.cpp \
+	src/ALGOR_SORTING.cpp \
+	src/ALGOR_MATRIX.cpp \
+    src/ALGOR_HEAP.cpp \
+	src/ALGOR_LIST.cpp
 
 # Default rules for deployment.
 unix {
