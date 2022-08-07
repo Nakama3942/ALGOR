@@ -19,33 +19,47 @@
 # -------------------------------------------------------------------------- #
 # ########################################################################## #
 
-CC=g++
-FLAGS=-Wall -c -fPIC
+# Команди для компіляції під Windows:
+#  g++ ./src/ALGOR_CORE.cpp ./src/ALGOR_EXCEPTION.cpp ./src/ALGOR_RANDOM.cpp ./src/ALGOR_ARRAY.cpp ./src/ALGOR_SORTING.cpp ./src/ALGOR_MATRIX.cpp ./src/ALGOR_HEAP.cpp ./src/ALGOR_LIST.cpp -s -shared -o ALGOR.dll
+#  g++ -s -o exam.exe ./example/Basic_test.cpp -L. -lALGOR
 
 DIR=/usr/lib/ALGOR
-LIBALGOR=/usr/lib/ALGOR/libALGOR.so.1.0.0.0
-PATHALGOR=-Wl,-soname,libALGOR.so.1.0.0.0
+
+CC=g++
+FLAGS=-Wall -c -fPIC -shared -o
+
+CORE=./src/ALGOR_CORE.cpp
+EXCEPTION=./src/ALGOR_EXCEPTION.cpp
+RANDOM=./src/ALGOR_RANDOM.cpp
+ARRAY=./src/ALGOR_ARRAY.cpp
+SORTING=./src/ALGOR_SORTING.cpp
+MATRIX=./src/ALGOR_MATRIX.cpp
+HEAP=./src/ALGOR_HEAP.cpp
+LIST=./src/ALGOR_LIST.cpp
+
+PATHALGOR=/usr/lib/ALGOR/libALGOR.so.1.0.0.0
+LIBALGOR=-Wl,-soname,libALGOR.so.1.0.0.0
 LINKALGOR=/usr/lib/ALGOR/libALGOR.so
-HEADER=/usr/include/ALGOR.hpp
+
+HEADER=./include/ALGOR.hpp
+HEADERPATH=/usr/include/ALGOR.hpp
 
 .PHONY: install test uninstall
 
 install: lib_ALGOR
 
 lib_ALGOR: ./src/ALGOR.cpp
-	#g++ ALGOR.cpp -s -shared -o ALGOR.dll
 	@mkdir $(DIR)
-	@$(CC) $(FLAGS) ./src/ALGOR.cpp -shared -o $(LIBALGOR) $(PATHALGOR)
-	@ln -s $(LIBALGOR) $(LINKALGOR)
-	@cp ./src/ALGOR.hpp $(HEADER)
+	@$(CC) $(CORE) $(EXCEPTION) $(RANDOM) $(ARRAY) $(SORTING) $(MATRIX) $(HEAP) $(LIST) $(FLAGS) $(PATHALGOR) $(LIBALGOR)
+	@ln -s $(PATHALGOR) $(LINKALGOR)
+	@cp $(HEADER) $(HEADERPATH)
 	@echo Library compiled and installed
 
 test:
-	#g++ -s -o exam.exe example.cpp -L. -lALGOR
 	$(CC) -no-pie -s -o algor_exam ./example/Basic_test.cpp -L/usr/lib/ALGOR -lALGOR
 	./algor_exam
 	rm algor_exam
 
 uninstall:
 	@rm -rf $(DIR)
-	@rm $(HEADER)
+	@rm $(HEADERPATH)
