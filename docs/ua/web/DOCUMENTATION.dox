@@ -2256,7 +2256,7 @@
 	   17. TopologicalSort			(Категорія Other_Sorts)
 	   18. SpaghettiSort			(Категорія Other_Sorts)
 
-	   \remark Нагадаю, що усі усі алгоритми працюють з будь-якими данними, тобто і
+	   \remark Нагадаю, що усі ці алгоритми працюють з будь-якими данними, тобто і
 	   з цілими, і з дробними, і з додатніми, і з від'ємними, і зі змішаними. Ця
 	   характеристика під час тестування мала визначення:
 	   "цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-".
@@ -2272,7 +2272,7 @@
 		   сортувань, як внутрішні класи, але дозволяє до них прямий доступ.
 		   Якщо бібліотека використовується тільки як джерело алгоритмів сортувань,
 		   тоді краще створити напряму об'єкт внутрішнього класу алгоритму сортувань,
-		   передати йому стандатний С++ вкащівник на масив та його розмір й викликати
+		   передати йому стандатний С++ вказівник на масив та його розмір й викликати
 		   метод сортувань. Але якщо бібліотека ALGOR використовується у більшому
 		   спектрі, тоді набагато легше буде створити об'єкт сімейства, передати
 		   йому готову структуру й викликати потрібний алгоритми. Порівняйте:
@@ -2579,7 +2579,7 @@
 
 		/*!
 		   \class ALGOR::Comparative_Sorts::BatcherOddEvenMergeSort
-		   \brief Алгоритм сортування Batcher Odd Even Merge Sort
+		   \brief Алгоритм сортування Batcher Odd-Even Merge Sort
 		   \par Категорія
 		   <b>Concurrent Sort</b>
 		   \par Ресурси
@@ -2723,7 +2723,7 @@
 
 		/*!
 		   \class ALGOR::Comparative_Sorts::OddEvenSort
-		   \brief Алгоритм сортування Odd Even Sort
+		   \brief Алгоритм сортування Odd-Even Sort
 		   \par Категорія
 		   <b>Exchange Sorts</b>
 		   \par Ресурси
@@ -2847,124 +2847,295 @@
 			   \since v0.1.1.2 commit 343e40
 			 */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	/*!
+	   \class ALGOR::Distribution_Sorts
+	   \brief Клас із потужними алгоритмами сортувань
+
+	   \details Клас, що колекціонує потужні алгоритми сортувань. Цей клас є
+	   виокремленим, так як він працює не з усіма типами данних, як працюють
+	   алгоритми сімейства ALGOR::Comparative_Sorts, а тільки з цілочисельними
+	   данними.
+
+	   \details На Вікіпедії доступно 50 різних алгоритмів сортувань, які поділені
+	   на категорії. Додатково я їх поділив ще на два великі сімейства: алгоритми,
+	   що працюють з будь-якими числовими данними та алгоритми, що працюють тільки
+	   з цілими числовими данними. Цей клас реалізує друге сімейство алгоритмів.
+	   Його частка складає 10 алгоритмів із 50.
+
+	   \details Під час роботи я зрозумів, що зможу реалізувати не всі алгоритми, так
+	   як деякі просто не достанеш. При пошуках CascadeMergeSort на Вікіпедії
+	   описано усього півтори строчки про алгоритм, а при переході за посиланням
+	   на ресурс надається книга з 584 сторінки, доступно з яких не більше 10. І
+	   більше ніде ніякої інформації не має... І це лише один з прикладів...
+
+	   \details Із 10 я зміг реалізувати 8 алгоритмів даного сімейства:
+	   1. AmericanFlag_Sort	(Категорія Distribution_Sorts)
+	   2. Bead_Sort			(Категорія Distribution_Sorts)
+	   3. Bucket_Sort					(Категорія Distribution_Sorts)
+	   4. Counting_Sort				(Категорія Distribution_Sorts)
+	   5. Flash_Sort		(Категорія Distribution_Sorts)
+	   6. Interpolation_Sort					(Категорія Distribution_Sorts)
+	   7. Pigeonhole_Sort				(Категорія Distribution_Sorts)
+	   8. Radix_Sort				(Категорія Distribution_Sorts)
+
+	   \details Не реалізованими залишились:
+	   1. BurstSort		(Категорія Distribution_Sorts)
+	   2. ProxmapSort				(Категорія Distribution_Sorts)
+
+	   \remark Нагадаю, цо ці алгоритми працюють НЕ з будь-якими данними, а тільки
+	   з цілими числами. До того ж ALGOR::Distribution_Sorts::AmericanFlag_Sort,
+	   ALGOR::Distribution_Sorts::Bead_Sort та
+	   ALGOR::Distribution_Sorts::Radix_Sort не працюють з від'ємними цілими данними.
+
+	   \since v0.1.2.0 commit 197603
+	 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Distribution_Sorts(Array<byte8_t> *&)
+		   \brief Конструктор, що приймає СТРУКТУРУ та зберігає її до поля
+		   \details Цей клас, як сімейство, як колекціонер, збирає алгоритми
+		   сортувань, як внутрішні класи, але дозволяє до них прямий доступ.
+		   Якщо бібліотека використовується тільки як джерело алгоритмів сортувань,
+		   тоді краще створити напряму об'єкт внутрішнього класу алгоритму сортувань,
+		   передати йому стандатний С++ вказівник на масив та його розмір й викликати
+		   метод сортувань. Але якщо бібліотека ALGOR використовується у більшому
+		   спектрі, тоді набагато легше буде створити об'єкт сімейства, передати
+		   йому готову структуру й викликати потрібний алгоритми. Порівняйте:
+		   \code
+		   //Використання алгоритму напряму
+		   Distribution_Sorts::CountingSort *sort;
+		   sort = new Distribution_Sorts::CountingSort(ArrayStruct->array, ArrayStruct->array_size);
+		   sort->counting_sort();
+		   //Використання алгоритму через зовнішній клас
+		   Distribution_Sorts *sort = new Distribution_Sorts(ArrayStruct);
+		   sort->Counting_Sort();
+		   \endcode
+		   \warning Клас працює тільки з масивами типу <b>long long</b>!!!
+		   \param[in] Array Покажчик на структуру масиву
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts constructor
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::AmericanFlag_Sort()
+		   \brief Метод виклику алгоритму сортування American Flag Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::AmericanFlagSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts AmericanFlag_Sort
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Bead_Sort()
+		   \brief Метод виклику алгоритму сортування Bead Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::BeadSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts Bead_Sort
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Bucket_Sort()
+		   \brief Метод виклику алгоритму сортування Bucket Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::BucketSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts Bucket_Sort
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Counting_Sort()
+		   \brief Метод виклику алгоритму сортування Counting Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::CountingSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts Counting_Sort
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Interpolation_Sort()
+		   \brief Метод виклику алгоритму сортування Interpolation Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::InterpolationSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts Interpolation_Sort
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Pigeonhole_Sort()
+		   \brief Метод виклику алгоритму сортування Pigeonhole Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::PigeonholeSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts Pigeonhole_Sort
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Radix_Sort()
+		   \brief Метод виклику алгоритму сортування Radix Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::RadixSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts Radix_Sort
+		 */
+
+		/*!
+		   \fn ALGOR::Distribution_Sorts::Flash_Sort()
+		   \brief Метод виклику алгоритму сортування Flash Sort
+		   \details Цей метод використовується для виклику алгоритму сортування
+		   ALGOR::Distribution_Sorts::FlashSort. Метод не потребує
+		   даних, так як вони були збережені при створенні об'єкта і власноруч
+		   передає всі потрібні данні внутрішньому алгоритму сортування, що
+		   спрощує написання коду.
+		   \since v0.1.2.0 commit 197603
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts Flash_Sort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::AmericanFlagSort
+		   \brief Алгоритм сортування American Flag Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/American_flag_sort</i>\n
+		   <i>Code: https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ ; вилітає"</i>
+		   \since v0.1.2.0 commit f6f6fe
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts AmericanFlagSort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::BeadSort
+		   \brief Алгоритм сортування Bead Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/Bead_sort</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ ; обрізає"</i>
+		   \since v0.1.1.4 commit b19f70
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts BeadSort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::BucketSort
+		   \brief Алгоритм сортування Bucket Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/Bucket_sort</i>\n
+		   <i>Code: https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ цілі- цілі+-"</i>
+		   \since v0.1.1.4 commit b19f70
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts BucketSort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::CountingSort
+		   \brief Алгоритм сортування Counting Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/Counting_sort</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ цілі- цілі+-"</i>
+		   \since v0.0.0.1
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts CountingSort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::FlashSort
+		   \brief Алгоритм сортування Flash Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/Flashsort</i>\n
+		   <i>Code: https://javascript.algorithmexamples.com/web/Sorts/flashSort.html</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ цілі- цілі+-"</i>
+		   \since v0.1.2.0 commit d74cc1
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts FlashSort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::InterpolationSort
+		   \brief Алгоритм сортування Interpolation Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/Interpolation_sort</i>\n
+		   <i>Code: https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ цілі- цілі+-"</i>
+		   \since v0.1.2.0 commit d3274a
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts InterpolationSort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::PigeonholeSort
+		   \brief Алгоритм сортування Pigeonhole Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/Pigeonhole_sort</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ цілі- цілі+-"</i>
+		   \since v0.1.1.4 commit 090b06
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts PigeonholeSort
+		 */
+
+		/*!
+		   \class ALGOR::Distribution_Sorts::RadixSort
+		   \brief Алгоритм сортування Radix Sort
+		   \par Категорія
+		   <b>Distribution Sorts</b>
+		   \par Ресурси
+		   <i>Source: https://en.wikipedia.org/wiki/Radix_sort</i>
+		   \par Сертифікат тестування
+		   <i>Certificate "цілі+ ; не сортує"</i>
+		   \since v0.0.0.1
+		   \test
+		   \snippet Algor_ArraySort.cpp Distribution_Sorts RadixSort
+		 */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  * --------------------------------------------------------------------------- *

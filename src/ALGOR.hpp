@@ -709,29 +709,22 @@ namespace ALGOR
 		};
 	};
 
-	/* ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** *
-	   нереалізовані
-	 * 10) BurstSort				Категорія Distribution_Sorts                   *
-	 * 11) ProxmapSort				Категорія Distribution_Sorts                   *
-	 * ****+/^^^/+++++-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+-+-+-/&/-+++++/^^^/+**** */
-
 	class Distribution_Sorts : public ArrayBase<byte8_t>
 	{
 	public:
 		Distribution_Sorts(Array<byte8_t> *&Array);
-		void AmericanFlag_Sort();  // №	1	/цілі+ ; вилітає
-		void Bead_Sort();		   // №	2	/цілі+ ; обрізає
-		void Bucket_Sort();		   // №	3	/цілі+ цілі- цілі+-
-		void Counting_Sort();	   // №	4	/цілі+ цілі- цілі+-
-		void Flash_Sort();		   // №	5	/цілі+ цілі- цілі+-
-		void Interpolation_Sort(); // №	6	/цілі+ цілі- цілі+-
-		void Pigeonhole_Sort();	   // №	7	/цілі+ цілі- цілі+-
-		void Radix_Sort();		   // №	8	/цілі+ ; не сортує
+		void AmericanFlag_Sort();
+		void Bead_Sort();
+		void Bucket_Sort();
+		void Counting_Sort();
+		void Interpolation_Sort();
+		void Pigeonhole_Sort();
+		void Radix_Sort();
+		void Flash_Sort();
 
 		class AmericanFlagSort
 		{
 		public:
-			// https://github.com/phishman3579/java-algorithms-implementation/blob/master/src/com/jwetherell/algorithms/sorts/AmericanFlagSort.java
 			AmericanFlagSort(byte8_t *array, asize_t asize);
 			void american_flag_sort();
 
@@ -763,7 +756,6 @@ namespace ALGOR
 		class BucketSort
 		{
 		public:
-			// https://github.com/TheAlgorithms/C-Plus-Plus/blob/master/sorting/bucket_sort.cpp
 			BucketSort(byte8_t *array, asize_t asize);
 			void bucket_sort();
 
@@ -786,7 +778,6 @@ namespace ALGOR
 		class FlashSort
 		{
 		public:
-			// https://javascript.algorithmexamples.com/web/Sorts/flashSort.html
 			FlashSort(byte8_t *array, asize_t asize);
 			void flash_sort();
 
@@ -798,7 +789,6 @@ namespace ALGOR
 		class InterpolationSort
 		{
 		public:
-			// https://github.com/aniketsatarkar/Sorting-Algorithms-in-C/blob/master/InterpolationSort.h
 			InterpolationSort(byte8_t *array, asize_t asize);
 			void interpolation_sort();
 
@@ -817,7 +807,6 @@ namespace ALGOR
 			void getMax();
 		};
 
-		//since v0.1.1.4 commit 090b06
 		class PigeonholeSort
 		{
 		public:

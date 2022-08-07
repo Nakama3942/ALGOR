@@ -210,6 +210,91 @@ int main()
 	sort = new Comparative_Sorts<long long>::TreeSort(ArrayStruct->array, ArrayStruct->array_size);
 	sort->tree_sort();
 	//! [Comparative_Sorts TreeSort]
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//! [Distribution_Sorts constructor]
+	Distribution_Sorts *sort = new Distribution_Sorts(arr);
+	//! [Distribution_Sorts constructor]
+	//! [Distribution_Sorts AmericanFlag_Sort]
+	sort->AmericanFlag_Sort();
+	//! [Distribution_Sorts AmericanFlag_Sort]
+	//! [Distribution_Sorts Bead_Sort]
+	sort->Bead_Sort();
+	//! [Distribution_Sorts Bead_Sort]
+	//! [Distribution_Sorts Bucket_Sort]
+	sort->Bucket_Sort();
+	//! [Distribution_Sorts Bucket_Sort]
+	//! [Distribution_Sorts Counting_Sort]
+	sort->Counting_Sort();
+	//! [Distribution_Sorts Counting_Sort]
+	//! [Distribution_Sorts Flash_Sort]
+	sort->Flash_Sort();
+	//! [Distribution_Sorts Flash_Sort]
+	//! [Distribution_Sorts Interpolation_Sort]
+	sort->Interpolation_Sort();
+	//! [Distribution_Sorts Interpolation_Sort]
+	//! [Distribution_Sorts Pigeonhole_Sort]
+	sort->Pigeonhole_Sort();
+	//! [Distribution_Sorts Pigeonhole_Sort]
+	//! [Distribution_Sorts Radix_Sort]
+	sort->Radix_Sort();
+	//! [Distribution_Sorts Radix_Sort]
+	
+	//! [Distribution_Sorts AmericanFlagSort]
+	Distribution_Sorts::AmericanFlagSort *sort;
+	sort = new Distribution_Sorts::AmericanFlagSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->american_flag_sort();
+	//! [Distribution_Sorts AmericanFlagSort]
+	
+	//! [Distribution_Sorts BeadSort]
+	Distribution_Sorts::BeadSort *sort;
+	sort = new Distribution_Sorts::BeadSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->bead_sort();
+	//! [Distribution_Sorts BeadSort]
+	
+	//! [Distribution_Sorts BucketSort]
+	Distribution_Sorts::BucketSort *sort;
+	sort = new Distribution_Sorts::BucketSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->bucket_sort();
+	//! [Distribution_Sorts BucketSort]
+	
+	//! [Distribution_Sorts CountingSort]
+	Distribution_Sorts::CountingSort *sort;
+	sort = new Distribution_Sorts::CountingSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->counting_sort();
+	//! [Distribution_Sorts CountingSort]
+	
+	//! [Distribution_Sorts FlashSort]
+	Distribution_Sorts::FlashSort *sort;
+	sort = new Distribution_Sorts::FlashSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->flash_sort();
+	//! [Distribution_Sorts FlashSort]
+	
+	//! [Distribution_Sorts InterpolationSort]
+	Distribution_Sorts::InterpolationSort *sort;
+	sort = new Distribution_Sorts::InterpolationSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->interpolation_sort();
+	//! [Distribution_Sorts InterpolationSort]
+	
+	//! [Distribution_Sorts PigeonholeSort]
+	Distribution_Sorts::PigeonholeSort *sort;
+	sort = new Distribution_Sorts::PigeonholeSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->pigeonhole_sort();
+	//! [Distribution_Sorts PigeonholeSort]
+	
+	//! [Distribution_Sorts RadixSort]
+	Distribution_Sorts::RadixSort *sort;
+	sort = new Distribution_Sorts::RadixSort(ArrayStruct->array, ArrayStruct->array_size);
+	sort->radix_sort();
+	//! [Distribution_Sorts RadixSort]
 
 	cin.get();
 	return 0;
