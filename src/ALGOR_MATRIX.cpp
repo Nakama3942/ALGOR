@@ -22,4 +22,4 @@
 
 using namespace ALGOR;
 
-// TODO The implementation of the matrices is scheduled to version 3.0.0
+// TODO Implementation of matrices is planned in the next versions

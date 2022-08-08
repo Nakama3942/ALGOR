@@ -22,4 +22,4 @@
 
 using namespace ALGOR;
 
-// TODO The implementation of the trees is scheduled to version 4.0.0
+// TODO Implementation of trees is planned in the next versions

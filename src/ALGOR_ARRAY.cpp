@@ -388,7 +388,7 @@ void ALGOR::ARRAYDATA<type_array>::reset()
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_array &setElement)
 {
-	if (NEW_SIZE == this->ARRAY->array_size)
+	if (NEW_SIZE == this->ARRAY->array_size || NEW_SIZE == 0)
 	{
 		throw EXCEPTION_SET::size_failure();
 	}
@@ -406,7 +406,10 @@ void ALGOR::ARRAYDATA<type_array>::resize(const asize_t &NEW_SIZE, const type_ar
 template <typename type_array>
 void ALGOR::ARRAYDATA<type_array>::replace(const asize_t &position, const type_array &value)
 {
-	//TODO Додати перевірку, чи входить задана позиція у діапазон розміру масиву
+	if (position >= this->ARRAY->array_size)
+	{
+		throw EXCEPTION_SET::position_failure();
+	}
 	this->ARRAY->array[position] = value;
 }
 
@@ -431,12 +434,6 @@ void ALGOR::ARRAYDATA<type_array>::respawn()
 }
 
 template <typename type_array>
-void ALGOR::ARRAYDATA<type_array>::remove()
-{
-	remove_struct<type_array>(this->ARRAY);
-}
-
-template <typename type_array>
 Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType)
 {
 	Array<asize_t> *Occurrences = new Array<asize_t>;
@@ -446,9 +443,6 @@ Array<asize_t> *ALGOR::ARRAYDATA<type_array>::searcherOccurrencesOfSubstring(Arr
 		{
 			if (this->ARRAY->array[i + j] == SUBARRAY->array[j])
 			{
-				//Це порівняння замінює старий switch-case та оптимізує алгоритм,
-				// прибираючи цей зайвий switch. На заміну я адаптував enum під
-				// використання у наступному порівнянні.
 				if ((ARRAYDATA::ArrayType)(SUBARRAY->array_size - j) == ArrType)
 				{
 					ArrayProcessing<asize_t>::addElement(Occurrences->array, Occurrences->array_size, i, Occurrences->array_size);
@@ -491,13 +485,13 @@ type_array ALGOR::ARRAYDATA<type_array>::mediana()
 template <typename type_array>
 typename ALGOR::ARRAYDATA<type_array>::mode *ALGOR::ARRAYDATA<type_array>::moda()
 {
-	//Выделение памяти под данные
+	//Виділення пам'яті під данні
 	mode *modes = new mode;
 	modes->array_size = 1;
 	modes->array = new type_array[1];
 	ubit32_t current_frequency = 0;
 
-	//Нахождение первого элемента с максимальной частотой
+	//Пошук першого елементу з максимальною частотою
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
 		current_frequency++;
@@ -512,7 +506,7 @@ typename ALGOR::ARRAYDATA<type_array>::mode *ALGOR::ARRAYDATA<type_array>::moda(
 		}
 	}
 
-	//Если все значения уникальны - бросается исключение
+	//Якщо всі значення унікальні - кидається виключення
 	if (modes->highest_frequency == 1)
 	{
 		delete[] modes->array;
@@ -520,7 +514,7 @@ typename ALGOR::ARRAYDATA<type_array>::mode *ALGOR::ARRAYDATA<type_array>::moda(
 		throw EXCEPTION_SET::value_failure("And to be precise: there is missing value with the maximum frequency. All elements in the array are unique and repeated once, so to save resources and time, an exception is thrown so that the method does not create a copy of the array further");
 	}
 
-	//Нахождение всех последующих элементов с этой частотой
+	//Пошук всіх наступних елементів з цією частотою
 	current_frequency = 0;
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
@@ -582,10 +576,6 @@ bool ALGOR::ARRAYDATA<type_array>::operator==(Array<type_array> *&anotherArray)
 template <typename type_array>
 Array<type_array> *&ALGOR::ARRAYDATA<type_array>::operator^=(const asize_t &NewSize)
 {
-	if (NewSize == 0)
-	{
-		throw EXCEPTION_SET::size_failure("The subtracted array size must not be greater than or equal to the current array size!");
-	}
 	resize(NewSize, 1);
 	return this->ARRAY;
 }
@@ -667,6 +657,12 @@ Array<type_array> *&ALGOR::ARRAYDATA<type_array>::operator>>=(ARRAYDATA<type_arr
 	appendingArray->resize(old_size + this->ARRAY->array_size, 1);
 	ArrayProcessing<type_array>::copy(appendingArray->getData()->array, this->ARRAY->array, this->ARRAY->array_size, old_size);
 	return this->ARRAY;
+}
+
+template <typename type_array>
+void ALGOR::ARRAYDATA<type_array>::remove()
+{
+	remove_struct<type_array>(this->ARRAY);
 }
 
 template class ALGOR::ArrayProcessing<sbit8_t>;

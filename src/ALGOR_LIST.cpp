@@ -22,4 +22,4 @@
 
 using namespace ALGOR;
 
-// TODO The implementation of the lists is scheduled to version 5.0.0
+// TODO Implementation of lists is planned in the next versions
