@@ -669,38 +669,74 @@ Array<type_array> *&ALGOR::ARRAYDATA<type_array>::operator>>=(ARRAYDATA<type_arr
 	return this->ARRAY;
 }
 
-template class ALGOR::ArrayProcessing<byte8_t>;
+template class ALGOR::ArrayProcessing<sbit8_t>;
+template class ALGOR::ArrayProcessing<sbit16_t>;
+template class ALGOR::ArrayProcessing<sbit32_t>;
+template class ALGOR::ArrayProcessing<sbit64_t>;
+template class ALGOR::ArrayProcessing<ubit8_t>;
+template class ALGOR::ArrayProcessing<ubit16_t>;
+template class ALGOR::ArrayProcessing<ubit32_t>;
 template class ALGOR::ArrayProcessing<ubit64_t>;
+template class ALGOR::ArrayProcessing<fbit32_t>;
 template class ALGOR::ArrayProcessing<fbit64_t>;
 template class ALGOR::ArrayProcessing<fbit128_t>;
-template class ALGOR::ArrayProcessing<asize_t>;
 
-template Array<byte8_t> *ALGOR::create_struct<byte8_t>(const asize_t &, bool);
+template Array<sbit8_t> *ALGOR::create_struct<sbit8_t>(const asize_t &, bool);
+template Array<sbit16_t> *ALGOR::create_struct<sbit16_t>(const asize_t &, bool);
+template Array<sbit32_t> *ALGOR::create_struct<sbit32_t>(const asize_t &, bool);
+template Array<sbit64_t> *ALGOR::create_struct<sbit64_t>(const asize_t &, bool);
+template Array<ubit8_t> *ALGOR::create_struct<ubit8_t>(const asize_t &, bool);
+template Array<ubit16_t> *ALGOR::create_struct<ubit16_t>(const asize_t &, bool);
+template Array<ubit32_t> *ALGOR::create_struct<ubit32_t>(const asize_t &, bool);
 template Array<ubit64_t> *ALGOR::create_struct<ubit64_t>(const asize_t &, bool);
+template Array<fbit32_t> *ALGOR::create_struct<fbit32_t>(const asize_t &, bool);
 template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
 template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
-template Array<asize_t> *ALGOR::create_struct<asize_t>(const asize_t &, bool);
 
-template void ALGOR::generate_struct<byte8_t>(Array<byte8_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<sbit8_t>(Array<sbit8_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<sbit16_t>(Array<sbit16_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<sbit32_t>(Array<sbit32_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<sbit64_t>(Array<sbit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit8_t>(Array<ubit8_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit16_t>(Array<ubit16_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit32_t>(Array<ubit32_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
 template void ALGOR::generate_struct<ubit64_t>(Array<ubit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<fbit32_t>(Array<fbit32_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
 template void ALGOR::generate_struct<fbit64_t>(Array<fbit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
 template void ALGOR::generate_struct<fbit128_t>(Array<fbit128_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
-template void ALGOR::generate_struct<asize_t>(Array<asize_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
 
-template void ALGOR::remove_struct<byte8_t>(Array<byte8_t> *&);
+template void ALGOR::remove_struct<sbit8_t>(Array<sbit8_t> *&);
+template void ALGOR::remove_struct<sbit16_t>(Array<sbit16_t> *&);
+template void ALGOR::remove_struct<sbit32_t>(Array<sbit32_t> *&);
+template void ALGOR::remove_struct<sbit64_t>(Array<sbit64_t> *&);
+template void ALGOR::remove_struct<ubit8_t>(Array<ubit8_t> *&);
+template void ALGOR::remove_struct<ubit16_t>(Array<ubit16_t> *&);
+template void ALGOR::remove_struct<ubit32_t>(Array<ubit32_t> *&);
 template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
+template void ALGOR::remove_struct<fbit32_t>(Array<fbit32_t> *&);
 template void ALGOR::remove_struct<fbit64_t>(Array<fbit64_t> *&);
 template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);
-template void ALGOR::remove_struct<asize_t>(Array<asize_t> *&);
 
-template class ALGOR::ArrayBase<byte8_t>;
+template class ALGOR::ArrayBase<sbit8_t>;
+template class ALGOR::ArrayBase<sbit16_t>;
+template class ALGOR::ArrayBase<sbit32_t>;
+template class ALGOR::ArrayBase<sbit64_t>;
+template class ALGOR::ArrayBase<ubit8_t>;
+template class ALGOR::ArrayBase<ubit16_t>;
+template class ALGOR::ArrayBase<ubit32_t>;
 template class ALGOR::ArrayBase<ubit64_t>;
+template class ALGOR::ArrayBase<fbit32_t>;
 template class ALGOR::ArrayBase<fbit64_t>;
 template class ALGOR::ArrayBase<fbit128_t>;
-template class ALGOR::ArrayBase<asize_t>;
 
-template class ALGOR::ARRAYDATA<byte8_t>;
+template class ALGOR::ARRAYDATA<sbit8_t>;
+template class ALGOR::ARRAYDATA<sbit16_t>;
+template class ALGOR::ARRAYDATA<sbit32_t>;
+template class ALGOR::ARRAYDATA<sbit64_t>;
+template class ALGOR::ARRAYDATA<ubit8_t>;
+template class ALGOR::ARRAYDATA<ubit16_t>;
+template class ALGOR::ARRAYDATA<ubit32_t>;
 template class ALGOR::ARRAYDATA<ubit64_t>;
+template class ALGOR::ARRAYDATA<fbit32_t>;
 template class ALGOR::ARRAYDATA<fbit64_t>;
 template class ALGOR::ARRAYDATA<fbit128_t>;
-template class ALGOR::ARRAYDATA<asize_t>;

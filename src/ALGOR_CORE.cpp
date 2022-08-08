@@ -64,21 +64,38 @@ memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
 	return cell;
 }
 
-template void ALGOR::swap<byte8_t>(byte8_t &, byte8_t &);
+template void ALGOR::swap<sbit8_t>(sbit8_t &, sbit8_t &);
+template void ALGOR::swap<sbit16_t>(sbit16_t &, sbit16_t &);
+template void ALGOR::swap<sbit32_t>(sbit32_t &, sbit32_t &);
+template void ALGOR::swap<sbit64_t>(sbit64_t &, sbit64_t &);
+template void ALGOR::swap<ubit8_t>(ubit8_t &, ubit8_t &);
+template void ALGOR::swap<ubit16_t>(ubit16_t &, ubit16_t &);
+template void ALGOR::swap<ubit32_t>(ubit32_t &, ubit32_t &);
 template void ALGOR::swap<ubit64_t>(ubit64_t &, ubit64_t &);
+template void ALGOR::swap<fbit32_t>(fbit32_t &, fbit32_t &);
 template void ALGOR::swap<fbit64_t>(fbit64_t &, fbit64_t &);
 template void ALGOR::swap<fbit128_t>(fbit128_t &, fbit128_t &);
-template void ALGOR::swap<asize_t>(asize_t &, asize_t &);
-template void ALGOR::swap<ubit8_t>(ubit8_t &, ubit8_t &);
 
-template byte8_t ALGOR::minimum<byte8_t>(byte8_t, byte8_t);
+template sbit8_t ALGOR::minimum<sbit8_t>(sbit8_t, sbit8_t);
+template sbit16_t ALGOR::minimum<sbit16_t>(sbit16_t, sbit16_t);
+template sbit32_t ALGOR::minimum<sbit32_t>(sbit32_t, sbit32_t);
+template sbit64_t ALGOR::minimum<sbit64_t>(sbit64_t, sbit64_t);
+template ubit8_t ALGOR::minimum<ubit8_t>(ubit8_t, ubit8_t);
+template ubit16_t ALGOR::minimum<ubit16_t>(ubit16_t, ubit16_t);
+template ubit32_t ALGOR::minimum<ubit32_t>(ubit32_t, ubit32_t);
 template ubit64_t ALGOR::minimum<ubit64_t>(ubit64_t, ubit64_t);
+template fbit32_t ALGOR::minimum<fbit32_t>(fbit32_t, fbit32_t);
 template fbit64_t ALGOR::minimum<fbit64_t>(fbit64_t, fbit64_t);
 template fbit128_t ALGOR::minimum<fbit128_t>(fbit128_t, fbit128_t);
-template asize_t ALGOR::minimum<asize_t>(asize_t, asize_t);
 
-template byte8_t ALGOR::maximum<byte8_t>(byte8_t, byte8_t);
+template sbit8_t ALGOR::maximum<sbit8_t>(sbit8_t, sbit8_t);
+template sbit16_t ALGOR::maximum<sbit16_t>(sbit16_t, sbit16_t);
+template sbit32_t ALGOR::maximum<sbit32_t>(sbit32_t, sbit32_t);
+template sbit64_t ALGOR::maximum<sbit64_t>(sbit64_t, sbit64_t);
+template ubit8_t ALGOR::maximum<ubit8_t>(ubit8_t, ubit8_t);
+template ubit16_t ALGOR::maximum<ubit16_t>(ubit16_t, ubit16_t);
+template ubit32_t ALGOR::maximum<ubit32_t>(ubit32_t, ubit32_t);
 template ubit64_t ALGOR::maximum<ubit64_t>(ubit64_t, ubit64_t);
+template fbit32_t ALGOR::maximum<fbit32_t>(fbit32_t, fbit32_t);
 template fbit64_t ALGOR::maximum<fbit64_t>(fbit64_t, fbit64_t);
 template fbit128_t ALGOR::maximum<fbit128_t>(fbit128_t, fbit128_t);
-template asize_t ALGOR::maximum<asize_t>(asize_t, asize_t);

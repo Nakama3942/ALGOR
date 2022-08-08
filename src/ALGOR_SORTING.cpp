@@ -1620,8 +1620,14 @@ void ALGOR::Distribution_Sorts::RadixSort::radix_sort()
 	delete[] tempArray;
 }
 
-template class ALGOR::Comparative_Sorts<byte8_t>;
+template class ALGOR::Comparative_Sorts<sbit8_t>;
+template class ALGOR::Comparative_Sorts<sbit16_t>;
+template class ALGOR::Comparative_Sorts<sbit32_t>;
+template class ALGOR::Comparative_Sorts<sbit64_t>;
+template class ALGOR::Comparative_Sorts<ubit8_t>;
+template class ALGOR::Comparative_Sorts<ubit16_t>;
+template class ALGOR::Comparative_Sorts<ubit32_t>;
 template class ALGOR::Comparative_Sorts<ubit64_t>;
+template class ALGOR::Comparative_Sorts<fbit32_t>;
 template class ALGOR::Comparative_Sorts<fbit64_t>;
 template class ALGOR::Comparative_Sorts<fbit128_t>;
-template class ALGOR::Comparative_Sorts<asize_t>;
