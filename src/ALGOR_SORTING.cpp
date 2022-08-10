@@ -207,8 +207,6 @@ ALGOR::Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::BatcherOddEvenMer
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::BatcherOddEvenMergeSort::batcher_odd_even_merge_sort()
 {
-	//Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
-	// але якщо значеня у масиві використовуються цілі+, то алгоритм працює з будь-яким розміром
 	for (asize_t p = 1; p < array_size; p *= 2)
 	{
 		for (asize_t k = p; k >= 1; k /= 2)
@@ -236,7 +234,6 @@ ALGOR::Comparative_Sorts<type_array>::BitonicSorter::BitonicSorter(type_array *a
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::BitonicSorter::bitonic_sorter()
 {
-	//Працює тільки з масивами, розмір яких 2 у степені N (2, 4, 8, 16, 32, 64...)
 	for (asize_t k = 2; k <= array_size; k *= 2)
 	{
 		for (asize_t j = k / 2; j > 0; j /= 2)
@@ -331,7 +328,7 @@ template <class type_array>
 void ALGOR::Comparative_Sorts<type_array>::CombSort::comb_sort()
 {
 	fbit64_t factor = 1.2473309;	//Фактор зменшення
-	ubit32_t step = array_size - 1; //Шаг
+	ubit32_t step = array_size - 1;	//Шаг
 
 	while (step >= 1)
 	{
