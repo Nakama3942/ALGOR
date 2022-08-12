@@ -825,7 +825,6 @@ ALGOR::Comparative_Sorts<type_array>::ShellSort::ShellSort(type_array *array, as
 template <typename type_array>
 void ALGOR::Comparative_Sorts<type_array>::ShellSort::shell_sort()
 {
-	// j = signed, i & step = unsigned; max size = int / 2 = 2 billion
 	for (asize_t step = array_size / 2; step > 0; step /= 2)
 	{
 		for (asize_t i = step; i < array_size; i++)
