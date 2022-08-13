@@ -374,6 +374,7 @@
 #### functions
 - ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&)
 - ALGOR::ARRAYDATA::replace(const asize_t &, const type_array &)
+- ALGOR::ARRAYDATA::respawn()
 #### operators
 - ALGOR::ARRAYDATA::operator*=(const type_array &)
 - ALGOR::ARRAYDATA::operator/=(const type_array &)
@@ -401,20 +402,24 @@
 ### commit 1d50a2
 
 #### functions
-- ALGOR::remove_struct(Array<type_array> *&)
 - ALGOR::ArrayBase::ArrayBase(const asize_t &)
 - ALGOR::ARRAYDATA::ARRAYDATA(const asize_t &)
-- ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
-- ALGOR::ARRAYDATA::remove()
 
 ### commit 48aa64
 
 #### functions
+- ALGOR::remove_struct(Array<type_array> *&)
 - ALGOR::ArrayBase::ArrayBase()
 - ALGOR::ARRAYDATA::ARRAYDATA(Array<type_array> *&)
 - ALGOR::ARRAYDATA::getData()
 - ALGOR::ARRAYDATA::getMin()
 - ALGOR::ARRAYDATA::getMax()
+- ALGOR::ARRAYDATA::remove()
+
+### commit 46b2fa
+
+#### functions
+- ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
 
 ### commit 6efeb8
 
@@ -471,7 +476,6 @@
 
 #### functions
 - ALGOR::ARRAYDATA::reverse()
-- ALGOR::ARRAYDATA::respawn()
 
 ## v0.0.0.1
 

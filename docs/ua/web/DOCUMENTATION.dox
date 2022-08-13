@@ -1394,7 +1394,7 @@
 	   \param[in, out] Array Масив, який потрібно видалити
 	   \result Вказівник на структуру після виклику цієї функції буде вказувати на
 	   <i>nullptr</i>.
-	   \since v0.1.0.0 commit 1d50a2
+	   \since v0.1.0.0 commit 48aa64
 	   \test
 	   \snippet Algor_core.cpp remove_struct
 	 */
@@ -1895,7 +1895,7 @@
 		   а завжди при виклику методу для профілактики. Програміст може навіть
 		   не знати поточного розміру масиву, отже, він не може знати, чи буде масив
 		   збільшено чи зменшено.
-		   \since v0.1.0.0 commit 1d50a2
+		   \since v0.1.0.0 commit 46b2fa
 		   \sa ALGOR::ARRAYDATA::reset()
 		   \sa ALGOR::ARRAYDATA::replace(const asize_t &, const type_array &)
 		   \sa ALGOR::ARRAYDATA::reverse()
@@ -1936,7 +1936,7 @@
 		   \brief Метод збросу та перегенерації данних
 		   \details Метод розширює ALGOR::ARRAYDATA::reset, а саме додатково зберігає
 		   діапазон значень масиву і після збросу даних, заново їх генерує.
-		   \since v0.0.0.3 commit 05d8b0
+		   \since v0.1.0.0 commit dd5d42
 		   \sa ALGOR::ARRAYDATA::reset()
 		   \sa ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
 		   \sa ALGOR::ARRAYDATA::replace(const asize_t &, const type_array &)
@@ -2228,7 +2228,7 @@
 		   \warning Метод є приватним, щоб уникнути випадків, коли програміст
 		   звільнив пам'ять з-під масиву і звертається до пустих данних чи намагається
 		   проводити над ними якісь зміни.
-		   \since v0.1.0.0 commit 1d50a2
+		   \since v0.1.0.0 commit 48aa64
 		   \sa ALGOR::remove_struct(Array<type_array> *&)
 		 */
 
