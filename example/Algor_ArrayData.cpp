@@ -175,7 +175,7 @@ int main()
 	*array_size &= 23;
 	//! [ARRAYDATA &=]
 	
-	//! [ARRAYDATA &|=]
+	//! [ARRAYDATA |=]
 	*array_size |= 25;
 	//! [ARRAYDATA |=]
 	

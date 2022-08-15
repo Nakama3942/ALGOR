@@ -46,7 +46,6 @@
    Licensed under the Apache License, Version 2.0 (the "License")
  */
 
-// TODO Передивитися і вказати у документації, які алгоритми сортувань кидають throw
 // TODO Перевірити та завершити приклади
 // TODO Перевірити та завершити makefile
 // TODO Переписати README.md та CHANGELOG.md
@@ -268,16 +267,35 @@ namespace ALGOR
 	class ArrayProcessing
 	{
 	public:
-		static type_array minimum(const type_array *Array, const asize_t &array_size);
-		static type_array maximum(const type_array *Array, const asize_t &array_size);
-		static bool isOrderliness(const type_array *Array, const asize_t &array_size);
-		static asize_t distance(type_array *first, type_array *last);
-		static type_array *lower_bound(type_array *first, type_array *last, const type_array &value);
-		static type_array *upper_bound(type_array *first, type_array *last, const type_array &value);
-		static void addElement(type_array *&Array, asize_t &array_size, const type_array &value, const asize_t position = 0);
-		static void subtractElement(type_array *&Array, asize_t &array_size, const asize_t position);
-		static void subtractValue(type_array *&Array, asize_t &array_size, const type_array &value);
-		static void copy(type_array *new_array, const type_array *old_array, const asize_t &size_of_copied, asize_t position_in_new_array = 0, asize_t position_in_old_array = 0);
+		static type_array minimum(const type_array *Array,
+								  const asize_t &array_size);
+		static type_array maximum(const type_array *Array,
+								  const asize_t &array_size);
+		static bool isOrderliness(const type_array *Array,
+								  const asize_t &array_size);
+		static asize_t distance(type_array *first,
+								type_array *last);
+		static type_array *lower_bound(type_array *first,
+									   type_array *last,
+									   const type_array &value);
+		static type_array *upper_bound(type_array *first,
+									   type_array *last,
+									   const type_array &value);
+		static void addElement(type_array *&Array,
+							   asize_t &array_size,
+							   const type_array &value,
+							   const asize_t position = 0);
+		static void subtractElement(type_array *&Array,
+									asize_t &array_size,
+									const asize_t position);
+		static void subtractValue(type_array *&Array,
+								  asize_t &array_size,
+								  const type_array &value);
+		static void copy(type_array *new_array,
+						 const type_array *old_array,
+						 const asize_t &size_of_copied,
+						 asize_t position_in_new_array = 0,
+						 asize_t position_in_old_array = 0);
 	};
 
 	template <typename type_array>
@@ -287,9 +305,14 @@ namespace ALGOR
 		asize_t array_size = 0;
 	};
 	template <typename type_array>
-	Array<type_array> *create_struct(const asize_t &SIZE, bool mem_allocation = true);
+	Array<type_array> *create_struct(const asize_t &SIZE,
+									 bool mem_allocation = true);
 	template <typename type_array>
-	void generate_struct(Array<type_array> *&Array, const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit64_t seed = getMemoryCell(32), const ubit32_t denominator = 1);
+	void generate_struct(Array<type_array> *&Array,
+						 const sbit64_t &min_limit,
+						 const sbit64_t &max_limit,
+						 const ubit64_t seed = getMemoryCell(32),
+						 const ubit32_t denominator = 1);
 	template <typename type_array>
 	void remove_struct(Array<type_array> *&Array);
 
@@ -325,7 +348,10 @@ namespace ALGOR
 			ubit32_t highest_frequency = 0;
 		};
 
-		void generatedData(const sbit64_t &min_limit, const sbit64_t &max_limit, const ubit64_t seed = getMemoryCell(32), const ubit32_t denominator = 1);
+		void generatedData(const sbit64_t &min_limit,
+						   const sbit64_t &max_limit,
+						   const ubit64_t seed = getMemoryCell(32),
+						   const ubit32_t denominator = 1);
 		void setNewData(Array<type_array> *&Array);
 		void setData(Array<type_array> *&Array);
 		void cloneNewData(Array<type_array> *&CloningArray);
@@ -345,7 +371,8 @@ namespace ALGOR
 		void reverse();
 		void respawn();
 
-		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY, ArrayType ArrType = ArrayType::NUMBER);
+		Array<asize_t> *searcherOccurrencesOfSubstring(Array<type_array> *&SUBARRAY,
+													   ArrayType ArrType = ArrayType::NUMBER);
 
 		type_array average();
 		type_array mediana();

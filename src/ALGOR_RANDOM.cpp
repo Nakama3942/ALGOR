@@ -163,7 +163,13 @@ void ALGOR::RANDOM::MersenneTwister::Init0(byte4_t seed)
 	mersenne_twister[0] = seed;
 	for (mersenne_twister_index = 1; mersenne_twister_index < 624; mersenne_twister_index++)
 	{
-		mersenne_twister[mersenne_twister_index] = (factor * (mersenne_twister[mersenne_twister_index - 1] ^ (mersenne_twister[mersenne_twister_index - 1] >> 30)) + mersenne_twister_index);
+		mersenne_twister[mersenne_twister_index] = (
+			factor * (
+				mersenne_twister[mersenne_twister_index - 1] ^ (
+					mersenne_twister[mersenne_twister_index - 1] >> 30
+				)
+			) + mersenne_twister_index
+		);
 	}
 }
 
