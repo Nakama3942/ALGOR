@@ -2,7 +2,8 @@
 using std::cin;
 using std::cout;
 
-#include "../src/ALGOR.hpp"
+#include "../include/ALGOR.hpp"
+using namespace ALGOR;
 
 //! [printer]
 template <typename type_array>
@@ -30,22 +31,20 @@ private:
 int main()
 {
 	//! [print]
-	//Створюю вказівник на структуру
-	ALGOR::Array<ALGOR::byte8_t> *D;
+	//Створюю структуру масиву та генерую данні
+	ALGOR::Array<ALGOR::byte4_t> *D = create_struct<ALGOR::byte4_t>(10);
+	generate_struct<ALGOR::byte4_t>(D, 10, 1000);
 
 	//Створюю об'єкт принтера і передаю йому посилання на структуру
-	printer<ALGOR::byte8_t> *pr = new printer<ALGOR::byte8_t>;
-	pr->setData(&D);
-
-	//Створюю об'єкт класу масиву та генерую данні
-	ALGOR::ARRAYDATA<ALGOR::byte8_t> *A = new ALGOR::ARRAYDATA<ALGOR::byte8_t>(35);
-	A->generatedData(10, 1000);
-
-	//Зберігаю у структурі вказівник на масив
-	D = A->getData();
+	printer<ALGOR::byte4_t> pr;
+	pr.setData(&D);
 
 	//Виводжу данні
-	pr->print();
+	pr.print();
+	//print 597 104 23 150 491 594 495 428 875 382
+
+	//Не забуваю у кінці програми звільнити данні
+	remove_struct<ALGOR::byte4_t>(D);
 	//! [print]
 
 	cin.get();

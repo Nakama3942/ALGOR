@@ -2,7 +2,8 @@
 using std::cin;
 using std::cout;
 
-#include "../src/ALGOR.hpp"
+#include "../include/ALGOR.hpp"
+using namespace ALGOR;
 
 int main()
 {
@@ -38,23 +39,38 @@ int main()
 	//! [exception details]
 
 	//! [exception catch code]
+	try
+	{
+		throw ALGOR::EXCEPTION_SET::Exception(100);
+	}
 	catch (ALGOR::EXCEPTION_SET::Exception ex)
 	{
-		cout << ex.code() << "\n"; //print 100
+		cout << ex.code() << "\n";
+		//print 100
 	}
 	//! [exception catch code]
 
 	//! [exception catch details]
+	try
+	{
+		throw ALGOR::EXCEPTION_SET::Exception(100, "details");
+	}
 	catch (ALGOR::EXCEPTION_SET::Exception ex)
 	{
-		cout << ex.what() << "\n"; //print "details"
+		cout << ex.what() << "\n";
+		//print "details"
 	}
 	//! [exception catch details]
 
 	//! [exception catch explanation]
+	try
+	{
+		throw ALGOR::EXCEPTION_SET::Exception(100, "details", "explanation");
+	}
 	catch (ALGOR::EXCEPTION_SET::Exception ex)
 	{
-		cout << ex.why() << "\n"; //print "explanation"
+		cout << ex.why() << "\n";
+		//print "explanation"
 	}
 	//! [exception catch explanation]
 

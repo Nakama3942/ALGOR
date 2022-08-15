@@ -46,7 +46,12 @@
    Licensed under the Apache License, Version 2.0 (the "License")
  */
 
-// TODO Перевірити та завершити приклади
+// TODO Перевірити та завершити приклади (Algor_ArraySort.cpp)
+// TODO Зазначити у прикладах, коли не відбувається вивід інформації, а її аналіз
+//  через відладчик
+// TODO Додати обробку виключеннь у прикладах у тих методів, які їх кидають
+// TODO Вирішити проблему з ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&) і
+//  видалити attention з документації
 // TODO Перевірити та завершити makefile
 // TODO Переписати README.md та CHANGELOG.md
 // TODO Підготувати book-версію документації
