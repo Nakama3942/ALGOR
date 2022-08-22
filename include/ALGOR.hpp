@@ -105,6 +105,24 @@ namespace ALGOR
 
 	memcell_t getMemoryCell(memcell_t right_adjust = 0, memcell_t left_adjust = 0);
 
+	template <typename type_array>
+	struct Array
+	{
+		type_array *array = nullptr;
+		asize_t array_size = 0;
+	};
+	template <typename type_array>
+	Array<type_array> *create_struct(const asize_t &SIZE,
+									 bool mem_allocation = true);
+	template <typename type_array>
+	void generate_struct(Array<type_array> *&Array,
+						 const sbit64_t &min_limit,
+						 const sbit64_t &max_limit,
+						 const ubit64_t seed = getMemoryCell(32),
+						 const ubit32_t denominator = 1);
+	template <typename type_array>
+	void remove_struct(Array<type_array> *&Array);
+
 	class Printer
 	{
 	public:
@@ -301,24 +319,6 @@ namespace ALGOR
 						 asize_t position_in_new_array = 0,
 						 asize_t position_in_old_array = 0);
 	};
-
-	template <typename type_array>
-	struct Array
-	{
-		type_array *array = nullptr;
-		asize_t array_size = 0;
-	};
-	template <typename type_array>
-	Array<type_array> *create_struct(const asize_t &SIZE,
-									 bool mem_allocation = true);
-	template <typename type_array>
-	void generate_struct(Array<type_array> *&Array,
-						 const sbit64_t &min_limit,
-						 const sbit64_t &max_limit,
-						 const ubit64_t seed = getMemoryCell(32),
-						 const ubit32_t denominator = 1);
-	template <typename type_array>
-	void remove_struct(Array<type_array> *&Array);
 
 	template <typename type_array>
 	class ArrayBase
