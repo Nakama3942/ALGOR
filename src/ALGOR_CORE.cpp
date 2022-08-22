@@ -64,6 +64,54 @@ memcell_t ALGOR::getMemoryCell(memcell_t right_adjust, memcell_t left_adjust)
 	return cell;
 }
 
+template <typename type_array>
+Array<type_array> *ALGOR::create_struct(const asize_t &SIZE,
+										bool mem_allocation)
+{
+	if (SIZE == 0)
+	{
+		throw EXCEPTION_SET::void_data();
+	}
+	Array<type_array> *ARRAY = new Array<type_array>;
+	ARRAY->array_size = SIZE;
+	if (mem_allocation)
+	{
+		ARRAY->array = new type_array[SIZE];
+	}
+	return ARRAY;
+}
+
+template <typename type_array>
+void ALGOR::generate_struct(Array<type_array> *&Array,
+							const sbit64_t &min_limit,
+							const sbit64_t &max_limit,
+							const ubit64_t seed,
+							const ubit32_t denominator)
+{
+	if (denominator == 0)
+	{
+		throw EXCEPTION_SET::division_by_zero("The Denominator variable is designed to convert the generated integer into a"
+											  "fractional number or find its part. It's a divisor, so it can't be zero!");
+	}
+	RANDOM::LCM RanGen(seed);
+	for (asize_t i = 0; i < Array->array_size; i++)
+	{
+		Array->array[i] = (min_limit + (RanGen.rand() % (max_limit - min_limit))) / (fbit32_t)denominator;
+	}
+}
+
+template <typename type_array>
+void ALGOR::remove_struct(Array<type_array> *&Array)
+{
+	if (Array == nullptr || Array->array == nullptr)
+	{
+		throw EXCEPTION_SET::void_data();
+	}
+	delete[] Array->array;
+	delete (Array);
+	Array = nullptr;
+}
+
 template void ALGOR::swap<sbit8_t>(sbit8_t &, sbit8_t &);
 template void ALGOR::swap<sbit16_t>(sbit16_t &, sbit16_t &);
 template void ALGOR::swap<sbit32_t>(sbit32_t &, sbit32_t &);
@@ -99,3 +147,39 @@ template ubit64_t ALGOR::maximum<ubit64_t>(ubit64_t, ubit64_t);
 template fbit32_t ALGOR::maximum<fbit32_t>(fbit32_t, fbit32_t);
 template fbit64_t ALGOR::maximum<fbit64_t>(fbit64_t, fbit64_t);
 template fbit128_t ALGOR::maximum<fbit128_t>(fbit128_t, fbit128_t);
+
+template Array<sbit8_t> *ALGOR::create_struct<sbit8_t>(const asize_t &, bool);
+template Array<sbit16_t> *ALGOR::create_struct<sbit16_t>(const asize_t &, bool);
+template Array<sbit32_t> *ALGOR::create_struct<sbit32_t>(const asize_t &, bool);
+template Array<sbit64_t> *ALGOR::create_struct<sbit64_t>(const asize_t &, bool);
+template Array<ubit8_t> *ALGOR::create_struct<ubit8_t>(const asize_t &, bool);
+template Array<ubit16_t> *ALGOR::create_struct<ubit16_t>(const asize_t &, bool);
+template Array<ubit32_t> *ALGOR::create_struct<ubit32_t>(const asize_t &, bool);
+template Array<ubit64_t> *ALGOR::create_struct<ubit64_t>(const asize_t &, bool);
+template Array<fbit32_t> *ALGOR::create_struct<fbit32_t>(const asize_t &, bool);
+template Array<fbit64_t> *ALGOR::create_struct<fbit64_t>(const asize_t &, bool);
+template Array<fbit128_t> *ALGOR::create_struct<fbit128_t>(const asize_t &, bool);
+
+template void ALGOR::generate_struct<sbit8_t>(Array<sbit8_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<sbit16_t>(Array<sbit16_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<sbit32_t>(Array<sbit32_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<sbit64_t>(Array<sbit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit8_t>(Array<ubit8_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit16_t>(Array<ubit16_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit32_t>(Array<ubit32_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<ubit64_t>(Array<ubit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<fbit32_t>(Array<fbit32_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<fbit64_t>(Array<fbit64_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+template void ALGOR::generate_struct<fbit128_t>(Array<fbit128_t> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t);
+
+template void ALGOR::remove_struct<sbit8_t>(Array<sbit8_t> *&);
+template void ALGOR::remove_struct<sbit16_t>(Array<sbit16_t> *&);
+template void ALGOR::remove_struct<sbit32_t>(Array<sbit32_t> *&);
+template void ALGOR::remove_struct<sbit64_t>(Array<sbit64_t> *&);
+template void ALGOR::remove_struct<ubit8_t>(Array<ubit8_t> *&);
+template void ALGOR::remove_struct<ubit16_t>(Array<ubit16_t> *&);
+template void ALGOR::remove_struct<ubit32_t>(Array<ubit32_t> *&);
+template void ALGOR::remove_struct<ubit64_t>(Array<ubit64_t> *&);
+template void ALGOR::remove_struct<fbit32_t>(Array<fbit32_t> *&);
+template void ALGOR::remove_struct<fbit64_t>(Array<fbit64_t> *&);
+template void ALGOR::remove_struct<fbit128_t>(Array<fbit128_t> *&);

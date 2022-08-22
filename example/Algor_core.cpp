@@ -1,51 +1,73 @@
 #include <iostream>
-using std::cin;
-using std::cout;
 
 #include "../include/ALGOR.hpp"
 using namespace ALGOR;
 
 int main()
 {
-	ALGOR::byte4_t value1 = 5, value2 = 10;
+	long value1 = 5, value2 = 10;
 
 	//! [swap]
-	ALGOR::swap<ALGOR::byte4_t>(value1, value2);
-	cout << value2 << "\n";
-	// print 5
+	ALGOR::swap<long>(value1, value2);
+	std::cout << value2 << "\n";
+	// >print:> 5
 	//! [swap]
 
 	//! [minimum]
-	cout << ALGOR::minimum(value1, value2) << "\n";
-	// print 5
+	std::cout << ALGOR::minimum<long>(value1, value2) << "\n";
+	// >print:> 5
 	//! [minimum]
 
 	//! [maximum]
-	cout << ALGOR::maximum(value1, value2) << "\n";
-	// print 10
+	std::cout << ALGOR::maximum<long>(value1, value2) << "\n";
+	// >print:> 10
 	//! [maximum]
 
 	//! [mem]
-	cout << ALGOR::getMemoryCell() << "\n";
-	// print 185214324139604
+	std::cout << ALGOR::getMemoryCell() << "\n";
+	// >print:> 185214324139604
 	//! [mem]
 
 	//! [array struct]
-	ALGOR::Array<ALGOR::byte4_t> *arr;
+	ALGOR::Array<long> *arr;
 	//! [array struct]
 	//! [create_struct]
-	arr = ALGOR::create_struct<ALGOR::byte4_t>(10);
-	//arr = @0x1a1700
+	try
+	{
+		arr = ALGOR::create_struct<long>(10);
+	}
+	catch (ALGOR::EXCEPTION_SET::Exception ex)
+	{
+		std::cout << "\n\nCode: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n\n";
+	}
+	// The data is not taken from the output, but from the debugger console
+	// arr = @0x1a1700
 	//! [create_struct]
 	//! [generate_struct]
-	ALGOR::generate_struct<ALGOR::byte4_t>(arr, 1, 12);
-	//arr->array = {9 9 7 7 4 7 2 7 2 9}
+	try
+	{
+		ALGOR::generate_struct<long>(arr, 1, 12);
+	}
+	catch (ALGOR::EXCEPTION_SET::Exception ex)
+	{
+		std::cout << "\n\nCode: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n\n";
+	}
+	// The data is not taken from the output, but from the debugger console
+	// arr->array = {9 9 7 7 4 7 2 7 2 9}
 	//! [generate_struct]
 	//! [remove_struct]
-	ALGOR::remove_struct<ALGOR::byte4_t>(arr);
-	//arr = 0x0
+	try
+	{
+		ALGOR::remove_struct<long>(arr);
+	}
+	catch (ALGOR::EXCEPTION_SET::Exception ex)
+	{
+		std::cout << "\n\nCode: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n\n";
+	}
+	// The data is not taken from the output, but from the debugger console
+	// arr = 0x0
 	//! [remove_struct]
 
-	cin.get();
+	std::cin.get();
 	return 0;
 }

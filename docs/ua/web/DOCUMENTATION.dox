@@ -268,6 +268,84 @@
 	   \snippet Algor_core.cpp mem
 	 */
 
+	 /*!
+	   \struct ALGOR::Array
+	   \brief Структура, що імітує масив
+	   \details Призначений для зберігання вказівника на динамічний масив та його
+	   розмір
+	   \tparam type_array Тип елементів, що зберігаються в масиві
+	   \since v0.0.1.0 commit 979bf4
+	   \test
+	   \snippet Algor_core.cpp array struct
+	 */
+
+		/*!
+		   \var ALGOR::Array::array
+		   \brief Вказівник на масив
+		   \since v0.0.1.0 commit 979bf4
+		 */
+
+		/*!
+		   \var ALGOR::Array::array_size
+		   \brief Розмір масиву
+		   \since v0.0.1.0 commit 979bf4
+		 */
+
+	/*!
+	   \fn ALGOR::create_struct(const asize_t &, bool)
+	   \brief Створює структуру з покажчиком на масив
+	   \details Зберігає розмір масиву, виділяє пам'ять під цей самий масив та повертає
+	   вказівник на структуру масиву.
+	   \throw ALGOR::EXCEPTION_SET::void_data
+	   \tparam type_array Тип елементів, що будуть зберігатися у масиві
+	   \param[in] SIZE Розмір створюваного масиву
+	   \param[in] mem_allocation Логічний флаг, чи потрібно виділяти пам'ять під масив
+	   \retval Array<type_array>* - вказівник на створену структуру
+	   \since v0.1.0.0 commit 85698d
+	   \remark Якщо ви вже виділили пам'ять під масив, то структурі не потрібно повторно
+	   виділяти пам'ять. Структура лише зберігає розмір масиву та сам вказівник на цей
+	   масив. Тому у цьому випадку флагу <i>mem_allocation</i> потрібно передати
+	   <i>false</i> і після цього зберегти вказівник на масив у структурі. У інших
+	   випадках флаг <i>mem_allocation</i> краще не змінювати.
+	   \test
+	   \snippet Algor_core.cpp create_struct
+	 */
+
+	/*!
+	   \fn ALGOR::generate_struct(Array<type_array> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t)
+	   \brief Генерує випадкові значення у структурі масиву
+	   \details Генерує у структурі масиву значення із заданого діапазону. Якщо
+	   задати <i>denominator</i>, то можна отримати кратні, чи дрібні значення данних.
+	   \throw ALGOR::EXCEPTION_SET::division_by_zero
+	   \tparam type_array Вказує якого типу будуть генеруватися числа у структурі
+	   масиву
+	   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
+	   \param[in] min_limit Мінімально можливе згенероване значення
+	   \param[in] max_limit Максимально можливе згенероване значення
+	   \param[in] seed Сі́м'я генератору
+	   \param[in] denominator Дільник для генерації <i>float</i> данних
+	   \since v0.0.0.1
+	   \note На випадок, якщо не працює ALGOR::getMemoryCell, можна власноруч
+	   задати сі́м'я генерації.
+	   \test
+	   \snippet Algor_core.cpp generate_struct
+	 */
+
+	/*!
+	   \fn ALGOR::remove_struct(Array<type_array> *&)
+	   \brief remove_struct
+	   \details Звільняє пам'ять від масиву, що зберігається у структурі й звільняє
+	   з пам'яті саму структуру.
+	   \throw ALGOR::EXCEPTION_SET::void_data
+	   \tparam type_array Тип елементів, що зберігаються у масиві
+	   \param[in, out] Array Масив, який потрібно видалити
+	   \result Вказівник на структуру після виклику цієї функції буде вказувати на
+	   <i>nullptr</i>.
+	   \since v0.1.0.0 commit 48aa64
+	   \test
+	   \snippet Algor_core.cpp remove_struct
+	 */
+
 	/*!
 	   \interface ALGOR::Printer
 	   \brief Printer-інтерфейс, призначений для реалізації функціоналу виводу
@@ -1325,84 +1403,6 @@
 		 */
 
 	/*!
-	   \struct ALGOR::Array
-	   \brief Структура, що імітує масив
-	   \details Призначений для зберігання вказівника на динамічний масив та його
-	   розмір
-	   \tparam type_array Тип елементів, що зберігаються в масиві
-	   \since v0.0.1.0 commit 979bf4
-	   \test
-	   \snippet Algor_core.cpp array struct
-	 */
-
-		/*!
-		   \var ALGOR::Array::array
-		   \brief Вказівник на масив
-		   \since v0.0.1.0 commit 979bf4
-		 */
-
-		/*!
-		   \var ALGOR::Array::array_size
-		   \brief Розмір масиву
-		   \since v0.0.1.0 commit 979bf4
-		 */
-
-	/*!
-	   \fn ALGOR::create_struct(const asize_t &, bool)
-	   \brief Створює структуру з покажчиком на масив
-	   \details Зберігає розмір масиву, виділяє пам'ять під цей самий масив та повертає
-	   вказівник на структуру масиву.
-	   \throw ALGOR::EXCEPTION_SET::void_data
-	   \tparam type_array Тип елементів, що будуть зберігатися у масиві
-	   \param[in] SIZE Розмір створюваного масиву
-	   \param[in] mem_allocation Логічний флаг, чи потрібно виділяти пам'ять під масив
-	   \retval Array<type_array>* - вказівник на створену структуру
-	   \since v0.1.0.0 commit 85698d
-	   \remark Якщо ви вже виділили пам'ять під масив, то структурі не потрібно повторно
-	   виділяти пам'ять. Структура лише зберігає розмір масиву та сам вказівник на цей
-	   масив. Тому у цьому випадку флагу <i>mem_allocation</i> потрібно передати
-	   <i>false</i> і після цього зберегти вказівник на масив у структурі. У інших
-	   випадках флаг <i>mem_allocation</i> краще не змінювати.
-	   \test
-	   \snippet Algor_core.cpp create_struct
-	 */
-
-	/*!
-	   \fn ALGOR::generate_struct(Array<type_array> *&, const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t)
-	   \brief Генерує випадкові значення у структурі масиву
-	   \details Генерує у структурі масиву значення із заданого діапазону. Якщо
-	   задати <i>denominator</i>, то можна отримати кратні, чи дрібні значення данних.
-	   \throw ALGOR::EXCEPTION_SET::division_by_zero
-	   \tparam type_array Вказує якого типу будуть генеруватися числа у структурі
-	   масиву
-	   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
-	   \param[in] min_limit Мінімально можливе згенероване значення
-	   \param[in] max_limit Максимально можливе згенероване значення
-	   \param[in] seed Сі́м'я генератору
-	   \param[in] denominator Дільник для генерації <i>float</i> данних
-	   \since v0.0.0.1
-	   \note На випадок, якщо не працює ALGOR::getMemoryCell, можна власноруч
-	   задати сі́м'я генерації.
-	   \test
-	   \snippet Algor_core.cpp generate_struct
-	 */
-
-	/*!
-	   \fn ALGOR::remove_struct(Array<type_array> *&)
-	   \brief remove_struct
-	   \details Звільняє пам'ять від масиву, що зберігається у структурі й звільняє
-	   з пам'яті саму структуру.
-	   \throw ALGOR::EXCEPTION_SET::void_data
-	   \tparam type_array Тип елементів, що зберігаються у масиві
-	   \param[in, out] Array Масив, який потрібно видалити
-	   \result Вказівник на структуру після виклику цієї функції буде вказувати на
-	   <i>nullptr</i>.
-	   \since v0.1.0.0 commit 48aa64
-	   \test
-	   \snippet Algor_core.cpp remove_struct
-	 */
-
-	/*!
 	   \class ALGOR::ArrayBase
 	   \brief Базовий клас, від якого успадковуються інші класи, пов'язані з роботою
 	   з масивами
@@ -1517,6 +1517,7 @@
 		   \fn ALGOR::ARRAYDATA::ARRAYDATA(Array<type_array> *&)
 		   \brief Конструктор, що приймає СТРУКТУРУ та зберігає її до поля
 		   \details Читай детальніше ALGOR::ArrayBase::ArrayBase(Array<type_array> *&)
+		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \param[in] Array Покажчик на структуру масиву
 		   \since v0.1.0.0 commit 48aa64
 		   \sa ALGOR::ArrayBase::ArrayBase(Array<type_array> *&)
@@ -1529,6 +1530,7 @@
 		   \fn ALGOR::ARRAYDATA::ARRAYDATA(const asize_t &)
 		   \brief Конструктор, що приймає РОЗМІР та виділяє пам'ять
 		   \details Читай детальніше ALGOR::ArrayBase::ArrayBase(const asize_t &)
+		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \param[in] SIZE Розмір створюваного масиву
 		   \since v0.1.0.0 commit 1d50a2
 		   \sa ALGOR::ArrayBase::ArrayBase(const asize_t &)
@@ -1687,7 +1689,7 @@
 		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \remark Звернутися до старого масиву буде <b>НЕможливо</b>; зміни
 		   у поточному об'єкті <b>НЕ будуть</b> відображатися на оригінальному об'єкті.
-		   \attention Як було виявлено під час написання прикладів, чомусь адреса масиву
+		   \bug Як було виявлено під час написання прикладів, чомусь адреса масиву
 		   після виклику ALGOR::create_struct не змінюється, через що вказівники об'єкту
 		   та структури продовжують співпадати, а тому данні у структурі не
 		   звільняються... Ця помилка буде виправлена пізніше.
@@ -1872,6 +1874,7 @@
 		   \details Метод видаляє масив із пам'яті й виділяє заново пам'ять під
 		   новий масив без його заповнення. У результаті масив буде спустошено
 		   до нульових данних.
+		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \since v0.1.0.0 commit 1f2a4f
 		   \sa ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
 		   \sa ALGOR::ARRAYDATA::replace(const asize_t &, const type_array &)
@@ -1890,6 +1893,7 @@
 		   пам'ять від старого масиву звільняється, а вказівник починає вказувати
 		   на новий масив.
 		   \throw ALGOR::EXCEPTION_SET::size_failure
+		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \param[in] NEW_SIZE Новий розмір масиву
 		   \param[in] setElement Значення, яким заповнюються нові клітинки масиву (у
 		   випадку збільшення масиву)
@@ -1943,6 +1947,8 @@
 		   \brief Метод збросу та перегенерації данних
 		   \details Метод розширює ALGOR::ARRAYDATA::reset, а саме додатково зберігає
 		   діапазон значень масиву і після збросу даних, заново їх генерує.
+		   \throw ALGOR::EXCEPTION_SET::void_data
+		   \throw ALGOR::EXCEPTION_SET::division_by_zero
 		   \since v0.1.0.0 commit dd5d42
 		   \sa ALGOR::ARRAYDATA::reset()
 		   \sa ALGOR::ARRAYDATA::resize(const asize_t &, const type_array &)
@@ -1995,6 +2001,8 @@
 		   \details Спочатку метод визначає моду масиву (з її першим значенням), а
 		   потім за другим проходом (після визначеної моди) зберігає всі значення, що
 		   відповідають знайденій моді.
+		   \throw ALGOR::EXCEPTION_SET::value_failure
+		   \throw ALGOR::EXCEPTION_SET::memory_overflow
 		   \return моди масиву
 		   \since v0.0.0.3 commit 1a11a0
 		   \warning У різних версіях бібліотеки функціонал даного методу змінювався!
@@ -2049,6 +2057,7 @@
 		   \details Більш легкий спосіб використання функції
 		   ALGOR::ARRAYDATA::resize.
 		   \throw ALGOR::EXCEPTION_SET::size_failure
+		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \param[in] NewSize Новий розмір масиву
 		   \return вказівник на нову структуру масиву
 		   \since v0.1.3.0 commit 045729
@@ -2127,6 +2136,7 @@
 		/*!
 		   \fn ALGOR::ARRAYDATA::operator/=(const type_array &)
 		   \brief Зменшує кожен елемент масиву у скількісь разів
+		   \throw ALGOR::EXCEPTION_SET::division_by_zero
 		   \param[in] divideValue Параметр, що вказує, у скільки разів
 		   зменшити кожен елемент масиву
 		   \return вказівник на нову структуру масиву
@@ -2149,6 +2159,7 @@
 		   \brief Оператор додавання елемента в кінець масиву
 		   \details Більш легкий спосіб використання функції
 		   ALGOR::ArrayProcessing::addElement.
+		   \throw ALGOR::EXCEPTION_SET::memory_overflow
 		   \note Функція ALGOR::ArrayProcessing::addElement є дуже гнучкою і
 		   дозволяє додавати елемент на любу позицію масиву, тому якщо потрібно
 		   додати елемент не у кінець масиву - прийдеться використовувати
@@ -2171,6 +2182,8 @@
 		   \brief Оператор, який видаляє всі елементи з указаним значенням
 		   \details Більш легкий спосіб використання функції
 		   ALGOR::ArrayProcessing::subtractValue.
+		   \throw ALGOR::EXCEPTION_SET::void_data
+		   \throw ALGOR::EXCEPTION_SET::value_failure
 		   \remark Якщо бути чесним, то цей оператор було додано лише для
 		   можливості спрощеного легкого використання стандартним масивних
 		   функцій при роботі з об'єктами.
@@ -2189,6 +2202,8 @@
 		   \brief Оператор, який видаляє елемент із кінця масиву
 		   \details Більш легкий спосіб використання функції
 		   ALGOR::ArrayProcessing::subtractElement.
+		   \throw ALGOR::EXCEPTION_SET::void_data
+		   \throw ALGOR::EXCEPTION_SET::position_failure
 		   \remark Якщо бути чесним, то цей оператор було додано лише для
 		   можливості спрощеного легкого використання стандартним масивних
 		   функцій при роботі з об'єктами.
@@ -2206,6 +2221,8 @@
 		   \brief Оператор об'єднання двох масивів у поточному об'єкті
 		   \details Оператор додає данні із наданого об'єкту у кінець поточного
 		   об'єкту. Це єдиний метод, який працює не зі структурами, а із об'єктами.
+		   \throw ALGOR::EXCEPTION_SET::size_failure
+		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \param[in] appendingArray Масив, з якого будуть передаватись данні до
 		   поточного
 		   \return вказівник на нову структуру масиву
@@ -2220,6 +2237,8 @@
 		   \brief Оператор об'єднання двох масивів у наданому об'єкті
 		   \details Оператор додає данні із поточного об'єкту у кінець наданого
 		   об'єкту. Це єдиний метод, який працює не зі структурами, а із об'єктами.
+		   \throw ALGOR::EXCEPTION_SET::size_failure
+		   \throw ALGOR::EXCEPTION_SET::void_data
 		   \param[out] appendingArray Масив, у який будуть передаватись данні з
 		   поточного
 		   \return вказівник на нову структуру масиву
@@ -3820,7 +3839,8 @@
 		   \f${\displaystyle O(n)}\f$ для рівномірно розподілених наборів даних і
 		   відносно невелику додаткову пам'ять. Оригінальна робота була опублікована
 		   в 1998 році Карлом-Дітріхом Нойбертом.
-		   \throw ALGOR::EXCEPTION_SET::division_by_zero
+		   \throw ALGOR::EXCEPTION_SET::division_by_zero (у випадку, коли всі елементи
+		   масиву мають одне значення, наприклад, у масиві {63 63 63})
 		   \par Концепція
 		   Flashsort - ефективна реалізація сортування на місці BucketSort, яка сама
 		   по собі є типом сегментного сортування. Він призначає кожен з \f$n\f$
@@ -4005,8 +4025,8 @@
  */
 
 /*!
-Matrix
-*/
+  \todo Зробити розділ ALGOR_MATRIX
+ */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  * --------------------------------------------------------------------------- *
@@ -4016,8 +4036,8 @@ Matrix
  */
 
 /*!
-Heap
-*/
+  \todo Зробити розділ ALGOR_HEAP
+ */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  * --------------------------------------------------------------------------- *
@@ -4027,5 +4047,5 @@ Heap
  */
 
 /*!
-List
-*/
+  \todo Зробити розділ ALGOR_LIST
+ */

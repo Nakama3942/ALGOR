@@ -37,20 +37,19 @@
  * **************************************************************************** */
 
 /*!
- * \file
- * \brief Бібліотека для обробки та сортування структур даних.
- * \author Калиновський Валентин
- * \version 1.0.0.0
- * \date 11.01.2022
- * \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
-   Licensed under the Apache License, Version 2.0 (the "License")
+  \file
+  \brief Бібліотека для обробки та сортування структур даних
+  \author Калиновський Валентин
+  \version 1.0.0.0
+  \date 11.01.2022
+  \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License")
+
+  \todo розділ ALGOR_MATRIX
+  \todo розділ ALGOR_HEAP
+  \todo розділ ALGOR_LIST
  */
 
-// TODO Зазначити у прикладах, коли не відбувається вивід інформації, а її аналіз
-//  через відладчик
-// TODO Додати обробку виключеннь у прикладах у тих методів, які їх кидають
-// TODO Вирішити проблему з ALGOR::ARRAYDATA::cloneNewData(Array<type_array> *&) і
-//  видалити attention з документації
 // TODO Перевірити та завершити makefile
 // TODO Переписати README.md та CHANGELOG.md
 // TODO Підготувати book-версію документації

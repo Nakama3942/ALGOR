@@ -1,6 +1,4 @@
 #include <iostream>
-using std::cin;
-using std::cout;
 
 #include "../include/ALGOR.hpp"
 using namespace ALGOR;
@@ -14,9 +12,9 @@ int main()
 	}
 	catch (ALGOR::EXCEPTION_SET::Exception ex)
 	{
-		cout << "Code: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n";
+		std::cout << "Code: " << ex.code() << ";\n" << ex.what() << "\n-> " << ex.why() << "\n";
 	}
-	// print:
+	// >print:>
 	//   Code: 55;
 	//   details
 	//   -> explanation
@@ -45,8 +43,8 @@ int main()
 	}
 	catch (ALGOR::EXCEPTION_SET::Exception ex)
 	{
-		cout << ex.code() << "\n";
-		//print 100
+		std::cout << ex.code() << "\n";
+		// >print:> 100
 	}
 	//! [exception catch code]
 
@@ -57,8 +55,8 @@ int main()
 	}
 	catch (ALGOR::EXCEPTION_SET::Exception ex)
 	{
-		cout << ex.what() << "\n";
-		//print "details"
+		std::cout << ex.what() << "\n";
+		// >print:> "details"
 	}
 	//! [exception catch details]
 
@@ -69,8 +67,8 @@ int main()
 	}
 	catch (ALGOR::EXCEPTION_SET::Exception ex)
 	{
-		cout << ex.why() << "\n";
-		//print "explanation"
+		std::cout << ex.why() << "\n";
+		// >print:> "explanation"
 	}
 	//! [exception catch explanation]
 
@@ -130,6 +128,6 @@ int main()
 	throw ALGOR::EXCEPTION_SET::not_found("explanation");
 	//! [exception not_found explanation]
 
-	cin.get();
+	std::cin.get();
 	return 0;
 }

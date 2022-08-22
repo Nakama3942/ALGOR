@@ -1,6 +1,4 @@
 #include <iostream>
-using std::cin;
-using std::cout;
 
 #include "../include/ALGOR.hpp"
 using namespace ALGOR;
@@ -18,9 +16,9 @@ public:
 	{
 		for (asize_t i = 0; i < (*Array)->array_size; i++)
 		{
-			cout << " " << (*Array)->array[i];
+			std::cout << " " << (*Array)->array[i];
 		}
-		cout << "\n";
+		std::cout << "\n";
 	}
 
 private:
@@ -31,22 +29,22 @@ private:
 int main()
 {
 	//! [print]
-	//Створюю структуру масиву та генерую данні
-	ALGOR::Array<ALGOR::byte4_t> *D = create_struct<ALGOR::byte4_t>(10);
-	generate_struct<ALGOR::byte4_t>(D, 10, 1000);
+	// Creating an array structure and generating data
+	ALGOR::Array<long> *D = create_struct<long>(10);
+	generate_struct<long>(D, 10, 1000);
 
-	//Створюю об'єкт принтера і передаю йому посилання на структуру
-	printer<ALGOR::byte4_t> pr;
+	// Creating a printer object and passing it a reference to the structure
+	printer<long> pr;
 	pr.setData(&D);
 
-	//Виводжу данні
+	// Outputting data
 	pr.print();
-	//print 597 104 23 150 491 594 495 428 875 382
+	// >print:> 597 104 23 150 491 594 495 428 875 382
 
-	//Не забуваю у кінці програми звільнити данні
-	remove_struct<ALGOR::byte4_t>(D);
+	// Don't forget to free data at the end of the program
+	remove_struct<long>(D);
 	//! [print]
 
-	cin.get();
+	std::cin.get();
 	return 0;
 }
