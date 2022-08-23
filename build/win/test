@@ -1,0 +1,4 @@
+# Before running the test, change the first line in the test program from <#include "/usr/include/ALGOR.hpp"> to <#include "specify/correct/path/to/ALGOR.hpp">
+g++ -s -o exam.exe ../../example/Basic_test.cpp -L. -lALGOR1
+./exam
+rm -rf exam.exe

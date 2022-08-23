@@ -632,7 +632,7 @@ Array<type_array> *&ALGOR::ARRAYDATA<type_array>::operator/=(const type_array &d
 {
 	if (divideValue == 0)
 	{
-		throw EXCEPTION_SET::division_by_zero;
+		throw EXCEPTION_SET::division_by_zero();
 	}
 	for (asize_t i = 0; i < this->ARRAY->array_size; i++)
 	{
