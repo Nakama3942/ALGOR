@@ -22,7 +22,8 @@
 DIR=/usr/lib/ALGOR
 
 CC=g++
-FLAGS=-Wall -c -fPIC
+FLAGS=-no-pie -shared -o
+OFLAGS=-Wall -c -fPIC
 
 CORE=../../src/ALGOR_CORE.cpp
 EXCEPTION=../../src/ALGOR_EXCEPTION.cpp
@@ -40,50 +41,54 @@ LINKALGOR=/usr/lib/ALGOR/libALGOR.so
 HEADER=../../include/ALGOR.hpp
 HEADERPATH=/usr/include/ALGOR.hpp
 
-.PHONY: all install test uninstall
+.PHONY: install clean uninstall
 
 install: lib_ALGOR
 
 lib_ALGOR: ALGOR_CORE.o ALGOR_EXCEPTION.o ALGOR_RANDOM.o ALGOR_ARRAY.o ALGOR_SORTING.o ALGOR_MATRIX.o ALGOR_HEAP.o ALGOR_LIST.o
 	@mkdir $(DIR)
-	@$(CC) *.o -no-pie -shared -o $(PATHALGOR) $(LIBALGOR)
+	@$(CC) *.o $(FLAGS) $(PATHALGOR) $(LIBALGOR)
 	@ln -s $(PATHALGOR) $(LINKALGOR)
 	@cp $(HEADER) $(HEADERPATH)
-	@echo Library compiled and installed
+	@echo Library compiled and installed!
 
 ALGOR_CORE.o: $(CORE)
-	@$(CC) $(FLAGS) $(CORE)
+	@$(CC) $(OFLAGS) $(CORE)
+	@echo ALGOR_CORE.o done...
 
 ALGOR_EXCEPTION.o: $(EXCEPTION)
-	@$(CC) $(FLAGS) $(EXCEPTION)
+	@$(CC) $(OFLAGS) $(EXCEPTION)
+	@echo ALGOR_EXCEPTION.o done...
 
 ALGOR_RANDOM.o: $(RANDOM)
-	@$(CC) $(FLAGS) $(RANDOM)
+	@$(CC) $(OFLAGS) $(RANDOM)
+	@echo ALGOR_RANDOM.o done...
 
 ALGOR_ARRAY.o: $(ARRAY)
-	@$(CC) $(FLAGS) $(ARRAY)
+	@$(CC) $(OFLAGS) $(ARRAY)
+	@echo ALGOR_ARRAY.o done...
 
 ALGOR_SORTING.o: $(SORTING)
-	@$(CC) $(FLAGS) $(SORTING)
+	@$(CC) $(OFLAGS) $(SORTING)
+	@echo ALGOR_SORTING.o done...
 
 ALGOR_MATRIX.o: $(MATRIX)
-	@$(CC) $(FLAGS) $(MATRIX)
+	@$(CC) $(OFLAGS) $(MATRIX)
+	@echo ALGOR_MATRIX.o done...
 
 ALGOR_HEAP.o: $(HEAP)
-	@$(CC) $(FLAGS) $(HEAP)
+	@$(CC) $(OFLAGS) $(HEAP)
+	@echo ALGOR_HEAP.o done...
 
 ALGOR_LIST.o: $(LIST)
-	@$(CC) $(FLAGS) $(LIST)
+	@$(CC) $(OFLAGS) $(LIST)
+	@echo ALGOR_LIST.o done...
 
 clean:
 	@rm -rf *.o
-	@echo The object files have been deleted
-
-test:
-	$(CC) -no-pie -s -o algor_exam ../../example/Basic_test.cpp -L/usr/lib/ALGOR -lALGOR -Wl,-rpath,/usr/lib/ALGOR
-	./algor_exam
-	rm algor_exam
+	@echo The object files have been deleted!
 
 uninstall:
 	@rm -rf $(DIR)
 	@rm $(HEADERPATH)
+	@echo Library has deleted!
