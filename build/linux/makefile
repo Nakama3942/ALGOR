@@ -37,6 +37,7 @@ LIST=../../src/ALGOR_LIST.cpp
 PATHALGOR=/usr/lib/ALGOR/libALGOR.so.1.0.0.0
 LIBALGOR=-Wl,-soname,libALGOR.so.1.0.0.0
 LINKALGOR=/usr/lib/ALGOR/libALGOR.so
+ALIB=/usr/lib/ALGOR/libALGOR.a.1.0.0.0
 
 HEADER=../../include/ALGOR.hpp
 HEADERPATH=/usr/include/ALGOR.hpp
@@ -49,6 +50,7 @@ lib_ALGOR: ALGOR_CORE.o ALGOR_EXCEPTION.o ALGOR_RANDOM.o ALGOR_ARRAY.o ALGOR_SOR
 	@mkdir $(DIR)
 	@$(CC) *.o $(FLAGS) $(PATHALGOR) $(LIBALGOR)
 	@ln -s $(PATHALGOR) $(LINKALGOR)
+	@ar -r $(ALIB) *.o
 	@cp $(HEADER) $(HEADERPATH)
 	@echo Library compiled and installed!
 

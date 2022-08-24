@@ -50,7 +50,6 @@
   \todo розділ ALGOR_LIST
  */
 
-// TODO Перевірити та завершити makefile
 // TODO Переписати README.md та CHANGELOG.md
 // TODO Підготувати book-версію документації
 // TODO Перекласти документацію на англійську мову
