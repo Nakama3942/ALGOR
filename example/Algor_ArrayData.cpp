@@ -190,7 +190,7 @@ int main()
 
 	//! [ARRAYDATA getMax]
 	std::cout << "Maximal element is " << array_by_size->getMax() << "\n";
-	// >print:> Minimal element is 15
+	// >print:> Maximal element is 15
 	//! [ARRAYDATA getMax]
 
 	//! [ARRAYDATA reset]

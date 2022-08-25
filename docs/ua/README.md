@@ -6,39 +6,73 @@
 [![CODE_OF_CONDUCT](https://img.shields.io/badge/here-CODE_OF_CONDUCT-darkgreen)](https://github.com/Nakama3942/ALGOR/blob/main/CODE_OF_CONDUCT.md)
 [![PULL_REQUEST_TEMPLATE](https://img.shields.io/badge/here-PULL_REQUEST_TEMPLATE-orange)](https://github.com/Nakama3942/ALGOR/blob/main/.github/PULL_REQUEST_TEMPLATE.md)
 
+<img src="LOGO.png" width="940">
+
 # ALGOR
+## Зміст
+- [ALGOR](#algor)
+	- [Зміст](#зміст)
+	- [Огляд](#огляд)
+	- [ЛІЦЕНЗІЯ](#ліцензія)
+	- [Функціонал](#функціонал)
+	- [Документація](#документація)
+	- [Використання](#використання)
+	- [Збірка проекту](#збірка-проекту)
+		- [Через IDE (Windows)](#через-ide-windows)
+		- [Через IDE (LINUX)](#через-ide-linux)
+		- [Через консоль (Windows)](#через-консоль-windows)
+		- [Через консоль (LINUX)](#через-консоль-linux)
+		- [Тест консольної збірки](#тест-консольної-збірки)
+	- [Вирішення проблем](#вирішення-проблем)
+	- [Автори](#автори)
+	- [Гіфки](#гіфки)
+		- [Компіляція та лінковка на Windows у IDE](#компіляція-та-лінковка-на-windows-у-ide)
+		- [Компіляція та лінковка на Windows у консолі](#компіляція-та-лінковка-на-windows-у-консолі)
+		- [Компіляція та лінковка на Linux у консолі](#компіляція-та-лінковка-на-linux-у-консолі)
+		- [Збірка бібліотеки через консоль у Windows](#збірка-бібліотеки-через-консоль-у-windows)
+		- [Збірка бібліотеки через консоль у Linux](#збірка-бібліотеки-через-консоль-у-linux)
+		- [Тест зібраної бібліотеки через консоль](#тест-зібраної-бібліотеки-через-консоль)
+
 ## Огляд
 Бібліотека для обробки та сортування структур даних.
 
 У пошуках алгоритмів сортувань та пояснень у вигляді коду я часто зустрічав великі коди з купою непотрібних речей, не пов'язаних з алгоритмом сортування (наприклад, тестування) і, в принципі, код містив змінні не зі звичайними іменами, а з назвами типу A, B, C - стиль коду порушений (а іноді навіть жахливий), іноді можна виявити збиту табуляцію та є купа інших факторів, які роблять код нечитабельним і недоступним для розуміння. Я витратив багато часу, щоб зрозуміти ці алгоритми і написав цю бібліотеку, по-перше, щоб не писати щоразу одне і те ж, а просто підключити бібліотеку і використовувати готовий код, а по-друге для інших людей, які тільки навчаються алгоритмам, щоб можна було легко розібратися: код містить лише необхідні методи, вони розташовані по порядку, код я намагаюся оптимізувати, стиль не порушений, і головне - завдяки нормальним іменам код зрозуміліший, читабельніший і підходить для навчання алгоритмам.
 
 ## ЛІЦЕНЗІЯ
-Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
+Повний текст ліцензії знаходиться за наступним [посиланням](https://github.com/Nakama3942/ALGOR/blob/main/LICENSE).
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+> Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
+> 
+> Licensed under the Apache License, Version 2.0 (the "License");
+> you may not use this file except in compliance with the License.
+> You may obtain a copy of the License at
+> 
+>     http://www.apache.org/licenses/LICENSE-2.0
+> 
+> Unless required by applicable law or agreed to in writing, software
+> distributed under the License is distributed on an "AS IS" BASIS,
+> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+> See the License for the specific language governing permissions and
+> limitations under the License.
 
 ## Функціонал
 Бібліотека реалізує наступний функціонал:
-- *ALGOR_CORE*
+- [x] *ALGOR_CORE*
 	- Розділ реалізації головних базових функцій, класів і визначень
-- *ALGOR_EXCEPTION*
+- [x] *ALGOR_EXCEPTION*
 	- Розділ реалізації винятків
-- *ALGOR_RANDOM*
+- [x] *ALGOR_RANDOM*
 	- Розділ реалізації рандомайзерів
-- *ALGOR_ARRAY*
+- [x] *ALGOR_ARRAY*
 	- Розділ реалізації класів та функцій роботи з масивами
-- *ALGOR_SORTING*
+- [x] *ALGOR_SORTING*
 	- Розділ реалізації алгоритмів сортування
+- [ ] *ALGOR_MATRIX* <s>(не реалізовано)</s>
+	- Розділ реалізації класів та функцій роботи з матрицями
+- [ ] *ALGOR_HEAP* <s>(не реалізовано)</s>
+	- Розділ реалізації класів та функцій роботи з купами
+- [ ] *ALGOR_LIST* <s>(не реалізовано)</s>
+	- Розділ реалізації класів та функцій роботи зі списками
 
 ## Документація
 За документацією резпозиторію звертатись за наступним [посиланням](https://nakama3942.github.io/ALGOR_DOCUMENTATION/).
@@ -85,7 +119,9 @@ int main()
 //   76 73 22 13 34 21 78 53 80 49
 ```
 
-Можна бібліотеку зібрати власноруч. Як її зібрати та використовувати описано далі.
+Компіляція програми з використанням та лінковкою бібліотеки [на Windows у IDE](#компіляція-та-лінковка-на-windows-у-ide), [на Windows у консолі](#компіляція-та-лінковка-на-windows-у-консолі) та [на Linux у консолі](#компіляція-та-лінковка-на-linux-у-консолі).
+
+Можна бібліотеку зібрати власноруч. Як її зібрати та використовувати описано [далі](#збірка-проекту).
 
 ## Збірка проекту
 ### Через IDE (Windows)
@@ -103,7 +139,7 @@ int main()
 - Якщо програма компілюється **власноруч**, то необхідно оголосити хідер бібліотеки у програмі та злінкувати .dll командою до програми і розмістити його поряд з виконуючим файлом і файл .a у цьому випадку не використовується. Як скомпілювати програму з лінкуванням бібліотеки показано у файлі test.sh у цій же директорії.
 - Інакше ж якщо програма збирається через **IDE** (перевірялося тільки на Qt), то тоді будуть використовуватись усі файли а саме: щоб IDE побачила бібліотеку, у меню додання бібліотеки необхідно зазначити шлях до .a файла, потім потрібно оголосити хідер бібліотеки у програмі і після компіляції необхідно .dll файл розмістити поряд з виконуючим файлом.
 
-<img src="MakingWinLibrary_Animation.gif">
+Анімоване зображення [збірки бібліотеки](#збірка-бібліотеки-через-консоль-у-windows).
 
 ### Через консоль (LINUX)
 З директорії бібліотеки потрібно перейти до build/linux/ і запустити програму make
@@ -118,7 +154,7 @@ make uninstall
 - Якщо програма компілюється **власноруч**, то необхідно оголосити хідер бібліотеки у програмі та злінкувати .so командою до програми і файл .a у цьому випадку не використовується. Як скомпілювати програму з лінкуванням бібліотеки показано у файлі test.sh у цій же директорії.
 - Варіант з **IDE** не здійснювався, а тому автор не може дати порад, як зібрати збірку...
 
-<img src="MakingLinuxLibrary_Animation.gif" width="950">
+Анімоване зображення [збірки бібліотеки](#збірка-бібліотеки-через-консоль-у-linux).
 
 ### Тест консольної збірки
 У відповідній директорії (build/win/ чи build/linux/) у консолі (на Windows це все той же GitBush) запускаємо файл test.sh
@@ -127,7 +163,7 @@ sh test.sh
 ```
 Також у цьому файлі показано команду компіляції з лінковкою бібліотеки.
 
-<img src="Testing_Animation.gif">
+Анімоване зображення [збірки бібліотеки](#тест-зібраної-бібліотеки-через-консоль).
 
 ## Вирішення проблем
 Всі алгоритми перевірені мною, але якщо у вас виникли проблеми з використанням бібліотеки, код не працює, є пропозиції щодо оптимізації або поради щодо покращення стилю коду та імен - запрошую [сюди](https://github.com/Nakama3942/ALGOR/blob/main/CONTRIBUTING.md) та [сюди](https://github.com/Nakama3942/ALGOR/blob/main/CODE_OF_CONDUCT.md).
@@ -145,3 +181,23 @@ sh test.sh
 	</tr>
 -->
 </table>
+
+## Гіфки
+<!--На ГітХабі зображення не відображається. Цей README налаштований під документацію. У Doxygen все працює відмінно і на сайті документації проекту зображення відображаються-->
+### Компіляція та лінковка на Windows у IDE
+<img src="UsingLibraryWinIDE_Animation.gif">
+
+### Компіляція та лінковка на Windows у консолі
+<img src="UsingLibraryWinConsole_Animation.gif">
+
+### Компіляція та лінковка на Linux у консолі
+<img src="UsingLibraryLinuxConsole_Animation.gif" width="940">
+
+### Збірка бібліотеки через консоль у Windows
+<img src="MakingWinLibrary_Animation.gif">
+
+### Збірка бібліотеки через консоль у Linux
+<img src="MakingLinuxLibrary_Animation.gif" width="940">
+
+### Тест зібраної бібліотеки через консоль
+<img src="Testing_Animation.gif">

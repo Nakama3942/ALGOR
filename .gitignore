@@ -13,11 +13,7 @@
 
 .vscode
 docs/en/html
-docs/en/latex
-docs/en/xml
-docs/ua/web/html
-docs/ua/book/latex
-docs/ua/book/xml
+docs/ua/html
 
 # Qt-es
 object_script.*.Release

@@ -38,19 +38,10 @@
 
 /*!
   \file
-  \brief Бібліотека для обробки та сортування структур даних
-  \author Калиновський Валентин
-  \version 1.0.0.0
-  \date 11.01.2022
-  \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
-  Licensed under the Apache License, Version 2.0 (the "License")
-
-  \todo розділ ALGOR_MATRIX
-  \todo розділ ALGOR_HEAP
-  \todo розділ ALGOR_LIST
+  \brief Хідер бібліотеки для обробки та сортування структур даних
  */
 
-// TODO Переписати CHANGELOG.md
+// TODO Ліцензіювати кожен файл
 // TODO Перекласти документацію на англійську мову
 // WARNING Дату написания документации указать тогда, когда будет написана документация
 

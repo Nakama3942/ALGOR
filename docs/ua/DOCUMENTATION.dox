@@ -23,8 +23,14 @@
   \namespace ALGOR
   \brief Глобальний простір імен усього проекту
   \details Призначений для зберігання усього реалізованого функціоналу проекту.
-  Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
+  \note Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
   \since v0.1.2.0 commit 2fa93b
+
+  \author Калиновський Валентин
+  \version 1.0.0.0
+  \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
+  Licensed under the Apache License, Version 2.0 (the "License")
+
   \example sort_global.cpp
   \example sort_test.cpp
   \example Algor_core.cpp
@@ -2268,7 +2274,6 @@
 	/*!
 	   \class ALGOR::Comparative_Sorts
 	   \brief Клас з великою кількістю алгоритмів сортувань
-
 	   \details Клас, що колекціонує велику кількість алгоритмів сортувань. Саме
 	   така мета ставилася на початку створення бібліотеки: реалізувати усі
 	   алгоритми сортувань! Але з часом ставились інші цілі, окрім алгоритмів
@@ -2279,62 +2284,61 @@
 	   з будь-якими числовими данними та алгоритми, що працюють тільки з цілими
 	   числовими данними. Цей клас реалізує перше сімейство алгоритмів. Його частка
 	   складає 40 алгоритмів із 50.
-
 	   \details Під час роботи я зрозумів, що зможу реалізувати не всі алгоритми, так
 	   як деякі просто не достанеш. При пошуках CascadeMergeSort на Вікіпедії
 	   описано усього півтори строчки про алгоритм, а при переході за посиланням
 	   на ресурс надається книга з 584 сторінки, доступно з яких не більше 10. І
 	   більше ніде ніякої інформації не має... І це лише один з прикладів...
-
 	   \details Із 40 я зміг реалізувати 22 алгоритми даного сімейства:
-	   1. Batcher_OddEven_MergeSort	(Категорія Concurrent_Sort)
-	   2. Bitonic_Sorter			(Категорія Concurrent_Sort)
-	   3. Bogo_Sort					(Категорія Exchange_Sorts)
-	   4. Bubble_Sort				(Категорія Exchange_Sorts)
-	   5. Cocktail_Shaker_Sort		(Категорія Exchange_Sorts)
-	   6. Comb_Sort					(Категорія Exchange_Sorts)
-	   7. Cycle_Sort				(Категорія Selection_Sorts)
-	   8. Gnome_Sort				(Категорія Exchange_Sorts)
-	   9. Heap_Sort					(Категорія Selection_Sorts)
-	   10. Insert_Sort				(Категорія Insertion_Sorts)
-	   11. Library_Sort				(Категорія Insertion_Sorts)
-	   12. Merge_Sort				(Категорія Merge_Sorts)
-	   13. Odd_Even_Sort			(Категорія Exchange_Sorts)
-	   14. Pancake_Sort				(Категорія Other_Sorts)
-	   15. Patience_Sort			(Категорія Insertion_Sorts)
-	   16. Quick_Sort				(Категорія Exchange_Sorts)
-	   17. Selection_Sort			(Категорія Selection_Sorts)
-	   18. Shell_Sort				(Категорія Insertion_Sorts)
-	   19. Slow_Sort				(Категорія Exchange_Sorts)
-	   20. Stooge_Sort				(Категорія Exchange_Sorts)
-	   21. Tim_Sort					(Категорія Hybrid_Sorts)
-	   22. Tree_Sort				(Категорія Insertion_Sorts)
-
+	   <ol>
+	   <li> Batcher_OddEven_MergeSort	(Категорія Concurrent_Sort)</li>
+	   <li> Bitonic_Sorter				(Категорія Concurrent_Sort)</li>
+	   <li> Bogo_Sort					(Категорія Exchange_Sorts)</li>
+	   <li> Bubble_Sort					(Категорія Exchange_Sorts)</li>
+	   <li> Cocktail_Shaker_Sort		(Категорія Exchange_Sorts)</li>
+	   <li> Comb_Sort					(Категорія Exchange_Sorts)</li>
+	   <li> Cycle_Sort					(Категорія Selection_Sorts)</li>
+	   <li> Gnome_Sort					(Категорія Exchange_Sorts)</li>
+	   <li> Heap_Sort					(Категорія Selection_Sorts)</li>
+	   <li> Insert_Sort					(Категорія Insertion_Sorts)</li>
+	   <li> Library_Sort				(Категорія Insertion_Sorts)</li>
+	   <li> Merge_Sort					(Категорія Merge_Sorts)</li>
+	   <li> Odd_Even_Sort				(Категорія Exchange_Sorts)</li>
+	   <li> Pancake_Sort				(Категорія Other_Sorts)</li>
+	   <li> Patience_Sort				(Категорія Insertion_Sorts)</li>
+	   <li> Quick_Sort					(Категорія Exchange_Sorts)</li>
+	   <li> Selection_Sort				(Категорія Selection_Sorts)</li>
+	   <li> Shell_Sort					(Категорія Insertion_Sorts)</li>
+	   <li> Slow_Sort					(Категорія Exchange_Sorts)</li>
+	   <li> Stooge_Sort					(Категорія Exchange_Sorts)</li>
+	   <li> Tim_Sort					(Категорія Hybrid_Sorts)</li>
+	   <li> Tree_Sort					(Категорія Insertion_Sorts)</li>
+	   </ol>
 	   \details Не реалізованими залишились:
-	   1. ProportionExtendSort		(Категорія Exchange_Sorts)
-	   2. Smooth_Sort				(Категорія Selection_Sorts)
-	   3. CartesianTreeSort			(Категорія Selection_Sorts)
-	   4. TournamentSort			(Категорія Selection_Sorts)
-	   5. WeakHeapSort				(Категорія Selection_Sorts)
-	   6. SplaySort					(Категорія Insertion_Sorts)
-	   7. CascadeMergeSort			(Категорія Merge_Sorts)
-	   8. OscillatingMergeSort		(Категорія Merge_Sorts)
-	   9. PolyphaseMergeSort		(Категорія Merge_Sorts)
-	   10. PairwiseSortingNetwork	(Категорія Concurrent_Sort)
-	   11. SampleSort				(Категорія Concurrent_Sort)
-	   12. BlockMergeSort			(Категорія Hybrid_Sorts)
-	   13. KirkpatrickReischSort	(Категорія Hybrid_Sorts)
-	   14. IntroSort				(Категорія Hybrid_Sorts)
-	   15. SpreadSort				(Категорія Hybrid_Sorts)
-	   16. MergeInsertionSort		(Категорія Hybrid_Sorts)
-	   17. TopologicalSort			(Категорія Other_Sorts)
-	   18. SpaghettiSort			(Категорія Other_Sorts)
-
+	   <ol>
+	   <li> ProportionExtendSort		(Категорія Exchange_Sorts)</li>
+	   <li> Smooth_Sort					(Категорія Selection_Sorts)</li>
+	   <li> CartesianTreeSort			(Категорія Selection_Sorts)</li>
+	   <li> TournamentSort				(Категорія Selection_Sorts)</li>
+	   <li> WeakHeapSort				(Категорія Selection_Sorts)</li>
+	   <li> SplaySort					(Категорія Insertion_Sorts)</li>
+	   <li> CascadeMergeSort			(Категорія Merge_Sorts)</li>
+	   <li> OscillatingMergeSort		(Категорія Merge_Sorts)</li>
+	   <li> PolyphaseMergeSort			(Категорія Merge_Sorts)</li>
+	   <li> PairwiseSortingNetwork		(Категорія Concurrent_Sort)</li>
+	   <li> SampleSort					(Категорія Concurrent_Sort)</li>
+	   <li> BlockMergeSort				(Категорія Hybrid_Sorts)</li>
+	   <li> KirkpatrickReischSort		(Категорія Hybrid_Sorts)</li>
+	   <li> IntroSort					(Категорія Hybrid_Sorts)</li>
+	   <li> SpreadSort					(Категорія Hybrid_Sorts)</li>
+	   <li> MergeInsertionSort			(Категорія Hybrid_Sorts)</li>
+	   <li> TopologicalSort				(Категорія Other_Sorts)</li>
+	   <li> SpaghettiSort				(Категорія Other_Sorts)</li>
+	   </ol>
 	   \remark Нагадаю, що усі ці алгоритми працюють з будь-якими данними, тобто і
 	   з цілими, і з дробними, і з додатніми, і з від'ємними, і зі змішаними. Ця
 	   характеристика під час тестування мала визначення:
 	   "цілі+ цілі- цілі+- дрібні+ дрібні- дрібні+-".
-
 	   \tparam type_array Тип елементів, що будуть сортуватися
 	   \since v0.1.2.0 commit 52d263
 	 */
@@ -3484,43 +3488,40 @@
 	/*!
 	   \class ALGOR::Distribution_Sorts
 	   \brief Клас із потужними алгоритмами сортувань
-
 	   \details Клас, що колекціонує потужні алгоритми сортувань. Цей клас є
 	   виокремленим, так як він працює не з усіма типами данних, як працюють
 	   алгоритми сімейства ALGOR::Comparative_Sorts, а тільки з цілочисельними
 	   данними.
-
 	   \details На Вікіпедії доступно 50 різних алгоритмів сортувань, які поділені
 	   на категорії. Додатково я їх поділив ще на два великі сімейства: алгоритми,
 	   що працюють з будь-якими числовими данними та алгоритми, що працюють тільки
 	   з цілими числовими данними. Цей клас реалізує друге сімейство алгоритмів.
 	   Його частка складає 10 алгоритмів із 50.
-
 	   \details Під час роботи я зрозумів, що зможу реалізувати не всі алгоритми, так
 	   як деякі просто не достанеш. При пошуках CascadeMergeSort на Вікіпедії
 	   описано усього півтори строчки про алгоритм, а при переході за посиланням
 	   на ресурс надається книга з 584 сторінки, доступно з яких не більше 10. І
 	   більше ніде ніякої інформації не має... І це лише один з прикладів...
-
 	   \details Із 10 я зміг реалізувати 8 алгоритмів даного сімейства:
-	   1. AmericanFlag_Sort	(Категорія Distribution_Sorts)
-	   2. Bead_Sort			(Категорія Distribution_Sorts)
-	   3. Bucket_Sort					(Категорія Distribution_Sorts)
-	   4. Counting_Sort				(Категорія Distribution_Sorts)
-	   5. Flash_Sort		(Категорія Distribution_Sorts)
-	   6. Interpolation_Sort					(Категорія Distribution_Sorts)
-	   7. Pigeonhole_Sort				(Категорія Distribution_Sorts)
-	   8. Radix_Sort				(Категорія Distribution_Sorts)
-
+	   <ol>
+	   <li> AmericanFlag_Sort			(Категорія Distribution_Sorts)</li>
+	   <li> Bead_Sort					(Категорія Distribution_Sorts)</li>
+	   <li> Bucket_Sort					(Категорія Distribution_Sorts)</li>
+	   <li> Counting_Sort				(Категорія Distribution_Sorts)</li>
+	   <li> Flash_Sort					(Категорія Distribution_Sorts)</li>
+	   <li> Interpolation_Sort			(Категорія Distribution_Sorts)</li>
+	   <li> Pigeonhole_Sort				(Категорія Distribution_Sorts)</li>
+	   <li> Radix_Sort					(Категорія Distribution_Sorts)</li>
+	   </ol>
 	   \details Не реалізованими залишились:
-	   1. BurstSort		(Категорія Distribution_Sorts)
-	   2. ProxmapSort				(Категорія Distribution_Sorts)
-
+	   <ol>
+	   <li> BurstSort					(Категорія Distribution_Sorts)</li>
+	   <li> ProxmapSort					(Категорія Distribution_Sorts)</li>
+	   </ol>
 	   \remark Нагадаю, цо ці алгоритми працюють НЕ з будь-якими данними, а тільки
 	   з цілими числами. До того ж ALGOR::Distribution_Sorts::AmericanFlag_Sort,
 	   ALGOR::Distribution_Sorts::Bead_Sort та
 	   ALGOR::Distribution_Sorts::Radix_Sort не працюють з від'ємними цілими данними.
-
 	   \since v0.1.2.0 commit 197603
 	 */
 
