@@ -1,4 +1,4 @@
-# Історія додавання нового функціоналу по коммітам
+# The history of adding new functionality by Committes
 <!--
 Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
 
@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-### Важливість
+### Importance
 1. namespaces
 2. typedefs
 3. functions
