@@ -27,27 +27,28 @@ limitations under the License.
 # ALGOR
 ## Content
 - [ALGOR](#algor)
-    - [Content](#content)
-    - [Overview](#overview)
-    - [LICENSE](#license)
-    - [Functional](#functional)
-    - [Documentation](#documentation)
-    - [Usage](#usage)
-    - [Building](#building)
-        - [In IDE (Windows)](#in-ide-windows)
-        - [In IDE (Linux)](#in-ide-linux)
-        - [In console (Windows)](#in-console-windows)
-        - [In console (Linux)](#in-console-linux)
-        - [Console buits test](#console-buits-test)
-    - [Troubleshooting](#troubleshooting)
-    - [Authors](#authors)
-    - [GIFs](#gifs)
-        - [Compilation and linking on Windows in IDE](#compilation-and-linking-on-windows-in-ide)
-        - [Compilation and linking on Windows in the console](#compilation-and-linking-on-windows-in-the-console)
-        - [Compilation and linking on Linux in the console](#compilation-and-linking-on-linux-in-the-console)
-        - [Building of a library in console in Windows](#building-of-a-library-in-console-in-windows)
-        - [Building of a library in console in Linux](#building-of-a-library-in-console-in-linux)
-        - [Test of the built library in console](#test-of-the-built-library-in-console)
+	- [Content](#content)
+	- [Overview](#overview)
+	- [LICENSE](#license)
+	- [Functional](#functional)
+	- [Documentation](#documentation)
+	- [Usage](#usage)
+	- [Building](#building)
+		- [In IDE (Windows)](#in-ide-windows)
+		- [In IDE (Linux)](#in-ide-linux)
+		- [In console (Windows)](#in-console-windows)
+		- [In console (Linux)](#in-console-linux)
+		- [Console buits test](#console-buits-test)
+	- [Troubleshooting](#troubleshooting)
+	- [Authors](#authors)
+	- [GIFs](#gifs)
+		- [Compiling a program with a linking on Windows in an IDE](#compiling-a-program-with-a-linking-on-windows-in-an-ide)
+		- [Compiling a program with a linking on Windows in an console](#compiling-a-program-with-a-linking-on-windows-in-an-console)
+		- [Compiling a program with a linking on Linux in an console](#compiling-a-program-with-a-linking-on-linux-in-an-console)
+		- [Building of a library in console in Windows](#building-of-a-library-in-console-in-windows)
+		- [Building of a library in console in Linux](#building-of-a-library-in-console-in-linux)
+		- [Test of the built library in console](#test-of-the-built-library-in-console)
+		- [Evolution graph of library creatures](#evolution-graph-of-library-creatures)
 
 ## Overview
 A library for processing and sorting data structures.
@@ -200,13 +201,13 @@ All algorithms have been tested by me, but if you have problems using the librar
 
 ## GIFs
 <!--The image is not displayed on Hithabi.This readme is configured under documentation.Doxygen is working perfectly and the image documentation website is displayed-->
-### Compilation and linking on Windows in IDE
+### Compiling a program with a linking on Windows in an IDE
 <img src="img/UsingLibraryWinIDE_Animation.gif">
 
-### Compilation and linking on Windows in the console
+### Compiling a program with a linking on Windows in an console
 <img src="img/UsingLibraryWinConsole_Animation.gif">
 
-### Compilation and linking on Linux in the console
+### Compiling a program with a linking on Linux in an console
 <img src="img/UsingLibraryLinuxConsole_Animation.gif">
 
 ### Building of a library in console in Windows
@@ -218,4 +219,5 @@ All algorithms have been tested by me, but if you have problems using the librar
 ### Test of the built library in console
 <img src="img/Testing_Animation.gif">
 
+### Evolution graph of library creatures
 <img src="img/ArrayProcessingFamilyTree.png">
