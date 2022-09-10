@@ -55,7 +55,7 @@
 
 	/*!
 	   \typedef ALGOR::byte1_t
-	   \brief Аліас для char <i>(1 байт)</i>.
+	   \brief Аліас для char <i>(1 байт)</i>
 	   \details Зазвичай використовується для задання типу строк. Може зберігати
 	   число від <b>0</b> до <b>255</b>, або від <b>-128</b> до <b>+127</b>.
 	   \since v0.1.3.0 commit b50b4a
@@ -66,7 +66,7 @@
 	 
 	/*!
 	   \typedef ALGOR::byte2_t
-	   \brief Аліас для short <i>(2 байти)</i>.
+	   \brief Аліас для short <i>(2 байти)</i>
 	   \details Зазвичай використовується при зберіганні коротких чисел
 	   від <b>0</b> до <b>65'535</b>, або від <b>-32'768</b> до <b>+32'767</b>.
 	   \since v0.1.3.0 commit b50b4a
@@ -74,7 +74,7 @@
 
 	/*!
 	   \typedef ALGOR::byte4_t
-	   \brief Аліас для long <i>(4 байти)</i>.
+	   \brief Аліас для long <i>(4 байти)</i>
 	   \details Зазвичай використовується при зберіганні чисел. Може
 	   зберігати від <b>0</b> до <b>4'294'967'295</b>, або від <b>-2'147'483'648</b>
 	   до <b>+2'147'483'647</b>.
@@ -89,7 +89,7 @@
 
 	/*!
 	   \typedef ALGOR::byte8_t
-	   \brief Аліас для long long <i>(8 байтів)</i>.
+	   \brief Аліас для long long <i>(8 байтів)</i>
 	   \details Є розширенням типу long у два рази і розрахований під числа від <b>0</b>
 	   до <b>18'446'744'073'709'551'615</b>, або від <b>-9'223'372'036'854'775'808</b>
 	   до <b>+9'223'372'036'854'775'807</b>.
@@ -98,7 +98,7 @@
 
 	/*!
 	   \typedef ALGOR::sbit8_t
-	   \brief Аліас для signed char <i>(1 байт)</i>.
+	   \brief Аліас для signed char <i>(1 байт)</i>
 	   \details Аналогічно звичайному char, але може приймати значення тільки
 	   від <b>-128</b> до <b>+127</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -106,7 +106,7 @@
 
 	/*!
 	   \typedef ALGOR::sbit16_t
-	   \brief Аліас для signed short <i>(2 байти)</i>.
+	   \brief Аліас для signed short <i>(2 байти)</i>
 	   \details Аналогічно звичайному short, але може приймати значення тільки
 	   від <b>-32'768</b> до <b>+32'767</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -114,7 +114,7 @@
 
 	/*!
 	   \typedef ALGOR::sbit32_t
-	   \brief Аліас для signed long <i>(4 байти)</i>.
+	   \brief Аліас для signed long <i>(4 байти)</i>
 	   \details Аналогічно звичайному long, але може приймати значення тільки
 	   від <b>-2'147'483'648</b> до <b>+2'147'483'647</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -122,7 +122,7 @@
 
 	/*!
 	   \typedef ALGOR::sbit64_t
-	   \brief Аліас для signed long long <i>(8 байтів)</i>.
+	   \brief Аліас для signed long long <i>(8 байтів)</i>
 	   \details Аналогічно звичайному long long, але може приймати значення тільки
 	   від <b>-9'223'372'036'854'775'808</b> до <b>+9'223'372'036'854'775'807</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -130,7 +130,7 @@
 
 	/*!
 	   \typedef ALGOR::ubit8_t
-	   \brief Аліас для unsigned char <i>(1 байт)</i>.
+	   \brief Аліас для unsigned char <i>(1 байт)</i>
 	   \details Аналогічно звичайному char і на відміну від signed char може
 	   приймати значення тільки від <b>0</b> до <b>255</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -138,7 +138,7 @@
 
 	/*!
 	   \typedef ALGOR::ubit16_t
-	   \brief Аліас для unsigned short <i>(2 байти)</i>.
+	   \brief Аліас для unsigned short <i>(2 байти)</i>
 	   \details Аналогічно звичайному short і на відміну від signed short може
 	   приймати значення тільки від <b>0</b> до <b>65'535</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -146,7 +146,7 @@
 
 	/*!
 	   \typedef ALGOR::ubit32_t
-	   \brief Аліас для unsigned long <i>(4 байти)</i>.
+	   \brief Аліас для unsigned long <i>(4 байти)</i>
 	   \details Аналогічно звичайному long і на відміну від signed long може
 	   приймати значення тільки від <b>0</b> до <b>4'294'967'295</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -154,7 +154,7 @@
 
 	/*!
 	   \typedef ALGOR::ubit64_t
-	   \brief Аліас для unsigned long long <i>(8 байтів)</i>.
+	   \brief Аліас для unsigned long long <i>(8 байтів)</i>
 	   \details Аналогічно звичайному long long і на відміну від signed long long
 	   може приймати значення тільки від <b>0</b> до <b>18'446'744'073'709'551'615</b>.
 	   \since v0.1.0.0 commit 0d3195
@@ -162,7 +162,7 @@
 
 	/*!
 	   \typedef ALGOR::fbit32_t
-	   \brief Аліас для float <i>(4 байти)</i>.
+	   \brief Аліас для float <i>(4 байти)</i>
 	   \details На відміну від всіх попередніх типів, що можуть зберігати тільки
 	   цілі числа, тип <i>float</i> може зберігати числа з плаваючою комою. У
 	   комірку можна записати як додатні, так і від'ємні числа. Можливий діапазон
@@ -172,7 +172,7 @@
 
 	/*!
 	   \typedef ALGOR::fbit64_t
-	   \brief Аліас для double <i>(8 байтів)</i>.
+	   \brief Аліас для double <i>(8 байтів)</i>
 	   \details Розширює тип <i>float</i>, збільшуючи точність та розмір у два рази.
 	   Можливий діапазон зберігаємих чисел від <b>+/-1.7E-308</b> до <b>1.7E+308</b>.
 	   \since v0.1.2.0 commit 1981d6
@@ -180,7 +180,7 @@
 
 	/*!
 	   \typedef ALGOR::fbit128_t
-	   \brief Аліас для long double <i>(16 байт)</i>.
+	   \brief Аліас для long double <i>(16 байт)</i>
 	   \details Розширює тип <i>double</i>, збільшуючи точність та розмір іще у два
 	   рази.
 	   \since v0.1.3.0 commit b6349a
@@ -188,13 +188,13 @@
 
 	/*!
 	   \typedef ALGOR::asize_t
-	   \brief Псевдонім для визначення типу <i>"розмір массиву"</i>.
+	   \brief Псевдонім для визначення типу <i>"розмір массиву"</i>
 	   \details Зазвичай цей тип використовується, коли треба вказати розмір масиву
 	   чи позицію у масиві. Так як нумерація починається з 0 і не існує від'ємних
 	   розмірів масивів чи номерів позицій, можна поточнити тип з <i>int</i> до
 	   <i>unsigned int</i>. До того ж не завжди вистачає <b>65'535</b> комірок масиву.
 	   Іноді потрібно більше, наприклад, мільйон чи мільярд. Більше мільярда нема
-	   сенсу створювати структури даних тому ідеальним вибором серед <a>short</a>,
+	   сенсу створювати структури даних тому ідеальним вибором серед <i>short</i>,
 	   <i>long</i> та <i>long long</i> є <i>long</i>. Саме тому <i>asize_t</i> є
 	   аліасом до ALGOR::ubit32_t.
 	   \since v0.1.0.0 commit 89658e
@@ -202,7 +202,7 @@
 
 	/*!
 	   \typedef ALGOR::memcell_t
-	   \brief Псевдонім для обчислюваної <i>комірки пам'яті</i>.
+	   \brief Псевдонім для обчислюваної <i>комірки пам'яті</i>
 	   \details Використовується тільки у функції ALGOR::getMemoryCell, як тип
 	   комірки, що зберігає розраховане число.
 	   \since v0.1.1.3 commit b4cdc9
@@ -282,7 +282,7 @@
 	   \struct ALGOR::Array
 	   \brief Структура, що імітує масив
 	   \details Призначений для зберігання вказівника на динамічний масив та його
-	   розмір
+	   розмір.
 	   \tparam type_array Тип елементів, що зберігаються в масиві
 	   \since v0.0.1.0 commit 979bf4
 	   \test
@@ -332,18 +332,18 @@
 	   \param[in, out] Array Структура масиву, у якій потрібно згенерувати данні
 	   \param[in] min_limit Мінімально можливе згенероване значення
 	   \param[in] max_limit Максимально можливе згенероване значення
-	   \param[in] seed Сі́м'я генератору
+	   \param[in] seed Сід генератору
 	   \param[in] denominator Дільник для генерації <i>float</i> данних
 	   \since v0.0.0.1
 	   \note На випадок, якщо не працює ALGOR::getMemoryCell, можна власноруч
-	   задати сі́м'я генерації.
+	   задати сід генерації.
 	   \test
 	   \snippet Algor_core.cpp generate_struct
 	 */
 
 	/*!
 	   \fn ALGOR::remove_struct(Array<type_array> *&)
-	   \brief remove_struct
+	   \brief Видаляє масив і вказівник на структуру
 	   \details Звільняє пам'ять від масиву, що зберігається у структурі й звільняє
 	   з пам'яті саму структуру.
 	   \throw ALGOR::EXCEPTION_SET::void_data
@@ -843,11 +843,11 @@
 
 			/*!
 			   \fn ALGOR::RANDOM::LCM::LCM(memcell_t)
-			   \brief Конструктор класу, що приймає сі́м'я
-			   \details Конструктор, що приймає сі́м'я ГПВЧ, що є першим числом
+			   \brief Конструктор класу, що приймає сід
+			   \details Конструктор, що приймає сід ГПВЧ, що є першим числом
 			   послідовності, що генерується (\f$x_0\f$). Являє собою аналог
 			   стандартної функції <i>srand()</i>.
-			   \param[in] seed Сі́м'я генерації
+			   \param[in] seed Сід генерації
 			   \since v0.1.3.0 commit ca0704
 			   \test
 			   \snippet Algor_random.cpp LCM srand
@@ -887,7 +887,7 @@
 
 			/*!
 			   \var ALGOR::RANDOM::LCM::seed
-			   \brief Сі́м'я послідовності \f$x_0\f$
+			   \brief Сід послідовності \f$x_0\f$
 			   \details Число, що задає початок послідовності, що генерується.
 			   \since v0.1.3.0 commit ca0704
 			 */
@@ -927,7 +927,7 @@
 			   \details Генерує масив вихідних зашифрованих значень, які можна
 			   використовувати, як згенеровані ГВЧ.
 			   \param[out] output Генерує масив вихідних елементів
-			   \param size Розмір масиву вихідних елементів
+			   \param[in] size Розмір масиву вихідних елементів
 			   \since v0.1.0.0 commit 88415c
 			   \test
 			   \snippet Algor_random.cpp RC4 rand
@@ -961,10 +961,10 @@
 
 			/*!
 			   \fn ALGOR::RANDOM::MersenneTwister::MersenneTwister(byte4_t)
-			   \brief Конструктор класу ГПВЧ Вихор Марсенна (встановлює сі́м'я)
-			   \details Встановлює сі́м'я та проводить ініціалізацію послідовності,
+			   \brief Конструктор класу ГПВЧ Вихор Марсенна (встановлює сід)
+			   \details Встановлює сід та проводить ініціалізацію послідовності,
 			   що буде генеруватися.
-			   \param[in] seed Сі́м'я генерації
+			   \param[in] seed Сід генерації
 			   \since v0.1.0.0 commit 88415c
 			   \test
 			   \snippet Algor_random.cpp MT srand
@@ -974,7 +974,7 @@
 			   \fn ALGOR::RANDOM::MersenneTwister::RandomInit(byte4_t)
 			   \brief Ініціалізація ГПВЧ
 			   \details Використовується при перевстановленні семені ГПВЧ.
-			   \param[in] seed Сі́м'я генерації
+			   \param[in] seed Сід генерації
 			   \since v0.1.0.0 commit 88415c
 			   \test
 			   \snippet Algor_random.cpp MT reinit
@@ -1055,7 +1055,7 @@
 			/*!
 			   \fn ALGOR::RANDOM::MersenneTwister::Init0(byte4_t)
 			   \brief Базова процедура ініціалізації
-			   \param[in] seed Сі́м'я генерації
+			   \param[in] seed Сід генерації
 			   \since v0.1.0.0 commit 88415c
 			 */
 
@@ -1628,11 +1628,11 @@
 		   \throw ALGOR::EXCEPTION_SET::division_by_zero
 		   \param[in] min_limit Мінімальне значення, яке можна згенерувати
 		   \param[in] max_limit Максимальне значення, яке можна згенерувати
-		   \param[in] seed Сі́м'я генератору
+		   \param[in] seed Сід генератору
 		   \param[in] denominator Дільник для генерації <i>float</i> данних
 		   \since v0.1.3.0 commit ca0704
 		   \note На випадок, якщо не працює ALGOR::getMemoryCell, можна власноруч
-		   задати сі́м'я генерації.
+		   задати сід генерації.
 		   \test
 		   \snippet Algor_ArrayData.cpp ARRAYDATA generatedData
 		 */
