@@ -404,6 +404,491 @@
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  * --------------------------------------------------------------------------- *
+ *                               ALGOR_EXCEPTION                               *
+ * --------------------------------------------------------------------------- *
+ * *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
+ */
+
+	/*!
+	  \namespace ALGOR::EXCEPTION_SET
+	  \brief A namespace that implements an exception
+	  \details The namespace is a set of classes that are used when throwing exceptions,
+	  as they store the necessary information about the event that occurred. The
+	  ALGOR::EXCEPTION_SET::Exception parent is an exception framework that can be
+	  inherited to facilitate exception handling. You can give additional information
+	  to already implemented descendant classes, or you can create your own descendant
+	  classes.
+	  \since v0.1.3.0 commit 2cdff0
+	 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::Exception
+		   \brief A framework class for working with exceptions
+		   \details A class that stores the exception data (exception number, details,
+		   and explanation). To create an exception object, it is enough to pass the
+		   necessary data to the constructor, and to receive information about the
+		   exception, it is necessary to intercept it and use the method that returns
+		   the necessary data.
+		   \since v0.1.1.0 commit c62e85
+		   \test
+		   \snippet Algor_exception.cpp exception code details explanation class
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::Exception::Exception(ubit16_t, const byte1_t *, const byte1_t *)
+			   \brief Extended exception class constructor
+			   \details A constructor that accepts an extended amount of data, namely
+			   the exception code, exception details, and an explanation of the details,
+			   which is not always necessary.
+			   \param[in] CODE Exception code
+			   \param[in] DETAILS Exception details
+			   \param[in] EXPLANATION Exception explanation
+			   \since v0.1.3.0 commit 2c6408
+			   \remark This constructor is extensible in that it allows inherited
+			   classes to provide an exception explanation when needed, making this
+			   class more versatile.
+			   \test
+			   \snippet Algor_exception.cpp exception code details explanation
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::Exception::Exception(ubit16_t, const byte1_t *)
+			   \brief Standard exception class constructor
+			   \details A constructor that takes a base amount of exception data. The
+			   error number and details are usually sufficient.
+			   \param[in] CODE Exception code
+			   \param[in] DETAILS Exception details
+			   \since v0.1.1.0 commit c62e85
+			   \test
+			   \snippet Algor_exception.cpp exception code details
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::Exception::Exception(ubit16_t)
+			   \brief Abbreviated exception class code constructor
+			   \details A constructor that accepts a reduced amount of exception data.
+			   The only data stored in an exception object is the exception number.
+			   \param[in] CODE Exception code
+			   \since v0.1.1.0 commit c62e85
+			   \test
+			   \snippet Algor_exception.cpp exception code
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::Exception::Exception(const byte1_t *)
+			   \brief Abbreviated verbose exception class constructor
+			   \details A constructor that accepts a reduced amount of exception data.
+			   The only data stored in an exception object is the details of the
+			   exception.
+			   \param[in] DETAILS Exception details
+			   \since v0.1.1.0 commit c62e85
+			   \test
+			   \snippet Algor_exception.cpp exception details
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::Exception::code()
+			   \brief A method that reports the exception number
+			   \details Returns the exception number stored in the object.
+			   \since v0.1.1.0 commit c62e85
+			   \retval CODE - exception number
+			   \test
+			   \snippet Algor_exception.cpp exception catch code
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::Exception::what()
+			   \brief A method that reports the exception details
+			   \details Returns the exception details stored in the object.
+			   \since v0.1.1.0 commit c62e85
+			   \retval DETAILS - exception details
+			   \test
+			   \snippet Algor_exception.cpp exception catch details
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::Exception::why()
+			   \brief A method that provides an exception explanation
+			   \details Returns the explanation of the exception stored in the object.
+			   \since v0.1.3.0 commit 2c6408
+			   \retval EXPLANATION - exception explanation
+			   \test
+			   \snippet Algor_exception.cpp exception catch explanation
+			 */
+
+			/*!
+			   \var ALGOR::EXCEPTION_SET::Exception::CODE
+			   \brief Exception number
+			   \since v0.1.1.0 commit c62e85
+			 */
+
+			/*!
+			   \var ALGOR::EXCEPTION_SET::Exception::DETAILS
+			   \brief Exception details
+			   \since v0.1.1.0 commit c62e85
+			 */
+
+			/*!
+			   \var ALGOR::EXCEPTION_SET::Exception::EXPLANATION
+			   \brief Exception explanation
+			   \since v0.1.3.0 commit 2c6408
+			 */
+
+		/*!
+		   \var ALGOR::EXCEPTION_SET::excep55
+		   \brief Message for memory_overflow
+		   \since v0.1.3.0 commit d66e53
+		   \par Message text
+		   <i>"The memory cell that stores the size of the data volume can no longer
+		   store more. This error can occur in cases when a larger value is required
+		   to be written to the cell that can store the variable 0xffffffff, i.e. more
+		   than 4 bytes, since the data size storage cell occupies 4 bytes"</i>
+		 */
+
+		/*!
+		   \var ALGOR::EXCEPTION_SET::excep101
+		   \brief Message for division_by_zero
+		   \since v0.1.3.0 commit d66e53
+		   \par Message text
+		   <i>"A division by zero has occurred - an undefined result of the program
+		   execution"</i>
+		 */
+
+		/*!
+		   \var ALGOR::EXCEPTION_SET::excep254
+		   \brief Message for position_failure
+		   \since v0.1.3.0 commit d66e53
+		   \par Message text
+		   <i>"Position failure - position is missing in the array"</i>
+		 */
+
+		/*!
+		   \var ALGOR::EXCEPTION_SET::excep255
+		   \brief Message for value_failure
+		   \since v0.1.3.0 commit d66e53
+		   \par Message text
+		   <i>"Value failure - value is missing in the array"</i>
+		 */
+
+		/*!
+		   \var ALGOR::EXCEPTION_SET::excep256
+		   \brief Message for size_failure
+		   \since v0.1.3.0 commit d66e53
+		   \par Message text
+		   <i>"Size failure - resizing error; for example, it can occur when the sizes
+		   match when the array is resized, or the new size is greater/less than limits
+		   sizes"</i>
+		 */
+
+		/*!
+		   \var ALGOR::EXCEPTION_SET::excep400
+		   \brief Message for void_data
+		   \since v0.1.3.0 commit d66e53
+		   \par Message text
+		   <i>"Geted empty data structure"</i>
+		 */
+
+		/*!
+		   \var ALGOR::EXCEPTION_SET::excep404
+		   \brief Message for not_found
+		   \since v0.1.3.0 commit d66e53
+		   \par Message text
+		   <i>"Search error - item not found"</i>
+		 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::memory_overflow
+		   \brief Exception class <i>"memory_overflow"</i>
+		   \details Basic exception <i>memory_overflow</i>. Uses
+		   ALGOR::EXCEPTION_SET::excep55 message and has number <i>55</i>.
+		   \since v0.1.1.0 commit bce6b6
+		   \remark Some methods when throwing exception <i>55</i> may provide an
+		   explanation.
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::memory_overflow::memory_overflow()
+			   \brief Exception memory_overflow
+			   \details Constructor of an object used as a memory_overflow. The
+			   exception code and details are passed to the framework.
+			   \since v0.1.1.0 commit bce6b6
+			   \test
+			   \snippet Algor_exception.cpp exception memory_overflow
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::memory_overflow::memory_overflow(const byte1_t *)
+			   \brief Exception memory_overflow with explanation
+			   \details Constructor of an object used as a memory_overflow. The
+			   exception code, details, and explanation are passed to the framework.
+			   \param[in] explanation Explanation of exception details
+			   \since v0.1.3.0 commit 2с6408
+			   \test
+			   \snippet Algor_exception.cpp exception memory_overflow explanation
+			 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::division_by_zero
+		   \brief Exception class <i>"division_by_zero"</i>
+		   \details Basic exception <i>division_by_zero</i>. Uses
+		   ALGOR::EXCEPTION_SET::excep101 message and has number <i>101</i>.
+		   \since v0.1.2.0 commit d74cc1
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::division_by_zero::division_by_zero()
+			   \brief Exception division_by_zero
+			   \details Object constructor used as an exception to division_by_zero.
+			   The exception code and details are passed to the framework. 
+			   \since v0.1.2.0 commit d74cc1
+			   \test
+			   \snippet Algor_exception.cpp exception division_by_zero
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::division_by_zero::division_by_zero(const byte1_t *)
+			   \brief Exception division_by_zero with explanation
+			   \details Object constructor used as an exception to division_by_zero .
+			   The exception code, details, and explanation are passed to the framework.
+			   \param[in] explanation Explanation of exception details
+			   \since v0.1.3.0 commit 2с6408
+			   \test
+			   \snippet Algor_exception.cpp exception division_by_zero explanation
+			 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::position_failure
+		   \brief Exception class <i>"position_failure"</i>
+		   \details Basic exception <i>position_failure</i>. Uses
+		   ALGOR::EXCEPTION_SET::excep254 message and has number <i>254</i>.
+		   \since v0.1.1.0 commit 8bbf75
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::position_failure::position_failure()
+			   \brief Exception position_failure
+			   \details Constructor of the object used as the position_failure. The
+			   exception code and details are passed to the framework.
+			   \since v0.1.1.0 commit 8bbf75
+			   \test
+			   \snippet Algor_exception.cpp exception position_failure
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::position_failure::position_failure(const byte1_t *)
+			   \brief Exception position_failure with explanation
+			   \details Constructor of the object used as the position_failure. The
+			   exception code, details, and explanation are passed to the framework.
+			   \param[in] explanation Explanation of exception details
+			   \since v0.1.3.0 commit 2с6408
+			   \test
+			   \snippet Algor_exception.cpp exception position_failure explanation
+			 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::value_failure
+		   \brief Exception class <i>"value_failure"</i>
+		   \details Basic exception <i>value_failure</i>. Uses
+		   ALGOR::EXCEPTION_SET::excep255 message and has number <i>255</i>.
+		   \since v0.1.1.0 commit 8bbf75
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::value_failure::value_failure()
+			   \brief Exception value_failure
+			   \details Constructor of the object used as the value_failure. The
+			   exception code and details are passed to the framework.
+			   \since v0.1.1.0 commit 8bbf75
+			   \test
+			   \snippet Algor_exception.cpp exception value_failure
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::value_failure::value_failure(const byte1_t *)
+			   \brief Exception value_failure with explanation
+			   \details Constructor of the object used as the value_failure. The
+			   exception code, details, and explanation are passed to the framework.
+			   \param[in] explanation Explanation of exception details
+			   \since v0.1.3.0 commit 2с6408
+			   \test
+			   \snippet Algor_exception.cpp exception value_failure explanation
+			 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::size_failure
+		   \brief Exception class <i>"size_failure"</i>
+		   \details Basic exception <i>size_failure</i>. Uses
+		   ALGOR::EXCEPTION_SET::excep256 message and has number <i>256</i>.
+		   \since v0.1.3.0 commit 2c6408
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::size_failure::size_failure()
+			   \brief Exception size_failure
+			   \details Constructor of the object used as the size_failure. The
+			   exception code and details are passed to the framework.
+			   \since v0.1.3.0 commit 2c6408
+			   \test
+			   \snippet Algor_exception.cpp exception size_failure
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::size_failure::size_failure(const byte1_t *)
+			   \brief Exception size_failure with explanation
+			   \details Constructor of the object used as the size_failure. The
+			   exception code, details, and explanation are passed to the framework.
+			   \param[in] explanation Explanation of exception details
+			   \since v0.1.3.0 commit 2с6408
+			   \test
+			   \snippet Algor_exception.cpp exception size_failure explanation
+			 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::void_data
+		   \brief Exception class <i>"void_data"</i>
+		   \details Basic exception <i>void_data</i>. Uses
+		   ALGOR::EXCEPTION_SET::excep400 message and has number <i>400</i>.
+		   \since v0.1.1.0 commit c62e85
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::void_data::void_data()
+			   \brief Exception void_data
+			   \details Object constructor used as an exception void_data. The
+			   exception code and details are passed to the framework.
+			   \since v0.1.1.0 commit c62e85
+			   \test
+			   \snippet Algor_exception.cpp exception void_data
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::void_data::void_data(const byte1_t *)
+			   \brief Exception void_data with explanation
+			   \details Object constructor used as an exception void_data. The
+			   exception code, details, and explanation are passed to the framework.
+			   \param[in] explanation Explanation of exception details
+			   \since v0.1.3.0 commit 2с6408
+			   \test
+			   \snippet Algor_exception.cpp exception void_data explanation
+			 */
+
+		/*!
+		   \class ALGOR::EXCEPTION_SET::not_found
+		   \brief Exception class <i>"not_found"</i>
+		   \details Basic exception <i>not_found</i>. Uses
+		   ALGOR::EXCEPTION_SET::excep404 message and has number <i>404</i>.
+		   \since v0.1.1.0 commit c62e85
+		 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::not_found::not_found()
+			   \brief Exception not_found
+			   \details Constructor of the object used as the not_found. The
+			   exception code and details are passed to the framework.
+			   \since v0.1.1.0 commit c62e85
+			   \test
+			   \snippet Algor_exception.cpp exception not_found
+			 */
+
+			/*!
+			   \fn ALGOR::EXCEPTION_SET::not_found::not_found(const byte1_t *)
+			   \brief Exception not_found with explanation
+			   \details Constructor of the object used as the not_found. The exception
+			   code, details, and explanation are passed to the framework.
+			   \param[in] explanation Explanation of exception details
+			   \since v0.1.3.0 commit 2с6408
+			   \test
+			   \snippet Algor_exception.cpp exception not_found explanation
+			 */
+
+/* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
+ * --------------------------------------------------------------------------- *
+ *                                 ALGOR_RANDOM                                *
+ * --------------------------------------------------------------------------- *
+ * *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
+ */
+
+	/*!
+	  \namespace ALGOR::RANDOM
+	  \brief A namespace that implements PRNG
+	  \details The namespace is a set of classes used in Pseudorandom Number Generation
+	  (PRNG). Classes are implementations of mathematical models. Commonly used when
+	  generating data structures such as arrays etc.
+	  \since v0.1.3.0 commit d66e53
+	 */
+
+		/*!
+		   \class ALGOR::RANDOM::LCM
+		   \brief PRNG Linear Congruent Method
+		   \details One of the simplest PRNG. It works according to the principle of
+		   calculating the next number. It is represented by the formula
+		   \f[x_n = (a * x_{n-1} + c)mod(m)\f], where \f$a, c, m\f$ - constant
+		   coefficients.
+		   \since v0.1.3.0 commit ca0704
+		   \remark LCM = LinearCongruentMethod
+		   \par Resources
+		   Source: https://en.wikipedia.org/wiki/Linear_congruential_generator\n
+		   Paragraph: Parameters in common use\n
+		   Table row: MMIX by Donald Knuth\n
+		   \sa ALGOR::RANDOM::RC4
+		   \sa ALGOR::RANDOM::MersenneTwister
+		   \test
+		   \snippet Algor_random.cpp LCM class
+		 */
+
+			/*!
+			   \fn ALGOR::RANDOM::LCM::LCM(memcell_t)
+			   \brief Constructor of the class that accepts the seed
+			   \details A constructor that accepts a seed of PRNG that is the first
+			   number of the sequence to be generated (\f$x_0\f$). It is an analogue
+			   of the standard function <i>srand()</i>.
+			   \param[in] seed Generation seed
+			   \since v0.1.3.0 commit ca0704
+			   \test
+			   \snippet Algor_random.cpp LCM srand
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::LCM::rand()
+			   \brief Pseudorandom number generation method
+			   \details The algorithm that generates (<i>calculates</i>) the next
+			   sequence number.
+			   \since v0.1.3.0 commit ca0704
+			   \retval seed - the next number in the sequence \f$x_n\f$
+			   \test
+			   \snippet Algor_random.cpp LCM rand
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::LCM::a
+			   \brief The first constant number \f$a\f$
+			   \details Constant \f$a\f$ = 6'364'136'223'846'793'005.
+			   \since v0.1.3.0 commit ca0704
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::LCM::c
+			   \brief The second constant number \f$c\f$
+			   \details Constant \f$c\f$ = 1'442'695'040'888'963'407.
+			   \since v0.1.3.0 commit ca0704
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::LCM::m
+			   \brief The third constant number \f$m\f$
+			   \details Constant \f$m\f$ = 18'446'744'073'709'551'615.
+			   \since v0.1.3.0 commit ca0704
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::LCM::seed
+			   \brief Sequence seed \f$x_0\f$
+			   \details Number specifying the beginning of the sequence to be generated.
+			   \since v0.1.3.0 commit ca0704
+			 */
+
+/* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
+ * --------------------------------------------------------------------------- *
  *                                 ALGOR_MATRIX                                *
  * --------------------------------------------------------------------------- *
  * *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
