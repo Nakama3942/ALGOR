@@ -887,6 +887,233 @@
 			   \since v0.1.3.0 commit ca0704
 			 */
 
+		/*!
+		   \class ALGOR::RANDOM::RC4
+		   \brief A simple crypto-resistant generator
+		   \details RC4 is a stream cipher developed by Ron Rivest in 1987.
+		   \since v0.1.0.0 commit 88415c
+		   \note Can only generate values ​​in the range 0-255 (1 byte).
+		   \deprecated At this stage, the development of this PRNG is frozen. The
+		   algorithm is outdated. Over time, its complete removal or complete
+		   modernization is possible, why it is not recommended to use it.
+		   \par Resources
+		   Source: https://www.youtube.com/watch?v=PQlZI-QoM2A\n
+		   \sa ALGOR::RANDOM::LCM
+		   \sa ALGOR::RANDOM::MersenneTwister
+		   \test
+		   \snippet Algor_random.cpp RC4 class
+		*/
+
+			/*!
+			   \fn ALGOR::RANDOM::RC4::crypto_srand(const byte1_t *, byte4_t)
+			   \brief Sets the generation key
+			   \details Accepts the key and calculates the generation key from it.
+			   \param[in] key 	Installable key
+			   \param[in] ksize The size of the key
+			   \since v0.1.0.0 commit 88415c
+			   \test
+			   \snippet Algor_random.cpp RC4 srand
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::RC4::crypto_rand(byte1_t *, byte4_t)
+			   \brief Generates a value
+			   \details Generates an array of output encrypted values ​​that can be
+			   used as generated PRNG.
+			   \param[out] output Generates an array of output elements
+			   \param[in] size The size of the array of output elements
+			   \since v0.1.0.0 commit 88415c
+			   \test
+			   \snippet Algor_random.cpp RC4 rand
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::RC4::Sbox
+			   \brief Generation key
+			   \since v0.1.0.0 commit 88415c
+			 */
+
+		/*!
+		   \class ALGOR::RANDOM::MersenneTwister
+		   \brief A complex PRNG based on the properties of Mersenne's prime numbers
+		   \details The Mersenne Twister is an PRNG developed in 1997 by Japanese
+		   scientists Makoto Matsumoto and Takuji Nishimura. The Mersenne Twister is
+		   based on the properties of Mersenne's prime numbers and provides fast
+		   generation of high-quality pseudo-random numbers based on the criterion
+		   of randomness.
+		   \since v0.1.0.0 commit 88415c
+		   \deprecated At this stage, the development of this PRNG is frozen. Even
+		   if it is better than Linear PRNG, it has not yet been brought to a
+		   debugged state. It is still difficult to use. In the future, it is
+		   possible to completely change the signatures of methods in a class. Or
+		   its complete removal.
+		   \par Resources
+		   Source: https://www.agner.org/random/\n
+		   \sa ALGOR::RANDOM::LCM
+		   \sa ALGOR::RANDOM::RC4
+		   \test
+		   \snippet Algor_random.cpp MT class
+		 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::MersenneTwister(byte4_t)
+			   \brief Constructor of the PRNG class Mersenne Twister (sets the seed) 
+			   \details Sets the seed and initializes the sequence to be generated.
+			   \param[in] seed Generation seed
+			   \since v0.1.0.0 commit 88415c
+			   \test
+			   \snippet Algor_random.cpp MT srand
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::RandomInit(byte4_t)
+			   \brief Initialization of the PRNG
+			   \details It is used when reimplantation of the seed of PRNG.
+			   \param[in] seed Generation seed
+			   \since v0.1.0.0 commit 88415c
+			   \test
+			   \snippet Algor_random.cpp MT reinit
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::rand()
+			   \brief The method of data generation on the entire possible range
+			   \details Generates numbers for the entire possible range of the
+			   variable. This method has been specifically designed to be compatible
+			   with the PRNG testing function.
+			   \since v0.1.3.0 commit ca0704
+			   \warning This method was written only for the PRNG testing function.
+			   Do not use it if you have a limit on the number to be generated. To
+			   do this, use the
+			   ALGOR::RANDOM::MersenneTwister::IRandom method, which was created
+			   specifically for this.
+			   \warning Also, if you need to generate a number on the entire range,
+			   it is better to use ALGOR::RANDOM::MersenneTwister::BRandom to avoid
+			   additional calculations.
+			   \deprecated Will be deleted after PRNG testing is complete.
+			   \return generated number
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::IRandom(byte4_t, byte4_t)
+			   \brief The method of generating a number in a given range
+			   \details Generates a number in the given range.
+			   \param[in] min Minimum range number
+			   \param[in] max Maximum range number
+			   \since v0.1.0.0 commit 88415c
+			   \return generated number in the given range
+			   \test
+			   \snippet Algor_random.cpp MT rand int
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::IRandomX(byte4_t, byte4_t)
+			   \brief A more accurate method is the generation of a number in a
+			   given range
+			   \details Is an analogue of the ALGOR::RANDOM::MersenneTwister::IRandom,
+			   which generates a number using a more complex algorithm, and the
+			   number itself is more accurate.
+			   \param[in] min Minimum range number
+			   \param[in] max Maximum range number
+			   \since v0.1.0.0 commit 88415c
+			   \return exact generated number in the given range
+			   \test
+			   \snippet Algor_random.cpp MT rand int extend
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::Random()
+			   \brief Method for generating a floating point number
+			   \details Generates floating point numbers.
+			   \since v0.1.0.0 commit 88415c
+			   \warning This method generates numbers between 0 and 1, meaning all
+			   generated numbers will be less than one.
+			   \return floating point number
+			   \test
+			   \snippet Algor_random.cpp MT rand double
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::BRandom()
+			   \brief Random bit generation method
+			   \details Generates random bits in a four-byte variable, allowing the
+			   generation of a 32-bit number over the entire range.
+			   \since v0.1.0.0 commit 88415c
+			   \note Can serve as an analogue of the method
+			   ALGOR::RANDOM::MersenneTwister::rand,
+			   but that method is an extension of
+			   ALGOR::RANDOM::MersenneTwister::IRandom
+			   for the PRNG test function, which causes additional calculations and
+			   resource consumption. If you need to immediately generate some number
+			   on the entire range, then it is better to choose this method.
+			   \return generated number over the entire range
+			   \test
+			   \snippet Algor_random.cpp MT rand bits
+			 */
+
+			/*!
+			   \fn ALGOR::RANDOM::MersenneTwister::Init0(byte4_t)
+			   \brief Basic initialization procedure
+			   \param[in] seed Generation seed
+			   \since v0.1.0.0 commit 88415c
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::MersenneTwister::mersenne_twister
+			   \brief State vector
+			   \since v0.1.0.0 commit 88415c
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::MersenneTwister::mersenne_twister_index
+			   \brief Index in state vector
+			   (ALGOR::RANDOM::MersenneTwister::mersenne_twister)
+			   \since v0.1.0.0 commit 88415c
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::MersenneTwister::LastInterval
+			   \brief Length of last interval for
+			   ALGOR::RANDOM::MersenneTwister::IRandomX
+			   \since v0.1.0.0 commit 88415c
+			 */
+
+			/*!
+			   \var ALGOR::RANDOM::MersenneTwister::RejectionLimit
+			   \brief Deviation limit used by
+			   ALGOR::RANDOM::MersenneTwister::IRandomX
+			   \since v0.1.0.0 commit 88415c
+			 */
+
+		/*!
+		   \fn ALGOR::RANDOM::test_random_on_Pearsons_coefficient(ubit32_t, ubit32_t)
+		   \brief The function of testing PRNG for uniformity
+		   \details Tests PRNG for uniformity of number generation using Pearson's
+		   coefficient of concordance.
+		   \tparam The class of the PRNG algorithm to be tested.
+		   \param[in] left_limit Minimum number of generation range when testing
+		   \param[in] right_limit The maximum number of generation ranges during
+		   testing
+		   \since v0.1.3.0 commit ca0704
+		   \warning PRNG ALGOR::RANDOM::RC4 cannot yet be tested, as it is not
+		   prepared for use by this test function, and the function itself is not
+		   compiled for this algorithm.
+		   \return Pearson's coefficient of agreement
+		   \test
+		   \snippet Algor_random.cpp random test
+		   \remark As you can see from the example, ALGOR::RANDOM::LCM generates
+		   numbers more evenly. However, that doesn't mean it's better... As already
+		   mentioned, Marsen's PRNG Vortex is faster <del>(although it uses a lot
+		   more operations and calculations)</del> and better quality. And the
+		   obtained results are just a coincidence. Sometimes ALGOR::RANDOM::LCM, and
+		   sometimes ALGOR::RANDOM::MersenneTwister, so it can be concluded that they
+		   generate numbers of the same quality <del>(or maybe just well-chosen
+		   coefficients for ALGOR::RANDOM::LCM)</del>. For generation function of the
+		   ALGOR::generate_struct array structure ALGOR::Array was still chosen
+		   ALGOR:RANDOM::LCM, since it is much easier to implement and understand,
+		   and works as well as ALGOR::RANDOM::MersenneTwister.
+		 */
+
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
  * --------------------------------------------------------------------------- *
  *                                 ALGOR_MATRIX                                *
