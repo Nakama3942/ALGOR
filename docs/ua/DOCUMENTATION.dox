@@ -20,30 +20,30 @@
  */
 
 /*!
-  \namespace ALGOR
-  \brief Глобальний простір імен усього проекту
-  \details Призначений для зберігання усього реалізованого функціоналу проекту.
-  \note Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
-  \since v0.1.2.0 commit 2fa93b
+   \namespace ALGOR
+   \brief Глобальний простір імен усього проекту
+   \details Призначений для зберігання усього реалізованого функціоналу проекту.
+   \note Краще не використовувати разом з std, інакше можуть виникнути конфлікти.
+   \since v0.1.2.0 commit 2fa93b
 
-  \author Калиновський Валентин
-  \version 1.0.0.0
-  \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
-  Licensed under the Apache License, Version 2.0 (the "License")
+   \author Калиновський Валентин
+   \version 1.0.0.0
+   \copyright Copyright © 2021-2022 Kalynovsky Valentin. All rights reserved.
+   Licensed under the Apache License, Version 2.0 (the "License")
 
-  \todo Реалізувати розділ ALGOR_MATRIX
-  \todo Реалізувати розділ ALGOR_HEAP
-  \todo Реалізувати розділ ALGOR_LIST
+   \todo Реалізувати розділ ALGOR_MATRIX
+   \todo Реалізувати розділ ALGOR_HEAP
+   \todo Реалізувати розділ ALGOR_LIST
 
-  \example sort_global.cpp
-  \example sort_test.cpp
-  \example Algor_core.cpp
-  \example Algor_printer.cpp
-  \example Algor_exception.cpp
-  \example Algor_random.cpp
-  \example Algor_ArrayProcessing.cpp
-  \example Algor_ArrayData.cpp
-  \example Algor_ArraySort.cpp
+   \example sort_global.cpp
+   \example sort_test.cpp
+   \example Algor_core.cpp
+   \example Algor_printer.cpp
+   \example Algor_exception.cpp
+   \example Algor_random.cpp
+   \example Algor_ArrayProcessing.cpp
+   \example Algor_ArrayData.cpp
+   \example Algor_ArraySort.cpp
  */
 
 /* *****/---/+++++-/%/-+-+-+-/%/-+-+-+-&&&-+-+-+-/%/-+-+-+-/%/-+++++/---/***** *
@@ -63,7 +63,7 @@
 	   вказувати "*" (вказівник) перед назвою імені строки, так як цей тип
 	   не замінює повністю char на string. Це лише звичайний аліас.
 	 */
-	 
+
 	/*!
 	   \typedef ALGOR::byte2_t
 	   \brief Аліас для short <i>(2 байти)</i>
@@ -401,14 +401,14 @@
  */
 
 	/*!
-	  \namespace ALGOR::EXCEPTION_SET
-	  \brief Простір імен, що реалізовує виключення
-	  \details Простір імен являє собою набір класів, які використовуються при киданні
-	  виключень, так як зберігають необхідну інформацію про випадок, що стався. Головний
-	  клас ALGOR::EXCEPTION_SET::Exception являє собою каркас винятка, який можна
-	  успадкувати для полегшення роботи з винятками. Можна дати додаткову інформацію
-	  до вже реалізованих класів-нащадків, а можна створити власні класи-нащадки.
-	  \since v0.1.3.0 commit 2cdff0
+	   \namespace ALGOR::EXCEPTION_SET
+	   \brief Простір імен, що реалізовує виключення
+	   \details Простір імен являє собою набір класів, які використовуються при киданні
+	   виключень, так як зберігають необхідну інформацію про випадок, що стався. Головний
+	   клас ALGOR::EXCEPTION_SET::Exception являє собою каркас винятка, який можна
+	   успадкувати для полегшення роботи з винятками. Можна дати додаткову інформацію
+	   до вже реалізованих класів-нащадків, а можна створити власні класи-нащадки.
+	   \since v0.1.3.0 commit 2cdff0
 	 */
 
 		/*!
@@ -813,13 +813,13 @@
  */
 
 	/*!
-	  \namespace ALGOR::RANDOM
-	  \brief Простір імен, що реалізовує ГПВЧ
-	  \details Простір імен являє собою набір класів, які використовуються при
-	  Генерації ПсевдоВипадкових Чисел (ГПВЧ). Класи є реалізаціями математичних
-	  моделей. Зазвичай використовуються при генерації структур даних, таких як
-	  масиви тощо.
-	  \since v0.1.3.0 commit d66e53
+	   \namespace ALGOR::RANDOM
+	   \brief Простір імен, що реалізовує ГПВЧ
+	   \details Простір імен являє собою набір класів, які використовуються при
+	   Генерації ПсевдоВипадкових Чисел (ГПВЧ). Класи є реалізаціями математичних
+	   моделей. Зазвичай використовуються при генерації структур даних, таких як
+	   масиви тощо.
+	   \since v0.1.3.0 commit d66e53
 	 */
 
 		/*!
@@ -1624,7 +1624,7 @@
 		/*!
 		   \fn ALGOR::ARRAYDATA::generatedData(const sbit64_t &, const sbit64_t &, const ubit64_t, const ubit32_t)
 		   \brief Метод, який заповнює весь масив випадковими значеннями
-		   \details
+		   \details Генерує дані у об'єкті масиву.
 		   \throw ALGOR::EXCEPTION_SET::division_by_zero
 		   \param[in] min_limit Мінімальне значення, яке можна згенерувати
 		   \param[in] max_limit Максимальне значення, яке можна згенерувати
